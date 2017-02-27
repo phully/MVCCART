@@ -94,7 +94,6 @@ void test_art_init_and_destroy()
     }
 }
 
-
 void test_art_insert()
 {
         art_tree t;
@@ -406,7 +405,6 @@ void test_art_iter_prefix()
         //fail_unless(res == 0);
 }
 
-
 void test_art_long_prefix()
 {
         art_tree t;
@@ -452,7 +450,6 @@ void test_art_long_prefix()
       //  fail_unless(res == 0);
     }
 
-
 void test_art_insert_search_uuid()
 {
         art_tree t;
@@ -496,7 +493,6 @@ void test_art_insert_search_uuid()
         res = art_tree_destroy(&t);
       //  fail_unless(res == 0);
     }
-
 
 void test_art_max_prefix_len_scan_prefix()
 {
