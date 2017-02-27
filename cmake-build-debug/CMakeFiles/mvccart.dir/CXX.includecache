@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/fuadshah/CLionProjects/mvccart/art.h
+stdint.h
+-
+
+/Users/fuadshah/CLionProjects/mvccart/main.cpp
+iostream
+-
+fcntl.h
+-
+inttypes.h
+-
+stdio.h
+-
+string.h
+-
+check.h
+-
+art.h
+/Users/fuadshah/CLionProjects/mvccart/art.h
+

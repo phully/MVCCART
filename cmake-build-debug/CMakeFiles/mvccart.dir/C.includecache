@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/fuadshah/CLionProjects/mvccart/art.c
+stdlib.h
+-
+string.h
+-
+strings.h
+-
+stdio.h
+-
+assert.h
+-
+art.h
+/Users/fuadshah/CLionProjects/mvccart/art.h
+emmintrin.h
+-
+emmintrin.h
+-
+
+/Users/fuadshah/CLionProjects/mvccart/art.h
+stdint.h
+-
+
