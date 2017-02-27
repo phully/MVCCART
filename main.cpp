@@ -35,7 +35,7 @@ int main() {
     std::cout << "Adaptive Radix Tree " << std::endl;
 
     //test_art_init_and_destroy();
-    test_art_insert();
+    //test_art_insert();
     //test_art_insert_verylong();
     //test_art_insert_search();
     //test_art_insert_iter();

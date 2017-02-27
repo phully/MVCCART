@@ -4,6 +4,9 @@
 CMakeFiles/mvccart.dir/art.c.o: ../art.c
 CMakeFiles/mvccart.dir/art.c.o: ../art.h
 
+CMakeFiles/mvccart.dir/TableInfo.cpp.o: ../TableInfo.cpp
+CMakeFiles/mvccart.dir/TableInfo.cpp.o: ../TableInfo.hpp
+
 CMakeFiles/mvccart.dir/main.cpp.o: ../art.h
 CMakeFiles/mvccart.dir/main.cpp.o: ../main.cpp
 

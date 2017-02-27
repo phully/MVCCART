@@ -6,11 +6,27 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/CLionProjects/mvccart/art.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/TableInfo.cpp
+TableInfo.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/TableInfo.hpp
+sstream
+-
+
+/Users/fuadshah/Desktop/CODE9/MVCCART/TableInfo.hpp
+iostream
+-
+memory
+-
+string
+-
+vector
+-
+
+/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 stdint.h
 -
 
-/Users/fuadshah/CLionProjects/mvccart/main.cpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp
 iostream
 -
 fcntl.h
@@ -24,5 +40,5 @@ string.h
 check.h
 -
 art.h
-/Users/fuadshah/CLionProjects/mvccart/art.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 

@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/CLionProjects/mvccart/art.c
+/Users/fuadshah/Desktop/CODE9/MVCCART/art.c
 stdlib.h
 -
 string.h
@@ -18,13 +18,13 @@ stdio.h
 assert.h
 -
 art.h
-/Users/fuadshah/CLionProjects/mvccart/art.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 emmintrin.h
 -
 emmintrin.h
 -
 
-/Users/fuadshah/CLionProjects/mvccart/art.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 stdint.h
 -
 
