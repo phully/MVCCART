@@ -4,9 +4,7 @@
 CMakeFiles/mvccart.dir/art.c.o
  /Users/fuadshah/Desktop/CODE9/MVCCART/art.c
  /Users/fuadshah/Desktop/CODE9/MVCCART/art.h
-CMakeFiles/mvccart.dir/TableInfo.cpp.o
- /Users/fuadshah/Desktop/CODE9/MVCCART/TableInfo.cpp
- /Users/fuadshah/Desktop/CODE9/MVCCART/TableInfo.hpp
 CMakeFiles/mvccart.dir/main.cpp.o
+ /Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h
  /Users/fuadshah/Desktop/CODE9/MVCCART/art.h
  /Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp

@@ -82,28 +82,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/AdaptiveRadixTreeTable.h">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/BaseTable.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/HashMapTable.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/RDBTable.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/Table.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/TableException.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/TableInfo.cpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/Table/TableInfo.hpp">
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/art.c">

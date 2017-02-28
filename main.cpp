@@ -5,11 +5,14 @@
 #include <string.h>
 #include <check.h>
 #include "art.h"
+#include "AdaptiveRadixTreeTable.h"
 
 using namespace std;
 
-int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val);
-static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val);
+//int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val);
+//static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val);
+
+
 
 
 void test_art_init_and_destroy();
@@ -23,53 +26,69 @@ void test_art_long_prefix();
 void test_art_insert_search_uuid();
 void test_art_max_prefix_len_scan_prefix();
 
+template <typename RecordType, typename KeyType>
+void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType,KeyType> myADTTable);
 
-typedef struct {
-    int count;
-    int max_count;
-    const char **expected;
-} prefix_data;
+
+
+
 
 
 int main() {
     std::cout << "Adaptive Radix Tree " << std::endl;
 
-    //test_art_init_and_destroy();
-    //test_art_insert();
-    //test_art_insert_verylong();
-    //test_art_insert_search();
-    //test_art_insert_iter();
-    //test_art_iter_prefix();
-    cout<<" Completed Successfully"<<endl;
+    AdaptiveRadixTreeTable<uintptr_t,char[20]> myADTTable =  AdaptiveRadixTreeTable<uintptr_t,char[20]>();
 
-    return 0;
+    TestInsertDeleteByKey<uintptr_t, char[20]>(myADTTable);
+
+        return 0;
 }
 
-static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val) {
-    prefix_data *p = (prefix_data*)data;
-    if(p->count < p->max_count)
+template <typename RecordType, typename KeyType>
+void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
+{
+    int len;
+    char buf[512];
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+
+    uintptr_t line = 1;
+    while (fgets(buf, sizeof buf, f))
     {
-        std::cout << "p->count < p->max_count " << std::endl;
+        len = strlen(buf);
+        buf[len-1] = '\0';
+        //fail_unless(NULL == art_insert(&t, (unsigned char*)buf, len, (void*)line));
+        //fail_unless(art_size(&t) == line);
+        //art_insert(&t, (unsigned char*)buf, len, (void*)line);
+
+        myADTTable.insertOrUpdateByKey(buf,line);
+        cout<<buf<<endl;
+        cout<<"Size of ART: "<<myADTTable.ARTSize<<endl;
+
+        line++;
+
     }
-    if(memcmp(k, p->expected[p->count], k_len) == 0)
-    {
-       std::cout <<"Key: %s Expect: %s", k, p->expected[p->count];
+
+    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+
+    cout<<"Deleting the Keys now..."<<endl;
+    line = 1;
+
+    while (fgets(buf, sizeof buf, f2)) {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+        //fail_unless(NULL == art_insert(&t, (unsigned char*)buf, len, (void*)line));
+        //fail_unless(art_size(&t) == line);
+        //art_insert(&t, (unsigned char*)buf, len, (void*)line);
+
+        myADTTable.deleteByKey(buf);
+        // cout<<buf<<endl;
+        cout << "Size of ART: " << myADTTable.ARTSize << endl;
+
+        line++;
+
     }
 
-    p->count++;
-    return 0;
 }
-
-
-int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val) {
-    uint64_t *out = (uint64_t*)data;
-    uintptr_t line = (uintptr_t)val;
-    uint64_t mask = (line * (key[0] + key_len));
-    out[0]++;
-    out[1] ^= mask;
-    return 0;
-}
-
 
 
 
