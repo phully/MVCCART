@@ -96,11 +96,12 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
             key[len-1] = '\0';
 
             // Search first, ensure the entries still exit optional
-            RecordType val = (uintptr_t)art_search(&t, (unsigned char*)key, len);
-            std::cout<< "value deleted "<<val<<"\n";
+            //uintptr_t val = (uintptr_t)art_search(&t, (unsigned char*)key, len);
+            RecordType * val = (RecordType *)art_search(&t, (unsigned char*)key, len);
+            std::cout<< "key/value deleted "<<*val<<"\n";
 
             // Delete, should get lineno back
-             val = (uintptr_t)art_delete(&t, (unsigned char*)key, len);
+             val = (RecordType *)art_delete(&t, (unsigned char*)key, len);
             this->ARTSize = art_size(&t);
 
 

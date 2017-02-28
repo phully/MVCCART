@@ -26,22 +26,32 @@ void test_art_long_prefix();
 void test_art_insert_search_uuid();
 void test_art_max_prefix_len_scan_prefix();
 
+
+
+
 template <typename RecordType, typename KeyType>
 void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType,KeyType> myADTTable);
 
 
+template <typename RecordType, typename KeyType>
+void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
 
-
-
-int main() {
+int main()
+{
     std::cout << "Adaptive Radix Tree " << std::endl;
-
+    typedef char leave[512];
     AdaptiveRadixTreeTable<uintptr_t,char[20]> myADTTable =  AdaptiveRadixTreeTable<uintptr_t,char[20]>();
+    //TestInsertDeleteByKey<uintptr_t, char[20]>(myADTTable);
 
-    TestInsertDeleteByKey<uintptr_t, char[20]>(myADTTable);
 
-        return 0;
+     AdaptiveRadixTreeTable<leave ,char[20]> myADTTable2=  AdaptiveRadixTreeTable<leave,char[20]>();
+    InsertDeleteByKeyValue<leave ,char[20]>(myADTTable2);
+     // TestInsertDeleteByKey2<typeof(leave),char[20]>(myADTTable2);
+
+
+
+    return 0;
 }
 
 template <typename RecordType, typename KeyType>
@@ -90,6 +100,63 @@ void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTabl
 
 }
 
+template <typename RecordType, typename KeyType>
+void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
+{
+    int len,len2;
+    char buf[512];
+    RecordType bufVal;
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+
+    char  ValuesToStore[10][512];
+    int index=0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
+    {
+        strcpy(ValuesToStore[index],bufVal);
+        index++;
+        if(index == 11)
+            break;
+    }
+
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    uintptr_t line = 1;
+
+    while (fgets(buf, sizeof buf, f))
+    {
+        len = strlen(buf);
+        buf[len-1] = '\0';
+
+        cout<<"inserting key="<<buf<<" - value"<<bufVal<<endl;
+        myADTTable.insertOrUpdateByKey(buf,ValuesToStore[line]);
+        cout<<buf<<endl;
+        cout<<"Size of ART:- "<<myADTTable.ARTSize<<endl;
+        line++;
+
+        if(line == 10)
+            break;
+    }
+
+    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    cout<<"Deleting the Keys now..."<<endl;
+    line = 1;
+
+    while (fgets(buf, sizeof buf, f2)) {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+
+        myADTTable.deleteByKey(buf);
+        // cout<<buf<<endl;
+        cout << "Size of ART: " << myADTTable.ARTSize << endl;
+
+        line++;
+
+
+        if(line == 10)
+            break;
+    }
+
+
+}
 
 
 void test_art_init_and_destroy()
