@@ -12,12 +12,7 @@ extern "C" {
 #define NODE16  2
 #define NODE48  3
 #define NODE256 4
-
 #define MAX_PREFIX_LEN 10
-
-#define RecordTypeChar100 char[100]
-#define RecordTypeChar512 char[512]
-#define RecordTypeChar1024 char[1024]
 
 
 #if defined(__GNUC__) && !defined(__clang__)
@@ -31,11 +26,18 @@ extern "C" {
 # endif
 #endif
 
+typedef unsigned char RecordType100[100];
+typedef unsigned char RecordType512[512];
+typedef unsigned char RecordType1024[1024];
+
+#define MAX_VERSION_DEPTH 100
+typedef unsigned char MVRecords100[MAX_VERSION_DEPTH][100];
+typedef unsigned char MVRecords512[MAX_VERSION_DEPTH][512];
+typedef unsigned char MVRecords1024[MAX_VERSION_DEPTH][1024];
 
 
 
-
-    typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void *value);
+typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void *value);
 
 /**
  * This struct is included as part
@@ -96,14 +98,18 @@ extern "C" {
 
 
 /**
- * Represents a leaf. These are
+ * Represents a multiversioned leaf. These are
  * of arbitrary size, as they include the key.
  */
 
-typedef struct {
-    void *value;
+typedef struct
+{
+    RecordType512 *value;
     uint32_t key_len;
+//    uint32_t max_version_index;
+//    uint32_t min_version_index;
     unsigned char key[];
+
 } art_mvvleaf;
 
 
@@ -185,7 +191,7 @@ void *art_delete(art_tree *t, const unsigned char *key, int key_len);
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
-    void *art_search(const art_tree *t, const unsigned char *key, int key_len);
+    RecordType512 *art_search(const art_tree *t, const unsigned char *key, int key_len);
 
 /**
  * Returns the minimum valued leaf

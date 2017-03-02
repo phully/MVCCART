@@ -43,8 +43,8 @@ int main()
     //InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
 
 
-    AdaptiveRadixTreeTable<uintptr_t ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<uintptr_t,char[20]>();
-    InsertDeleteByKeyValue<uintptr_t ,char[20]>(myADTTable2);
+    AdaptiveRadixTreeTable<char[512] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[512],char[20]>();
+    InsertDeleteByKeyValue<char[512] ,char[20]>(myADTTable2);
 
     cout<<"Completed Successfully!!";
     return 0;
@@ -106,7 +106,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
 
 
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
-    char ValuesToStore[10][50];
+    char ValuesToStore[10][512];
     int index = 0;
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
@@ -129,8 +129,8 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         len = strlen(buf);
         buf[len - 1] = '\0';
         cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
-        //myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
-        myADTTable.insertOrUpdateByKey(buf, line);
+        myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
+        //myADTTable.insertOrUpdateByKey(buf, line);
         cout << buf << endl;
         cout << "Size of ART:- " << myADTTable.ARTSize << endl;
         line++;
@@ -148,7 +148,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         buf[len - 1] = '\0';
         cout << "Key To Delete ::::" << buf << endl;
         RecordType * val = myADTTable.deleteByKey(buf);
-        cout << "Size of ART ::::" << myADTTable.ARTSize <<"  Value Deleted="<<val<<"\n";
+        cout << "Size of ART ::::" << myADTTable.ARTSize <<"  Value Deleted="<<*val<<"\n";
         line++;
         if (line == 10)
             break;
