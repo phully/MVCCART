@@ -1,7 +1,6 @@
 #include <stdint.h>
 
 
-
 #ifndef ART_H
 #define ART_H
 
@@ -15,6 +14,11 @@ extern "C" {
 #define NODE256 4
 
 #define MAX_PREFIX_LEN 10
+
+#define RecordTypeChar100 char[100]
+#define RecordTypeChar512 char[512]
+#define RecordTypeChar1024 char[1024]
+
 
 #if defined(__GNUC__) && !defined(__clang__)
 # if __STDC_VERSION__ >= 199901L && 402 == (__GNUC__ * 100 + __GNUC_MINOR__)
@@ -90,6 +94,21 @@ extern "C" {
         unsigned char key[];
     } art_leaf;
 
+
+/**
+ * Represents a leaf. These are
+ * of arbitrary size, as they include the key.
+ */
+
+typedef struct {
+    void *value;
+    uint32_t key_len;
+    unsigned char key[];
+} art_mvvleaf;
+
+
+
+
 /**
  * Main struct, points to root.
  */
@@ -154,7 +173,9 @@ extern "C" {
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
-    void *art_delete(art_tree *t, const unsigned char *key, int key_len);
+
+
+void *art_delete(art_tree *t, const unsigned char *key, int key_len);
 
 /**
  * Searches for a value in the ART tree

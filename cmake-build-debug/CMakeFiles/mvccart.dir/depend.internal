@@ -8,3 +8,10 @@ CMakeFiles/mvccart.dir/main.cpp.o
  /Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h
  /Users/fuadshah/Desktop/CODE9/MVCCART/art.h
  /Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/BaseTable.hpp
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/Table.hpp
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableException.hpp
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
+CMakeFiles/mvccart.dir/table/TableInfo.cpp.o
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.cpp
+ /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp

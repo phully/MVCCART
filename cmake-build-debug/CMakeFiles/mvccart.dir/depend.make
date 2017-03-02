@@ -7,4 +7,11 @@ CMakeFiles/mvccart.dir/art.c.o: ../art.h
 CMakeFiles/mvccart.dir/main.cpp.o: ../AdaptiveRadixTreeTable.h
 CMakeFiles/mvccart.dir/main.cpp.o: ../art.h
 CMakeFiles/mvccart.dir/main.cpp.o: ../main.cpp
+CMakeFiles/mvccart.dir/main.cpp.o: ../table/BaseTable.hpp
+CMakeFiles/mvccart.dir/main.cpp.o: ../table/Table.hpp
+CMakeFiles/mvccart.dir/main.cpp.o: ../table/TableException.hpp
+CMakeFiles/mvccart.dir/main.cpp.o: ../table/TableInfo.hpp
+
+CMakeFiles/mvccart.dir/table/TableInfo.cpp.o: ../table/TableInfo.cpp
+CMakeFiles/mvccart.dir/table/TableInfo.cpp.o: ../table/TableInfo.hpp
 

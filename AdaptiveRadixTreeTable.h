@@ -9,6 +9,13 @@
 #include <inttypes.h>
 #include "art.h"
 
+#include "table/TableInfo.hpp"
+#include "table/TableException.hpp"
+#include "table/BaseTable.hpp"
+#include <boost/signals2.hpp>
+
+
+
 typedef struct {
     int count;
     int max_count;
@@ -54,7 +61,9 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 }
 
 
-    template <typename RecordType, typename KeyType = char[25]>
+class ModificationMode;
+
+template <typename RecordType, typename KeyType = char[25]>
     class AdaptiveRadixTreeTable
     {
 
@@ -64,20 +73,30 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
         public: uint64_t ARTSize;
 
 
-            /**
-             * Constructor for creating an empty table with a given schema.
-             */
-        public:   AdaptiveRadixTreeTable() {  int res = art_tree_init(&t);}
-
-            /**
-             * Destructor for table.
-             */
-        public:  void DestroyAdaptiveRadixTreeTable()   { art_tree_destroy(&t); }
-
+        /**
+         * Constructor for creating an empty table with a given schema.
+         */
+        public:   AdaptiveRadixTreeTable()
+                  {
+                      int res = art_tree_init(&t);
+                      this->ARTSize = art_size(&t);
+                  }
 
 
         /**
-         * insert into tree keys and their values;
+        * Constructor for creating an empty table.
+        */
+//        public: AdaptiveRadixTreeTable(const std::string& = "") { int res = art_tree_init(&t);  this->ARTSize = art_size(&t); }
+
+
+        /**
+        * Destructor for table.
+        */
+        public:  void DestroyAdaptiveRadixTreeTable()   { art_tree_destroy(&t); }
+
+
+        /**
+         * insert into tree Specifying keys and RecordTypes;
          */
         public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
         {
@@ -88,7 +107,11 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
             //std::cout<<"Size of ART: "<<art_size(&t)<<std::endl;
         }
 
-        public:void deleteByKey(KeyType key)
+
+        /**
+         * Delete from tree by Keys
+         */
+        public: RecordType* deleteByKey(KeyType key)
         {
             int len;
             uintptr_t line = 1;
@@ -96,22 +119,25 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
             key[len-1] = '\0';
 
             // Search first, ensure the entries still exit optional
-            //uintptr_t val = (uintptr_t)art_search(&t, (unsigned char*)key, len);
-            RecordType * val = (RecordType *)art_search(&t, (unsigned char*)key, len);
-            std::cout<< "key/value deleted "<<*val<<"\n";
-
+            // uintptr_t val = (uintptr_t)art_search(&t, (unsigned char*)key, len);
+            // RecordType * val = (RecordType *)art_search(&t, (unsigned char*)key, len);
             // Delete, should get lineno back
-             val = (RecordType *)art_delete(&t, (unsigned char*)key, len);
+
+            RecordType * val2 = (RecordType *)art_delete(&t, (unsigned char*)key, len);
             this->ARTSize = art_size(&t);
-
-
+            return val2;
         }
 
+
+        /**
+         * Iterate over tree
+         */
         public:void iterate()
         {
             uint64_t out[] = {0, 0};
             art_iter(&t, iter_cb, &out);
         }
+
     };
 
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

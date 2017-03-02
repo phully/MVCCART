@@ -804,6 +804,8 @@ static art_leaf* recursive_delete(art_node *n, art_node **ref, const unsigned ch
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
+
+
 void* art_delete(art_tree *t, const unsigned char *key, int key_len) {
     art_leaf *l = recursive_delete(t->root, &t->root, key, key_len, 0);
     if (l) {

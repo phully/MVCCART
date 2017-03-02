@@ -94,6 +94,21 @@
 		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp">
 			<Option target="mvccart"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/table/BaseTable.hpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/table/Table.hpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableException.hpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.cpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
