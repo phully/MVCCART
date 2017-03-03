@@ -117,9 +117,8 @@ int iter_callback(void *data, const unsigned char* key, uint32_t key_len, void *
 
 
 template <typename RecordType, typename KeyType = char[25]>
-    class AdaptiveRadixTreeTable
-    {
-
+class AdaptiveRadixTreeTable
+{
         private: art_tree t;
         private: char buf[512];
         private: int res;
@@ -134,12 +133,10 @@ template <typename RecordType, typename KeyType = char[25]>
                       this->ARTSize = art_size(&t);
                   }
 
-
         /**
         * Destructor for table.
         */
         public:  void DestroyAdaptiveRadixTreeTable()   { art_tree_destroy(&t); }
-
 
         /**
          * insert into tree Specifying keys and RecordTypes;
@@ -152,7 +149,6 @@ template <typename RecordType, typename KeyType = char[25]>
             this->ARTSize = art_size(&t);
             //std::cout<<"Size of ART: "<<art_size(&t)<<std::endl;
         }
-
 
         /**
          * Delete from tree by Keys
@@ -175,6 +171,22 @@ template <typename RecordType, typename KeyType = char[25]>
             return val2;
         }
 
+        /**
+         * GetByKey
+         */
+        public: RecordType * findValueByKey(KeyType key)
+        {
+            int len;
+            uintptr_t line = 1;
+            len = strlen(key);
+            key[len-1] = '\0';
+
+            //Search first, ensure the entries still exit optional
+            void*  val = art_search(&t, (unsigned char*)key, len);
+            RecordType* val2= (RecordType *)val;
+            this->ARTSize = art_size(&t);
+            return val2;
+        }
 
         /**
          * Iterate over tree
@@ -184,6 +196,24 @@ template <typename RecordType, typename KeyType = char[25]>
             uint64_t out[] = {0, 0};
             art_iter(&t, iter_callback, &out);
         }
-    };
 
+        /**
+         * DeleteWhere
+         */
+
+        /**
+         * UpdateOrDeleteByKeywhere
+         */
+
+
+        /**
+         * UpdateByKeyWhere
+         */
+
+        /**
+         * UpdateWhere
+         */
+
+
+ };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H
