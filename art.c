@@ -257,7 +257,7 @@ static int leaf_matches(const art_leaf *n, const unsigned char *key, int key_len
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
-RecordType512 * art_search(const art_tree *t, const unsigned char *key, int key_len) {
+void* art_search(const art_tree *t, const unsigned char *key, int key_len) {
     art_node **child;
     art_node *n = t->root;
     int prefix_len, depth = 0;
@@ -558,7 +558,7 @@ static void* recursive_insert(art_node *n, art_node **ref, const unsigned char *
         // Check if we are updating an existing value
         if (!leaf_matches(l, key, key_len, depth)) {
             *old = 1;
-            RecordType512 *old_val = l->value;
+            void *old_val = l->value;
             l->value = value;
             return old_val;
         }
@@ -810,7 +810,7 @@ void* art_delete(art_tree *t, const unsigned char *key, int key_len) {
     art_leaf *l = recursive_delete(t->root, &t->root, key, key_len, 0);
     if (l) {
         t->size--;
-        RecordType512 *old = l->value;
+        void *old = l->value;
         free(l);
         return old;
     }

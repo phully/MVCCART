@@ -26,14 +26,7 @@ extern "C" {
 # endif
 #endif
 
-typedef unsigned char RecordType100[100];
-typedef unsigned char RecordType512[512];
-typedef unsigned char RecordType1024[1024];
 
-#define MAX_VERSION_DEPTH 100
-typedef unsigned char MVRecords100[MAX_VERSION_DEPTH][100];
-typedef unsigned char MVRecords512[MAX_VERSION_DEPTH][512];
-typedef unsigned char MVRecords1024[MAX_VERSION_DEPTH][1024];
 
 
 
@@ -104,10 +97,10 @@ typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_le
 
 typedef struct
 {
-    RecordType512 *value;
+    void *value;
     uint32_t key_len;
-//    uint32_t max_version_index;
-//    uint32_t min_version_index;
+//  uint32_t max_version_index;
+//  uint32_t min_version_index;
     unsigned char key[];
 
 } art_mvvleaf;
@@ -169,7 +162,7 @@ typedef struct
  * @return NULL if the item was newly inserted, otherwise
  * the old value pointer is returned.
  */
-    void *art_insert(art_tree *t, const unsigned char *key, int key_len, void *value);
+ void *art_insert(art_tree *t, const unsigned char *key, int key_len, void *value);
 
 /**
  * Deletes a value from the ART tree
@@ -191,7 +184,7 @@ void *art_delete(art_tree *t, const unsigned char *key, int key_len);
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
-    RecordType512 *art_search(const art_tree *t, const unsigned char *key, int key_len);
+void *art_search(const art_tree *t, const unsigned char *key, int key_len);
 
 /**
  * Returns the minimum valued leaf

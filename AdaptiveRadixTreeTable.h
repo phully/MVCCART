@@ -14,9 +14,47 @@
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
 
+#define MAX_VERSION_DEPTH 100
+typedef unsigned char RecordType[50];
+typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
 
+template <typename Iter>
+class ADTIterator {
+public:
+    typedef typename Iter::value_type::second_type RecordType;
 
+    typedef std::function<bool(const RecordType&)> Predicate;
+
+    explicit ADTIterator() {}
+    explicit ADTIterator(Iter j, Iter e, Predicate p) : i(j), end(e), pred(p) {
+        // make sure the initial iterator position refers to an entry satisfying
+        // the predicate
+        while (i != end && ! pred(i->second)) ++i;
+    }
+
+    ADTIterator& operator++() {
+        i++;
+        while (i != end && ! pred(i->second)) ++i;
+        return *this;
+    }
+
+    ADTIterator operator++(int) { auto tmp = *this; ++(*this); return tmp; }
+    bool isValid() const { return i != end; }
+
+    /*TuplePtr<RecordType> operator*() {
+        return TuplePtr<RecordType> (new RecordType(i->second));
+    }*/
+    // typename Iter::value_type::second_type* operator->() { return &i->second; }
+
+protected:
+    Iter i, end;
+    Predicate pred;
+};
+
+template <typename Iter>
+inline ADTIterator<Iter> makeADTIterator(Iter j, Iter e, typename ADTIterator<Iter>::Predicate p)
+                                            { return ADTIterator<Iter>(j, e, p); }
 
 
 typedef struct {
@@ -25,7 +63,7 @@ typedef struct {
     const char **expected;
 } prefix_data;
 
-
+template <typename RecordType, typename KeyType = char[25]>
 int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val);
 static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val);
 
@@ -47,12 +85,6 @@ static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, vo
 }
 
 
-template <typename RecordType = uintptr_t, typename KeyType = char[25]>
-int iterator(void *data, KeyType * key, uint32_t key_len, RecordType * val)
-{
-    return 0;
-}
-
 int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
     uint64_t *out = (uint64_t*)data;
@@ -64,7 +96,25 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 }
 
 
-class ModificationMode;
+
+int iter_callback(void *data, const unsigned char* key, uint32_t key_len, void *val)
+{
+
+    RecordType* ptr = (RecordType *)val;
+    /*
+      uint64_t *out = (uint64_t*)data;
+      uintptr_t line = (uintptr_t)val;
+      uint64_t mask = (line * (key[0] + key_len));
+      out[0]++;
+      out[1] ^= mask;
+     */
+
+    if(ptr != NULL)
+        std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
+
+    return 0;
+}
+
 
 template <typename RecordType, typename KeyType = char[25]>
     class AdaptiveRadixTreeTable
@@ -79,17 +129,10 @@ template <typename RecordType, typename KeyType = char[25]>
         /**
          * Constructor for creating an empty table with a given schema.
          */
-        public:   AdaptiveRadixTreeTable()
-                  {
+        public:   AdaptiveRadixTreeTable(){
                       int res = art_tree_init(&t);
                       this->ARTSize = art_size(&t);
                   }
-
-
-        /**
-        * Constructor for creating an empty table.
-        */
-//        public: AdaptiveRadixTreeTable(const std::string& = "") { int res = art_tree_init(&t);  this->ARTSize = art_size(&t); }
 
 
         /**
@@ -114,7 +157,7 @@ template <typename RecordType, typename KeyType = char[25]>
         /**
          * Delete from tree by Keys
          */
-        public: RecordType* deleteByKey(KeyType key)
+        public: RecordType * deleteByKey(KeyType key)
         {
             int len;
             uintptr_t line = 1;
@@ -122,11 +165,12 @@ template <typename RecordType, typename KeyType = char[25]>
             key[len-1] = '\0';
 
             // Search first, ensure the entries still exit optional
-            // uintptr_t val = (uintptr_t)art_search(&t, (unsigned char*)key, len);
-            // RecordType * val = (RecordType *)art_search(&t, (unsigned char*)key, len);
-            // Delete, should get lineno back
+            //RecordType  val = (RecordType)art_search(&t, (unsigned char*)key, len);
+            //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
-            RecordType * val2 = (RecordType *)art_delete(&t, (unsigned char*)key, len);
+            // Delete, should get line-no back
+            void * val = art_delete(&t, (unsigned char*)key, len);
+            RecordType *  val2 = (RecordType *)val;
             this->ARTSize = art_size(&t);
             return val2;
         }
@@ -138,9 +182,8 @@ template <typename RecordType, typename KeyType = char[25]>
         public:void iterate()
         {
             uint64_t out[] = {0, 0};
-            art_iter(&t, iter_cb, &out);
+            art_iter(&t, iter_callback, &out);
         }
-
     };
 
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

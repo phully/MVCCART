@@ -22,8 +22,7 @@ void test_art_long_prefix();
 void test_art_insert_search_uuid();
 void test_art_max_prefix_len_scan_prefix();
 
-
-
+char ValuesToStore[10][50];
 
 template <typename RecordType, typename KeyType>
 void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType,KeyType> myADTTable);
@@ -31,7 +30,8 @@ void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType,KeyType> myADTTable
 
 template <typename RecordType, typename KeyType>
 void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
-typedef char leave[50];
+template <typename RecordType, typename KeyType>
+void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
 int main()
 {
@@ -43,57 +43,13 @@ int main()
     //InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
 
 
-    AdaptiveRadixTreeTable<char[512] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[512],char[20]>();
-    InsertDeleteByKeyValue<char[512] ,char[20]>(myADTTable2);
+    /// 2- Test Iterate by key-values
+    ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
+    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    IterateByKeyValues<char[50] ,char[20]>(myADTTable2);
 
     cout<<"Completed Successfully!!";
     return 0;
-}
-
-template <typename RecordType, typename KeyType>
-void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
-{
-    int len;
-    char buf[512];
-    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-
-    uintptr_t line = 1;
-    while (fgets(buf, sizeof buf, f))
-    {
-        len = strlen(buf);
-        buf[len-1] = '\0';
-        //fail_unless(NULL == art_insert(&t, (unsigned char*)buf, len, (void*)line));
-        //fail_unless(art_size(&t) == line);
-        //art_insert(&t, (unsigned char*)buf, len, (void*)line);
-
-        myADTTable.insertOrUpdateByKey(buf,line);
-        cout<<buf<<endl;
-        cout<<"Size of ART: "<<myADTTable.ARTSize<<endl;
-
-        line++;
-
-    }
-
-    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-
-    cout<<"Deleting the Keys now..."<<endl;
-    line = 1;
-
-    while (fgets(buf, sizeof buf, f2)) {
-        len = strlen(buf);
-        buf[len - 1] = '\0';
-        //fail_unless(NULL == art_insert(&t, (unsigned char*)buf, len, (void*)line));
-        //fail_unless(art_size(&t) == line);
-        //art_insert(&t, (unsigned char*)buf, len, (void*)line);
-
-        myADTTable.deleteByKey(buf);
-        // cout<<buf<<endl;
-        cout << "Size of ART: " << myADTTable.ARTSize << endl;
-
-        line++;
-
-    }
-
 }
 
 
@@ -106,7 +62,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
 
 
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
-    char ValuesToStore[10][512];
+
     int index = 0;
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
@@ -114,8 +70,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         bufVal[len - 1] = '\0';
 
         strcpy(ValuesToStore[index], bufVal);
-        cout<<ValuesToStore[index]<<"\n";
-        // ValuesToStore[index] = bufVal;
+        //cout<<ValuesToStore[index]<<"\n";
         index++;
         if (index == 10)
             break;
@@ -135,8 +90,8 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         cout << "Size of ART:- " << myADTTable.ARTSize << endl;
         line++;
 
-        if (line == 10)
-            break;
+       if (line == 10)
+         break;
     }
 
     FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
@@ -148,15 +103,75 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         buf[len - 1] = '\0';
         cout << "Key To Delete ::::" << buf << endl;
         RecordType * val = myADTTable.deleteByKey(buf);
-        cout << "Size of ART ::::" << myADTTable.ARTSize <<"  Value Deleted="<<*val<<"\n";
+        cout << "Size of ART ::::" << myADTTable.ARTSize<<"\n";
+        if(val != NULL)
+         cout<<"  Value Deleted="<< *val<<"\n";
         line++;
         if (line == 10)
-            break;
+           break;
     }
 
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
 }
+
+template <typename RecordType, typename KeyType>
+void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
+{
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
+
+
+
+    /// Reading all Values to store against keys
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+
+    int index = 0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
+    {
+        len = strlen(bufVal);
+        bufVal[len - 1] = '\0';
+
+        strcpy(ValuesToStore[index], bufVal);
+        //cout<<ValuesToStore[index]<<"\n";
+        index++;
+        if (index == 10)
+            break;
+    }
+
+    /// Reading all Keys to store against values
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    uintptr_t line = 1;
+
+    while (fgets(buf, sizeof buf, f))
+    {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
+        myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
+        //myADTTable.insertOrUpdateByKey(buf, line);
+        cout << buf << endl;
+        cout << "Size of ART:- " << myADTTable.ARTSize << endl;
+        line++;
+
+        if (line == 10)
+            break;
+    }
+
+
+
+    /// Get iterator for that the tree we put data into
+    //  nlines = line - 1;
+    //uint64_t out[] = {0, 0};
+    //art_iter(&t, iter_cb, &out);
+
+    myADTTable.iterate();
+
+    myADTTable.DestroyAdaptiveRadixTreeTable();
+    cout<<"Exited normaly";
+}
+
 
 
 
@@ -391,15 +406,15 @@ void test_art_insert_iter()
 
         int len;
         char buf[512];
-        FILE *f = fopen("/Users/fuadshah/CLionProjects/mvccart/words.txt", "r");
+        FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
 
         uint64_t xor_mask = 0;
         uintptr_t line = 1, nlines;
         while (fgets(buf, sizeof buf, f)) {
             len = strlen(buf);
             buf[len-1] = '\0';
-             //fail_unless(NULL ==  art_insert(&t, (unsigned char*)buf, len, (void*)line));
-           art_insert(&t, (unsigned char*)buf, len, (void*)line);
+            //fail_unless(NULL ==  art_insert(&t, (unsigned char*)buf, len, (void*)line));
+            art_insert(&t, (unsigned char*)buf, len, (void*)line);
 
             xor_mask ^= (line * (buf[0] + len));
             line++;
