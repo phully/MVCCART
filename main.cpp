@@ -26,12 +26,16 @@ char ValuesToStore[10][50];
 
 template <typename RecordType, typename KeyType>
 void TestInsertDeleteByKey(AdaptiveRadixTreeTable<RecordType,KeyType> myADTTable);
-
-
 template <typename RecordType, typename KeyType>
 void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 template <typename RecordType, typename KeyType>
 void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
+template <typename RecordType, typename KeyType>
+void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
+template <typename RecordType, typename KeyType>
+bool filter(RecordType r, KeyType k);
+
+
 
 int main()
 {
@@ -39,14 +43,19 @@ int main()
 
     /// 1- Test Insert & Delete by key
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
-    //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
-    //InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
+    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
 
 
     /// 2- Test Iterate by key-values
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
-    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
-    IterateByKeyValues<char[50] ,char[20]>(myADTTable2);
+    //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    //IterateByKeyValues<char[50] ,char[20]>(myADTTable2);
+
+    /// 3- Test Iterate by key-values
+    ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
+    //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    //IterateByKeyValuesWithPredicate<char[50] ,char[20]>(myADTTable2);
 
     cout<<"Completed Successfully!!";
     return 0;
@@ -94,7 +103,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
          break;
     }
 
-    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+   /* FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
     cout << "Deleting the Keys now..." << endl;
     line = 1;
     while (fgets(buf, sizeof buf, f2))
@@ -109,8 +118,9 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         line++;
         if (line == 10)
            break;
-    }
+    }*/
 
+    myADTTable.deleteWhere();
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
 }
@@ -172,7 +182,62 @@ void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
     cout<<"Exited normaly";
 }
 
+template <typename RecordType, typename KeyType>
+void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
+{
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
 
+
+
+    /// Reading all Values to store against keys
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+
+    int index = 0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
+    {
+        len = strlen(bufVal);
+        bufVal[len - 1] = '\0';
+
+        strcpy(ValuesToStore[index], bufVal);
+        //cout<<ValuesToStore[index]<<"\n";
+        index++;
+        if (index == 10)
+            break;
+    }
+
+    /// Reading all Keys to store against values
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    uintptr_t line = 1;
+
+    while (fgets(buf, sizeof buf, f))
+    {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
+        myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
+        //myADTTable.insertOrUpdateByKey(buf, line);
+        cout << buf << endl;
+        cout << "Size of ART:- " << myADTTable.ARTSize << endl;
+        line++;
+
+        if (line == 10)
+            break;
+    }
+
+    myADTTable.iterate();
+    myADTTable.DestroyAdaptiveRadixTreeTable();
+    cout<<"Exited normaly";
+    }
+
+bool filter(RecordType r, const unsigned char * k)
+{
+        if(r[0]='b')
+            return true;
+        else
+            return false;
+    }
 
 
 void test_art_init_and_destroy()

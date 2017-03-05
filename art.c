@@ -805,7 +805,6 @@ static art_leaf* recursive_delete(art_node *n, art_node **ref, const unsigned ch
  * the value pointer is returned.
  */
 
-
 void* art_delete(art_tree *t, const unsigned char *key, int key_len) {
     art_leaf *l = recursive_delete(t->root, &t->root, key, key_len, 0);
     if (l) {
@@ -817,17 +816,97 @@ void* art_delete(art_tree *t, const unsigned char *key, int key_len) {
     return NULL;
 }
 
-// Recursively iterates over the tree
-static int recursive_iter(art_node *n, art_callback cb, void *data) {
+/**
+ * Deletes a value from the ART tree by Predicate
+ * @arg t The tree
+ * @arg key The key
+ * @arg key_len The length of the key
+ * @return NULL if the item was not found, otherwise
+ * the value pointer is returned.
+ */
+
+void* art_deleteWhere(art_tree *t, PredicatePtr predicate,void* data,art_callback cb)
+{
+    recursive_DeleteWhere(t,t->root,cb,data,predicate);
+    return NULL;
+}
+
+
+void* recursive_DeleteWhere(art_tree *t,art_node *n, art_callback cb, void *data,PredicatePtr predicate)
+{
     // Handle base cases
     if (!n) return 0;
-    if (IS_LEAF(n)) {
+    if (IS_LEAF(n))
+    {
+        art_leaf *l = LEAF_RAW(n);
+        if (l)
+        {
+            if(predicate((RecordType*)l->value))
+            {
+                t->size--;
+                void *old = l->value;
+                free(l);
+                //return old;
+                return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+            }
+            return NULL;
+        }
+    }
+
+    int idx, res;
+    switch (n->type)
+    {
+        case NODE4:
+            for (int i=0; i < n->num_children; i++) {
+                res = recursive_DeleteWhere(t,((art_node4*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE16:
+            for (int i=0; i < n->num_children; i++) {
+                res = recursive_DeleteWhere(t,((art_node16*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE48:
+            for (int i=0; i < 256; i++) {
+                idx = ((art_node48*)n)->keys[i];
+                if (!idx) continue;
+                res = recursive_DeleteWhere(t,((art_node48*)n)->children[idx-1], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE256:
+            for (int i=0; i < 256; i++) {
+                if (!((art_node256*)n)->children[i]) continue;
+                res = recursive_DeleteWhere(t,((art_node256*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+        default:
+            abort();
+    }
+    return 0;
+}
+
+
+// Recursively iterates over the tree
+static int recursive_iter(art_node *n, art_callback cb, void *data)
+{
+    // Handle base cases
+    if (!n) return 0;
+    if (IS_LEAF(n))
+    {
         art_leaf *l = LEAF_RAW(n);
         return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
     }
 
     int idx, res;
-    switch (n->type) {
+    switch (n->type)
+    {
         case NODE4:
             for (int i=0; i < n->num_children; i++) {
                 res = recursive_iter(((art_node4*)n)->children[i], cb, data);
@@ -877,6 +956,8 @@ static int recursive_iter(art_node *n, art_callback cb, void *data) {
 int art_iter(art_tree *t, art_callback cb, void *data) {
     return recursive_iter(t->root, cb, data);
 }
+
+
 
 /**
  * Checks if a leaf prefix matches

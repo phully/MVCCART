@@ -21,9 +21,13 @@ table/BaseTable.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/BaseTable.hpp
 boost/signals2.hpp
 -
+table/TableInfo.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
 
 /Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 stdint.h
+-
+stdbool.h
 -
 
 /Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp

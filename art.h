@@ -1,5 +1,5 @@
 #include <stdint.h>
-
+#include <stdbool.h>
 
 #ifndef ART_H
 #define ART_H
@@ -27,8 +27,13 @@ extern "C" {
 #endif
 
 
-
-
+/**
+* To Store a Record, RecordType
+* From Table.hpp
+*/
+typedef  char RecordType[50];
+typedef  const unsigned char* KeyType;
+typedef bool(*PredicatePtr)(RecordType );
 
 typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void *value);
 
@@ -133,7 +138,7 @@ typedef struct
  * Destroys an ART tree
  * @return 0 on success.
  */
-    int art_tree_destroy(art_tree *t);
+ int art_tree_destroy(art_tree *t);
 
 /**
  * DEPRECATED
@@ -175,6 +180,9 @@ typedef struct
 
 
 void *art_delete(art_tree *t, const unsigned char *key, int key_len);
+void *art_deleteWhere(art_tree *t, PredicatePtr predicate,void*,art_callback);
+void* recursive_DeleteWhere(art_tree *t,art_node *n, art_callback cb, void *data,PredicatePtr);
+
 
 /**
  * Searches for a value in the ART tree
@@ -208,7 +216,8 @@ void *art_search(const art_tree *t, const unsigned char *key, int key_len);
  * @arg data Opaque handle passed to the callback
  * @return 0 on success, or the return of the callback.
  */
-    int art_iter(art_tree *t, art_callback cb, void *data);
+
+int art_iter(art_tree *t, art_callback cb, void *data);
 
 /**
  * Iterates through the entries pairs in the map,

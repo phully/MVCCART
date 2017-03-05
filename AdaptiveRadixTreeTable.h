@@ -13,9 +13,8 @@
 #include "table/TableException.hpp"
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
-
+#include "table/TableInfo.hpp"
 #define MAX_VERSION_DEPTH 100
-typedef unsigned char RecordType[50];
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
 
@@ -28,8 +27,10 @@ public:
 
     explicit ADTIterator() {}
     explicit ADTIterator(Iter j, Iter e, Predicate p) : i(j), end(e), pred(p) {
-        // make sure the initial iterator position refers to an entry satisfying
-        // the predicate
+        // make sure the initial iterator position refers to an entry satisfying the predicate
+
+        //Set the starting position of the tuple found (i = initial position)
+
         while (i != end && ! pred(i->second)) ++i;
     }
 
@@ -45,7 +46,7 @@ public:
     /*TuplePtr<RecordType> operator*() {
         return TuplePtr<RecordType> (new RecordType(i->second));
     }*/
-    // typename Iter::value_type::second_type* operator->() { return &i->second; }
+     typename Iter::value_type::second_type* operator->() { return &i->second; }
 
 protected:
     Iter i, end;
@@ -64,10 +65,7 @@ typedef struct {
 } prefix_data;
 
 template <typename RecordType, typename KeyType = char[25]>
-int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val);
 static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val);
-
-
 static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, void *val)
 {
     prefix_data *p = (prefix_data*)data;
@@ -84,7 +82,7 @@ static int test_prefix_cb(void *data, const unsigned char *k, uint32_t k_len, vo
     return 0;
 }
 
-
+int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val);
 int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
     uint64_t *out = (uint64_t*)data;
@@ -95,34 +93,71 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
     return 0;
 }
 
-
-
-int iter_callback(void *data, const unsigned char* key, uint32_t key_len, void *val)
+ bool myfunction(RecordType R)
 {
-
-    RecordType* ptr = (RecordType *)val;
-    /*
-      uint64_t *out = (uint64_t*)data;
-      uintptr_t line = (uintptr_t)val;
-      uint64_t mask = (line * (key[0] + key_len));
-      out[0]++;
-      out[1] ^= mask;
-     */
-
-    if(ptr != NULL)
-        std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
-
-    return 0;
+    if(R[0]=='b')
+        return true;
+    else
+        false;
 }
 
-
 template <typename RecordType, typename KeyType = char[25]>
-class AdaptiveRadixTreeTable
+class AdaptiveRadixTreeTable : public pfabric::BaseTable
 {
-        private: art_tree t;
+        private:   art_tree t;
         private: char buf[512];
         private: int res;
         public: uint64_t ARTSize;
+
+
+
+
+        typedef std::function<bool(RecordType)> Predicate;
+
+
+        ///< typedef for a updater function which returns a modification of the parameter tuple
+        typedef std::function<void(RecordType&)> UpdaterFunc;
+
+        ///< typedefs for a function performing updates + deletes. Similar to UpdaterFunc
+        ///< it allows to update the tuple, but also to delete it (indictated by the
+        ///< setting the bool component of @c UpdateResult to false)
+        typedef std::function<bool(RecordType&)> UpdelFunc;
+
+
+
+        /**
+        * iter_callback
+        */
+        public: static int iter_callback(void *data, const unsigned char* key, uint32_t key_len, void *val)
+        {
+
+                RecordType* ptr = (RecordType *)val;
+                /*
+                  uint64_t *out = (uint64_t*)data;
+                  uintptr_t line = (uintptr_t)val;
+                  uint64_t mask = (line * (key[0] + key_len));
+                  out[0]++;
+                  out[1] ^= mask;
+                */
+
+                if(ptr != NULL)
+                {
+                    std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
+                }
+                return 0;
+            }
+
+        public: static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
+        {
+
+                RecordType* ptr = (RecordType *)val;
+                if(ptr != NULL)
+                {
+                    if([](RecordType R){ return R[0]=='b';}(*ptr))
+                        std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
+                }
+                return 0;
+            }
 
 
         /**
@@ -136,7 +171,7 @@ class AdaptiveRadixTreeTable
         /**
         * Destructor for table.
         */
-        public:  void DestroyAdaptiveRadixTreeTable()   { art_tree_destroy(&t); }
+        public:  void DestroyAdaptiveRadixTreeTable(){ art_tree_destroy(&t); }
 
         /**
          * insert into tree Specifying keys and RecordTypes;
@@ -171,6 +206,20 @@ class AdaptiveRadixTreeTable
             return val2;
         }
 
+
+        /**
+         * Delete from Tree where clause
+         */
+        public: RecordType * deleteWhere()
+        {
+                uint64_t out[] = {0, 0};
+                 art_deleteWhere(&t,
+                                 [](RecordType R){ return R[0]=='b';},
+                                 &out,iter_callbackByPredicate);
+            return NULL;
+        }
+
+
         /**
          * GetByKey
          */
@@ -188,23 +237,24 @@ class AdaptiveRadixTreeTable
             return val2;
         }
 
+
+
+
         /**
          * Iterate over tree
          */
         public:void iterate()
         {
             uint64_t out[] = {0, 0};
-            art_iter(&t, iter_callback, &out);
+            art_iter(&t, iter_callbackByPredicate, &out);
         }
 
-        /**
-         * DeleteWhere
-         */
+
 
         /**
          * UpdateOrDeleteByKeywhere
          */
-
+         //update or delete by keys where where predicate satisfies.
 
         /**
          * UpdateByKeyWhere
@@ -215,5 +265,10 @@ class AdaptiveRadixTreeTable
          */
 
 
- };
+
+        AdaptiveRadixTreeTable(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
+
+
+
+};
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H
