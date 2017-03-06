@@ -827,11 +827,8 @@ void* art_delete(art_tree *t, const unsigned char *key, int key_len) {
 
 void* art_deleteWhere(art_tree *t, PredicatePtr predicate,void* data,art_callback cb)
 {
-    recursive_DeleteWhere(t,t->root,cb,data,predicate);
-    return NULL;
+   return recursive_DeleteWhere(t,t->root,cb,data,predicate);
 }
-
-
 void* recursive_DeleteWhere(art_tree *t,art_node *n, art_callback cb, void *data,PredicatePtr predicate)
 {
     // Handle base cases
@@ -843,11 +840,13 @@ void* recursive_DeleteWhere(art_tree *t,art_node *n, art_callback cb, void *data
         {
             if(predicate((RecordType*)l->value))
             {
+
+                //remove_child(n, ref, key[depth], child);
                 t->size--;
                 void *old = l->value;
                 free(l);
-                //return old;
-                return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                return old;
+                //return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
             }
             return NULL;
         }
@@ -943,6 +942,64 @@ static int recursive_iter(art_node *n, art_callback cb, void *data)
     return 0;
 }
 
+// Recursively iterates over the tree
+static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,PredicatePtr predicate)
+{
+    // Handle base cases
+    if (!n) return 0;
+    if (IS_LEAF(n))
+    {
+        art_leaf *l = LEAF_RAW(n);
+        if (l) {
+            if (predicate( l->value)) {
+                return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+            }
+        }
+        else
+            return 0;
+    }
+
+    int idx, res;
+    switch (n->type)
+    {
+        case NODE4:
+            for (int i=0; i < n->num_children; i++) {
+                res = recursive_iterByPredicate(((art_node4*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE16:
+            for (int i=0; i < n->num_children; i++) {
+                res = recursive_iterByPredicate(((art_node16*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE48:
+            for (int i=0; i < 256; i++) {
+                idx = ((art_node48*)n)->keys[i];
+                if (!idx) continue;
+                res = recursive_iterByPredicate(((art_node48*)n)->children[idx-1], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+
+        case NODE256:
+            for (int i=0; i < 256; i++) {
+                if (!((art_node256*)n)->children[i]) continue;
+                res = recursive_iterByPredicate(((art_node256*)n)->children[i], cb, data,predicate);
+                if (res) return res;
+            }
+            break;
+        default:
+            abort();
+    }
+    return 0;
+}
+
+
+
 /**
  * Iterates through the entries pairs in the map,
  * invoking a callback for each. The call back gets a
@@ -955,6 +1012,10 @@ static int recursive_iter(art_node *n, art_callback cb, void *data)
  */
 int art_iter(art_tree *t, art_callback cb, void *data) {
     return recursive_iter(t->root, cb, data);
+}
+int art_iterByPredicate(art_tree *t, art_callback cb, void *data, PredicatePtr predicateptr)
+{
+    return recursive_iterByPredicate(t->root, cb, data,predicateptr);
 }
 
 

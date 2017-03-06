@@ -1,6 +1,15 @@
-//
-// Created by Players Inc on 27/02/2017.
-//
+/*
+ + `insert(KeyType k, const RecordType& rec)` inserts a new record with the given key into the table.(done)
+ + `deleteByKey(KeyType k)` deletes the record with the given key.(done)
+ + `deleteWhere(std::function<bool(const RecordType&)> predicate)` deletes all records satisfying the given predicate.(not needed)
+-> `updateByKey(KeyType k,  std::function<void(RecordType&)> updater)` updates the tuple with the given key by applying
+   the function `updater` which accepts the tuple as parameter and modified it in a certain way.
+-> `updateWhere(std::function<bool(const RecordType&)> predicate, std::function<void(RecordType&)> updater)` updates all tuples from
+   the table satisfying the given predicate by applying the function `updater` which modifies the tuple.
+-> `getByKey(KeyType k)` returns a pointer to the tuple with the given key in the form of `TuplePtr<RecordType>`. If no tuple
+    exists for this key, then an exception is raised.
+ + `select(std::function<bool(const RecordType&)> predicate)`
+ */
 
 #ifndef MVCCART_ADAPTIVERADIXTREETABLE_H
 #define MVCCART_ADAPTIVERADIXTREETABLE_H
@@ -8,13 +17,13 @@
 #include <iostream>
 #include <inttypes.h>
 #include "art.h"
-
 #include "table/TableInfo.hpp"
 #include "table/TableException.hpp"
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
 #include "table/TableInfo.hpp"
 #define MAX_VERSION_DEPTH 100
+
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
 
@@ -109,11 +118,7 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         private: int res;
         public: uint64_t ARTSize;
 
-
-
-
         typedef std::function<bool(RecordType)> Predicate;
-
 
         ///< typedef for a updater function which returns a modification of the parameter tuple
         typedef std::function<void(RecordType&)> UpdaterFunc;
@@ -122,8 +127,6 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         ///< it allows to update the tuple, but also to delete it (indictated by the
         ///< setting the bool component of @c UpdateResult to false)
         typedef std::function<bool(RecordType&)> UpdelFunc;
-
-
 
         /**
         * iter_callback
@@ -149,12 +152,10 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
 
         public: static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
         {
-
                 RecordType* ptr = (RecordType *)val;
                 if(ptr != NULL)
                 {
-                    if([](RecordType R){ return R[0]=='b';}(*ptr))
-                        std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
+                   std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
                 }
                 return 0;
             }
@@ -213,9 +214,13 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         public: RecordType * deleteWhere()
         {
                 uint64_t out[] = {0, 0};
-                 art_deleteWhere(&t,
-                                 [](RecordType R){ return R[0]=='b';},
+            void* deletedVal= art_deleteWhere(&t,
+                                 [](RecordType R){ return R[0]=='8';},
                                  &out,iter_callbackByPredicate);
+
+
+            if(deletedVal != NULL)
+                std::cout<<"Value deleted "<<(RecordType*)deletedVal;
             return NULL;
         }
 
@@ -238,8 +243,6 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         }
 
 
-
-
         /**
          * Iterate over tree
          */
@@ -250,25 +253,117 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         }
 
 
+        /**
+         * Iterate over tree by Predicate
+         */
+        public:void iterateByPredicate(PredicatePtr predicate)
+        {
+            uint64_t out[] = {0, 0};
+            art_iterByPredicate(&t, iter_callbackByPredicate, &out,predicate);
+        }
 
         /**
-         * UpdateOrDeleteByKeywhere
-         */
-         //update or delete by keys where where predicate satisfies.
+        * @brief Update or delete the tuple specified by the given key.
+        *
+        * Update or delete the tuple in the table associated with the given key.
+        * The actual modification is done by the updater function specified as parameter.
+        *
+        * @param key the key of the tuple to be modified
+        * @param func a function performing the modification by returning a modified
+        *        tuple + a bool value indicating whether the tuple shall be kept (=true)
+        *        or deleted (=false)
+        * @return the number of modified tuples
+        */
+        unsigned long updateOrDeleteByKey(KeyType key, UpdelFunc ufunc) {
+            // make sure we have exclusive access
+            // note that we don't use a guard here!
+            /*std::unique_lock<std::mutex> lock(mMtx);
+
+            auto res = mDataTable.find(key);
+            if (res != mDataTable.end()) {
+                TableParams::ModificationMode mode = TableParams::Update;
+                unsigned long num = 1;
+
+                // perform the update
+                auto upd = ufunc(res->second);
+
+                // check whether we have to perform an update ...
+                if (!upd) {
+                    // or a delete
+                    num = mDataTable.erase(key);
+                    mode = TableParams::Delete;
+                }
+                lock.unlock();
+                // notify the observers
+                notifyObservers(res->second, mode, TableParams::Immediate);
+                return num;
+            }
+            else {
+                // don't forget to release the lock
+                lock.unlock();
+            }*/
+            return 0;
+        }
 
         /**
-         * UpdateByKeyWhere
+         * @brief Update the tuple specified by the given key.
+         *
+         * Update the tuple in the table associated with the given key.
+         * The actual modification is done by the updater function specified as parameter.
+         *
+         * @param key the key of the tuple to be modified
+         * @param func a function performing the modification by returning a modified
+         *        tuple
+         * @return the number of modified tuples
          */
+        unsigned long updateByKey(KeyType key, UpdaterFunc ufunc) {
+            // make sure we have exclusive access
+           /* std::unique_lock<std::mutex> lock(mMtx);
+
+            auto res = mDataTable.find(key);
+            if (res != mDataTable.end()) {
+                ufunc(res->second);
+
+                lock.unlock();
+                notifyObservers(res->second, TableParams::Update, TableParams::Immediate);
+                return 1;
+            }
+            else {
+                lock.unlock();
+            }*/
+            return 0;
+        }
 
         /**
-         * UpdateWhere
+         * @brief Update all tuples satisfying the given predicate.
+          *
+         * Update all tuples in the table which satisfy the given predicate.
+         * The actual modification is done by the updater function specified as parameter.
+         *
+         * @param pfunc a predicate func returning true for a tuple to be modified
+         * @param func a function performing the modification by returning a modified
+         *        tuple
+         * @return the number of modified tuples
          */
+        unsigned long updateWhere(Predicate pfunc, UpdaterFunc ufunc) {
+            // make sure we have exclusive access
+            /*  std::lock_guard<std::mutex> lock(mMtx);
 
+            unsigned long num = 0;
+            // we perform a full table scan
+            for(auto it = mDataTable.begin(); it != mDataTable.end(); it++) {
+                // and check the predicate
+                if (pfunc(it->second)) {
+                    ufunc(it->second);
 
+                    notifyObservers(it->second, TableParams::Update, TableParams::Immediate);
+                    num++;
+                }
+            }
+            return num;*/
+            return 0;
+        }
 
         AdaptiveRadixTreeTable(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
-
-
-
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

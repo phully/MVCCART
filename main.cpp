@@ -34,7 +34,8 @@ template <typename RecordType, typename KeyType>
 void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 template <typename RecordType, typename KeyType>
 bool filter(RecordType r, KeyType k);
-
+template <typename RecordType, typename KeyType>
+void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
 
 int main()
@@ -43,8 +44,8 @@ int main()
 
     /// 1- Test Insert & Delete by key
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
-    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
-    InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
+    //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    //InsertDeleteByKeyValue<char[50] ,char[20]>(myADTTable2);
 
 
     /// 2- Test Iterate by key-values
@@ -54,11 +55,83 @@ int main()
 
     /// 3- Test Iterate by key-values
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
+    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    IterateByKeyValuesWithPredicate<char[50] ,char[20]>(myADTTable2);
+
+
+    /// 4- Test Insert & Delete by key
+    ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
     //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
-    //IterateByKeyValuesWithPredicate<char[50] ,char[20]>(myADTTable2);
+    //InsertSearchByKeyValue<char[50] ,char[20]>(myADTTable2);
+
 
     cout<<"Completed Successfully!!";
     return 0;
+}
+
+
+
+template <typename RecordType, typename KeyType>
+void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
+{
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
+
+
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+
+    int index = 0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
+    {
+        len = strlen(bufVal);
+        bufVal[len - 1] = '\0';
+
+        strcpy(ValuesToStore[index], bufVal);
+        //cout<<ValuesToStore[index]<<"\n";
+        index++;
+        if (index == 10)
+            break;
+    }
+
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    uintptr_t line = 1;
+
+    while (fgets(buf, sizeof buf, f))
+    {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
+        myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
+        //myADTTable.insertOrUpdateByKey(buf, line);
+        cout << buf << endl;
+        cout << "Size of ART:- " << myADTTable.ARTSize << endl;
+        line++;
+
+        if (line == 10)
+            break;
+    }
+
+    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    cout << "Searching the Keys now..." << endl;
+    line = 1;
+    while (fgets(buf, sizeof buf, f2))
+    {
+        len = strlen(buf);
+        buf[len - 1] = '\0';
+        cout << "Key To Find ::::" << buf << endl;
+
+        RecordType * gotval = myADTTable.findValueByKey(buf);
+
+        std::cout<<"FoundValue= "<<*gotval<<"\n";
+        line++;
+        if (line == 10)
+            break;
+    }
+
+    //myADTTable.deleteWhere();
+    myADTTable.DestroyAdaptiveRadixTreeTable();
+    cout<<"Exited normaly";
 }
 
 
@@ -103,7 +176,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
          break;
     }
 
-   /* FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+   FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
     cout << "Deleting the Keys now..." << endl;
     line = 1;
     while (fgets(buf, sizeof buf, f2))
@@ -118,9 +191,9 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
         line++;
         if (line == 10)
            break;
-    }*/
+    }
 
-    myADTTable.deleteWhere();
+    //myADTTable.deleteWhere();
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
 }
@@ -189,8 +262,6 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
     char buf[20];
     char bufVal[50];
 
-
-
     /// Reading all Values to store against keys
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
 
@@ -226,7 +297,9 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
             break;
     }
 
-    myADTTable.iterate();
+    //[](void * R){RecordType * Rptr = (RecordType*)R; return Rptr[0]=='b';}
+    //auto predicate = [](void* R){ return ((RecordType*)R[0])=='8';};
+    myADTTable.iterateByPredicate([](void * R){RecordType * Rptr = (RecordType*)R; return *Rptr[0]=='b';});
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
     }

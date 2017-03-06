@@ -33,7 +33,7 @@ extern "C" {
 */
 typedef  char RecordType[50];
 typedef  const unsigned char* KeyType;
-typedef bool(*PredicatePtr)(RecordType );
+typedef bool(*PredicatePtr)(void *);
 
 typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void *value);
 
@@ -218,6 +218,7 @@ void *art_search(const art_tree *t, const unsigned char *key, int key_len);
  */
 
 int art_iter(art_tree *t, art_callback cb, void *data);
+int art_iterByPredicate(art_tree *t, art_callback cb, void *data, PredicatePtr predicate);
 
 /**
  * Iterates through the entries pairs in the map,
@@ -231,7 +232,7 @@ int art_iter(art_tree *t, art_callback cb, void *data);
  * @arg data Opaque handle passed to the callback
  * @return 0 on success, or the return of the callback.
  */
-    int art_iter_prefix(art_tree *t, const unsigned char *prefix, int prefix_len, art_callback cb, void *data);
+ int art_iter_prefix(art_tree *t, const unsigned char *prefix, int prefix_len, art_callback cb, void *data);
 
 #ifdef __cplusplus
     }
