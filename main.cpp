@@ -32,8 +32,8 @@ template <typename RecordType, typename KeyType>
 void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 template <typename RecordType, typename KeyType>
 void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
-template <typename RecordType, typename KeyType>
-bool filter(RecordType r, KeyType k);
+template <typename RecordType>
+bool filter(const RecordType* R);
 template <typename RecordType, typename KeyType>
 void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
@@ -297,20 +297,29 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
             break;
     }
 
-    //[](void * R){RecordType * Rptr = (RecordType*)R; return Rptr[0]=='b';}
-    //auto predicate = [](void* R){ return ((RecordType*)R[0])=='8';};
-    myADTTable.iterateByPredicate([](void * R){RecordType * Rptr = (RecordType*)R; return *Rptr[0]=='b';});
+    ///select all
+    //myADTTable.iterateByPredicate([](void * R){RecordType * Rptr = (RecordType*)R; return true;});
+    //std::function<bool(const RecordType*)> pred = [](const RecordType* R){RecordType dummy; strcpy(dummy,*R);return dummy=="8dcce6de-6d57-4931-9b23-ecf28d1a716a";};
+    //bool(*PredPtr)(const RecordType*)  = filter;
+    //PredPtr** ptr_func = pred.target<PredPtr *>();
+
+    //PredicatePtr ptr_func = filter;
+    myADTTable.iterateByPredicate(filter);
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
     }
 
-bool filter(RecordType r, const unsigned char * k)
+template <typename RecordType>
+bool filter(const RecordType* R)
 {
-        if(r[0]='b')
-            return true;
-        else
-            return false;
-    }
+    //RecordType *Rptr =  R;
+    if(R != nullptr)
+       return *R[0] == '8';
+    else
+        return  false;
+    //cout<<*R;
+    //return true;
+}
 
 
 void test_art_init_and_destroy()

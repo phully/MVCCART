@@ -950,13 +950,13 @@ static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pr
     if (IS_LEAF(n))
     {
         art_leaf *l = LEAF_RAW(n);
-        if (l) {
-            if (predicate( l->value)) {
+        //printf("l-val %s",(const unsigned char *)l->value);
+        if (l->value !=NULL) {
+            if (predicate( (RecordType*)l->value)) {
                 return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
             }
+            return NULL;
         }
-        else
-            return 0;
     }
 
     int idx, res;
@@ -1013,8 +1013,7 @@ static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pr
 int art_iter(art_tree *t, art_callback cb, void *data) {
     return recursive_iter(t->root, cb, data);
 }
-int art_iterByPredicate(art_tree *t, art_callback cb, void *data, PredicatePtr predicateptr)
-{
+int art_iterByPredicate(art_tree *t, art_callback cb, void *data, PredicatePtr predicateptr) {
     return recursive_iterByPredicate(t->root, cb, data,predicateptr);
 }
 

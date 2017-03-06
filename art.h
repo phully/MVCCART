@@ -33,7 +33,8 @@ extern "C" {
 */
 typedef  char RecordType[50];
 typedef  const unsigned char* KeyType;
-typedef bool(*PredicatePtr)(void *);
+typedef bool(*PredicatePtr)(const RecordType *);
+typedef bool(*Predicated)(void *);
 
 typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void *value);
 

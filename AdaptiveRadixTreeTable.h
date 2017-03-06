@@ -118,7 +118,7 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         private: int res;
         public: uint64_t ARTSize;
 
-        typedef std::function<bool(RecordType)> Predicate;
+        typedef std::function<bool(const RecordType*)> Predicate;
 
         ///< typedef for a updater function which returns a modification of the parameter tuple
         typedef std::function<void(RecordType&)> UpdaterFunc;
