@@ -7,6 +7,7 @@
 #include "art.h"
 #include "table/Table.hpp"
 #include "AdaptiveRadixTreeTable.h"
+#include "core/Tuple.hpp"
 
 using namespace std;
 
@@ -302,7 +303,6 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
     //std::function<bool(const RecordType*)> pred = [](const RecordType* R){RecordType dummy; strcpy(dummy,*R);return dummy=="8dcce6de-6d57-4931-9b23-ecf28d1a716a";};
     //bool(*PredPtr)(const RecordType*)  = filter;
     //PredPtr** ptr_func = pred.target<PredPtr *>();
-
     //PredicatePtr ptr_func = filter;
     myADTTable.iterateByPredicate(filter);
     myADTTable.DestroyAdaptiveRadixTreeTable();

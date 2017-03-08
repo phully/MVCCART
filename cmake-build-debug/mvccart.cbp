@@ -4,7 +4,7 @@
 	<Project>
 		<Option title="mvccart"/>
 		<Option makefile_is_custom="1"/>
-		<Option compiler="gcc"/>
+		<Option compiler="clang"/>
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
@@ -42,9 +42,14 @@
 				<Option working_dir="/Users/fuadshah/Desktop/CODE9/MVCCART/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="gcc"/>
+				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/core"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/core/parser"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp/types"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -64,9 +69,14 @@
 				<Option working_dir="/Users/fuadshah/Desktop/CODE9/MVCCART/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
-				<Option compiler="gcc"/>
+				<Option compiler="clang"/>
 				<Compiler>
+					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/core"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/core/parser"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp"/>
+					<Add directory="/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp/types"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>

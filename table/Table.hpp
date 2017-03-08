@@ -37,7 +37,7 @@
 #include "BaseTable.hpp"
 
 
-#define DefaultKeyType char[20]
+//#define DefaultKeyType char[20]
 
 
 namespace pfabric {
@@ -45,7 +45,7 @@ namespace pfabric {
 //template <typename RecordType, typename KeyType = DefaultKeyType>
 //using Table = pfabric::HashMapTable<RecordType, KeyType>;
 
-    template <typename RecordType, typename KeyType = DefaultKeyType>
+    template <typename RecordType, typename KeyType = char[20]>
     using Table = AdaptiveRadixTreeTable<RecordType, KeyType>;
 
 }

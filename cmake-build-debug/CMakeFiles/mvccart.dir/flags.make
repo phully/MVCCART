@@ -5,13 +5,13 @@
 # compile CXX with /Library/Developer/CommandLineTools/usr/bin/c++
 C_FLAGS = -g  
 
-C_DEFINES = 
+C_DEFINES = -DBOOST_LOG_DYN_LINK
 
-C_INCLUDES = 
+C_INCLUDES = -isystem /usr/local/include -I/Users/fuadshah/Desktop/CODE9/MVCCART/core -I/Users/fuadshah/Desktop/CODE9/MVCCART/core/parser -I/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp -I/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp/types 
 
 CXX_FLAGS = -g   -std=gnu++11
 
-CXX_DEFINES = 
+CXX_DEFINES = -DBOOST_LOG_DYN_LINK
 
-CXX_INCLUDES = 
+CXX_INCLUDES = -isystem /usr/local/include -I/Users/fuadshah/Desktop/CODE9/MVCCART/core -I/Users/fuadshah/Desktop/CODE9/MVCCART/core/parser -I/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp -I/Users/fuadshah/Desktop/CODE9/MVCCART/libcpp/types 
 
