@@ -22,12 +22,11 @@
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
 #include "table/TableInfo.hpp"
-//#include "core/Tuple.hpp"
+//#include "fmt/format.h"
 
 
-#define DefaultKeyType char[25]
 #define MAX_VERSION_DEPTH 100
-
+typedef char DefaultKeyType[20];
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
 
@@ -122,6 +121,7 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         private: int res;
         public: uint64_t ARTSize;
 
+
         typedef std::function<bool(const RecordType*)> Predicate;
 
         ///< typedef for a updater function which returns a modification of the parameter tuple
@@ -159,10 +159,11 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
                 RecordType* ptr = (RecordType *)val;
                 if(ptr != NULL)
                 {
-                   std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
+
+                   std::cout<<"found K/V ="<<key<<val<<"\n";
                 }
                 return 0;
-            }
+        }
 
 
         /**
@@ -184,8 +185,8 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
         {
             int len = strlen(key);
-            key[len-1] = '\0';
-            art_insert(&t, (unsigned char*)key, len, (void*)rec);
+            key[len] = '\0';
+            art_insert(&t, (unsigned char*)key, len, (void *)&rec);
             this->ARTSize = art_size(&t);
             //std::cout<<"Size of ART: "<<art_size(&t)<<std::endl;
         }
@@ -250,10 +251,10 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         /**
          * Iterate over tree
          */
-        public:void iterate()
+        public:void iterate(art_callback cb)
         {
             uint64_t out[] = {0, 0};
-            art_iter(&t, iter_callbackByPredicate, &out);
+            art_iter(&t, cb, &out);
         }
 
 

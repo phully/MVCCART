@@ -43,20 +43,43 @@ typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
 template <typename RecordType, typename KeyType = DefaultKeyType>
 using ARTable = AdaptiveRadixTreeTable<RecordType, KeyType>;
 
-
+static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
+{
+    MyTuple * ptr = (MyTuple *)val;
+    if(ptr != NULL)
+    {
+        std::cout<<"###found K/V ="<<key<<"\n";
+    }
+    return 0;
+}
 
 int main()
 {
     std::cout << "Adaptive Radix Tree " << std::endl;
 
+    auto  testTable = std::make_shared<ARTable<MyTuple,DefaultKeyType>> ();
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
 
-    auto testTable = std::make_shared<ARTable<MyTuple>> ();
-
-    for (int i = 0; i < 10; i++)
+    int index = 0;
+    int i=0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
     {
-        auto tp =MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
-       //testTable->insert(i, tp);
+        len = strlen(bufVal);
+        bufVal[len] = '\0';
+        auto tp  = MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
+
+        cout<<" key / val = "<<bufVal<<"/"<<endl;
+        testTable->insertOrUpdateByKey(bufVal, tp);
+        i++;
+        index++;
+        if(i==10)
+            break;
     }
+
+    testTable->iterate(iter_callbackByPredicate);
 
     /// 1- Test Insert & Delete by key
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
@@ -84,6 +107,8 @@ int main()
     std::cout<<"Completed Successfully!!";
     return 0;
 }
+
+
 
 
 
@@ -258,15 +283,12 @@ void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
             break;
     }
 
-
-
     /// Get iterator for that the tree we put data into
     //  nlines = line - 1;
     //uint64_t out[] = {0, 0};
     //art_iter(&t, iter_cb, &out);
 
     myADTTable.iterate();
-
     myADTTable.DestroyAdaptiveRadixTreeTable();
     cout<<"Exited normaly";
 }
