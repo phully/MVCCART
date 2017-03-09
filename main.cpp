@@ -86,7 +86,7 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
         len = strlen(bufVal);
-        bufVal[len - 1] = '\0';
+        bufVal[len] = '\0';
 
         strcpy(ValuesToStore[index], bufVal);
         //cout<<ValuesToStore[index]<<"\n";
@@ -96,7 +96,7 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     }
 
     FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    uintptr_t line = 1;
+    uintptr_t line = 0;
 
     while (fgets(buf, sizeof buf, f))
     {
@@ -115,7 +115,7 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
 
     FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
     cout << "Searching the Keys now..." << endl;
-    line = 1;
+    line = 0;
     while (fgets(buf, sizeof buf, f2))
     {
         len = strlen(buf);
@@ -150,7 +150,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
         len = strlen(bufVal);
-        bufVal[len - 1] = '\0';
+        bufVal[len] = '\0';
 
         strcpy(ValuesToStore[index], bufVal);
         //cout<<ValuesToStore[index]<<"\n";
@@ -160,12 +160,12 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     }
 
     FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    uintptr_t line = 1;
+    uintptr_t line = 0;
 
     while (fgets(buf, sizeof buf, f))
     {
         len = strlen(buf);
-        buf[len - 1] = '\0';
+        buf[len] = '\0';
         cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
         //myADTTable.insertOrUpdateByKey(buf, line);
@@ -179,7 +179,7 @@ void InsertDeleteByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
 
    FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
     cout << "Deleting the Keys now..." << endl;
-    line = 1;
+    line = 0;
     while (fgets(buf, sizeof buf, f2))
     {
         len = strlen(buf);
@@ -215,7 +215,7 @@ void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
         len = strlen(bufVal);
-        bufVal[len - 1] = '\0';
+        bufVal[len] = '\0';
 
         strcpy(ValuesToStore[index], bufVal);
         //cout<<ValuesToStore[index]<<"\n";
@@ -226,12 +226,12 @@ void IterateByKeyValues(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable)
 
     /// Reading all Keys to store against values
     FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    uintptr_t line = 1;
+    uintptr_t line = 0;
 
     while (fgets(buf, sizeof buf, f))
     {
         len = strlen(buf);
-        buf[len - 1] = '\0';
+        buf[len] = '\0';
         cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
         //myADTTable.insertOrUpdateByKey(buf, line);
@@ -270,7 +270,7 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
         len = strlen(bufVal);
-        bufVal[len - 1] = '\0';
+        bufVal[len] = '\0';
 
         strcpy(ValuesToStore[index], bufVal);
         //cout<<ValuesToStore[index]<<"\n";
@@ -281,13 +281,13 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
 
     /// Reading all Keys to store against values
     FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    uintptr_t line = 1;
+    uintptr_t line = 0;
 
     while (fgets(buf, sizeof buf, f))
     {
         len = strlen(buf);
-        buf[len - 1] = '\0';
-        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
+        buf[len] = '\0';
+        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line] << endl;
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
         //myADTTable.insertOrUpdateByKey(buf, line);
         cout << buf << endl;
@@ -314,7 +314,7 @@ bool filter(const RecordType* R)
 {
     //RecordType *Rptr =  R;
     if(R != nullptr)
-       return *R[0] == '8';
+       return *R[0] == '5';
     else
         return  false;
     //cout<<*R;
