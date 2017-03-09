@@ -118,15 +118,15 @@ public:
 	 *     the list of argument types to construct the tuple from
 	 * @param[in] args
 	 */
-// TODO Can't we use a forwarding / conversion constructor here?
-//      using the ...Args below leads to problems when constructing (actually parsing) from string vector below
-//	template< typename... Args >
+	 // TODO Can't we use a forwarding / conversion constructor here?
+	 //      using the ...Args below leads to problems when constructing (actually parsing) from string vector below
+	 //	template< typename... Args >
 
-	Tuple( Types... args ) :
+	 	Tuple( Types... args ) :
 		// this does not actually forward anything (would require Args&&... args)
 		// --> always resolves to a lvalue, never a rvalue ref for move construction
-		Base( std::forward< Types >( args )... ), mRefCnt(0) {}
-
+		//Base( std::forward< Types >( args )... ), mRefCnt(0) {}
+		Base(), mRefCnt(0) {}
 	/**
 	 * @brief Parsing constructor for string tuples.
 	 *

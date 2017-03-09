@@ -10,7 +10,7 @@
 #include "core/Tuple.hpp"
 
 using namespace std;
-
+using namespace pfabric;
 
 void test_art_init_and_destroy();
 void test_art_insert();
@@ -39,9 +39,24 @@ template <typename RecordType, typename KeyType>
 void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
 
+typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
+template <typename RecordType, typename KeyType = DefaultKeyType>
+using ARTable = AdaptiveRadixTreeTable<RecordType, KeyType>;
+
+
+
 int main()
 {
     std::cout << "Adaptive Radix Tree " << std::endl;
+
+
+    auto testTable = std::make_shared<ARTable<MyTuple>> ();
+
+    for (int i = 0; i < 10; i++)
+    {
+        auto tp =MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
+       //testTable->insert(i, tp);
+    }
 
     /// 1- Test Insert & Delete by key
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
@@ -56,8 +71,8 @@ int main()
 
     /// 3- Test Iterate by key-values
     ///   -> Typedef RecordType leave: Char[50] , Key Char[20]
-    AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
-    IterateByKeyValuesWithPredicate<char[50] ,char[20]>(myADTTable2);
+    //AdaptiveRadixTreeTable<char[50] ,char[20]> myADTTable2 = AdaptiveRadixTreeTable<char[50],char[20]>();
+    //IterateByKeyValuesWithPredicate<char[50] ,char[20]>(myADTTable2);
 
 
     /// 4- Test Insert & Delete by key
@@ -66,7 +81,7 @@ int main()
     //InsertSearchByKeyValue<char[50] ,char[20]>(myADTTable2);
 
 
-    cout<<"Completed Successfully!!";
+    std::cout<<"Completed Successfully!!";
     return 0;
 }
 
@@ -102,11 +117,11 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     {
         len = strlen(buf);
         buf[len - 1] = '\0';
-        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << endl;
+        std::cout << "inserting key= " << buf << "  - value = " << ValuesToStore[line-1] << std::endl;
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
         //myADTTable.insertOrUpdateByKey(buf, line);
-        cout << buf << endl;
-        cout << "Size of ART:- " << myADTTable.ARTSize << endl;
+        std::cout << buf << std::endl;
+        std::cout << "Size of ART:- " << myADTTable.ARTSize << std::endl;
         line++;
 
         if (line == 10)
@@ -114,13 +129,13 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
     }
 
     FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    cout << "Searching the Keys now..." << endl;
+    std::cout << "Searching the Keys now..." << std::endl;
     line = 0;
     while (fgets(buf, sizeof buf, f2))
     {
         len = strlen(buf);
         buf[len - 1] = '\0';
-        cout << "Key To Find ::::" << buf << endl;
+        std::cout << "Key To Find ::::" << buf << std::endl;
 
         RecordType * gotval = myADTTable.findValueByKey(buf);
 
@@ -132,7 +147,7 @@ void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTab
 
     //myADTTable.deleteWhere();
     myADTTable.DestroyAdaptiveRadixTreeTable();
-    cout<<"Exited normaly";
+    std::cout<<"Exited normaly";
 }
 
 
@@ -291,7 +306,7 @@ void IterateByKeyValuesWithPredicate(AdaptiveRadixTreeTable<RecordType, KeyType>
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[line]);
         //myADTTable.insertOrUpdateByKey(buf, line);
         cout << buf << endl;
-        cout << "Size of ART:- " << myADTTable.ARTSize << endl;
+         cout << "Size of ART:- " << myADTTable.ARTSize << endl;
         line++;
 
         if (line == 10)

@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+
 #ifndef ART_H
 #define ART_H
 
@@ -27,11 +28,13 @@ extern "C" {
 #endif
 
 
+
+
 /**
 * To Store a Record, RecordType
 * From Table.hpp
 */
-typedef  char RecordType[50];
+typedef  char * RecordType;
 typedef  const unsigned char* KeyType;
 typedef bool(*PredicatePtr)(const RecordType *);
 typedef bool(*Predicated)(void *);

@@ -29,9 +29,9 @@
 
 namespace pfabric {
 
-    //typedef unsigned long DefaultKeyType char[20];
+   // typedef DefaultKeyType unsigned char *;
 
-  typedef unsigned long DefaultKeyType;
+  //typedef unsigned long DefaultKeyType;
 
 
 /// a name for a query operator parameter

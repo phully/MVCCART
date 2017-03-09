@@ -22,6 +22,10 @@
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
 #include "table/TableInfo.hpp"
+//#include "core/Tuple.hpp"
+
+
+#define DefaultKeyType char[25]
 #define MAX_VERSION_DEPTH 100
 
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
