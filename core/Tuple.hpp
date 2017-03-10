@@ -125,8 +125,8 @@ public:
 	 	Tuple( Types... args ) :
 		// this does not actually forward anything (would require Args&&... args)
 		// --> always resolves to a lvalue, never a rvalue ref for move construction
-		//Base( std::forward< Types >( args )... ), mRefCnt(0) {}
-		Base(), mRefCnt(0) {}
+		Base( std::forward< Types >( args )... ), mRefCnt(0) {}
+		//Base(), mRefCnt(0) {}
 	/**
 	 * @brief Parsing constructor for string tuples.
 	 *

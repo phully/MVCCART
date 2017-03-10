@@ -8,6 +8,7 @@
 #include "table/Table.hpp"
 #include "AdaptiveRadixTreeTable.h"
 #include "core/Tuple.hpp"
+#include <boost/tuple/tuple.hpp>
 
 using namespace std;
 using namespace pfabric;
@@ -39,7 +40,11 @@ template <typename RecordType, typename KeyType>
 void InsertSearchByKeyValue(AdaptiveRadixTreeTable<RecordType, KeyType> myADTTable);
 
 
+
+
 typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
+typedef TuplePtr<MyTuple> InTuplePointer;
+
 template <typename RecordType, typename KeyType = DefaultKeyType>
 using ARTable = AdaptiveRadixTreeTable<RecordType, KeyType>;
 
@@ -64,14 +69,15 @@ int main()
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
 
     int index = 0;
-    int i=0;
+    int i=1;
     while (fgets(bufVal, sizeof bufVal, fvals))
     {
         len = strlen(bufVal);
         bufVal[len] = '\0';
-        auto tp  = MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
+        auto tp   =  MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
+        InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0));
 
-        cout<<" key / val = "<<bufVal<<"/"<<endl;
+        cout<<" key / val = "<<bufVal<<"/"<<tptr->getAttribute<2>()<<endl;
         testTable->insertOrUpdateByKey(bufVal, tp);
         i++;
         index++;
