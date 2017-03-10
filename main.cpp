@@ -53,7 +53,8 @@ static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint3
     MyTuple * ptr = (MyTuple *)val;
     if(ptr != NULL)
     {
-        std::cout<<"###found K/V ="<<key<<"\n";
+        auto tptr = ptr->getAttribute<2>();
+        std::cout<<"###found K/V ="<<key<<tptr<<"\n";
     }
     return 0;
 }
@@ -67,24 +68,31 @@ int main()
     char buf[20];
     char bufVal[50];
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-
+    FILE *uuid = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
     int index = 0;
     int i=1;
-    while (fgets(bufVal, sizeof bufVal, fvals))
-    {
-        len = strlen(bufVal);
-        bufVal[len] = '\0';
-        auto tp   =  MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0);
-        InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, "String#{}", i / 100.0));
 
-        cout<<" key / val = "<<bufVal<<"/"<<tptr->getAttribute<2>()<<endl;
-        testTable->insertOrUpdateByKey(bufVal, tp);
+    while (fgets(buf, sizeof buf, fvals))
+    {
+        fgets(bufVal, sizeof bufVal, uuid);
+
+        len  = strlen(buf);
+        len2 = strlen(bufVal);
+        bufVal[len2]='\0';
+        buf[len] = '\0';
+
+          auto tp   =  MyTuple((unsigned long) i, i + 100, bufVal, i / 100.0);
+          InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, bufVal, i / 100.0));
+
+        //cout<<" key / val = "<<buf<<"/"<<bufVal<<endl;
+            auto tptrr = tp.getAttribute<2>();
+        cout<<" typed key / val = "<<buf<<"/"<<tptrr<<endl;
+        testTable->insertOrUpdateByKey(buf, tp);
         i++;
         index++;
         if(i==10)
             break;
     }
-
     testTable->iterate(iter_callbackByPredicate);
 
     /// 1- Test Insert & Delete by key
