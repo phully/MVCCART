@@ -205,10 +205,7 @@ public:
 	 *    the new attribute value
 	 * @return a reference to the tuple's attribute with the requested @c ID
 	 */
-	template<
-		AttributeIdx ID,
-		typename AttributeValue
-	>
+	template<AttributeIdx ID, typename AttributeValue>
 	void setAttribute( AttributeValue&& value ) {
 		BOOST_STATIC_ASSERT_MSG( ID < NUM_ATTRIBUTES, "illegal attribute ID" );
 		std::get< ID >( *this ) = value;

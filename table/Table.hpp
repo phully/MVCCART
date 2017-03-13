@@ -30,11 +30,11 @@
 #include <iterator>
 #include <mutex>
 #include <shared_mutex>
-#include "../AdaptiveRadixTreeTable.h"
 #include <boost/signals2.hpp>
 #include "TableInfo.hpp"
 #include "TableException.hpp"
 #include "BaseTable.hpp"
+#include "../ARTFULCpp.h"
 
 
 //#define DefaultKeyType char[20]
@@ -46,7 +46,7 @@ namespace pfabric {
 //using Table = pfabric::HashMapTable<RecordType, KeyType>;
 
     template <typename RecordType, typename KeyType = char[20]>
-    using Table = AdaptiveRadixTreeTable<RecordType, KeyType>;
+    using ARTable = ARTFULCpp<RecordType, KeyType>;
 
 }
 

@@ -6,13 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ARTFULCpp.h
 iostream
 -
 inttypes.h
 -
-art.h
-/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
 table/TableInfo.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
 table/TableException.hpp
@@ -23,11 +21,53 @@ boost/signals2.hpp
 -
 table/TableInfo.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
+core/Tuple.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/core/Tuple.hpp
+boost/tuple/tuple.hpp
+-
+ArtCPP.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.h
 
-/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.cpp
+ArtCPP.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.h
+
+/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.h
+iostream
+-
+inttypes.h
+-
+table/TableInfo.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
+table/TableException.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableException.hpp
+table/BaseTable.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/table/BaseTable.hpp
+boost/signals2.hpp
+-
+table/TableInfo.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/table/TableInfo.hpp
 stdint.h
 -
 stdbool.h
+-
+core/Tuple.hpp
+/Users/fuadshah/Desktop/CODE9/MVCCART/core/Tuple.hpp
+boost/tuple/tuple.hpp
+-
+stdlib.h
+-
+string.h
+-
+strings.h
+-
+stdio.h
+-
+assert.h
+-
+emmintrin.h
+-
+emmintrin.h
 -
 
 /Users/fuadshah/Desktop/CODE9/MVCCART/core/ElementSerializable.hpp
@@ -305,12 +345,10 @@ string.h
 -
 check.h
 -
-art.h
-/Users/fuadshah/Desktop/CODE9/MVCCART/art.h
+ARTFULCpp.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ARTFULCpp.h
 table/Table.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/Table.hpp
-AdaptiveRadixTreeTable.h
-/Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h
 core/Tuple.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/core/Tuple.hpp
 boost/tuple/tuple.hpp
@@ -357,8 +395,6 @@ mutex
 -
 shared_mutex
 -
-../AdaptiveRadixTreeTable.h
-/Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h
 boost/signals2.hpp
 -
 TableInfo.hpp
@@ -367,6 +403,8 @@ TableException.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableException.hpp
 BaseTable.hpp
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/BaseTable.hpp
+../ARTFULCpp.h
+/Users/fuadshah/Desktop/CODE9/MVCCART/ARTFULCpp.h
 
 /Users/fuadshah/Desktop/CODE9/MVCCART/table/TableException.hpp
 exception

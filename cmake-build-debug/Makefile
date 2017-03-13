@@ -123,32 +123,32 @@ mvccart/fast:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
 .PHONY : mvccart/fast
 
-art.o: art.c.o
+ArtCPP.o: ArtCPP.cpp.o
 
-.PHONY : art.o
+.PHONY : ArtCPP.o
 
 # target to build an object file
-art.c.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/art.c.o
-.PHONY : art.c.o
+ArtCPP.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.o
+.PHONY : ArtCPP.cpp.o
 
-art.i: art.c.i
+ArtCPP.i: ArtCPP.cpp.i
 
-.PHONY : art.i
+.PHONY : ArtCPP.i
 
 # target to preprocess a source file
-art.c.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/art.c.i
-.PHONY : art.c.i
+ArtCPP.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.i
+.PHONY : ArtCPP.cpp.i
 
-art.s: art.c.s
+ArtCPP.s: ArtCPP.cpp.s
 
-.PHONY : art.s
+.PHONY : ArtCPP.s
 
 # target to generate assembly for a file
-art.c.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/art.c.s
-.PHONY : art.c.s
+ArtCPP.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.s
+.PHONY : ArtCPP.cpp.s
 
 main.o: main.cpp.o
 
@@ -213,9 +213,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
-	@echo "... art.o"
-	@echo "... art.i"
-	@echo "... art.s"
+	@echo "... ArtCPP.o"
+	@echo "... ArtCPP.i"
+	@echo "... ArtCPP.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

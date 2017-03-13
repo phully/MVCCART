@@ -92,13 +92,10 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/AdaptiveRadixTreeTable.h">
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.cpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/art.c">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/art.h">
+		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/ArtCPP.h">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/CODE9/MVCCART/main.cpp">

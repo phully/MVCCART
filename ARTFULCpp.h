@@ -11,64 +11,31 @@
  + `select(std::function<bool(const RecordType&)> predicate)`
  */
 
-#ifndef MVCCART_ADAPTIVERADIXTREETABLE_H
-#define MVCCART_ADAPTIVERADIXTREETABLE_H
+#ifndef MVCCART_ARTFULCPP_H
+#define MVCCART_ARTFULCPP_H
 
 #include <iostream>
 #include <inttypes.h>
-#include "art.h"
+
 #include "table/TableInfo.hpp"
 #include "table/TableException.hpp"
 #include "table/BaseTable.hpp"
 #include <boost/signals2.hpp>
 #include "table/TableInfo.hpp"
 //#include "fmt/format.h"
+#include "core/Tuple.hpp"
+#include <boost/tuple/tuple.hpp>
+#include "ArtCPP.h"
 
+using namespace pfabric;
 
 #define MAX_VERSION_DEPTH 100
 typedef char DefaultKeyType[20];
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
-
-template <typename Iter>
-class ADTIterator {
-public:
-    typedef typename Iter::value_type::second_type RecordType;
-
-    typedef std::function<bool(const RecordType&)> Predicate;
-
-    explicit ADTIterator() {}
-    explicit ADTIterator(Iter j, Iter e, Predicate p) : i(j), end(e), pred(p) {
-        // make sure the initial iterator position refers to an entry satisfying the predicate
-
-        //Set the starting position of the tuple found (i = initial position)
-
-        while (i != end && ! pred(i->second)) ++i;
-    }
-
-    ADTIterator& operator++() {
-        i++;
-        while (i != end && ! pred(i->second)) ++i;
-        return *this;
-    }
-
-    ADTIterator operator++(int) { auto tmp = *this; ++(*this); return tmp; }
-    bool isValid() const { return i != end; }
-
-    /*TuplePtr<RecordType> operator*() {
-        return TuplePtr<RecordType> (new RecordType(i->second));
-    }*/
-     typename Iter::value_type::second_type* operator->() { return &i->second; }
-
-protected:
-    Iter i, end;
-    Predicate pred;
-};
-
-template <typename Iter>
-inline ADTIterator<Iter> makeADTIterator(Iter j, Iter e, typename ADTIterator<Iter>::Predicate p)
-                                            { return ADTIterator<Iter>(j, e, p); }
-
+typedef bool(*PredicatePtr)(const pfabric::TuplePtr<void> );
+typedef bool(*UpdateFuncPtr)(const pfabric::TuplePtr<void>  );
+typedef bool(*DeleteFuncPtr)(const pfabric::TuplePtr<void> );
 
 typedef struct {
     int count;
@@ -105,31 +72,17 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
     return 0;
 }
 
- bool myfunction(RecordType R)
-{
-    if(R[0]=='b')
-        return true;
-    else
-        false;
-}
+
 
 template <typename RecordType, typename KeyType = char[25]>
-class AdaptiveRadixTreeTable : public pfabric::BaseTable
+class ARTFULCpp : public pfabric::BaseTable
 {
-        private:   art_tree t;
-        private: char buf[512];
-        private: int res;
-        public: uint64_t ARTSize;
+
+        public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
+        //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
 
 
         typedef std::function<bool(const RecordType*)> Predicate;
-
-        ///< typedef for a updater function which returns a modification of the parameter tuple
-        typedef std::function<void(RecordType&)> UpdaterFunc;
-
-        ///< typedefs for a function performing updates + deletes. Similar to UpdaterFunc
-        ///< it allows to update the tuple, but also to delete it (indictated by the
-        ///< setting the bool component of @c UpdateResult to false)
         typedef std::function<bool(RecordType&)> UpdelFunc;
 
         /**
@@ -169,31 +122,51 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         /**
          * Constructor for creating an empty table with a given schema.
          */
-        public:   AdaptiveRadixTreeTable(){
-                      int res = art_tree_init(&t);
-                      this->ARTSize = art_size(&t);
-                  }
+        public:ARTFULCpp()
+        {
+            ARTIndexTable = new ArtCPP<RecordType, KeyType>();
+        }
 
         /**
         * Destructor for table.
         */
-        public:  void DestroyAdaptiveRadixTreeTable(){ art_tree_destroy(&t); }
-
-        /**
-         * insert into tree Specifying keys and RecordTypes;
-         */
-        public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
+        public:void DestroyAdaptiveRadixTreeTable()
         {
-            int len = strlen(key);
-            key[len] = '\0';
-            art_insert(&t, (unsigned char*)key, len, (void *)&rec);
-            this->ARTSize = art_size(&t);
-            //std::cout<<"Size of ART: "<<art_size(&t)<<std::endl;
+            delete ARTIndexTable;
         }
 
         /**
-         * Delete from tree by Keys
-         */
+        * @brief Insert/Update a tuple.
+        *
+        * Insert the given tuple @rec with the given key into the table, if key already exists it updates it. TODO:: After the insert
+        * all observers are notified.
+        *
+        * @param key the key value of the tuple
+        * @param rec the actual tuple
+        */
+        public:void insertOrUpdateByKey(KeyType key, const RecordType* rec)
+        {
+            int len = strlen(key);
+            key[len] = '\0';
+            std::cout<<"addres inserted::"<<rec<<"\n";
+            //converting void pointer to the Type of TuplePointer
+            //boost::intrusive_ptr<InTuplePointer> b = *(boost::intrusive_ptr<InTuplePointer>*)(rec);
+            //auto tptrr = *rec->getAttribute<1>();
+            //std::cout<<tptrr;
+            //void * data = (void*)&rec;
+            ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
+            std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
+        }
+
+        /**
+        * @brief Delete a tuple.
+        *
+        * Delete the tuples associated with the given key from the table
+        * and TODO:: inform the observers.
+        *
+        * @param key the key for which the tuples are deleted from the table
+        * @return the number of deleted tuples
+        */
         public: RecordType * deleteByKey(KeyType key)
         {
             int len;
@@ -206,33 +179,37 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
             //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
             // Delete, should get line-no back
-            void * val = art_delete(&t, (unsigned char*)key, len);
+            void * val = ARTIndexTable->art_delete((unsigned char*)key, len);
             RecordType *  val2 = (RecordType *)val;
-            this->ARTSize = art_size(&t);
             return val2;
         }
 
 
         /**
-         * Delete from Tree where clause
+         * TODO::: Lambdas std::function Delete from Tree where clause
          */
         public: RecordType * deleteWhere()
         {
                 uint64_t out[] = {0, 0};
-            void* deletedVal= art_deleteWhere(&t,
+            /*void* deletedVal= art_deleteWhere(&t,
                                  [](RecordType R){ return R[0]=='8';},
                                  &out,iter_callbackByPredicate);
 
-
             if(deletedVal != NULL)
-                std::cout<<"Value deleted "<<(RecordType*)deletedVal;
+                std::cout<<"Value deleted "<<(RecordType*)deletedVal;*/
             return NULL;
         }
 
 
         /**
-         * GetByKey
-         */
+        * @brief Return the tuple associated with the given key. TODO:: change it to TuplePtr
+        *
+        * Return the tuple from the table that is associated with the given
+        * key. If the key doesn't exist, an exception is thrown.
+        *
+        * @param key the key value
+        * @return the tuple associated with the given key
+        */
         public: RecordType * findValueByKey(KeyType key)
         {
             int len;
@@ -241,9 +218,9 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
             key[len-1] = '\0';
 
             //Search first, ensure the entries still exit optional
-            void*  val = art_search(&t, (unsigned char*)key, len);
+            void*  val = ARTIndexTable->art_search((unsigned char*)key, len);
             RecordType* val2= (RecordType *)val;
-            this->ARTSize = art_size(&t);
+            std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
             return val2;
         }
 
@@ -254,32 +231,26 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
         public:void iterate(art_callback cb)
         {
             uint64_t out[] = {0, 0};
-            art_iter(&t, cb, &out);
+            ARTIndexTable->art_iter(cb, &out);
         }
 
 
-        /**
-         * Iterate over tree by Predicate
-         */
-        public:void iterateByPredicate(PredicatePtr predicate)
-        {
-            uint64_t out[] = {0, 0};
-            art_iterByPredicate(&t, iter_callbackByPredicate, &out,predicate);
-        }
 
-        /**
-        * @brief Update or delete the tuple specified by the given key.
+            /**
+        * @brief Update all tuples satisfying the given predicate.
         *
-        * Update or delete the tuple in the table associated with the given key.
+        * Update all tuples in the table which satisfy the given predicate.
         * The actual modification is done by the updater function specified as parameter.
         *
-        * @param key the key of the tuple to be modified
-        * @param func a function performing the modification by returning a modified
-        *        tuple + a bool value indicating whether the tuple shall be kept (=true)
-        *        or deleted (=false)
+        * @param pfunc a predicate func returning true for a tuple to be modified
+        * @param ufunc a function performing the modification by returning a modified
+        *        tuple
         * @return the number of modified tuples
         */
-        unsigned long updateOrDeleteByKey(KeyType key, UpdelFunc ufunc) {
+        unsigned long UpdateKeyWhere(PredicatePtr pfunc, UpdateFuncPtr ufunc) {
+
+
+
             // make sure we have exclusive access
             // note that we don't use a guard here!
             /*std::unique_lock<std::mutex> lock(mMtx);
@@ -321,7 +292,7 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
          *        tuple
          * @return the number of modified tuples
          */
-        unsigned long updateByKey(KeyType key, UpdaterFunc ufunc) {
+        unsigned long DeleteKeyWhere(KeyType key, DeleteFuncPtr ufunc) {
             // make sure we have exclusive access
            /* std::unique_lock<std::mutex> lock(mMtx);
 
@@ -338,37 +309,6 @@ class AdaptiveRadixTreeTable : public pfabric::BaseTable
             }*/
             return 0;
         }
-
-        /**
-         * @brief Update all tuples satisfying the given predicate.
-          *
-         * Update all tuples in the table which satisfy the given predicate.
-         * The actual modification is done by the updater function specified as parameter.
-         *
-         * @param pfunc a predicate func returning true for a tuple to be modified
-         * @param func a function performing the modification by returning a modified
-         *        tuple
-         * @return the number of modified tuples
-         */
-        unsigned long updateWhere(Predicate pfunc, UpdaterFunc ufunc) {
-            // make sure we have exclusive access
-            /*  std::lock_guard<std::mutex> lock(mMtx);
-
-            unsigned long num = 0;
-            // we perform a full table scan
-            for(auto it = mDataTable.begin(); it != mDataTable.end(); it++) {
-                // and check the predicate
-                if (pfunc(it->second)) {
-                    ufunc(it->second);
-
-                    notifyObservers(it->second, TableParams::Update, TableParams::Immediate);
-                    num++;
-                }
-            }
-            return num;*/
-            return 0;
-        }
-
-        AdaptiveRadixTreeTable(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
+        ARTFULCpp(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H
