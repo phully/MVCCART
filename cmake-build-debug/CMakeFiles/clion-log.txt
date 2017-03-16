@@ -1,4 +1,4 @@
-/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/fuadshah/Desktop/CODE9/MVCCART
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/fuadshah/Desktop/MVCCART
 CMake Warning at /Applications/CLion.app/Contents/bin/cmake/share/cmake-3.6/Modules/FindBoost.cmake:743 (message):
   Imported targets not available for Boost version 106300
 Call Stack (most recent call first):
@@ -24,4 +24,4 @@ Call Stack (most recent call first):
 -- Boost_VERSION: 106300
 -- Configuring done
 -- Generating done
--- Build files have been written to: /Users/fuadshah/Desktop/CODE9/MVCCART/cmake-build-debug
+-- Build files have been written to: /Users/fuadshah/Desktop/MVCCART/cmake-build-debug

@@ -119,21 +119,24 @@ typedef struct {
 
 
 
+
 template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP {
 
     public:  std::shared_ptr<art_tree> t;
+    //public:  art_tree t;
     public: char buf[512];
     public: int res;
     public: uint64_t ARTSize;
+
+    typedef std::function<bool( void *)> Pred;
+    typedef std::function<bool( void *)> UpdelFunc;
 
 
     public: ArtCPP()
     {
         t = std::make_shared<art_tree>();
-        t->root = NULL;
-        t->size = 0;
-        //art_tree_init(t);
+        art_tree_init(t);
 
     }
 
@@ -346,7 +349,7 @@ class ArtCPP {
         return NULL;
     }
 
-// Simple inlined if
+    // Simple inlined if
     static inline int min(int a, int b) {
         return (a < b) ? a : b;
     }
@@ -935,12 +938,12 @@ class ArtCPP {
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned.
      */
-    public: void* art_delete( const unsigned char *key, int key_len)
+    public: void* art_delete(const unsigned char *key, int key_len)
     {
-        art_leaf *l = recursive_delete(this->t->root, &t->root, key, key_len, 0);
+        art_leaf *l = recursive_delete(t->root, &t->root, key, key_len, 0);
         if (l)
         {
-            t->size--;
+            this->t->size--;
             void *old = l->value;
             free(l);
             return old;
@@ -957,9 +960,8 @@ class ArtCPP {
      * the value pointer is returned.
      */
 
-
     /// Recursively iterates over the tree
-     static int recursive_iter(art_node *n, art_callback cb, void *data)
+    static int recursive_iter(art_node *n, art_callback cb, void *data)
     {
         // Handle base cases
         if (!n) return 0;
@@ -1021,6 +1023,66 @@ class ArtCPP {
     public: int art_iter(art_callback cb, void *data) {
         return recursive_iter(this->t->root, cb, data);
     }
+
+    /// Recursively iterates over the tree
+    static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate) {
+        // Handle base cases
+        if (!n) return 0;
+        if (IS_LEAF(n))
+        {
+            art_leaf *l = LEAF_RAW(n);
+            //printf("l-val %s",(const unsigned char *)l->value);
+            if (l->value !=NULL) {
+                if (predicate(l->value)) {
+                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                }
+                return NULL;
+            }
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_iterByPredicate(((art_node4*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_iterByPredicate(((art_node16*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    res = recursive_iterByPredicate(((art_node48*)n)->children[idx-1], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++) {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    res = recursive_iterByPredicate(((art_node256*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+            default:
+                abort();
+        }
+        return 0;
+    }
+
+    int art_iterByPredicate(art_callback cb, void *data, Pred filter) {
+        return recursive_iterByPredicate(this->t->root, cb, data,filter);
+    }
+
 
     /**
      * Checks if a leaf prefix matches

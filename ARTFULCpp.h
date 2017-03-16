@@ -33,9 +33,7 @@ using namespace pfabric;
 typedef char DefaultKeyType[20];
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
 
-typedef bool(*PredicatePtr)(const pfabric::TuplePtr<void> );
-typedef bool(*UpdateFuncPtr)(const pfabric::TuplePtr<void>  );
-typedef bool(*DeleteFuncPtr)(const pfabric::TuplePtr<void> );
+
 
 typedef struct {
     int count;
@@ -78,50 +76,26 @@ template <typename RecordType, typename KeyType = char[25]>
 class ARTFULCpp : public pfabric::BaseTable
 {
 
+
+
         public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
         //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
 
-
-        typedef std::function<bool(const RecordType*)> Predicate;
+        typedef std::function<bool( void*)> Pred;
         typedef std::function<bool(RecordType&)> UpdelFunc;
 
-        /**
-        * iter_callback
-        */
-        public: static int iter_callback(void *data, const unsigned char* key, uint32_t key_len, void *val)
-        {
-
-                RecordType* ptr = (RecordType *)val;
-                /*
-                  uint64_t *out = (uint64_t*)data;
-                  uintptr_t line = (uintptr_t)val;
-                  uint64_t mask = (line * (key[0] + key_len));
-                  out[0]++;
-                  out[1] ^= mask;
-                */
-
-                if(ptr != NULL)
-                {
-                    std::cout<<"found K/V ="<<key<<"/"<<*ptr<<"\n";
-                }
-                return 0;
-            }
-
-        public: static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
-        {
-                RecordType* ptr = (RecordType *)val;
-                if(ptr != NULL)
-                {
-
-                   std::cout<<"found K/V ="<<key<<val<<"\n";
-                }
-                return 0;
-        }
+        typedef std::function<bool(RecordType&)> UpPred;
 
 
-        /**
-         * Constructor for creating an empty table with a given schema.
-         */
+
+    public: uint64_t getARTSize()
+    {
+        return ARTIndexTable->art_size();
+    }
+
+    /**
+     * Constructor for creating an empty table with a given schema.
+     */
         public:ARTFULCpp()
         {
             ARTIndexTable = new ArtCPP<RecordType, KeyType>();
@@ -144,7 +118,7 @@ class ARTFULCpp : public pfabric::BaseTable
         * @param key the key value of the tuple
         * @param rec the actual tuple
         */
-        public:void insertOrUpdateByKey(KeyType key, const RecordType* rec)
+        public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
         {
             int len = strlen(key);
             key[len] = '\0';
@@ -154,6 +128,9 @@ class ARTFULCpp : public pfabric::BaseTable
             //auto tptrr = *rec->getAttribute<1>();
             //std::cout<<tptrr;
             //void * data = (void*)&rec;
+            //void* dt = static_cast<void*>(rec);
+            //void* b = reinterpret_cast<void*>(rec);
+
             ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
             std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
         }
@@ -172,9 +149,9 @@ class ARTFULCpp : public pfabric::BaseTable
             int len;
             uintptr_t line = 1;
             len = strlen(key);
-            key[len-1] = '\0';
+            key[len] = '\0';
 
-            // Search first, ensure the entries still exit optional
+            //Search first, ensure the entries still exit optional
             //RecordType  val = (RecordType)art_search(&t, (unsigned char*)key, len);
             //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
@@ -235,8 +212,18 @@ class ARTFULCpp : public pfabric::BaseTable
         }
 
 
+        /**
+         * Iterate over tree by Predicate
+         */
+        public:void iterateByPredicate(art_callback iter_callbackByPredicate, Pred predicate)
+        {
+            uint64_t out[] = {0, 0};
+            ARTIndexTable->art_iterByPredicate(iter_callbackByPredicate, &out,predicate);
+        }
 
-            /**
+
+
+    /**
         * @brief Update all tuples satisfying the given predicate.
         *
         * Update all tuples in the table which satisfy the given predicate.
@@ -247,37 +234,10 @@ class ARTFULCpp : public pfabric::BaseTable
         *        tuple
         * @return the number of modified tuples
         */
-        unsigned long UpdateKeyWhere(PredicatePtr pfunc, UpdateFuncPtr ufunc) {
+        unsigned long UpdateKeyWhere(UpPred pfunc, UpdelFunc ufunc) {
 
 
 
-            // make sure we have exclusive access
-            // note that we don't use a guard here!
-            /*std::unique_lock<std::mutex> lock(mMtx);
-
-            auto res = mDataTable.find(key);
-            if (res != mDataTable.end()) {
-                TableParams::ModificationMode mode = TableParams::Update;
-                unsigned long num = 1;
-
-                // perform the update
-                auto upd = ufunc(res->second);
-
-                // check whether we have to perform an update ...
-                if (!upd) {
-                    // or a delete
-                    num = mDataTable.erase(key);
-                    mode = TableParams::Delete;
-                }
-                lock.unlock();
-                // notify the observers
-                notifyObservers(res->second, mode, TableParams::Immediate);
-                return num;
-            }
-            else {
-                // don't forget to release the lock
-                lock.unlock();
-            }*/
             return 0;
         }
 
@@ -292,21 +252,8 @@ class ARTFULCpp : public pfabric::BaseTable
          *        tuple
          * @return the number of modified tuples
          */
-        unsigned long DeleteKeyWhere(KeyType key, DeleteFuncPtr ufunc) {
-            // make sure we have exclusive access
-           /* std::unique_lock<std::mutex> lock(mMtx);
+        unsigned long DeleteKeyWhere(KeyType key, UpdelFunc ufunc) {
 
-            auto res = mDataTable.find(key);
-            if (res != mDataTable.end()) {
-                ufunc(res->second);
-
-                lock.unlock();
-                notifyObservers(res->second, TableParams::Update, TableParams::Immediate);
-                return 1;
-            }
-            else {
-                lock.unlock();
-            }*/
             return 0;
         }
         ARTFULCpp(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
