@@ -5,7 +5,8 @@
 #include <string.h>
 #include <check.h>
 #include "ARTFULCpp.h"
-#include "table/Table.hpp"
+//#include "table/Table.hpp"
+#include <boost/thread.hpp>
 #include "core/Tuple.hpp"
 #include <boost/tuple/tuple.hpp>
 
@@ -21,6 +22,8 @@ typedef TuplePtr<MyTuple> InTuplePointer;
 typedef MyTuple TuplesToStore[50];
 char ValuesToStore[10][50];
 std::vector<MyTuple> Bucket;
+std::vector<InTuplePointer> BucketOfPointers;
+
 
 static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
@@ -30,8 +33,8 @@ static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint3
     if(val != NULL)
     {
         //auto tptr = ptr->getAttribute<2>();
-                int x = (uintptr_t)val;
-        std::cout<<"###found K/V ="<<key<<"\n"<<Bucket[x]<<"\n";
+        int x = (uintptr_t)val;
+        std::cout<<"###found K/V ="<<key<<"\n"<<BucketOfPointers[x]<<"\n";
         //std::cout<<"###found K/V ="<<key<<"\n"<<tptr<<"\n";
     }
     return 0;
@@ -54,7 +57,7 @@ template <typename RecordType, typename KeyType = DefaultKeyType>
 void InsertAndIterateByTuples(ARTFULCpp<RecordType, KeyType> testTable);
 
 template <typename RecordType, typename KeyType>
-void IterateByKeyValues(ARTFULCpp<RecordType, KeyType> myADTTable);
+void IterateByKeyValues(ARTFULCpp<RecordType, KeyType>& myADTTable);
 
 template <typename RecordType, typename KeyType>
 void IterateKeyValuesByPredicate(ARTFULCpp<RecordType, KeyType> myADTTable);
@@ -65,6 +68,14 @@ void DeleteByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable);
 template <typename RecordType, typename KeyType>
 void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable);
 
+void readerApi();
+
+const int writerthreadcount = 0;
+const int readerthreadcount = 0;
+
+std::vector<boost::thread*> writerthread;
+std::vector<boost::thread*> readerthread;
+
 
 int main()
 {
@@ -72,12 +83,15 @@ int main()
 
 
     ///  Create template for ARTTable. simple template Type
-    /// of Index Page Char[50] RecordType Char[20] KeyType
-    //auto ARTable =  new ARTFULCpp<char[50], char[20]>();
-    auto ARTable =  new ARTFULCpp<uintptr_t, char[20]>();
+    /// of Index Page Char[50] RecordType Char[20] KeyTyp
+    auto ARTable =  new ARTFULCpp<char[50], char[20]>();
+    //auto ARTable =  new ARTFULCpp<uintptr_t, char[20]>();
 
+    //ARTFULCpp<char[50], char[20]> ARTable =   ARTFULCpp<char[50], char[20]>();
     /// Insert or Update Tuple from file
-    //InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
+   InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
+
+
 
     /// Iterate all Tuples and get callback
     /// for every tuple found against keys in ART Index Page
@@ -95,15 +109,22 @@ int main()
     //SearchByKeyValue<char[50] ,char[20]>(*ARTable);
 
 
-    InsertAndIterateByTuples<uintptr_t,char[20]>(*ARTable);
+    //InsertAndIterateByTuples<uintptr_t,char[20]>(*ARTable);
     ARTable->DestroyAdaptiveRadixTreeTable();
+    //usleep(2000);
     std::cout<<"Completed Successfully!!";
     return 0;
 }
 
 
-
-
+void readerApi()
+{
+    for (int i=0; i < 10; i++) {
+        usleep(400);
+        std::cout << "readerApi: " << i
+                  << std::endl;
+    }
+}
 
 template <typename RecordType, typename KeyType>
 void InsertOrUpdateFromFile(ARTFULCpp<RecordType, KeyType> myADTTable)
@@ -134,8 +155,9 @@ void InsertOrUpdateFromFile(ARTFULCpp<RecordType, KeyType> myADTTable)
         bufVal[len] = '\0';
         char *temp = bufVal;
         strcpy(ValuesToStore[index], bufVal);
-        cout << "inserting key= " << buf << "  - value = " << ValuesToStore[index] << endl;
+        cout << "\ninserting key= " <<buf<<"  - value = "<<ValuesToStore[index]<<endl;
         myADTTable.insertOrUpdateByKey(buf, ValuesToStore[index]);
+
         //cout<<index<<" tuple added::::::"<<ValuesToStore[index]<<"\n";
         //strcpy(ValuesToStore[index], bufVal);
         index++;
@@ -145,7 +167,7 @@ void InsertOrUpdateFromFile(ARTFULCpp<RecordType, KeyType> myADTTable)
 }
 
 template <typename RecordType, typename KeyType>
-void IterateByKeyValues(ARTFULCpp<RecordType, KeyType> myADTTable)
+void IterateByKeyValues(ARTFULCpp<RecordType, KeyType>& myADTTable)
 {
     myADTTable.iterate(cb);
 
@@ -178,23 +200,24 @@ void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable)
 
 
     FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    std::cout << "Searching the Keys now..." << std::endl;
+    //std::cout << "Searching the Keys now..." << std::endl;
     int line = 0;
     while (fgets(buf, sizeof buf, f2))
     {
         len = strlen(buf);
         buf[len] = '\0';
-        std::cout << "Key To Find ::::" << buf << std::endl;
+        //std::cout << "\nKey To Find ::::" << buf << std::endl;
 
         RecordType * gotval = myADTTable.findValueByKey(buf);
         if(gotval)
-        std::cout<<"FoundValue= "<<*gotval<<"\n";
+        std::cout<<"\nkey ="<<buf<<" foundvalue "<<(char*)gotval<<"\n";
         line++;
+        usleep(10);
+
         if (line == 10)
             break;
     }
 
-    std::cout<<"Exited normaly";
 }
 
 template <typename RecordType, typename KeyType>
@@ -225,7 +248,6 @@ void DeleteByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable)
 
 }
 
-
 template <typename RecordType, typename KeyType>
 void InsertAndIterateByTuples(ARTFULCpp<RecordType, KeyType> testTable)
 {
@@ -249,9 +271,11 @@ void InsertAndIterateByTuples(ARTFULCpp<RecordType, KeyType> testTable)
         bufVal[len2]='\0';
         buf[len] = '\0';
         strcpy(ValuesToStore[index], bufVal);
-        Bucket.push_back(MyTuple((unsigned long) i, i + 100, ValuesToStore[index], i / 100.0));
-        cout<<" typed key / val = "<<buf<<"/"<<Bucket.at(index)<<endl;
+        //Bucket.push_back(MyTuple((unsigned long) i, i + 100, ValuesToStore[index], i / 100.0));
+        auto tup = makeTuplePtr((unsigned long) i, i + 100,ValuesToStore[index] , i / 100.0);
+        BucketOfPointers.push_back(tup);
 
+        cout<<" typed key / val = "<<buf<<"/"<<BucketOfPointers.at(index)<<endl;
 
         //InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, bufVal, i / 10f0.0));
         testTable.insertOrUpdateByKey(buf,index);

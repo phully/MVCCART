@@ -1,7 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/mvccart.dir/main.cpp.o"
-  "CMakeFiles/mvccart.dir/table/TableInfo.cpp.o"
-  "CMakeFiles/mvccart.dir/ArtCPP.cpp.o"
   "mvccart.pdb"
   "mvccart"
 )

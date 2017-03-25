@@ -51,7 +51,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /Users/fuadshah/Desktop/MVCCART
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /Users/fuadshah/Desktop/MVCCART/cmake-build-debug
+CMAKE_BINARY_DIR = /Users/fuadshah/Desktop/MVCCART
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/cmake-build-debug/CMakeFiles /Users/fuadshah/Desktop/MVCCART/cmake-build-debug/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/CMakeFiles /Users/fuadshah/Desktop/MVCCART/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/cmake-build-debug/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -123,33 +123,6 @@ mvccart/fast:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
 .PHONY : mvccart/fast
 
-ArtCPP.o: ArtCPP.cpp.o
-
-.PHONY : ArtCPP.o
-
-# target to build an object file
-ArtCPP.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.o
-.PHONY : ArtCPP.cpp.o
-
-ArtCPP.i: ArtCPP.cpp.i
-
-.PHONY : ArtCPP.i
-
-# target to preprocess a source file
-ArtCPP.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.i
-.PHONY : ArtCPP.cpp.i
-
-ArtCPP.s: ArtCPP.cpp.s
-
-.PHONY : ArtCPP.s
-
-# target to generate assembly for a file
-ArtCPP.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ArtCPP.cpp.s
-.PHONY : ArtCPP.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -177,33 +150,6 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-table/TableInfo.o: table/TableInfo.cpp.o
-
-.PHONY : table/TableInfo.o
-
-# target to build an object file
-table/TableInfo.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/table/TableInfo.cpp.o
-.PHONY : table/TableInfo.cpp.o
-
-table/TableInfo.i: table/TableInfo.cpp.i
-
-.PHONY : table/TableInfo.i
-
-# target to preprocess a source file
-table/TableInfo.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/table/TableInfo.cpp.i
-.PHONY : table/TableInfo.cpp.i
-
-table/TableInfo.s: table/TableInfo.cpp.s
-
-.PHONY : table/TableInfo.s
-
-# target to generate assembly for a file
-table/TableInfo.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/table/TableInfo.cpp.s
-.PHONY : table/TableInfo.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -213,15 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
-	@echo "... ArtCPP.o"
-	@echo "... ArtCPP.i"
-	@echo "... ArtCPP.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... table/TableInfo.o"
-	@echo "... table/TableInfo.i"
-	@echo "... table/TableInfo.s"
 .PHONY : help
 
 

@@ -12,34 +12,53 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/1" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Progress/count.txt" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/C.includecache" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/main.cpp.o-5781844e" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/ArtCPP.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/ArtCPP.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/Table/TableInfo.cpp.o" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/Table/TableInfo.cpp.o" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/mvccart" afterPath="$PROJECT_DIR$/cmake-build-debug/mvccart" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ArtCPP.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/ArtCPP.h" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CMakeCCompiler.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CMakeCXXCompiler.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CMakeDetermineCompilerABI_C.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CMakeDetermineCompilerABI_CXX.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CMakeSystem.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CompilerIdC/CMakeCCompilerId.c" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CompilerIdC/a.out" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CompilerIdCXX/CMakeCXXCompilerId.cpp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.6.3/CompilerIdCXX/a.out" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/cmake.check_cache" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.bin" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.c" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/feature_tests.cxx" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/ArtCPP.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/CXX.includecache" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/DependInfo.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/Table/TableInfo.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/build.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/cmake_clean.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/depend.internal" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/depend.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/flags.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/link.txt" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/main.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/progress.make" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/progress.marks" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/mvccart" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/cmake-build-debug/mvccart.cbp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ARTFULCpp.h" afterPath="$PROJECT_DIR$/ARTFULCpp.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ArtCPP.h" afterPath="$PROJECT_DIR$/ArtCPP.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeDirectoryInformation.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeOutput.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/CXX.includecache" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/CXX.includecache" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/DependInfo.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/build.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/build.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/depend.internal" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/depend.internal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/flags.make" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/flags.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/link.txt" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/mvccart.dir/link.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" afterPath="$PROJECT_DIR$/cmake-build-debug/cmake_install.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cmake-build-debug/mvccart.cbp" afterPath="$PROJECT_DIR$/cmake-build-debug/mvccart.cbp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.cpp" afterPath="$PROJECT_DIR$/main.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <ignored path="$PROJECT_DIR$/CMakeFiles/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,33 +70,173 @@
     <option name="PATCH_PATH" value="" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
+  <component name="FavoritesManager">
+    <favorites_list name="mvccart">
+      <favorite_root url="file://$PROJECT_DIR$" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+        <favorite_root url="file://$PROJECT_DIR$/core" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/core/parser" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/StringRef.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/TupleParser.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/AttributeParserBase.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/SelectAttributeParser.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/StringAttributeParser.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/core/parser/StringRefAttributeParser.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/core/Tuple.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/serialize.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/Punctuation.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/Punctuation.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/PFabricTypes.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/TuplePrinter.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/TimestampHelper.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/TimestampHelper.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/TuplePtrFactory.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/TupleFactoryTraits.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/ElementSerializable.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/core/StreamElementTraits.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/.idea" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/.idea/.name" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/vcs.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/misc.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/modules.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/MVCCART.iml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/.idea/workspace.xml" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/table" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/table/Table.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/BaseTable.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/TableInfo.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/TableInfo.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/HashMapTable.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/TableException.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/table/HashMapTableTest.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/libcpp" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/Append.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/Flatten.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/IndexOf.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/Appender.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/ToSequence.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/GetDuplicates.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/HasDuplicates.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/SequenceJoiner.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/GenerateIndexes.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/RemoveDuplicates.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences/InsertAssertUnique.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/algorithms" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/algorithms/StaticForEach.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/algorithms/ConstexprFunction.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/Tuple.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/Relation.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/JoinTuples.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/CrossProduct.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/MakeRelation.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational/JoinTupleWithRelation.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/Forward.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/sequences.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/algorithms.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/mpl/relational.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/types" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/Function.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/SharedPtr.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/TupleType.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/UniquePtr.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/IntrusivePtr.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/SubstringRef.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/SharedInstance.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/detail/UniqueInstance.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/types/traits" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/traits/PointerTraits.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/traits/FunctionTraits.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/types/traits/GetPointedElementType.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/types/types.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/Timer.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/exceptions" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/exceptions/ErrorInfo.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/exceptions/ExceptionBase.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+              <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/exceptions/NullPointerException.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            </favorite_root>
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/PrintCSV.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/utilities.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/exceptions.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/GetTypeName.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/TypePrinter.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/BindVariadic.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/DynamicPointerMove.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/EnvironmentVariable.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/utilities/ConvertTimeDurationToDouble.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/algorithms" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/algorithms/splitStringRef.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/algorithms/materializeStringRefs.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/preprocessor" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/preprocessor/MacroEnd.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/preprocessor/MakeString.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/preprocessor/MakeStrings.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+          <favorite_root url="file://$PROJECT_DIR$/libcpp/test_utilities" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/test_utilities/TestDataFixtureBase.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/test_utilities/TestFixtureException.hpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+            <favorite_root url="file://$PROJECT_DIR$/libcpp/test_utilities/test_utilities_config.hpp.in" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          </favorite_root>
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/ArtCPP.h" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        <favorite_root url="file://$PROJECT_DIR$/main.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        <favorite_root url="file://$PROJECT_DIR$/test_data" module="MVCCART" type="directory" klass="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode">
+          <favorite_root url="file://$PROJECT_DIR$/test_data/uuid.txt" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/test_data/words.txt" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/test_data/cep_test.in" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+          <favorite_root url="file://$PROJECT_DIR$/test_data/cep_test.res" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        </favorite_root>
+        <favorite_root url="file://$PROJECT_DIR$/ArtCPP.cpp" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        <favorite_root url="file://$PROJECT_DIR$/ARTFULCpp.h" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+        <favorite_root url="file://$PROJECT_DIR$/CMakeLists.txt" type="psiFile" klass="com.intellij.ide.projectView.impl.nodes.PsiFileNode" />
+      </favorite_root>
+    </favorites_list>
+  </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="main.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="246" column="27" lean-forward="true" selection-start-line="246" selection-start-column="27" selection-end-line="246" selection-end-column="27" />
+            <state relative-caret-position="300">
+              <caret line="91" column="3" lean-forward="true" selection-start-line="91" selection-start-column="3" selection-end-line="91" selection-end-column="3" />
               <folding>
                 <element signature="e#0#19#0" expanded="true" />
-                <element signature="e#1026#1267#0" expanded="false" />
-                <element signature="e#1278#1317#0" expanded="true" />
-                <element signature="e#1400#1456#0" expanded="true" />
-                <element signature="e#1540#1579#0" expanded="true" />
-                <element signature="e#1658#1697#0" expanded="true" />
-                <element signature="e#1785#1824#0" expanded="true" />
-                <element signature="e#1901#1940#0" expanded="true" />
-                <element signature="e#3153#3192#0" expanded="true" />
-                <element signature="e#3144#4497#0" expanded="false" />
-                <element signature="e#4508#4547#0" expanded="true" />
-                <element signature="e#4499#4647#0" expanded="false" />
-                <element signature="e#4658#4697#0" expanded="true" />
-                <element signature="e#4649#5161#0" expanded="false" />
-                <element signature="e#5172#5211#0" expanded="true" />
-                <element signature="e#5163#5895#0" expanded="false" />
-                <element signature="e#5906#5945#0" expanded="true" />
-                <element signature="e#5897#6645#0" expanded="false" />
-                <element signature="e#6657#6696#0" expanded="true" />
+                <element signature="e#171#198#0" expanded="true" />
+                <element signature="e#642#1103#0" expanded="false" />
+                <element signature="e#1105#1346#0" expanded="false" />
+                <element signature="e#1357#1396#0" expanded="true" />
+                <element signature="e#1479#1535#0" expanded="true" />
+                <element signature="e#1619#1658#0" expanded="true" />
+                <element signature="e#1738#1777#0" expanded="true" />
+                <element signature="e#1865#1904#0" expanded="true" />
+                <element signature="e#1981#2020#0" expanded="true" />
+                <element signature="e#3493#3645#0" expanded="false" />
+                <element signature="e#3656#3695#0" expanded="true" />
+                <element signature="e#5007#5046#0" expanded="true" />
+                <element signature="e#5158#5197#0" expanded="true" />
+                <element signature="e#5149#5661#0" expanded="false" />
+                <element signature="e#5672#5711#0" expanded="true" />
+                <element signature="e#5663#6411#0" expanded="false" />
+                <element signature="e#6422#6461#0" expanded="true" />
+                <element signature="e#6413#7161#0" expanded="false" />
+                <element signature="e#7172#7211#0" expanded="true" />
+                <element signature="e#7163#8496#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -86,96 +245,20 @@
       <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="19" lean-forward="false" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
+            <state relative-caret-position="360">
+              <caret line="24" column="48" lean-forward="false" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Table.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/table/Table.hpp">
+      <file leaf-file-name="Function.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/libcpp/types/detail/Function.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
+            <state relative-caret-position="525">
+              <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
               <folding>
-                <element signature="e#890#909#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArtCPP.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ArtCPP.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="250" column="24" lean-forward="false" selection-start-line="250" selection-start-column="24" selection-end-line="250" selection-end-column="24" />
-              <folding>
-                <element signature="e#100#119#0" expanded="true" />
-                <element signature="e#517#539#0" expanded="true" />
-                <element signature="e#1193#1316#0" expanded="false" />
-                <element signature="e#1379#1459#0" expanded="false" />
-                <element signature="e#1513#1595#0" expanded="false" />
-                <element signature="e#1681#1764#0" expanded="false" />
-                <element signature="e#1825#1880#0" expanded="false" />
-                <element signature="e#1990#2061#0" expanded="false" />
-                <element signature="e#2120#2169#0" expanded="false" />
-                <element signature="e#2193#2249#0" expanded="true" />
-                <element signature="e#2622#2662#0" expanded="false" />
-                <element signature="e#2726#2826#0" expanded="false" />
-                <element signature="e#2726#3463#0" expanded="false" />
-                <element signature="e#3469#3540#0" expanded="false" />
-                <element signature="e#3554#3671#0" expanded="false" />
-                <element signature="e#5141#5209#0" expanded="false" />
-                <element signature="e#5334#5386#0" expanded="false" />
-                <element signature="e#5424#5456#0" expanded="true" />
-                <element signature="e#5558#8468#0" expanded="false" />
-                <element signature="e#6459#6823#0" expanded="true" />
-                <element signature="e#7295#7632#0" expanded="true" />
-                <element signature="e#8474#8574#0" expanded="false" />
-                <element signature="e#8580#8678#0" expanded="false" />
-                <element signature="e#8692#9043#0" expanded="false" />
-                <element signature="e#9049#9121#0" expanded="false" />
-                <element signature="e#9135#9456#0" expanded="false" />
-                <element signature="e#9462#9701#0" expanded="false" />
-                <element signature="e#9714#10831#0" expanded="false" />
-                <element signature="e#12725#12775#0" expanded="false" />
-                <element signature="e#12880#12930#0" expanded="false" />
-                <element signature="e#18953#19023#0" expanded="false" />
-                <element signature="e#23225#23506#0" expanded="false" />
-                <element signature="e#23518#23773#0" expanded="false" />
-                <element signature="e#27784#29087#0" expanded="false" />
-                <element signature="e#29093#29329#0" expanded="false" />
-                <element signature="e#29342#29649#0" expanded="false" />
-                <element signature="e#29655#29904#0" expanded="false" />
-                <element signature="e#31524#31976#0" expanded="false" />
-                <element signature="e#32100#34029#0" expanded="false" />
-                <element signature="e#34035#34182#0" expanded="false" />
-                <element signature="e#34189#34268#0" expanded="false" />
-                <element signature="e#34565#35139#0" expanded="false" />
-                <marker date="1489612235000" expanded="false" signature="3761:5135" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="10923:11757" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="11849:12719" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="12823:12874" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="12978:13029" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="13114:13350" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="13428:13673" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="13734:13919" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="14012:14110" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="14201:14878" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="14969:17228" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="17317:18402" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="18489:18947" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="19124:19810" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="19948:23219" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="23856:24557" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="24638:25307" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="25385:25981" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="26057:27245" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="27336:27778" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="30025:31518" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="34368:34559" ph="{...}" />
-                <marker date="1489612235000" expanded="false" signature="35253:37093" ph="{...}" />
+                <element signature="e#494#542#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -184,32 +267,82 @@
       <file leaf-file-name="ARTFULCpp.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+            <state relative-caret-position="-1755">
+              <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="1215" column="28" lean-forward="true" selection-start-line="1215" selection-start-column="28" selection-end-line="1215" selection-end-column="28" />
               <folding>
-                <element signature="e#1074#1093#0" expanded="true" />
-                <element signature="e#1302#1327#0" expanded="true" />
-                <element signature="e#1778#2181#0" expanded="false" />
-                <element signature="e#2263#2516#0" expanded="false" />
-                <element signature="e#2529#2579#0" expanded="true" />
-                <element signature="e#3131#3225#0" expanded="false" />
-                <element signature="e#4831#5434#0" expanded="false" />
-                <element signature="e#6890#7023#0" expanded="false" />
-                <element signature="e#7107#7332#0" expanded="false" />
-                <element signature="e#6890#7023#0" expanded="false" />
-                <element signature="e#7107#7332#0" expanded="false" />
-                <element signature="e#7340#7951#0" expanded="false" />
-                <element signature="e#7961#8543#0" expanded="false" />
+                <element signature="e#104#123#0" expanded="true" />
+                <element signature="e#1344#2046#0" expanded="false" />
+                <element signature="e#2109#2189#0" expanded="false" />
+                <element signature="e#2243#2325#0" expanded="false" />
+                <element signature="e#2411#2494#0" expanded="false" />
+                <element signature="e#2555#2610#0" expanded="false" />
+                <element signature="e#2720#2794#0" expanded="false" />
+                <element signature="e#2853#2902#0" expanded="false" />
+                <element signature="e#3009#3106#0" expanded="false" />
+                <element signature="e#3661#3720#0" expanded="false" />
+                <element signature="e#5083#5139#0" expanded="false" />
+                <element signature="e#8016#8102#0" expanded="false" />
+                <element signature="e#8424#8484#0" expanded="false" />
+                <element signature="e#8784#8995#0" expanded="false" />
+                <element signature="e#22866#23074#0" expanded="false" />
+                <element signature="e#23364#23585#0" expanded="false" />
+                <element signature="e#25058#25474#0" expanded="false" />
+                <element signature="e#27496#27563#0" expanded="false" />
+                <element signature="e#27832#28362#0" expanded="false" />
+                <element signature="e#33639#33888#0" expanded="false" />
+                <marker date="1490451370000" expanded="false" signature="5297:7924" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="8196:8422" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="8578:8782" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="9080:9925" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="10009:10755" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="10839:11621" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="11701:11744" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="11948:12156" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="12230:12443" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="12500:12669" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="12758:12840" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="12927:13528" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="13615:15722" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="15807:16788" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="16871:17277" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="17438:18052" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="18131:18756" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="18833:19422" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="19496:20040" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="20112:21192" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="21279:21669" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="21812:22864" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="23159:23362" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="23687:25056" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="25545:25595" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="25730:27330" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="27426:27493" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="27659:27830" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="28464:30124" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="30251:33637" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="33986:34189" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="34753:34828" ph="{...}" />
+                <marker date="1490451370000" expanded="false" signature="34893:34929" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Tuple.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/Tuple.hpp">
+      <file leaf-file-name="BaseTable.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/table/BaseTable.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -219,7 +352,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>art_leafart_leaf</find>
       <find>art_leaf</find>
       <find>recursive_IterByPredicate</find>
       <find>recursive_Iter</find>
@@ -249,6 +381,7 @@
       <find>typedef bool(*PredicatePtr)(const RecordType *);</find>
       <find>myADTTable</find>
       <find>art_iter</find>
+      <find>error</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -270,9 +403,7 @@
         <option value="$PROJECT_DIR$/Arful.h" />
         <option value="$PROJECT_DIR$/libcpp/types/detail/TupleType.hpp" />
         <option value="$PROJECT_DIR$/libcpp/types/types.hpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/core/parser/StringAttributeParser.hpp" />
-        <option value="$PROJECT_DIR$/test_data/words.txt" />
         <option value="$PROJECT_DIR$/core/PFabricTypes.hpp" />
         <option value="$PROJECT_DIR$/table/HashMapTable.hpp" />
         <option value="$PROJECT_DIR$/table/HashMapTableTest.cpp" />
@@ -281,17 +412,19 @@
         <option value="$PROJECT_DIR$/art.h" />
         <option value="$PROJECT_DIR$/AdaptiveRadixTreeTable.h" />
         <option value="$PROJECT_DIR$/table/Table.hpp" />
-        <option value="$PROJECT_DIR$/ArtCPP.h" />
-        <option value="$PROJECT_DIR$/ARTFULCpp.h" />
+        <option value="$PROJECT_DIR$/test_data/words.txt" />
         <option value="$PROJECT_DIR$/main.cpp" />
+        <option value="$PROJECT_DIR$/ArtCPP.h" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/ARTFULCpp.h" />
+        <option value="$PROJECT_DIR$/ArtCPP.hpp" />
       </list>
     </option>
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds">
-    <option name="x" value="-1360" />
-    <option name="width" value="1360" />
-    <option name="height" value="768" />
+    <option name="width" value="1440" />
+    <option name="height" value="900" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -354,7 +487,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="FullScreen" value="true" />
+    <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -553,28 +686,45 @@
       <workItem from="1489455500893" duration="602000" />
       <workItem from="1489457291376" duration="127000" />
       <workItem from="1489499995406" duration="3212000" />
-      <workItem from="1489584474128" duration="29500000" />
+      <workItem from="1489584474128" duration="29926000" />
+      <workItem from="1489965780044" duration="16054000" />
+      <workItem from="1490146971656" duration="23018000" />
+      <workItem from="1420070678666" duration="1139000" />
+      <workItem from="1490354899608" duration="4552000" />
+      <workItem from="1420070708045" duration="14989000" />
+      <workItem from="1490433703923" duration="3538000" />
+      <workItem from="1490440556782" duration="4773000" />
+      <workItem from="1490447173310" duration="3248000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="296296000" />
+    <option name="totallyTimeSpent" value="368033000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1360" y="0" width="1360" height="768" extended-state="0" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1807319" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15785764" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30229226" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32444444" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29638556" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31445783" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2320917" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3927711" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32740742" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39407408" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39385474" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -587,23 +737,23 @@
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31424582" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29748604" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.325419" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31424582" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22765364" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17054264" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39518073" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32740742" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17054264" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32771084" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32664755" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39566395" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39385474" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -618,78 +768,17 @@
           <option name="timeStamp" value="104" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="133" />
+      <option name="time" value="152" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/table/HashMapTable.hpp" />
-    <entry file="file://$PROJECT_DIR$/table/BaseTable.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="36" column="10" lean-forward="false" selection-start-line="36" selection-start-column="10" selection-end-line="36" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AdaptiveRadixTreeTable.h" />
-    <entry file="file://$PROJECT_DIR$/art.c" />
-    <entry file="file://$PROJECT_DIR$/test_data/uuid.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/art.h" />
-    <entry file="file://$PROJECT_DIR$/main.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#1026#1267#0" expanded="false" />
-            <element signature="e#1278#1317#0" expanded="true" />
-            <element signature="e#1400#1456#0" expanded="true" />
-            <element signature="e#1540#1579#0" expanded="true" />
-            <element signature="e#1658#1697#0" expanded="true" />
-            <element signature="e#1785#1824#0" expanded="true" />
-            <element signature="e#1901#1940#0" expanded="true" />
-            <element signature="e#3153#3192#0" expanded="true" />
-            <element signature="e#3144#4497#0" expanded="false" />
-            <element signature="e#4508#4547#0" expanded="true" />
-            <element signature="e#4499#4647#0" expanded="false" />
-            <element signature="e#4658#4697#0" expanded="true" />
-            <element signature="e#4649#5161#0" expanded="false" />
-            <element signature="e#5172#5211#0" expanded="true" />
-            <element signature="e#5163#5895#0" expanded="false" />
-            <element signature="e#5906#5945#0" expanded="true" />
-            <element signature="e#5897#6645#0" expanded="false" />
-            <element signature="e#6657#6696#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AdaptiveRadixTreeTable.h" />
     <entry file="file://$PROJECT_DIR$/table/HashMapTable.h" />
     <entry file="file://$PROJECT_DIR$/table/BaseTable.h" />
     <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="975" column="9" lean-forward="false" selection-start-line="975" selection-start-column="9" selection-end-line="975" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_data/cep_test.res">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_data/cep_test.in">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -797,20 +886,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/table/BaseTable.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="72" column="25" lean-forward="false" selection-start-line="72" selection-start-column="25" selection-end-line="72" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArtCPP.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="19" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/table/HashMapTableTest.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -825,159 +900,10 @@
     <entry file="file://$PROJECT_DIR$/art.h" />
     <entry file="file://$PROJECT_DIR$/art.c" />
     <entry file="file://$PROJECT_DIR$/AdaptiveRadixTreeTable.h" />
-    <entry file="file://$PROJECT_DIR$/table/Table.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="0" lean-forward="false" selection-start-line="41" selection-start-column="0" selection-end-line="41" selection-end-column="0" />
-          <folding>
-            <element signature="e#890#909#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="19" lean-forward="false" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="19" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_data/words.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="6" column="2" lean-forward="false" selection-start-line="6" selection-start-column="2" selection-end-line="6" selection-end-column="2" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_data/uuid.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/table/HashMapTable.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="661">
-          <caret line="131" column="0" lean-forward="false" selection-start-line="127" selection-start-column="2" selection-end-line="131" selection-end-column="0" />
-          <folding>
-            <element signature="e#5657#6475#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ArtCPP.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="250" column="24" lean-forward="false" selection-start-line="250" selection-start-column="24" selection-end-line="250" selection-end-column="24" />
-          <folding>
-            <element signature="e#100#119#0" expanded="true" />
-            <element signature="e#517#539#0" expanded="true" />
-            <element signature="e#1193#1316#0" expanded="false" />
-            <element signature="e#1379#1459#0" expanded="false" />
-            <element signature="e#1513#1595#0" expanded="false" />
-            <element signature="e#1681#1764#0" expanded="false" />
-            <element signature="e#1825#1880#0" expanded="false" />
-            <element signature="e#1990#2061#0" expanded="false" />
-            <element signature="e#2120#2169#0" expanded="false" />
-            <element signature="e#2193#2249#0" expanded="true" />
-            <element signature="e#2622#2662#0" expanded="false" />
-            <element signature="e#2726#2826#0" expanded="false" />
-            <element signature="e#2726#3463#0" expanded="false" />
-            <element signature="e#3469#3540#0" expanded="false" />
-            <element signature="e#3554#3671#0" expanded="false" />
-            <element signature="e#5141#5209#0" expanded="false" />
-            <element signature="e#5334#5386#0" expanded="false" />
-            <element signature="e#5424#5456#0" expanded="true" />
-            <element signature="e#5558#8468#0" expanded="false" />
-            <element signature="e#6459#6823#0" expanded="true" />
-            <element signature="e#7295#7632#0" expanded="true" />
-            <element signature="e#8474#8574#0" expanded="false" />
-            <element signature="e#8580#8678#0" expanded="false" />
-            <element signature="e#8692#9043#0" expanded="false" />
-            <element signature="e#9049#9121#0" expanded="false" />
-            <element signature="e#9135#9456#0" expanded="false" />
-            <element signature="e#9462#9701#0" expanded="false" />
-            <element signature="e#9714#10831#0" expanded="false" />
-            <element signature="e#12725#12775#0" expanded="false" />
-            <element signature="e#12880#12930#0" expanded="false" />
-            <element signature="e#18953#19023#0" expanded="false" />
-            <element signature="e#23225#23506#0" expanded="false" />
-            <element signature="e#23518#23773#0" expanded="false" />
-            <element signature="e#27784#29087#0" expanded="false" />
-            <element signature="e#29093#29329#0" expanded="false" />
-            <element signature="e#29342#29649#0" expanded="false" />
-            <element signature="e#29655#29904#0" expanded="false" />
-            <element signature="e#31524#31976#0" expanded="false" />
-            <element signature="e#32100#34029#0" expanded="false" />
-            <element signature="e#34035#34182#0" expanded="false" />
-            <element signature="e#34189#34268#0" expanded="false" />
-            <element signature="e#34565#35139#0" expanded="false" />
-            <marker date="1489612235000" expanded="false" signature="3761:5135" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="10923:11757" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="11849:12719" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="12823:12874" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="12978:13029" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="13114:13350" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="13428:13673" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="13734:13919" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="14012:14110" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="14201:14878" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="14969:17228" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="17317:18402" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="18489:18947" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="19124:19810" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="19948:23219" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="23856:24557" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="24638:25307" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="25385:25981" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="26057:27245" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="27336:27778" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="30025:31518" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="34368:34559" ph="{...}" />
-            <marker date="1489612235000" expanded="false" signature="35253:37093" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Developer/CommandLineTools/usr/include/c++/v1/tuple">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="5715">
           <caret line="395" column="0" lean-forward="false" selection-start-line="395" selection-start-column="0" selection-end-line="395" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
-          <folding>
-            <element signature="e#1074#1093#0" expanded="true" />
-            <element signature="e#1302#1327#0" expanded="true" />
-            <element signature="e#1778#2181#0" expanded="false" />
-            <element signature="e#2263#2516#0" expanded="false" />
-            <element signature="e#2529#2579#0" expanded="true" />
-            <element signature="e#3131#3225#0" expanded="false" />
-            <element signature="e#4831#5434#0" expanded="false" />
-            <element signature="e#6890#7023#0" expanded="false" />
-            <element signature="e#7107#7332#0" expanded="false" />
-            <element signature="e#6890#7023#0" expanded="false" />
-            <element signature="e#7107#7332#0" expanded="false" />
-            <element signature="e#7340#7951#0" expanded="false" />
-            <element signature="e#7961#8543#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/Tuple.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -985,34 +911,257 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="211" column="0" lean-forward="false" selection-start-line="211" selection-start-column="0" selection-end-line="211" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data/uuid.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1425">
+          <caret line="0" column="36" lean-forward="false" selection-start-line="0" selection-start-column="8" selection-end-line="0" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data/words.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="2686" column="10" lean-forward="true" selection-start-line="2686" selection-start-column="10" selection-end-line="2686" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data/cep_test.in">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" column="8" lean-forward="true" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data/cep_test.res">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/include/unistd.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="603" column="5" lean-forward="false" selection-start-line="603" selection-start-column="5" selection-end-line="603" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/table/HashMapTable.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1876">
+          <caret line="145" column="35" lean-forward="false" selection-start-line="145" selection-start-column="35" selection-end-line="145" selection-end-column="35" />
+          <folding>
+            <element signature="e#4866#5653#0" expanded="false" />
+            <element signature="e#5657#6475#0" expanded="false" />
+            <element signature="e#6479#7866#0" expanded="false" />
+            <element signature="e#7870#8719#0" expanded="false" />
+            <element signature="e#8723#9688#0" expanded="false" />
+            <element signature="e#9692#10484#0" expanded="false" />
+            <element signature="e#10488#11193#0" expanded="false" />
+            <element signature="e#11197#11715#0" expanded="false" />
+            <element signature="e#11891#12465#0" expanded="false" />
+            <element signature="e#12523#13118#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/boost/function.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="23" column="0" lean-forward="false" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/boost/bind/mem_fn.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2040">
+          <caret line="341" column="0" lean-forward="false" selection-start-line="341" selection-start-column="0" selection-end-line="341" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/boost/bind.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="184">
+          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/table/Table.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding>
+            <element signature="e#890#909#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/boost/bind/bind.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="397" column="0" lean-forward="false" selection-start-line="397" selection-start-column="0" selection-end-line="397" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/Tuple.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="9" lean-forward="false" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+          <folding>
+            <element signature="e#890#917#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArtCPP.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libcpp/types/detail/Function.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
+          <folding>
+            <element signature="e#494#542#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArtCPP.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="1183" column="38" lean-forward="true" selection-start-line="0" selection-start-column="0" selection-end-line="1244" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArtCPP.hpp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/table/BaseTable.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="32" column="0" lean-forward="false" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="48" lean-forward="false" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="246" column="27" lean-forward="true" selection-start-line="246" selection-start-column="27" selection-end-line="246" selection-end-column="27" />
+        <state relative-caret-position="300">
+          <caret line="91" column="3" lean-forward="true" selection-start-line="91" selection-start-column="3" selection-end-line="91" selection-end-column="3" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
-            <element signature="e#1026#1267#0" expanded="false" />
-            <element signature="e#1278#1317#0" expanded="true" />
-            <element signature="e#1400#1456#0" expanded="true" />
-            <element signature="e#1540#1579#0" expanded="true" />
-            <element signature="e#1658#1697#0" expanded="true" />
-            <element signature="e#1785#1824#0" expanded="true" />
-            <element signature="e#1901#1940#0" expanded="true" />
-            <element signature="e#3153#3192#0" expanded="true" />
-            <element signature="e#3144#4497#0" expanded="false" />
-            <element signature="e#4508#4547#0" expanded="true" />
-            <element signature="e#4499#4647#0" expanded="false" />
-            <element signature="e#4658#4697#0" expanded="true" />
-            <element signature="e#4649#5161#0" expanded="false" />
-            <element signature="e#5172#5211#0" expanded="true" />
-            <element signature="e#5163#5895#0" expanded="false" />
-            <element signature="e#5906#5945#0" expanded="true" />
-            <element signature="e#5897#6645#0" expanded="false" />
-            <element signature="e#6657#6696#0" expanded="true" />
+            <element signature="e#171#198#0" expanded="true" />
+            <element signature="e#642#1103#0" expanded="false" />
+            <element signature="e#1105#1346#0" expanded="false" />
+            <element signature="e#1357#1396#0" expanded="true" />
+            <element signature="e#1479#1535#0" expanded="true" />
+            <element signature="e#1619#1658#0" expanded="true" />
+            <element signature="e#1738#1777#0" expanded="true" />
+            <element signature="e#1865#1904#0" expanded="true" />
+            <element signature="e#1981#2020#0" expanded="true" />
+            <element signature="e#3493#3645#0" expanded="false" />
+            <element signature="e#3656#3695#0" expanded="true" />
+            <element signature="e#5007#5046#0" expanded="true" />
+            <element signature="e#5158#5197#0" expanded="true" />
+            <element signature="e#5149#5661#0" expanded="false" />
+            <element signature="e#5672#5711#0" expanded="true" />
+            <element signature="e#5663#6411#0" expanded="false" />
+            <element signature="e#6422#6461#0" expanded="true" />
+            <element signature="e#6413#7161#0" expanded="false" />
+            <element signature="e#7172#7211#0" expanded="true" />
+            <element signature="e#7163#8496#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1755">
+          <caret line="27" column="20" lean-forward="false" selection-start-line="27" selection-start-column="20" selection-end-line="27" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="1215" column="28" lean-forward="true" selection-start-line="1215" selection-start-column="28" selection-end-line="1215" selection-end-column="28" />
+          <folding>
+            <element signature="e#104#123#0" expanded="true" />
+            <element signature="e#1344#2046#0" expanded="false" />
+            <element signature="e#2109#2189#0" expanded="false" />
+            <element signature="e#2243#2325#0" expanded="false" />
+            <element signature="e#2411#2494#0" expanded="false" />
+            <element signature="e#2555#2610#0" expanded="false" />
+            <element signature="e#2720#2794#0" expanded="false" />
+            <element signature="e#2853#2902#0" expanded="false" />
+            <element signature="e#3009#3106#0" expanded="false" />
+            <element signature="e#3661#3720#0" expanded="false" />
+            <element signature="e#5083#5139#0" expanded="false" />
+            <element signature="e#8016#8102#0" expanded="false" />
+            <element signature="e#8424#8484#0" expanded="false" />
+            <element signature="e#8784#8995#0" expanded="false" />
+            <element signature="e#22866#23074#0" expanded="false" />
+            <element signature="e#23364#23585#0" expanded="false" />
+            <element signature="e#25058#25474#0" expanded="false" />
+            <element signature="e#27496#27563#0" expanded="false" />
+            <element signature="e#27832#28362#0" expanded="false" />
+            <element signature="e#33639#33888#0" expanded="false" />
+            <marker date="1490451370000" expanded="false" signature="5297:7924" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="8196:8422" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="8578:8782" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="9080:9925" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="10009:10755" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="10839:11621" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="11701:11744" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="11948:12156" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="12230:12443" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="12500:12669" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="12758:12840" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="12927:13528" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="13615:15722" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="15807:16788" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="16871:17277" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="17438:18052" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="18131:18756" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="18833:19422" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="19496:20040" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="20112:21192" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="21279:21669" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="21812:22864" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="23159:23362" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="23687:25056" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="25545:25595" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="25730:27330" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="27426:27493" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="27659:27830" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="28464:30124" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="30251:33637" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="33986:34189" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="34753:34828" ph="{...}" />
+            <marker date="1490451370000" expanded="false" signature="34893:34929" ph="{...}" />
           </folding>
         </state>
       </provider>

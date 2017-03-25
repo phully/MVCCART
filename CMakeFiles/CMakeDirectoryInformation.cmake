@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/Users/fuadshah/Desktop/MVCCART")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/fuadshah/Desktop/MVCCART/cmake-build-debug")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/Users/fuadshah/Desktop/MVCCART")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)

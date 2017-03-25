@@ -17,15 +17,15 @@
 #include <iostream>
 #include <inttypes.h>
 
-#include "table/TableInfo.hpp"
-#include "table/TableException.hpp"
-#include "table/BaseTable.hpp"
-#include <boost/signals2.hpp>
-#include "table/TableInfo.hpp"
+//#include "table/TableInfo.hpp"
+//#include "table/TableException.hpp"
+//#include "table/BaseTable.hpp"
+//#include <boost/signals2.hpp>
+//#include "table/TableInfo.hpp"
 //#include "fmt/format.h"
 #include "core/Tuple.hpp"
-#include <boost/tuple/tuple.hpp>
-#include "ArtCPP.h"
+//#include <boost/tuple/tuple.hpp>
+#include "ArtCPP.hpp"
 
 using namespace pfabric;
 
@@ -73,19 +73,35 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 
 
 template <typename RecordType, typename KeyType = char[25]>
-class ARTFULCpp : public pfabric::BaseTable
+class ARTFULCpp
 {
+    public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
+    //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
+
+    typedef std::function<bool( void*)> Pred;
+    typedef std::function<bool(RecordType&)> UpdelFunc;
+    typedef std::function<bool(RecordType&)> UpPred;
 
 
+    public: void CollectWriteModifiers()
+    {
+        //while(NumberOfActiveWriteModifiers >0)
+        {
+            /*Writerthreads.end().join();
+            --NumberOfActiveWriteModifiers;
+            delete  Writerthreads.end();*/
+        }
+    }
 
-        public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
-        //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
-
-        typedef std::function<bool( void*)> Pred;
-        typedef std::function<bool(RecordType&)> UpdelFunc;
-
-        typedef std::function<bool(RecordType&)> UpPred;
-
+    public: void CollectReaders()
+    {
+        //while(NumberOfActiveReaders >0)
+        {
+           /* Readerthreads.end()->join();
+            --NumberOfActiveReaders;
+            delete  Readerthreads.end();*/
+        }
+    }
 
 
     public: uint64_t getARTSize()
@@ -93,12 +109,12 @@ class ARTFULCpp : public pfabric::BaseTable
         return ARTIndexTable->art_size();
     }
 
-    /**
-     * Constructor for creating an empty table with a given schema.
-     */
+        /**
+         * Constructor for creating an empty table with a given schema.
+         */
         public:ARTFULCpp()
         {
-            ARTIndexTable = new ArtCPP<RecordType, KeyType>();
+            ARTIndexTable = new  ArtCPP<RecordType, KeyType>();
         }
 
         /**
@@ -121,8 +137,8 @@ class ARTFULCpp : public pfabric::BaseTable
         public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
         {
             int len = strlen(key);
-            key[len] = '\0';
-            std::cout<<"addres inserted::"<<rec<<"\n";
+            //key[len] = '\0';
+            //std::cout<<"addres inserted::"<<rec<<"\n";
             //converting void pointer to the Type of TuplePointer
             //boost::intrusive_ptr<InTuplePointer> b = *(boost::intrusive_ptr<InTuplePointer>*)(rec);
             //auto tptrr = *rec->getAttribute<1>();
@@ -131,7 +147,11 @@ class ARTFULCpp : public pfabric::BaseTable
             //void* dt = static_cast<void*>(rec);
             //void* b = reinterpret_cast<void*>(rec);
 
-            ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
+            //this->NumberOfActiveWriteModifiers++;
+            //boost::thread* mythread = new boost::thread((ARTIndexTable->art_insert),(unsigned char*)key, len, (void*)rec);
+            //Writerthreads.push_back(mythread);
+            //ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
+            ARTIndexTable->startInsertModifyThread((unsigned char*)key, len, (void*)rec);
             std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
         }
 
@@ -156,9 +176,10 @@ class ARTFULCpp : public pfabric::BaseTable
             //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
             // Delete, should get line-no back
-            void * val = ARTIndexTable->art_delete((unsigned char*)key, len);
-            RecordType *  val2 = (RecordType *)val;
-            return val2;
+            ///void * val = ARTIndexTable->art_delete((unsigned char*)key, len);
+            ///RecordType *  val2 = (RecordType *)val;
+            //return val2;
+            return NULL;
         }
 
 
@@ -192,13 +213,14 @@ class ARTFULCpp : public pfabric::BaseTable
             int len;
             uintptr_t line = 1;
             len = strlen(key);
-            key[len-1] = '\0';
+            key[len] = '\0';
 
             //Search first, ensure the entries still exit optional
-            void*  val = ARTIndexTable->art_search((unsigned char*)key, len);
-            RecordType* val2= (RecordType *)val;
-            std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
-            return val2;
+            ///void*  val = ARTIndexTable->art_search((unsigned char*)key, len);
+            ///RecordType* val2= (RecordType *)val;
+            //std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
+            ///return val2;
+            return NULL;
         }
 
 
@@ -208,7 +230,10 @@ class ARTFULCpp : public pfabric::BaseTable
         public:void iterate(art_callback cb)
         {
             uint64_t out[] = {0, 0};
-            ARTIndexTable->art_iter(cb, &out);
+            //this->NumberOfActiveReaders++;
+            //boost::thread* mythread = new boost::thread((ARTIndexTable->art_iter),cb,&out);
+            //Readerthreads.push_back(mythread);
+            ///ARTIndexTable->art_iter(cb, &out);
         }
 
 
@@ -218,12 +243,12 @@ class ARTFULCpp : public pfabric::BaseTable
         public:void iterateByPredicate(art_callback iter_callbackByPredicate, Pred predicate)
         {
             uint64_t out[] = {0, 0};
-            ARTIndexTable->art_iterByPredicate(iter_callbackByPredicate, &out,predicate);
+            ///ARTIndexTable->art_iterByPredicate(iter_callbackByPredicate, &out,predicate);
         }
 
 
 
-    /**
+         /**
         * @brief Update all tuples satisfying the given predicate.
         *
         * Update all tuples in the table which satisfy the given predicate.
@@ -256,6 +281,6 @@ class ARTFULCpp : public pfabric::BaseTable
 
             return 0;
         }
-        ARTFULCpp(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
+        //ARTFULCpp(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H
