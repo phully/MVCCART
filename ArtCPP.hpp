@@ -28,6 +28,7 @@
 #endif
 #endif
 
+using namespace boost;
 
 /**
  * Macros to manipulate pointer tags
@@ -386,36 +387,7 @@ static int leaf_matches(const art_leaf *n, const unsigned char *key, int key_len
  * @return NULL if the item was not found, otherwise
  * the value pointer is returned.
  */
-void* art_search(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len) {
-    art_node **child;
-    art_node *n = t->root;
-    int prefix_len, depth = 0;
-    while (n) {
-        // Might be a leaf
-        if (IS_LEAF(n)) {
-            n = (art_node*)LEAF_RAW(n);
-            // Check if the expanded path matches
-            if (!leaf_matches((art_leaf*)n, key, key_len, depth)) {
-                return ((art_leaf*)n)->value;
-            }
-            return NULL;
-        }
-
-        // Bail if the prefix does not match
-        if (n->partial_len) {
-            prefix_len = check_prefix(n, key, key_len, depth);
-            if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
-                return NULL;
-            depth = depth + n->partial_len;
-        }
-
-        // Recursively search
-        child = find_child(n, key[depth]);
-        n = (child) ? *child : NULL;
-        depth++;
-    }
-    return NULL;
-}
+void* art_search(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len);
 
 // Find the minimum leaf under a node
 static art_leaf* minimum(const art_node *n) {
@@ -918,10 +890,7 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
  * @arg data Opaque handle passed to the callback
  * @return 0 on success, or the return of the callback.
  */
-int art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data) {
-
-    return recursive_iter(t->root, cb, data);
-}
+int art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data);
 
 /// Recursively iterates over the tree
 static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate) {
@@ -1166,35 +1135,22 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
  * @return NULL if the item was newly inserted, otherwise
  * the old value pointer is returned.
  */
-void* art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, void *value)
-{
-    int old_val = 0;
-    art_node *root =static_cast<art_node*>(t->root);
-    void *old = recursive_insert(root, &root, key, key_len, value, 0, &old_val);
-    if (!old_val) t->size++;
-    return old;
-}
+void* art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, void *value);
 
-void threadfunc(std::string val);
 
 template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP {
 
-public:  std::shared_ptr<art_tree> t;
-private: boost::shared_mutex _access;
-public: char buf[512];
-public: int res;
-public: uint64_t ARTSize;
+    public:  std::shared_ptr<art_tree> t;
+    private: boost::shared_mutex _access;
+    public: char buf[512];
+    public: int res;
+    public: uint64_t ARTSize;
 
-private:  std::vector<boost::thread*> Writerthreads;
-private:  std::vector<boost::thread*> Readerthreads;
-private: boost::thread_group WritersModifyGroup;
-private: boost::thread_group ReadersGroup;
-private:  int NumberOfActiveWriteModifiers;
-private:  int NumberOfActiveReaders;
+    private: boost::thread_group WritersThreadGroup;
+    private: boost::thread_group ReadersThreadGroup;
 
-
-public: ArtCPP()
+    public: ArtCPP()
     {
         t = std::make_shared<art_tree>();
         art_tree_init(t);
@@ -1208,37 +1164,100 @@ public: ArtCPP()
         art_tree_destroy(t);
     }
 
+    public: void CollectWriteModifiers()
+    {
+        WritersThreadGroup.join_all();
+    }
 
+
+    public: void CollectReaders()
+    {
+        ReadersThreadGroup.join_all();
+    }
 
     /**
     * Returns the size of the ART tree.
     */
-#ifdef BROKEN_GCC_C99_INLINE
-# define art_size(t) ((t)->size)
-#else
-    inline uint64_t art_size() {
-        return t->size;
-    }
-#endif
+    #ifdef BROKEN_GCC_C99_INLINE
+    # define art_size(t) ((t)->size)
+    #else
+        inline uint64_t art_size() {
+            return t->size;
+        }
+    #endif
 
 
-public:  void* startInsertModifyThread(const unsigned char *key, int key_len, void *value)
+    public:  void startInsertModifyThread(const unsigned char *key, int key_len, void *value)
     {
-        //std::cout<<" thread func ="<<key;
-        art_insert(t,(unsigned char*)key, key_len, value);
-        //Writerthreads.push_back(new boost::thread(&art_insert,(unsigned char*)key, key_len, value));
-        std::ostringstream id;  id << "reader" << key_len;
-
-        Writerthreads.push_back(new boost::thread(threadfunc,id.str()));
-        //boost::thread* mythread = new boost::thread(threadfunc,id.str());
-        return NULL;
+        //Writerthreads.push_back(new boost::thread(&art_insert,t, (unsigned char *)key, key_len, (void*)value));
+        WritersThreadGroup.add_thread(new boost::thread(&art_insert,t, (unsigned char *)key, key_len,value));
+        CollectWriteModifiers();
     }
+
+    public: void startIterating(art_callback cb,void* data)
+    {
+        ReadersThreadGroup.add_thread(new boost::thread(&art_iter,this->t,cb,data));
+        //art_iter(this->t,cb,data);
+        CollectReaders();
+    }
+
+    public: void* startSearchThread(const unsigned char* key, int key_len)
+    {
+        ReadersThreadGroup.add_thread(new boost::thread(&art_search,this->t, (unsigned char *)key, key_len));
+        CollectReaders();
+    }
+
+
 };
 
-
-void threadfunc(std::string val)
+void* art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, void *value)
 {
-    std::cout<<" thread func ="<<val<<"\n";
+    int old_val = 0;
+    //art_node *root =static_cast<art_node*>(t->root);
+    void *old = recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val);
+    if (!old_val) t->size++;
+    return old;
 }
+
+int art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data)
+{
+    //int old_val = 0;
+    //art_node *root =static_cast<art_node*>(t->root);
+    std::cout<<"howdy";
+    return recursive_iter(t->root, cb, data);
+}
+
+void* art_search(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len) {
+    art_node **child;
+    art_node *n = t->root;
+    int prefix_len, depth = 0;
+    while (n) {
+        // Might be a leaf
+        if (IS_LEAF(n)) {
+            n = (art_node*)LEAF_RAW(n);
+            // Check if the expanded path matches
+            if (!leaf_matches((art_leaf*)n, key, key_len, depth)) {
+                std::cout<<"Searched Value ="<<(char *)(((art_leaf*)n)->value);
+                return ((art_leaf*)n)->value;
+            }
+            return NULL;
+        }
+
+        // Bail if the prefix does not match
+        if (n->partial_len) {
+            prefix_len = check_prefix(n, key, key_len, depth);
+            if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
+                return NULL;
+            depth = depth + n->partial_len;
+        }
+
+        // Recursively search
+        child = find_child(n, key[depth]);
+        n = (child) ? *child : NULL;
+        depth++;
+    }
+    return NULL;
+}
+
 
 #endif //MVCCART_ARTCPP_HPP

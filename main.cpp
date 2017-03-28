@@ -89,7 +89,7 @@ int main()
 
     //ARTFULCpp<char[50], char[20]> ARTable =   ARTFULCpp<char[50], char[20]>();
     /// Insert or Update Tuple from file
-   InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
+    InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
 
 
 
@@ -106,7 +106,7 @@ int main()
     //DeleteByKeyValue<char[50] ,char[20]>(*ARTable);
 
     /// Look for tuple by its Key
-    //SearchByKeyValue<char[50] ,char[20]>(*ARTable);
+    SearchByKeyValue<char[50] ,char[20]>(*ARTable);
 
 
     //InsertAndIterateByTuples<uintptr_t,char[20]>(*ARTable);
@@ -169,6 +169,7 @@ void InsertOrUpdateFromFile(ARTFULCpp<RecordType, KeyType> myADTTable)
 template <typename RecordType, typename KeyType>
 void IterateByKeyValues(ARTFULCpp<RecordType, KeyType>& myADTTable)
 {
+    std::cout<<"starting to iterate"<<"\n";
     myADTTable.iterate(cb);
 
 }
@@ -197,8 +198,6 @@ void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable)
     char buf[20];
     char bufVal[50];
 
-
-
     FILE *f2 = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
     //std::cout << "Searching the Keys now..." << std::endl;
     int line = 0;
@@ -217,7 +216,6 @@ void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable)
         if (line == 10)
             break;
     }
-
 }
 
 template <typename RecordType, typename KeyType>

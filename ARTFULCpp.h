@@ -83,31 +83,11 @@ class ARTFULCpp
     typedef std::function<bool(RecordType&)> UpPred;
 
 
-    public: void CollectWriteModifiers()
-    {
-        //while(NumberOfActiveWriteModifiers >0)
+
+        public: uint64_t getARTSize()
         {
-            /*Writerthreads.end().join();
-            --NumberOfActiveWriteModifiers;
-            delete  Writerthreads.end();*/
+            return ARTIndexTable->art_size();
         }
-    }
-
-    public: void CollectReaders()
-    {
-        //while(NumberOfActiveReaders >0)
-        {
-           /* Readerthreads.end()->join();
-            --NumberOfActiveReaders;
-            delete  Readerthreads.end();*/
-        }
-    }
-
-
-    public: uint64_t getARTSize()
-    {
-        return ARTIndexTable->art_size();
-    }
 
         /**
          * Constructor for creating an empty table with a given schema.
@@ -216,7 +196,7 @@ class ARTFULCpp
             key[len] = '\0';
 
             //Search first, ensure the entries still exit optional
-            ///void*  val = ARTIndexTable->art_search((unsigned char*)key, len);
+            void*  val = ARTIndexTable->startSearchThread((unsigned char*)key, len);
             ///RecordType* val2= (RecordType *)val;
             //std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
             ///return val2;
@@ -233,7 +213,7 @@ class ARTFULCpp
             //this->NumberOfActiveReaders++;
             //boost::thread* mythread = new boost::thread((ARTIndexTable->art_iter),cb,&out);
             //Readerthreads.push_back(mythread);
-            ///ARTIndexTable->art_iter(cb, &out);
+            ARTIndexTable->startIterating(cb, &out);
         }
 
 
@@ -260,9 +240,6 @@ class ARTFULCpp
         * @return the number of modified tuples
         */
         unsigned long UpdateKeyWhere(UpPred pfunc, UpdelFunc ufunc) {
-
-
-
             return 0;
         }
 
