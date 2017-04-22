@@ -4,8 +4,8 @@
 
 #include <vector>
 
-#include "pfabric.hpp"
-#include "core/Tuple.hpp"
+#include "../pfabric.hpp"
+#include "../core/Tuple.hpp"
 #include "HashMapTable.hpp"
 //#include "fmt/format.h"
 
@@ -18,7 +18,8 @@ using HTable = HashMapTable<RecordType, KeyType>;
 
 TEST_CASE("Creating a table with a given schema, inserting and deleting data", "[Table]") {
   auto testTable = std::make_shared<HTable<MyTuple>> ();
-  for (int i = 0; i < 10000; i++) {
+  for (int i = 0; i < 10000; i++)
+{
     auto tp =MyTuple((unsigned long) i, i + 100, fmt::format("String#{}", i), i / 100.0);
     testTable->insert(i, tp);
   }

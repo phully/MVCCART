@@ -150,6 +150,33 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.s
 .PHONY : main.cpp.s
 
+transactionManager.o: transactionManager.cpp.o
+
+.PHONY : transactionManager.o
+
+# target to build an object file
+transactionManager.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.o
+.PHONY : transactionManager.cpp.o
+
+transactionManager.i: transactionManager.cpp.i
+
+.PHONY : transactionManager.i
+
+# target to preprocess a source file
+transactionManager.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.i
+.PHONY : transactionManager.cpp.i
+
+transactionManager.s: transactionManager.cpp.s
+
+.PHONY : transactionManager.s
+
+# target to generate assembly for a file
+transactionManager.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.s
+.PHONY : transactionManager.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -162,6 +189,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... transactionManager.o"
+	@echo "... transactionManager.i"
+	@echo "... transactionManager.s"
 .PHONY : help
 
 

@@ -46,10 +46,12 @@ using namespace boost;
 
 typedef char DefaultKeyType[20];
 typedef boost::shared_mutex Mutex;
+typedef boost::recursive_mutex::scoped_lock RecursiveScopedLock;
 typedef boost::shared_lock<Mutex> SharedLock;
 typedef boost::upgrade_lock<Mutex> UpgradeLock;
 typedef boost::upgrade_to_unique_lock<Mutex> WriteLock;
-//Mutex sharedMutex;
+Mutex _access;
+
 ///Callbacks for Predicates, UpdateFun and etc.
 typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void* value);
 
@@ -1032,20 +1034,24 @@ int art_iter_prefix(art_tree *t, const unsigned char *key, int key_len, art_call
 
 void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, void *value, int depth, int *old)
 {
+    //RecursiveScopedLock(_access);
+    //SharedLock _sharedLock(_access)
+    UpgradeLock _upgradeableReadLock(_access);
+    //unique_lock<shared_mutex> lock(_access);
 
-    ///UpgradeLock _upgradeableReadLock(_access);
+
     // If we are at a NULL node, inject a leaf
     if (!n) {
         ///write lock to create a new leaf at the root
-        ///WriteLock _writeLock(_upgradeableReadLock);
-        *ref = (art_node*)SET_LEAF(make_leaf(key, key_len, value));
+       WriteLock _writeLock(_upgradeableReadLock);
+       *ref = (art_node *) SET_LEAF(make_leaf(key, key_len, value));
         return NULL;
     }
 
     // If we are at a leaf, we need to replace it with a node
     if (IS_LEAF(n)) {
         ///write lock here
-        ///WriteLock _writeLock(_upgradeableReadLock);
+        WriteLock _writeLock(_upgradeableReadLock);
 
         art_leaf *l = LEAF_RAW(n);
 
@@ -1085,7 +1091,7 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
 
         // Create a new node
         ///Write lock here again to create new node
-        ///WriteLock _writeLock(_upgradeableReadLock);
+        WriteLock _writeLock(_upgradeableReadLock);
 
         art_node4 *new_node = (art_node4*)alloc_node(NODE4);
         *ref = (art_node*)new_node;
@@ -1116,6 +1122,8 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
     // Find a child to recurse to
     art_node **child = find_child(n, key[depth]);
     if (child) {
+        //lock.unlock();
+        _upgradeableReadLock.unlock();
         return recursive_insert(*child, child, key, key_len, value, depth+1, old);
     }
 
@@ -1141,8 +1149,8 @@ void* art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_l
 template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP {
 
-    public:  std::shared_ptr<art_tree> t;
-    private: boost::shared_mutex _access;
+    public: std::shared_ptr<art_tree> t;
+    //private: boost::shared_mutex _access;
     public: char buf[512];
     public: int res;
     public: uint64_t ARTSize;
@@ -1186,7 +1194,9 @@ class ArtCPP {
         }
     #endif
 
-
+    /**
+    * Start a transaction for Insert
+    */
     public:  void startInsertModifyThread(const unsigned char *key, int key_len, void *value)
     {
         //Writerthreads.push_back(new boost::thread(&art_insert,t, (unsigned char *)key, key_len, (void*)value));
@@ -1228,6 +1238,7 @@ int art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data)
 }
 
 void* art_search(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len) {
+    SharedLock _sharedLock(_access);
     art_node **child;
     art_node *n = t->root;
     int prefix_len, depth = 0;

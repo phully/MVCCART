@@ -93,6 +93,12 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/main.cpp">
 			<Option target="mvccart"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/transactionManager.cpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/transactionManager.h">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>

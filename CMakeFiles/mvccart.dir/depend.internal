@@ -31,6 +31,7 @@ CMakeFiles/mvccart.dir/main.cpp.o
  /Users/fuadshah/Desktop/MVCCART/libcpp/types/types.hpp
  /Users/fuadshah/Desktop/MVCCART/libcpp/utilities/PrintCSV.hpp
  /Users/fuadshah/Desktop/MVCCART/main.cpp
+ /Users/fuadshah/Desktop/MVCCART/transactionManager.h
  /usr/local/include/boost/algorithm/string/case_conv.hpp
  /usr/local/include/boost/algorithm/string/compare.hpp
  /usr/local/include/boost/algorithm/string/concept.hpp
@@ -2444,3 +2445,5 @@ CMakeFiles/mvccart.dir/main.cpp.o
  /usr/local/include/boost/visit_each.hpp
  /usr/local/include/boost/weak_ptr.hpp
  /usr/local/include/check.h
+CMakeFiles/mvccart.dir/transactionManager.cpp.o
+ /Users/fuadshah/Desktop/MVCCART/transactionManager.cpp

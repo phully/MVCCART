@@ -5,6 +5,7 @@
 #include <string.h>
 #include <check.h>
 #include "ARTFULCpp.h"
+#include "transactionManager.h"
 //#include "table/Table.hpp"
 #include <boost/thread.hpp>
 #include "core/Tuple.hpp"
@@ -87,9 +88,59 @@ int main()
     auto ARTable =  new ARTFULCpp<char[50], char[20]>();
     //auto ARTable =  new ARTFULCpp<uintptr_t, char[20]>();
 
+    auto func = [] ()
+    {
+        cout<<"Done"<<endl;
+    };
+
+    typedef ARTFULCpp<char[50],char[20]> TableContainer;
+    typedef std::function <void(TableContainer&)> TableOperationFunc;
+
+    auto func2 = [] (TableContainer& Artable)
+    {
+        int len, len2;
+        char buf[20];
+        char bufVal[50];
+
+
+        /// Reading all Values to store against keys
+        FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+        FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+        int index = 0;
+        int line = 0;
+        while (fgets(bufVal, sizeof bufVal, fvals))
+        {
+            fgets(buf, sizeof buf, f);
+            len = strlen(bufVal);
+            len2 = strlen(buf);
+
+            buf[len2] = '\0';
+            bufVal[len] = '\0';
+            char *temp = bufVal;
+            strcpy(ValuesToStore[index], bufVal);
+            cout << "\ninserting key= " <<buf<<"  - value = "<<ValuesToStore[index]<<endl;
+            Artable.insertOrUpdateByKey(buf, ValuesToStore[index]);
+
+            index++;
+            if (index == 10)
+                break;
+        }
+    };
+
+    Transaction<TableOperationFunc,TableContainer>* t1 = new Transaction<TableOperationFunc,TableContainer>(func2,*ARTable);
+   // Transaction<fun>* t2 = new Transaction<fun>(func);
+   // Transaction<fun>* t3 = new Transaction<fun>(func);
+   // Transaction<fun>* t4 = new Transaction<fun>(func);
+
+    t1->CollectTransaction();
+    //t2->CollectTransaction();
+    //t3->CollectTransaction();
+    //t4->CollectTransaction();
+
     //ARTFULCpp<char[50], char[20]> ARTable =   ARTFULCpp<char[50], char[20]>();
     /// Insert or Update Tuple from file
-    InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
+    //InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
+
 
 
 
@@ -106,11 +157,11 @@ int main()
     //DeleteByKeyValue<char[50] ,char[20]>(*ARTable);
 
     /// Look for tuple by its Key
-    SearchByKeyValue<char[50] ,char[20]>(*ARTable);
+    //SearchByKeyValue<char[50] ,char[20]>(*ARTable);
 
 
     //InsertAndIterateByTuples<uintptr_t,char[20]>(*ARTable);
-    ARTable->DestroyAdaptiveRadixTreeTable();
+    //ARTable->DestroyAdaptiveRadixTreeTable();
     //usleep(2000);
     std::cout<<"Completed Successfully!!";
     return 0;
