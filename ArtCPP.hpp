@@ -1199,22 +1199,17 @@ class ArtCPP {
     */
     public:  void startInsertModifyThread(const unsigned char *key, int key_len, void *value)
     {
-        //Writerthreads.push_back(new boost::thread(&art_insert,t, (unsigned char *)key, key_len, (void*)value));
-        WritersThreadGroup.add_thread(new boost::thread(&art_insert,t, (unsigned char *)key, key_len,value));
-        CollectWriteModifiers();
+        art_insert(this->t, (unsigned char *)key, key_len, (void*)value);
     }
 
     public: void startIterating(art_callback cb,void* data)
     {
-        ReadersThreadGroup.add_thread(new boost::thread(&art_iter,this->t,cb,data));
-        //art_iter(this->t,cb,data);
-        CollectReaders();
+        art_iter(this->t,cb,data);
     }
 
     public: void* startSearchThread(const unsigned char* key, int key_len)
     {
-        ReadersThreadGroup.add_thread(new boost::thread(&art_search,this->t, (unsigned char *)key, key_len));
-        CollectReaders();
+        art_search(this->t, (unsigned char *)key, key_len);
     }
 
 

@@ -21,7 +21,8 @@ void InsertAndIterateyTuples();
 typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
 typedef TuplePtr<MyTuple> InTuplePointer;
 typedef MyTuple TuplesToStore[50];
-char ValuesToStore[10][50];
+char ValuesToStore[50][50];
+char KeysToStore[50][50];
 std::vector<MyTuple> Bucket;
 std::vector<InTuplePointer> BucketOfPointers;
 
@@ -69,73 +70,63 @@ void DeleteByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable);
 template <typename RecordType, typename KeyType>
 void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable);
 
-void readerApi();
-
-const int writerthreadcount = 0;
-const int readerthreadcount = 0;
-
-std::vector<boost::thread*> writerthread;
-std::vector<boost::thread*> readerthread;
+void ReadFromDisk();
 
 
 int main()
 {
     std::cout << "Adaptive Radix Tree " << std::endl;
-
+    ReadFromDisk();
 
     ///  Create template for ARTTable. simple template Type
     /// of Index Page Char[50] RecordType Char[20] KeyTyp
     auto ARTable =  new ARTFULCpp<char[50], char[20]>();
     //auto ARTable =  new ARTFULCpp<uintptr_t, char[20]>();
 
-    auto func = [] ()
-    {
-        cout<<"Done"<<endl;
-    };
+
 
     typedef ARTFULCpp<char[50],char[20]> TableContainer;
-    typedef std::function <void(TableContainer&)> TableOperationFunc;
+    typedef std::function <void(TableContainer&,size_t id)> TableOperationFunc;
 
-    auto func2 = [] (TableContainer& Artable)
+    auto func = [] (TableContainer& Artable,size_t id)
     {
-        int len, len2;
-        char buf[20];
-        char bufVal[50];
+        std::cout<<"iterate by::"<<id<<std::endl;
+        Artable.iterate(cb);
+    };
 
-
-        /// Reading all Values to store against keys
-        FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
-        FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    auto func2 = [] (TableContainer& Artable,size_t id)
+    {
         int index = 0;
         int line = 0;
-        while (fgets(bufVal, sizeof bufVal, fvals))
+        for(index; index <5; index++)
         {
-            fgets(buf, sizeof buf, f);
-            len = strlen(bufVal);
-            len2 = strlen(buf);
+            //cout << "\ninserting key= " <<KeysToStore[index]<<"  - value = "<<ValuesToStore[index]<<endl;
+            std::cout<<"Inserting by::"<<id<<std::endl;
+            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore[index]);
+        }
+    };
 
-            buf[len2] = '\0';
-            bufVal[len] = '\0';
-            char *temp = bufVal;
-            strcpy(ValuesToStore[index], bufVal);
-            cout << "\ninserting key= " <<buf<<"  - value = "<<ValuesToStore[index]<<endl;
-            Artable.insertOrUpdateByKey(buf, ValuesToStore[index]);
-
-            index++;
-            if (index == 10)
-                break;
+    auto func3 = [] (TableContainer& Artable,size_t id)
+    {
+        int index = 5;
+        int line = 5;
+        for(index; index <10; index++)
+        {
+            //cout << "\ninserting key= " <<KeysToStore[index]<<"  - value = "<<ValuesToStore[index]<<endl;
+            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore[index]);
         }
     };
 
     Transaction<TableOperationFunc,TableContainer>* t1 = new Transaction<TableOperationFunc,TableContainer>(func2,*ARTable);
-   // Transaction<fun>* t2 = new Transaction<fun>(func);
-   // Transaction<fun>* t3 = new Transaction<fun>(func);
-   // Transaction<fun>* t4 = new Transaction<fun>(func);
+    Transaction<TableOperationFunc,TableContainer>* t2 = new Transaction<TableOperationFunc,TableContainer>(func3,*ARTable);
 
     t1->CollectTransaction();
-    //t2->CollectTransaction();
-    //t3->CollectTransaction();
-    //t4->CollectTransaction();
+    t2->CollectTransaction();
+
+    Transaction<TableOperationFunc,TableContainer>* t3 = new Transaction<TableOperationFunc,TableContainer>(func,*ARTable);
+    t3->CollectTransaction();
+
 
     //ARTFULCpp<char[50], char[20]> ARTable =   ARTFULCpp<char[50], char[20]>();
     /// Insert or Update Tuple from file
@@ -168,12 +159,32 @@ int main()
 }
 
 
-void readerApi()
+void ReadFromDisk()
 {
-    for (int i=0; i < 10; i++) {
-        usleep(400);
-        std::cout << "readerApi: " << i
-                  << std::endl;
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
+
+    /// Reading all Values to store against keys
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    int index = 0;
+    int line = 0;
+    while (fgets(bufVal, sizeof bufVal, fvals))
+    {
+        fgets(buf, sizeof buf, f);
+        len = strlen(bufVal);
+        len2 = strlen(buf);
+
+        buf[len2] = '\0';
+        bufVal[len] = '\0';
+        char *temp = bufVal;
+        strcpy(KeysToStore[index],buf);
+        strcpy(ValuesToStore[index], bufVal);
+
+        index++;
+        if (index == 50)
+            break;
     }
 }
 
@@ -191,6 +202,7 @@ void InsertOrUpdateFromFile(ARTFULCpp<RecordType, KeyType> myADTTable)
             std::make_shared<IntVector>(IntVector{4,5,6}),
             std::make_shared<IntVector>(IntVector{7,8,9})
     };*/
+    std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
 
     /// Reading all Values to store against keys
     FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");

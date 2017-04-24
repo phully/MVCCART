@@ -21,7 +21,6 @@
 #include <stdio.h>
 #include <assert.h>
 
-//typedef std::function <void(void)> fun;
 
 boost::mutex cntmutex;
 boost::atomic<int> nextTid;
@@ -32,6 +31,7 @@ namespace smart_ptr
     using boost::make_shared;
     using boost::atomic_load;
     using boost::atomic_store;
+
 
     template <class T>
     bool atomic_compare_exchange_strong(shared_ptr<T> * p, shared_ptr<T> * v, shared_ptr<T> w)
@@ -78,7 +78,7 @@ template <typename T, typename C>
 void todo(T func,C& container , size_t id)
 {
     //this_thread::sleep_for(chrono::seconds(1));
-    func(container);
+    func(container,id);
     std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
     std::cout<<id<<std::endl;
 }
@@ -93,6 +93,7 @@ public:
     Transaction(TransactionFunc func, ARTContainer& ART )
     {
         ///atomic load and increment
+        //create a new function for handling Mutex Locks generically defined
         cntmutex.lock(); //emulates strict order
         nextTid.fetch_add(1, boost::memory_order_relaxed);
         Tid = nextTid.load(boost::memory_order_relaxed);
