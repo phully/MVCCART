@@ -22,7 +22,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
 
-set(SOURCE_FILES main.cpp ARTFULCpp.h ArtCPP.hpp transactionManager.h transactionManager.cpp)
+set(SOURCE_FILES main.cpp ARTFULCpp.h ArtCPP.hpp transactionManager.h transactionManager.cpp mvcc.hpp )
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES})
 

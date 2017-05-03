@@ -6,11 +6,12 @@
 #include <check.h>
 #include "ARTFULCpp.h"
 #include "transactionManager.h"
+#include "mvcc.hpp"
 //#include "table/Table.hpp"
 #include <boost/thread.hpp>
 #include "core/Tuple.hpp"
 #include <boost/tuple/tuple.hpp>
-
+#include "mvcc.hpp"
 using namespace std;
 using namespace pfabric;
 
@@ -22,6 +23,8 @@ typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
 typedef TuplePtr<MyTuple> InTuplePointer;
 typedef MyTuple TuplesToStore[50];
 char ValuesToStore[50][50];
+std::string ValuesToStore2[50];
+
 char KeysToStore[50][50];
 std::vector<MyTuple> Bucket;
 std::vector<InTuplePointer> BucketOfPointers;
@@ -47,7 +50,12 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
     //RecordType * ptr = (RecordType *)val;
     if(val != NULL)
     {
-        std::cout<<"###found K/V ="<<key<<"/"<<(char *)val<<"\n";
+
+        mvcc11::mvcc<MyTuple>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<MyTuple>*>(val);
+        std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/"<<_mvvcValue->current()->version<<"\n";
+        //std::cout<<"###found K/V ="<<key<<"/"<<(char *)val<<"\n";
+        //mvcc11::mvcc<std::string>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<std::string>*>(val);
+        //std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value<<"/"<<_mvvcValue->current()->version<<"\n";
     }
     return 0;
 }
@@ -71,68 +79,105 @@ template <typename RecordType, typename KeyType>
 void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable);
 
 void ReadFromDisk();
-
+void ReadFromDiskToTuples(int maxTuplesToLoad);
 
 int main()
 {
-    std::cout << "Adaptive Radix Tree " << std::endl;
-    ReadFromDisk();
+    std::cout << "Adaptive Radix Tree- " << std::endl;
 
+
+    ReadFromDisk();
+    ReadFromDiskToTuples(10);
     ///  Create template for ARTTable. simple template Type
     /// of Index Page Char[50] RecordType Char[20] KeyTyp
-    auto ARTable =  new ARTFULCpp<char[50], char[20]>();
-    //auto ARTable =  new ARTFULCpp<uintptr_t, char[20]>();
+    typedef std::string recordType;
+    typedef MyTuple recordTypeTuple;
+    typedef char keyType[20];
+
+
+    //typedef ARTFULCpp<recordType,keyType> TableContainer;
+    //typedef std::function <void(TableContainer&,size_t id)> TableOperationFunc;
+    //auto ARTable =  new TableContainer();
+
+
+    typedef ARTFULCpp<recordTypeTuple,keyType> TupleContainer;
+    typedef std::function <void(TupleContainer&,size_t id)> TableOperationOnTupleFunc;
+    auto ARTableWithTuples =  new TupleContainer();
 
 
 
-    typedef ARTFULCpp<char[50],char[20]> TableContainer;
-    typedef std::function <void(TableContainer&,size_t id)> TableOperationFunc;
 
+    ///Iterator Operation on TupleContainer
+    auto funcTuple = [] (TupleContainer& ARTWithTuples,size_t id)
+    {
+        std::cout<<"iterate by::"<<id<<std::endl;
+        ARTWithTuples.iterate(cb);
+    };
+
+    ///Writer#1 Insert/Update from Disk
+    auto func2Tuple= [] (TupleContainer& ARTWithTuples,size_t id)
+    {
+        int index = 0;
+        int line = 0;
+        for(index; index <10; index++)
+        {
+            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id);
+        }
+    };
+
+
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func2Tuple,*ARTableWithTuples);
+    t1->CollectTransaction();
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
+    t2->CollectTransaction();
+
+            /*
+
+    ///Iterator Operation
     auto func = [] (TableContainer& Artable,size_t id)
     {
         std::cout<<"iterate by::"<<id<<std::endl;
         Artable.iterate(cb);
     };
 
+    ///Writer#1 Insert/Update from Disk
     auto func2 = [] (TableContainer& Artable,size_t id)
     {
         int index = 0;
         int line = 0;
         for(index; index <5; index++)
         {
-            //cout << "\ninserting key= " <<KeysToStore[index]<<"  - value = "<<ValuesToStore[index]<<endl;
-            std::cout<<"Inserting by::"<<id<<std::endl;
-            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore[index]);
+            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore2[index],id);
         }
     };
 
+    ///Writer#2 Insert/Update from Disk
     auto func3 = [] (TableContainer& Artable,size_t id)
     {
         int index = 5;
         int line = 5;
         for(index; index <10; index++)
         {
-            //cout << "\ninserting key= " <<KeysToStore[index]<<"  - value = "<<ValuesToStore[index]<<endl;
             std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
-            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore[index]);
+            Artable.insertOrUpdateByKey(KeysToStore[index], ValuesToStore2[index],id);
         }
     };
+*/
 
+    /*
     Transaction<TableOperationFunc,TableContainer>* t1 = new Transaction<TableOperationFunc,TableContainer>(func2,*ARTable);
     Transaction<TableOperationFunc,TableContainer>* t2 = new Transaction<TableOperationFunc,TableContainer>(func3,*ARTable);
-
     t1->CollectTransaction();
     t2->CollectTransaction();
-
     Transaction<TableOperationFunc,TableContainer>* t3 = new Transaction<TableOperationFunc,TableContainer>(func,*ARTable);
-    t3->CollectTransaction();
+    t3->CollectTransaction();*/
 
 
     //ARTFULCpp<char[50], char[20]> ARTable =   ARTFULCpp<char[50], char[20]>();
     /// Insert or Update Tuple from file
     //InsertOrUpdateFromFile<char [50] ,char[20]>(*ARTable);
-
-
 
 
     /// Iterate all Tuples and get callback
@@ -158,6 +203,45 @@ int main()
     return 0;
 }
 
+void ReadFromDiskToTuples(int maxTuplesToLoad)
+{
+    int len, len2;
+    char buf[20];
+    char bufVal[50];
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    FILE *uuid = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+    uintptr_t index = 0;
+    int i=1;
+
+
+    while (fgets(buf, sizeof buf, fvals))
+    {
+        fgets(bufVal, sizeof bufVal, uuid);
+
+        len  = strlen(buf);
+        len2 = strlen(bufVal);
+        bufVal[len2]='\0';
+        buf[len] = '\0';
+        strcpy(ValuesToStore[index], bufVal);
+        //Bucket.push_back(MyTuple((unsigned long) i, i + 100, ValuesToStore[index], i / 100.0));
+        MyTuple tuple =   MyTuple((unsigned long) i, i + 100, bufVal, i / 100.0);
+        auto tup = makeTuplePtr((unsigned long) i, i + 100,bufVal , i / 100.0);
+        Bucket.push_back(tuple);
+
+        //cout<<" tuple key / val = "<<buf<<"/"<<tuple->getAttribute<2>()<<endl;
+
+        //InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, bufVal, i / 10f0.0));
+        //testTable.insertOrUpdateByKey(buf,index);
+        i++;
+        index++;
+
+        if(i > maxTuplesToLoad)//235887)
+            break;
+    }
+
+   // testTable.iterate(iter_callbackByPredicate);
+
+}
 
 void ReadFromDisk()
 {
@@ -180,7 +264,9 @@ void ReadFromDisk()
         bufVal[len] = '\0';
         char *temp = bufVal;
         strcpy(KeysToStore[index],buf);
-        strcpy(ValuesToStore[index], bufVal);
+        //strcpy(ValuesToStore[index], bufVal);
+        ValuesToStore2[index] =bufVal;
+
 
         index++;
         if (index == 50)

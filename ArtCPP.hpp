@@ -20,6 +20,7 @@
 #include <strings.h>
 #include <stdio.h>
 #include <assert.h>
+#include "mvcc.hpp"
 #ifdef __i386__
 #include <emmintrin.h>
 #else
@@ -36,6 +37,9 @@ using namespace boost;
 #define IS_LEAF(x) (((uintptr_t)x & 1))
 #define SET_LEAF(x) ((void*)((uintptr_t)x | 1))
 #define LEAF_RAW(x) ((art_leaf*)((void*)((uintptr_t)x & ~1)))
+
+
+
 
 #define NODE4   1
 #define NODE16  2
@@ -140,7 +144,7 @@ typedef struct {
  * of arbitrary size, as they include the key.
  */
 typedef struct {
-    void *value;
+    void *value;//point it to Snapshot->Current();
     uint32_t key_len;
     unsigned char key[];
 }art_leaf;
@@ -456,6 +460,7 @@ art_leaf* art_minimum(art_tree *t) {
 art_leaf* art_maximum(art_tree *t) {
     return maximum((art_node*)t->root);
 }
+
 
 static art_leaf* make_leaf(const unsigned char *key, int key_len, void *value) {
     art_leaf *l = (art_leaf*)malloc(sizeof(art_leaf)+key_len);
@@ -833,8 +838,8 @@ void* art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_l
 int recursive_iter(art_node *n, art_callback cb, void *data)
 {
 
-
-    //   SharedLock _sharedLock(_access);
+    RecursiveScopedLock _recursiveLock;
+    //UpgradeLock _sharedLock(_access);
     // Handle base cases
     if (!n) return 0;
     if (IS_LEAF(n))
@@ -848,6 +853,7 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
     {
         case NODE4:
             for (int i=0; i < n->num_children; i++) {
+                //_sharedLock.unlock();
                 res = recursive_iter(((art_node4*)n)->children[i], cb, data);
                 if (res) return res;
             }
@@ -855,6 +861,7 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
 
         case NODE16:
             for (int i=0; i < n->num_children; i++) {
+               // _sharedLock.unlock();
                 res = recursive_iter(((art_node16*)n)->children[i], cb, data);
                 if (res) return res;
             }
@@ -864,6 +871,7 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
             for (int i=0; i < 256; i++) {
                 idx = ((art_node48*)n)->keys[i];
                 if (!idx) continue;
+               // _sharedLock.unlock();
                 res = recursive_iter(((art_node48*)n)->children[idx-1], cb, data);
                 if (res) return res;
             }
@@ -872,11 +880,13 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
         case NODE256:
             for (int i=0; i < 256; i++) {
                 if (!((art_node256*)n)->children[i]) continue;
+                //_sharedLock.unlock();
                 res = recursive_iter(((art_node256*)n)->children[i], cb, data);
                 if (res) return res;
             }
             break;
         default:
+           // _sharedLock.unlock();
             abort();
     }
     return 0;
@@ -1045,7 +1055,7 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
         ///write lock to create a new leaf at the root
        WriteLock _writeLock(_upgradeableReadLock);
        *ref = (art_node *) SET_LEAF(make_leaf(key, key_len, value));
-        return NULL;
+       return NULL;
     }
 
     // If we are at a leaf, we need to replace it with a node
@@ -1058,6 +1068,8 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
         // Check if we are updating an existing value
         if (!leaf_matches(l, key, key_len, depth)) {
             *old = 1;
+
+            ///MVCC update current version
             void *old_val = l->value;
             l->value = value;
             return old_val;
@@ -1067,6 +1079,7 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
         art_node4 *new_node = (art_node4*)alloc_node(NODE4);
 
         // Create a new leaf
+        /// MVCC make new mvcc object pointing to current-version;
         art_leaf *l2 = make_leaf(key, key_len, value);
 
         // Determine longest prefix
@@ -1113,6 +1126,8 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
         }
 
         // Insert the new leaf
+
+        ///mvcc make new leaf
         art_leaf *l = make_leaf(key, key_len, value);
         add_child4(new_node, ref, key[depth+prefix_diff], SET_LEAF(l));
         return NULL;
@@ -1128,7 +1143,7 @@ void* recursive_insert(art_node *n, art_node **ref, const unsigned char *key, in
     }
 
     // No child, node goes within us
-    /// Do work here but now  exclusive access.
+    ///mvcc make new leaf
     art_leaf *l = make_leaf(key, key_len, value);
     add_child(n, ref, key[depth], SET_LEAF(l));
     return NULL;
@@ -1150,13 +1165,62 @@ template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP {
 
     public: std::shared_ptr<art_tree> t;
-    //private: boost::shared_mutex _access;
     public: char buf[512];
     public: int res;
     public: uint64_t ARTSize;
 
-    private: boost::thread_group WritersThreadGroup;
-    private: boost::thread_group ReadersThreadGroup;
+    /**
+     * Represents a leaf. These are
+    * of arbitrary size, as they include the key with multiversioned object to get lock free Read access.
+    */
+    typedef struct mv_art_leaf {
+        void *value;
+        uint32_t key_len;
+        unsigned char key[];
+    };
+
+    //-#define IS_LEAF(x) (((uintptr_t)x & 1))
+    //-#define SET_LEAF(x) ((void*)((uintptr_t)x | 1))
+    // -#define LEAF_RAW(x) ((art_leaf*)((void*)((uintptr_t)x & ~1)))
+
+    __inline bool IS_MV_LEAF(art_node* p)
+    {
+        return ((uintptr_t)p & 1) != 0;
+    }
+
+    __inline mv_art_leaf* SET_MV_LEAF(mv_art_leaf* p)
+    {
+        return (mv_art_leaf*) ((uintptr_t)p | 1);
+    }
+
+    __inline mv_art_leaf* MV_LEAF_RAW(void* p)
+    {
+        return (mv_art_leaf*)((uintptr_t)p & ~1);
+    }
+
+    /**
+    * Checks if a leaf matches
+    * @return 0 on success.
+    */
+    static int mv_leaf_matches(const mv_art_leaf *n, const unsigned char *key, int key_len, int depth) {
+        (void)depth;
+        // Fail if the key lengths are different
+        if (n->key_len != (uint32_t)key_len) return 1;
+
+        // Compare the keys starting at the depth
+        return memcmp(n->key, key, key_len);
+    }
+
+    static int mv_longest_common_prefix(mv_art_leaf *l1, mv_art_leaf *l2, int depth) {
+        int max_cmp = min(l1->key_len, l2->key_len) - depth;
+        int idx;
+        for (idx=0; idx < max_cmp; idx++) {
+            if (l1->key[depth+idx] != l2->key[depth+idx])
+                return idx;
+        }
+        return idx;
+    }
+
 
     public: ArtCPP()
     {
@@ -1172,16 +1236,6 @@ class ArtCPP {
         art_tree_destroy(t);
     }
 
-    public: void CollectWriteModifiers()
-    {
-        WritersThreadGroup.join_all();
-    }
-
-
-    public: void CollectReaders()
-    {
-        ReadersThreadGroup.join_all();
-    }
 
     /**
     * Returns the size of the ART tree.
@@ -1189,23 +1243,212 @@ class ArtCPP {
     #ifdef BROKEN_GCC_C99_INLINE
     # define art_size(t) ((t)->size)
     #else
-        inline uint64_t art_size() {
-            return t->size;
-        }
+    inline uint64_t art_size()
+    {
+        return t->size;
+    }
     #endif
 
-    /**
-    * Start a transaction for Insert
-    */
-    public:  void startInsertModifyThread(const unsigned char *key, int key_len, void *value)
+
+    auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id)
     {
-        art_insert(this->t, (unsigned char *)key, key_len, (void*)value);
+        int old_val = 0;
+        //art_node *root =static_cast<art_node*>(t->root);
+        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id);
+        if (!old_val) t->size++;
+        return old;
     }
 
-    public: void startIterating(art_callback cb,void* data)
+    void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id)
     {
-        art_iter(this->t,cb,data);
+        UpgradeLock _upgradeableReadLock(_access);
+
+        // If we are at a NULL node, inject a leaf
+        if (!n) {
+            ///write lock to create a new leaf at the root
+            WriteLock _writeLock(_upgradeableReadLock);
+            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id));
+            *ref = (art_node*) snapshot;
+            return NULL;
+        }
+
+        // If we are at a leaf, we need to replace it with a node
+        if (IS_MV_LEAF(n)) {
+            ///write lock here
+            WriteLock _writeLock(_upgradeableReadLock);
+
+            mv_art_leaf *l = MV_LEAF_RAW(n);
+
+            // Check if we are updating an existing value
+            if (!mv_leaf_matches(l, key, key_len, depth)) {
+                *old = 1;
+
+                ///MVCC update current version
+                std::cout<<"overwritting "<<value<<std::endl;
+                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+                _mvcc->overwrite(value);
+                l->value = static_cast<void*>(_mvcc);
+                return l->value;
+            }
+
+            // New value, we must split the leaf into a node4
+            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+
+            // Create a new leaf
+            /// MVCC make new mvcc object pointing to current-version;
+            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id);
+
+            // Determine longest prefix
+            int longest_prefix = mv_longest_common_prefix(l, l2, depth);
+            new_node->n.partial_len = longest_prefix;
+            memcpy(new_node->n.partial, key+depth, min(MAX_PREFIX_LEN, longest_prefix));
+            // Add the leafs to the new node4
+            *ref = (art_node*)new_node;
+            add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
+            add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));
+            return NULL;
+        }
+
+        // Check if given node has a prefix
+        if (n->partial_len) {
+            // Determine if the prefixes differ, since we need to split
+            int prefix_diff = prefix_mismatch(n, key, key_len, depth);
+            if ((uint32_t)prefix_diff >= n->partial_len) {
+                depth += n->partial_len;
+                goto RECURSE_SEARCH;
+            }
+
+            // Create a new node
+            ///Write lock here again to create new node
+            WriteLock _writeLock(_upgradeableReadLock);
+
+            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+            *ref = (art_node*)new_node;
+            new_node->n.partial_len = prefix_diff;
+            memcpy(new_node->n.partial, n->partial, min(MAX_PREFIX_LEN, prefix_diff));
+
+            // Adjust the prefix of the old node
+            if (n->partial_len <= MAX_PREFIX_LEN) {
+                add_child4(new_node, ref, n->partial[prefix_diff], n);
+                n->partial_len -= (prefix_diff+1);
+                memmove(n->partial, n->partial+prefix_diff+1,
+                        min(MAX_PREFIX_LEN, n->partial_len));
+            } else {
+                n->partial_len -= (prefix_diff+1);
+                art_leaf *l = minimum(n);
+                add_child4(new_node, ref, l->key[depth+prefix_diff], n);
+                memcpy(n->partial, l->key+depth+prefix_diff+1,
+                       min(MAX_PREFIX_LEN, n->partial_len));
+            }
+
+            // Insert the new leaf
+
+            ///mvcc make new leaf
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
+            add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
+            return NULL;
+        }
+
+        RECURSE_SEARCH:;
+        // Find a child to recurse to
+        art_node **child = find_child(n, key[depth]);
+        if (child)
+        {
+            //lock.unlock();
+            _upgradeableReadLock.unlock();
+            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id);
+        }
+
+        // No child, node goes within us
+        ///mvcc make new leaf
+        mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
+        add_child(n, ref, key[depth], SET_MV_LEAF(l));
+        return NULL;
     }
+
+    static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType value,const size_t txn_id)
+    {
+        mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
+        l->key_len = key_len;
+        memcpy(l->key, key, key_len);
+        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(value);
+        l->value = static_cast<void*>(_mvcc);
+        // mvcc11::mvcc<RecordType>* pA = static_cast<mvcc11::mvcc<RecordType>*>(l->value); // or A* pA = reinterpret_cast<A*>(a);?
+        // memcpy(l->value, value, sizeof(value));
+        //l->mv_value = value;
+        //l->mv_value->version = txn_id;
+        //l->mv_value.overwrite(value,txn_id);
+        //std::cout<<"inserting mvv leaf value"<<value;
+        //l->mv_value.overwrite(value);
+        // l->mv_value.overwrite(value);
+        //std::cout<<l->mv_value.current()->value;
+        return l;
+    }
+
+    static int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data)
+    {
+        std::cout<<"howdy";
+        return mv_recursive_iter(t->root, cb, data);
+    }
+
+    /// Recursively iterates over the tree
+    static int mv_recursive_iter(art_node *n, art_callback cb, void *data)
+    {
+
+        RecursiveScopedLock _recursiveLock;
+        //UpgradeLock _sharedLock(_access);
+        // Handle base cases
+        if (!n) return 0;
+        if (IS_LEAF(n))
+        {
+            art_leaf *l = LEAF_RAW(n);
+            return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++) {
+                    //_sharedLock.unlock();
+                    res = recursive_iter(((art_node4*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++) {
+                    // _sharedLock.unlock();
+                    res = recursive_iter(((art_node16*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    // _sharedLock.unlock();
+                    res = recursive_iter(((art_node48*)n)->children[idx-1], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++) {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    //_sharedLock.unlock();
+                    res = recursive_iter(((art_node256*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+            default:
+                // _sharedLock.unlock();
+                abort();
+        }
+        return 0;
+    }
+
 
     public: void* startSearchThread(const unsigned char* key, int key_len)
     {

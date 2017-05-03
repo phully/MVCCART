@@ -93,6 +93,9 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/main.cpp">
 			<Option target="mvccart"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc.hpp">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/transactionManager.cpp">
 			<Option target="mvccart"/>
 		</Unit>

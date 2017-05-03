@@ -30,6 +30,7 @@ CMakeFiles/mvccart.dir/main.cpp.o: libcpp/types/traits/PointerTraits.hpp
 CMakeFiles/mvccart.dir/main.cpp.o: libcpp/types/types.hpp
 CMakeFiles/mvccart.dir/main.cpp.o: libcpp/utilities/PrintCSV.hpp
 CMakeFiles/mvccart.dir/main.cpp.o: main.cpp
+CMakeFiles/mvccart.dir/main.cpp.o: mvcc.hpp
 CMakeFiles/mvccart.dir/main.cpp.o: transactionManager.h
 CMakeFiles/mvccart.dir/main.cpp.o: /usr/local/include/boost/algorithm/string/case_conv.hpp
 CMakeFiles/mvccart.dir/main.cpp.o: /usr/local/include/boost/algorithm/string/compare.hpp

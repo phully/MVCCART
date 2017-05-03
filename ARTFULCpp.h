@@ -114,7 +114,7 @@ class ARTFULCpp
         * @param key the key value of the tuple
         * @param rec the actual tuple
         */
-        public:void insertOrUpdateByKey(KeyType key, const RecordType& rec)
+        public:void insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id)
         {
             int len = strlen(key);
             //key[len] = '\0';
@@ -131,7 +131,9 @@ class ARTFULCpp
             //boost::thread* mythread = new boost::thread((ARTIndexTable->art_insert),(unsigned char*)key, len, (void*)rec);
             //Writerthreads.push_back(mythread);
             //ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
-            ARTIndexTable->startInsertModifyThread((unsigned char*)key, len, (void*)rec);
+            ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id);
+
+            //ARTIndexTable->startInsertModify((unsigned char*)key, len,rec,txn_id);
             std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
         }
 
@@ -213,7 +215,9 @@ class ARTFULCpp
             //this->NumberOfActiveReaders++;
             //boost::thread* mythread = new boost::thread((ARTIndexTable->art_iter),cb,&out);
             //Readerthreads.push_back(mythread);
-            ARTIndexTable->startIterating(cb, &out);
+            //ARTIndexTable->startIterating(cb, &out);
+            //mv_art_iter
+            ARTIndexTable->mv_art_iter(ARTIndexTable->t,cb,&out);
         }
 
 

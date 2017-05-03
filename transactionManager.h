@@ -94,11 +94,11 @@ public:
     {
         ///atomic load and increment
         //create a new function for handling Mutex Locks generically defined
-        cntmutex.lock(); //emulates strict order
+        //cntmutex.lock(); //emulates strict order
         nextTid.fetch_add(1, boost::memory_order_relaxed);
         Tid = nextTid.load(boost::memory_order_relaxed);
         TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid);
-        cntmutex.unlock();
+        //cntmutex.unlock();
     }
 
     void CollectTransaction()
