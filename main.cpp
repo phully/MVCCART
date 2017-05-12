@@ -47,15 +47,11 @@ static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint3
 
 static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
-    //RecordType * ptr = (RecordType *)val;
     if(val != NULL)
     {
 
         mvcc11::mvcc<MyTuple>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<MyTuple>*>(val);
         std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/"<<_mvvcValue->current()->version<<"\n";
-        //std::cout<<"###found K/V ="<<key<<"/"<<(char *)val<<"\n";
-        //mvcc11::mvcc<std::string>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<std::string>*>(val);
-        //std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value<<"/"<<_mvvcValue->current()->version<<"\n";
     }
     return 0;
 }
@@ -87,7 +83,7 @@ int main()
 
 
     ReadFromDisk();
-    ReadFromDiskToTuples(10);
+    ReadFromDiskToTuples(50);
     ///  Create template for ARTTable. simple template Type
     /// of Index Page Char[50] RecordType Char[20] KeyTyp
     typedef std::string recordType;
@@ -119,7 +115,19 @@ int main()
     {
         int index = 0;
         int line = 0;
-        for(index; index <10; index++)
+        for(index; index <25; index++)
+        {
+            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id);
+        }
+    };
+
+    ///Writer#2 Insert/Update from Disk
+    auto func3Tuple= [] (TupleContainer& ARTWithTuples,size_t id)
+    {
+        int index = 25;
+        int line = 0;
+        for(index; index <50; index++)
         {
             std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
             ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id);
@@ -128,12 +136,14 @@ int main()
 
 
     Transaction<TableOperationOnTupleFunc,TupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func2Tuple,*ARTableWithTuples);
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func3Tuple,*ARTableWithTuples);
     t1->CollectTransaction();
-    Transaction<TableOperationOnTupleFunc,TupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
     t2->CollectTransaction();
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t3 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
+    t3->CollectTransaction();
 
-            /*
 
+    /*
     ///Iterator Operation
     auto func = [] (TableContainer& Artable,size_t id)
     {

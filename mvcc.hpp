@@ -41,6 +41,7 @@ using std::atomic_compare_exchange_strong
 
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
+#include "transactionManager.h"
 
 namespace mvcc11 {
     namespace smart_ptr {
@@ -84,10 +85,43 @@ namespace mvcc11 {
         snapshot(size_t ver, U&& arg)
         MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) );
 
+        template <class U>
+        snapshot(size_t ver, size_t end_ver, U&& arg)
+        MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) );
+
         smart_ptr::shared_ptr<snapshot> _older_snapshot;
         size_t version;
+        size_t end_version;
         value_type value;
     };
+
+
+    template <class ValueType>
+    snapshot<ValueType>::snapshot(size_t ver) MVCC11_NOEXCEPT(true)
+            : version{ver}
+            , end_version{INF}
+            , value{}
+    {}
+
+    template <class ValueType>
+    template <class U>
+    snapshot<ValueType>::snapshot(size_t ver, U&& arg)
+    MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) )
+            : version{ver}
+            , value{std::forward<U>(arg)}
+    {}
+
+    template <class ValueType>
+    template <class U>
+    snapshot<ValueType>::snapshot(size_t ver,size_t end_ver, U&& arg)
+    MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) )
+            : version{ver}
+            , end_version{end_ver}
+            , value{std::forward<U>(arg)}
+    {}
+
+
+
 
     template <class ValueType>
     class mvcc
@@ -99,12 +133,10 @@ namespace mvcc11 {
         using const_snapshot_ptr = smart_ptr::shared_ptr<snapshot_type const>;
 
         mvcc() MVCC11_NOEXCEPT(true);
-
-        mvcc(value_type const &value);
-        mvcc(value_type &&value);
-
-        mvcc(mvcc const &other) MVCC11_NOEXCEPT(true);
-        mvcc(mvcc &&other) MVCC11_NOEXCEPT(true);
+        mvcc(size_t txn_id, value_type const &value);
+        mvcc(size_t txn_id,value_type &&value);
+        mvcc(size_t txn_id,mvcc const &other) MVCC11_NOEXCEPT(true);
+        mvcc(size_t txn_id,mvcc &&other) MVCC11_NOEXCEPT(true);
 
         ~mvcc() = default;
 
@@ -117,6 +149,8 @@ namespace mvcc11 {
 
         const_snapshot_ptr overwrite(value_type const &value);
         const_snapshot_ptr overwrite(value_type &&value);
+        const_snapshot_ptr overwriteMV(size_t txn_id,value_type const &value);
+        const_snapshot_ptr overwriteMV(size_t txn_id,value_type &&value);
 
         template <class Updater>
         const_snapshot_ptr update(Updater updater);
@@ -125,21 +159,24 @@ namespace mvcc11 {
         const_snapshot_ptr try_update(Updater updater);
 
         template <class Updater, class Clock, class Duration>
-        const_snapshot_ptr try_update_until(
-                Updater updater,
-                std::chrono::time_point<Clock, Duration> const &timeout_time);
+        const_snapshot_ptr try_update_until(Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
 
         template <class Updater, class Rep, class Period>
-        const_snapshot_ptr try_update_for(
-                Updater updater,
-                std::chrono::duration<Rep, Period> const &timeout_duration);
+        const_snapshot_ptr try_update_for(Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
 
     private:
         template <class U>
         const_snapshot_ptr overwrite_impl(U &&value);
 
+        template <class U>
+        const_snapshot_ptr overwrite_implMV(size_t txn_id,U &&value);
+
         template <class Updater>
         const_snapshot_ptr try_update_impl(Updater &updater);
+
+        template <class Updater>
+        const_snapshot_ptr try_update_implMVCC(Updater &updater,size_t txn_id);
+
 
         template <class Updater, class Clock, class Duration>
         const_snapshot_ptr try_update_until_impl(
@@ -149,42 +186,28 @@ namespace mvcc11 {
         mutable_snapshot_ptr mutable_current_;
     };
 
-    template <class ValueType>
-    snapshot<ValueType>::snapshot(size_t ver) MVCC11_NOEXCEPT(true)
-            : version{ver}
-            , value{}
-    {}
-
-    template <class ValueType>
-    template <class U>
-    snapshot<ValueType>::snapshot(size_t ver, U&& arg)
-    MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) )
-            : version{ver}
-            , value{std::forward<U>(arg)}
-    {}
-
 
     template <class ValueType>
     mvcc<ValueType>::mvcc() MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::make_shared<snapshot_type>(0)}
     {}
     template <class ValueType>
-    mvcc<ValueType>::mvcc(value_type const &value)
-            : mutable_current_{smart_ptr::make_shared<snapshot_type>(0, value)}
+    mvcc<ValueType>::mvcc(size_t txn_id,value_type const &value)
+            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, value)}
     {
     }
     template <class ValueType>
-    mvcc<ValueType>::mvcc(value_type &&value)
-            : mutable_current_{smart_ptr::make_shared<snapshot_type>(0, std::move(value))}
+    mvcc<ValueType>::mvcc(size_t txn_id,value_type &&value)
+            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, std::move(value))}
     {
     }
     template <class ValueType>
-    mvcc<ValueType>::mvcc(mvcc const &other) MVCC11_NOEXCEPT(true)
+    mvcc<ValueType>::mvcc(size_t txn_id,mvcc const &other) MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::atomic_load(other)}
     {
     }
     template <class ValueType>
-    mvcc<ValueType>::mvcc(mvcc &&other) MVCC11_NOEXCEPT(true)
+    mvcc<ValueType>::mvcc(size_t txn_id,mvcc &&other) MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::atomic_load(other)}
     {
     }
@@ -227,6 +250,7 @@ namespace mvcc11 {
     {
         return this->overwrite_impl(value);
     }
+
     template <class ValueType>
     auto mvcc<ValueType>::overwrite(value_type &&value) -> const_snapshot_ptr
     {
@@ -246,7 +270,7 @@ namespace mvcc11 {
         {
             auto expected = smart_ptr::atomic_load(&mutable_current_);
             desired->version = expected->version + 1;
-            //desired->_older_snapshot = expected;
+            desired->_older_snapshot = expected;
 
             auto const overwritten =
                     smart_ptr::atomic_compare_exchange_strong(
@@ -257,6 +281,79 @@ namespace mvcc11 {
             if(overwritten)
                 return desired;
         }
+    }
+
+    template <class ValueType>
+    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type const &value) -> const_snapshot_ptr
+    {
+        return this->overwrite_implMV(txn_id,value);
+    }
+
+    template <class ValueType>
+    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type &&value) -> const_snapshot_ptr
+    {
+        return this->overwrite_implMV(txn_id,std::move(value));
+    }
+
+    template <class ValueType>
+    template <class U>
+    auto mvcc<ValueType>::overwrite_implMV(size_t txn_id,U &&value) -> const_snapshot_ptr
+    {
+
+        ///1- Create New-Snapshot initially
+        auto desired =  smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
+
+
+        //while(true)
+        {
+
+            ///2- Fetch/Read  expected Version speculatively
+            auto expected = smart_ptr::atomic_load(&mutable_current_);
+            auto const const_expected_version = expected->version;
+            auto const const_expected_end_version = expected->end_version;
+            auto const &const_expected_value = expected->value;
+
+
+            ///3- Check for version visibility:
+            std::cout<<" check version ="<<txn_id<<"/"<<const_expected_version<<"/"<<const_expected_end_version<<std::endl;
+
+            if (txn_id > const_expected_version && txn_id < const_expected_end_version) {
+                std::cout<<"version visible";
+                if (const_expected_end_version != INF) {
+                    ///Abort if const_expecte_end_version ID is an Active Transaction
+                    ///Continue if const_expecte_end_version ID is an Active Transaction
+                }
+
+                expected->end_version = txn_id;
+                if (expected->end_version == txn_id) {
+                    ///Set status to preparing
+                    /*
+                    T records the update by adding two pointers
+                    to its WriteSet: a pointer to V (old version) and a pointer to VN
+                    (new version).These pointers are used later for multiple purposes:
+                    for logging new versions during commit, for postprocessing after
+                    commit or abort, and for locating old versions when they are no
+                    longer needed and can be garbage collected.*/
+
+
+                    size_t newTxn_id = get_new_transaction_ID();
+                    expected->end_version = newTxn_id;
+                    desired->end_version = INF;
+                    desired->version = newTxn_id;
+                    std::cout << "overwritten" << std::endl;
+                    auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected,
+                                                                                       desired);
+
+                    if (overwritten) {
+                        ///set status commited
+                        return desired;
+                    }
+                } else {
+                    ///transation aborted, repeat again
+                }
+            }
+        }
+        return nullptr;
     }
 
     template <class ValueType>
@@ -326,6 +423,49 @@ namespace mvcc11 {
 
         return nullptr;
     }
+
+    template <class ValueType>
+    template <class Updater>
+    auto mvcc<ValueType>::try_update_implMVCC(Updater &updater,size_t txn_id) -> const_snapshot_ptr
+    {
+
+        //2- load current version
+        auto expected = smart_ptr::atomic_load(&mutable_current_);
+        auto const const_expected_version = expected->version;
+        auto const const_expected_end_version = expected->end_version;
+        auto const &const_expected_value = expected->value;
+
+        //1- Create new version
+        auto desired =  smart_ptr::make_shared<snapshot_type>(txn_id, updater(const_expected_version, const_expected_value));
+
+        //4- check if txn_id is in between begin_ts and end_ts where end_ts = infinity
+        if(txn_id > const_expected_version && txn_id < const_expected_end_version)
+        {
+            desired->begin_version = txn_id;
+            expected->end_version = txn_id;
+
+            //4.1- if true Compare and swap
+            auto const updated =
+                    smart_ptr::atomic_compare_exchange_strong(
+                            &mutable_current_,
+                            &expected,
+                            desired);
+
+            if (updated)
+            {
+
+
+                //5- Set transaction status to COMMITTED
+                return desired;
+            }
+        } else
+        {
+            //Aborted
+            return nullptr;
+
+        }
+    }
+
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until_impl(

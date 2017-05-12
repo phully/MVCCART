@@ -1285,8 +1285,9 @@ class ArtCPP {
 
                 ///MVCC update current version
                 std::cout<<"overwritting "<<value<<std::endl;
-                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                _mvcc->overwrite(value);
+                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(txn_id,l->value);
+                //_mvcc->overwrite(value);
+                _mvcc->overwriteMV(txn_id,value);
                 l->value = static_cast<void*>(_mvcc);
                 return l->value;
             }
@@ -1371,17 +1372,8 @@ class ArtCPP {
         mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
         l->key_len = key_len;
         memcpy(l->key, key, key_len);
-        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(value);
+        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value);
         l->value = static_cast<void*>(_mvcc);
-        // mvcc11::mvcc<RecordType>* pA = static_cast<mvcc11::mvcc<RecordType>*>(l->value); // or A* pA = reinterpret_cast<A*>(a);?
-        // memcpy(l->value, value, sizeof(value));
-        //l->mv_value = value;
-        //l->mv_value->version = txn_id;
-        //l->mv_value.overwrite(value,txn_id);
-        //std::cout<<"inserting mvv leaf value"<<value;
-        //l->mv_value.overwrite(value);
-        // l->mv_value.overwrite(value);
-        //std::cout<<l->mv_value.current()->value;
         return l;
     }
 

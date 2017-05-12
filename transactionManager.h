@@ -22,8 +22,22 @@
 #include <assert.h>
 
 
+#define INF 99999
+
+
 boost::mutex cntmutex;
+///Monotonically increasing
 boost::atomic<int> nextTid;
+
+size_t get_new_transaction_ID()
+{
+    //cntmutex.lock(); //emulates strict order
+    size_t Tid;
+    nextTid.fetch_add(1, boost::memory_order_relaxed);
+    Tid = nextTid.load(boost::memory_order_relaxed);
+    //cntmutex.unlock();
+    return Tid;
+}
 
 namespace smart_ptr
 {
@@ -43,26 +57,9 @@ namespace smart_ptr
 
 class TransactionManager
 {
-/*public:
-    static TransactionManager * instance()
-    {
-        TransactionManager * tmp = instance_.load(boost::memory_order_consume);
-        if (!tmp)
-        {
-            boost::mutex::scoped_lock guard(instantiation_mutex);
-            tmp = instance_.load(boost::memory_order_consume);
-            if (!tmp) {
-                tmp = new TransactionManager;
-                instance_.store(tmp, boost::memory_order_release);
-            }
-        }
-        return tmp;
-    }
-private:
-    static boost::atomic<TransactionManager *> instance_;
-    static boost::mutex instantiation_mutex;
-*/
+
 public:
+
     static boost::mutex cntmutex;
     static boost::atomic<int> nextTid;
     //static boost::atomic<int> nextTid;
@@ -77,7 +74,7 @@ public:
 template <typename T, typename C>
 void todo(T func,C& container , size_t id)
 {
-    //this_thread::sleep_for(chrono::seconds(1));
+    /// Set Transaction to active
     func(container,id);
     std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
     std::cout<<id<<std::endl;
@@ -86,19 +83,14 @@ void todo(T func,C& container , size_t id)
 template <typename TransactionFunc, typename ARTContainer>
 class Transaction
 {
-public:
-    int  Tid;
+    public:
+    size_t  Tid;
     boost::thread* TransactionThread;
 
     Transaction(TransactionFunc func, ARTContainer& ART )
     {
-        ///atomic load and increment
-        //create a new function for handling Mutex Locks generically defined
-        //cntmutex.lock(); //emulates strict order
-        nextTid.fetch_add(1, boost::memory_order_relaxed);
-        Tid = nextTid.load(boost::memory_order_relaxed);
+        Tid=get_new_transaction_ID();
         TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid);
-        //cntmutex.unlock();
     }
 
     void CollectTransaction()
@@ -106,10 +98,6 @@ public:
         TransactionThread->join();
     }
 };
-
-
-
-
 
 
 #endif //MVCCART_TRANSACTIONMANAGER_H
