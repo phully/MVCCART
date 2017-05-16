@@ -1250,16 +1250,16 @@ class ArtCPP {
     #endif
 
 
-    auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id)
+    auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
     {
         int old_val = 0;
         //art_node *root =static_cast<art_node*>(t->root);
-        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id);
+        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,status);
         if (!old_val) t->size++;
         return old;
     }
 
-    void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id)
+    void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1267,7 +1267,7 @@ class ArtCPP {
         if (!n) {
             ///write lock to create a new leaf at the root
             WriteLock _writeLock(_upgradeableReadLock);
-            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id));
+            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id,status));
             *ref = (art_node*) snapshot;
             return NULL;
         }
@@ -1284,10 +1284,9 @@ class ArtCPP {
                 *old = 1;
 
                 ///MVCC update current version
-                std::cout<<"overwritting "<<value<<std::endl;
-                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(txn_id,l->value);
-                //_mvcc->overwrite(value);
-                _mvcc->overwriteMV(txn_id,value);
+                std::cout<<"overwritting="<<txn_id<<key<<std::endl;
+                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+                _mvcc->overwriteMV(txn_id,value,status);
                 l->value = static_cast<void*>(_mvcc);
                 return l->value;
             }
@@ -1297,7 +1296,7 @@ class ArtCPP {
 
             // Create a new leaf
             /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id);
+            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id,status);
 
             // Determine longest prefix
             int longest_prefix = mv_longest_common_prefix(l, l2, depth);
@@ -1345,7 +1344,7 @@ class ArtCPP {
             // Insert the new leaf
 
             ///mvcc make new leaf
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
             add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
             return NULL;
         }
@@ -1357,23 +1356,25 @@ class ArtCPP {
         {
             //lock.unlock();
             _upgradeableReadLock.unlock();
-            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id);
+            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,status);
         }
 
         // No child, node goes within us
         ///mvcc make new leaf
-        mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
+        mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
         add_child(n, ref, key[depth], SET_MV_LEAF(l));
         return NULL;
     }
 
-    static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType value,const size_t txn_id)
+    static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
     {
         mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
         l->key_len = key_len;
         memcpy(l->key, key, key_len);
-        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value);
+        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
+
         l->value = static_cast<void*>(_mvcc);
+        std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
         return l;
     }
 

@@ -30,6 +30,7 @@ std::vector<MyTuple> Bucket;
 std::vector<InTuplePointer> BucketOfPointers;
 
 
+
 static  int iter_callbackByPredicate(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
     //MyTuple * ptr = (MyTuple *)val;
@@ -81,7 +82,6 @@ int main()
 {
     std::cout << "Adaptive Radix Tree- " << std::endl;
 
-
     ReadFromDisk();
     ReadFromDiskToTuples(50);
     ///  Create template for ARTTable. simple template Type
@@ -97,50 +97,86 @@ int main()
 
 
     typedef ARTFULCpp<recordTypeTuple,keyType> TupleContainer;
-    typedef std::function <void(TupleContainer&,size_t id)> TableOperationOnTupleFunc;
+    typedef std::function <void(TupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
     auto ARTableWithTuples =  new TupleContainer();
 
 
 
 
     ///Iterator Operation on TupleContainer
-    auto funcTuple = [] (TupleContainer& ARTWithTuples,size_t id)
+    auto funcTuple = [] (TupleContainer& ARTWithTuples,size_t id,std::string& status)
     {
         std::cout<<"iterate by::"<<id<<std::endl;
         ARTWithTuples.iterate(cb);
     };
 
     ///Writer#1 Insert/Update from Disk
-    auto func2Tuple= [] (TupleContainer& ARTWithTuples,size_t id)
+    auto func2Tuple= [] (TupleContainer& ARTWithTuples,size_t id,std::string& status)
     {
         int index = 0;
         int line = 0;
-        for(index; index <25; index++)
+        for(index; index <10; index++)
         {
-            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
-            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id);
+            //std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id,status);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
+
         }
     };
 
     ///Writer#2 Insert/Update from Disk
-    auto func3Tuple= [] (TupleContainer& ARTWithTuples,size_t id)
+    auto func3Tuple= [] (TupleContainer& ARTWithTuples,size_t id,std::string& status)
     {
-        int index = 25;
+        int index = 10;
         int line = 0;
-        for(index; index <50; index++)
+        for(index; index <20; index++)
         {
-            std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
-            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id);
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id,status);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(200));
+
+        }
+    };
+
+    ///Writer#1 Insert/Update from Disk
+    auto func4Tuple= [] (TupleContainer& ARTWithTuples,size_t id,std::string& status)
+    {
+        int index = 20;
+        int line = 0;
+        for(index; index <30; index++)
+        {
+            //std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id,status);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(300));
+
+        }
+    };
+
+    ///Writer#2 Insert/Update from Disk
+    auto func5Tuple= [] (TupleContainer& ARTWithTuples,size_t id,std::string& status)
+    {
+        int index = 30;
+        int line = 0;
+        for(index; index <40; index++)
+        {
+            //std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id,status);
+            boost::this_thread::sleep_for(boost::chrono::milliseconds(400));
+
         }
     };
 
 
     Transaction<TableOperationOnTupleFunc,TupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func2Tuple,*ARTableWithTuples);
     Transaction<TableOperationOnTupleFunc,TupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func3Tuple,*ARTableWithTuples);
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t3 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func4Tuple,*ARTableWithTuples);
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t4 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(func5Tuple,*ARTableWithTuples);
+
     t1->CollectTransaction();
     t2->CollectTransaction();
-    Transaction<TableOperationOnTupleFunc,TupleContainer>* t3 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
     t3->CollectTransaction();
+    t4->CollectTransaction();
+    Transaction<TableOperationOnTupleFunc,TupleContainer>* t5 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
+    t5->CollectTransaction();
 
 
     /*
@@ -218,8 +254,8 @@ void ReadFromDiskToTuples(int maxTuplesToLoad)
     int len, len2;
     char buf[20];
     char bufVal[50];
-    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
-    FILE *uuid = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words2.txt", "r");
+    FILE *uuid = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
     uintptr_t index = 0;
     int i=1;
 
@@ -238,7 +274,7 @@ void ReadFromDiskToTuples(int maxTuplesToLoad)
         auto tup = makeTuplePtr((unsigned long) i, i + 100,bufVal , i / 100.0);
         Bucket.push_back(tuple);
 
-        //cout<<" tuple key / val = "<<buf<<"/"<<tuple->getAttribute<2>()<<endl;
+        cout<<" tuple key / val = "<<buf<<"/"<<tuple<<endl;
 
         //InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, bufVal, i / 10f0.0));
         //testTable.insertOrUpdateByKey(buf,index);
@@ -260,8 +296,8 @@ void ReadFromDisk()
     char bufVal[50];
 
     /// Reading all Values to store against keys
-    FILE *fvals = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/uuid.txt", "r");
-    FILE *f = fopen("/Users/fuadshah/Desktop/CODE9/MVCCART/test_data/words.txt", "r");
+    FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
+    FILE *f = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words2.txt", "r");
     int index = 0;
     int line = 0;
     while (fgets(bufVal, sizeof bufVal, fvals))

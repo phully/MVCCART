@@ -5,6 +5,7 @@
 #ifndef MVCCART_TRANSACTIONMANAGER_H
 #define MVCCART_TRANSACTIONMANAGER_H
 
+
 #include <iostream>
 #include <inttypes.h>
 #include <boost/thread.hpp>
@@ -26,8 +27,13 @@
 
 
 boost::mutex cntmutex;
-///Monotonically increasing
+std::vector<size_t> active_transactionIds;
 boost::atomic<int> nextTid;
+
+auto Active = "active";
+auto Preparing = "preparing";
+auto Commit = "commit";
+auto Abort = "abort";
 
 size_t get_new_transaction_ID()
 {
@@ -53,29 +59,29 @@ namespace smart_ptr
         return boost::atomic_compare_exchange(p, v, w);
     }
 
-} // namespace smart_ptr
+}
 
 class TransactionManager
 {
-
-public:
-
+    public:
     static boost::mutex cntmutex;
     static boost::atomic<int> nextTid;
-    //static boost::atomic<int> nextTid;
     boost::thread_group TransactionGroup;
+    std::vector<size_t> active_transactions;
 
     void CollectTranscations()
     {
         TransactionGroup.join_all();
     }
-
 };
+
 template <typename T, typename C>
-void todo(T func,C& container , size_t id)
+void todo(T func,C& container , size_t id, std::string& status)
 {
     /// Set Transaction to active
-    func(container,id);
+    status = Active;
+    active_transactionIds.push_back(id);
+    func(container,id,status);
     std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
     std::cout<<id<<std::endl;
 }
@@ -86,18 +92,26 @@ class Transaction
     public:
     size_t  Tid;
     boost::thread* TransactionThread;
+    std::string status;
 
-    Transaction(TransactionFunc func, ARTContainer& ART )
-    {
-        Tid=get_new_transaction_ID();
-        TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid);
-    }
+    Transaction(TransactionFunc func, ARTContainer& ART );
 
     void CollectTransaction()
     {
         TransactionThread->join();
     }
 };
+template <typename T, typename C>
+std::vector<Transaction<T,C>> activeTransactionsGroup;
+
+template <typename TransactionFunc, typename ARTContainer>
+Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
+{
+    Tid=get_new_transaction_ID();
+    TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
+}
+
+
 
 
 #endif //MVCCART_TRANSACTIONMANAGER_H
