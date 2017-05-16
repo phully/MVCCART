@@ -52,7 +52,9 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
     {
 
         mvcc11::mvcc<MyTuple>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<MyTuple>*>(val);
-        std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/"<<_mvvcValue->current()->version<<"\n";
+        std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
+        if(_mvvcValue->current()->_older_snapshot != nullptr)
+            std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<"\n";
     }
     return 0;
 }

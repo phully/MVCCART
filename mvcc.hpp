@@ -190,15 +190,15 @@ namespace mvcc11 {
     template <class ValueType>
     mvcc<ValueType>::mvcc() MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::make_shared<snapshot_type>(0)}
-    {}
+    {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
     mvcc<ValueType>::mvcc(size_t txn_id,value_type const &value,std::string& status)
-            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,0, value)}
-    {}
+            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, value)}
+    {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
     mvcc<ValueType>::mvcc(size_t txn_id,value_type &&value,std::string& status)
-            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,0, std::move(value))}
-    {}
+            : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, std::move(value))}
+    {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
     mvcc<ValueType>::mvcc(size_t txn_id,mvcc const &other,std::string& status) MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::atomic_load(other)}
@@ -343,11 +343,13 @@ namespace mvcc11 {
             desired->end_version = INF;
 
             auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected,
-                                                                               desired);
+                                                                                               desired);
 
             if (overwritten) {
                 std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
                 ///set status commited
+                smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+
                 return desired;
             }
             std::cout<<"missed"<<std::endl;
