@@ -276,7 +276,7 @@ namespace mvcc11 {
 
             if(overwritten)
             {
-                std::cout<<"Overwrite"<<std::endl;
+                //std::cout<<"Overwrite"<<std::endl;
                 return desired;
             }
             std::cout<<"missed";
@@ -346,7 +346,7 @@ namespace mvcc11 {
                                                                                                desired);
 
             if (overwritten) {
-                std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
+               // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
                 ///set status commited
                 smart_ptr::atomic_store(&desired->_older_snapshot,expected);
 

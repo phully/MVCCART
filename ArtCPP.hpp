@@ -1284,7 +1284,7 @@ class ArtCPP {
                 *old = 1;
 
                 ///MVCC update current version
-                std::cout<<"overwritting="<<txn_id<<key<<std::endl;
+                //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
                 mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
                 _mvcc->overwriteMV(txn_id,value,status);
                 l->value = static_cast<void*>(_mvcc);
@@ -1374,7 +1374,7 @@ class ArtCPP {
         mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
 
         l->value = static_cast<void*>(_mvcc);
-        std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
+        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
         return l;
     }
 

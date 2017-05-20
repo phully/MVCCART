@@ -90,7 +90,7 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/main.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/MVCCARTTest.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc.hpp">

@@ -123,32 +123,32 @@ mvccart/fast:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
 .PHONY : mvccart/fast
 
-main.o: main.cpp.o
+MVCCARTTest.o: MVCCARTTest.cpp.o
 
-.PHONY : main.o
+.PHONY : MVCCARTTest.o
 
 # target to build an object file
-main.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.o
-.PHONY : main.cpp.o
+MVCCARTTest.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o
+.PHONY : MVCCARTTest.cpp.o
 
-main.i: main.cpp.i
+MVCCARTTest.i: MVCCARTTest.cpp.i
 
-.PHONY : main.i
+.PHONY : MVCCARTTest.i
 
 # target to preprocess a source file
-main.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.i
-.PHONY : main.cpp.i
+MVCCARTTest.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.i
+.PHONY : MVCCARTTest.cpp.i
 
-main.s: main.cpp.s
+MVCCARTTest.s: MVCCARTTest.cpp.s
 
-.PHONY : main.s
+.PHONY : MVCCARTTest.s
 
 # target to generate assembly for a file
-main.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.s
-.PHONY : main.cpp.s
+MVCCARTTest.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.s
+.PHONY : MVCCARTTest.cpp.s
 
 transactionManager.o: transactionManager.cpp.o
 
@@ -186,9 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
-	@echo "... main.o"
-	@echo "... main.i"
-	@echo "... main.s"
+	@echo "... MVCCARTTest.o"
+	@echo "... MVCCARTTest.i"
+	@echo "... MVCCARTTest.s"
 	@echo "... transactionManager.o"
 	@echo "... transactionManager.i"
 	@echo "... transactionManager.s"

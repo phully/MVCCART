@@ -134,7 +134,7 @@ class ARTFULCpp
             ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
 
             //ARTIndexTable->startInsertModify((unsigned char*)key, len,rec,txn_id);
-            std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
+            //std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
         }
 
         /**

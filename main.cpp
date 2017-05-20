@@ -54,7 +54,7 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
         mvcc11::mvcc<MyTuple>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<MyTuple>*>(val);
         std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
         if(_mvvcValue->current()->_older_snapshot != nullptr)
-            std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<"\n";
+            std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<" / oldvalue="<<_mvvcValue->current()->_older_snapshot->value<<"\n";
     }
     return 0;
 }
@@ -120,7 +120,7 @@ int main()
         for(index; index <10; index++)
         {
             //std::cout<<"Inserting by::"<<id<<"-"<<KeysToStore[index]<<std::endl;
-            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index], Bucket[index],id,status);
+            ARTWithTuples.insertOrUpdateByKey(KeysToStore[index],Bucket[index],id,status);
             boost::this_thread::sleep_for(boost::chrono::milliseconds(100));
 
         }
@@ -179,7 +179,6 @@ int main()
     t4->CollectTransaction();
     Transaction<TableOperationOnTupleFunc,TupleContainer>* t5 = new Transaction<TableOperationOnTupleFunc,TupleContainer>(funcTuple,*ARTableWithTuples);
     t5->CollectTransaction();
-
 
     /*
     ///Iterator Operation
@@ -272,8 +271,8 @@ void ReadFromDiskToTuples(int maxTuplesToLoad)
         buf[len] = '\0';
         strcpy(ValuesToStore[index], bufVal);
         //Bucket.push_back(MyTuple((unsigned long) i, i + 100, ValuesToStore[index], i / 100.0));
-        MyTuple tuple =   MyTuple((unsigned long) i, i + 100, bufVal, i / 100.0);
-        auto tup = makeTuplePtr((unsigned long) i, i + 100,bufVal , i / 100.0);
+        MyTuple tuple =   MyTuple((unsigned long) i, i + 100, bufVal, i/100.0);
+        auto tup = makeTuplePtr((unsigned long) i, i + 100,bufVal, i/100.0);
         Bucket.push_back(tuple);
 
         cout<<" tuple key / val = "<<buf<<"/"<<tuple<<endl;

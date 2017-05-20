@@ -1,8 +1,11 @@
 cmake_minimum_required(VERSION 2.8.4)
 project(mvccart)
 
-find_package(Boost 1.63.0 COMPONENTS  log log_setup system thread filesystem REQUIRED)
+
+find_package(Boost 1.63.0 COMPONENTS  log log_setup system thread filesystem unit_test_framework REQUIRED)
 add_definitions(-DBOOST_LOG_DYN_LINK)
+
+
 
 if(Boost_FOUND)
 
@@ -17,14 +20,17 @@ if(Boost_FOUND)
     set(Boost_USE_MULTITHREADED      ON)
     set(Boost_USE_STATIC_RUNTIME    OFF)
     set(BOOST_ALL_DYN_LINK           ON)   # force dynamic linking for all libraries
+
 endif()
 
 
-set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
+OPTION(MVCC11_USES_STD_SHARED_PTR "Use std::shared_ptr instead of boost::shared_ptr" OFF)
+OPTION(BUILD_MVCC11_TEST_WITH_STDLIB_LIBCPP "Build mvcc_test with -stdlib=libc++" OFF)
 
-set(SOURCE_FILES main.cpp ARTFULCpp.h ArtCPP.hpp transactionManager.h transactionManager.cpp mvcc.hpp )
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
+set(SOURCE_FILES  ARTFULCpp.h ArtCPP.hpp transactionManager.h transactionManager.cpp mvcc.hpp  MVCCARTTest.cpp)
 add_executable(mvccart ${SOURCE_FILES})
-target_link_libraries(mvccart ${Boost_LIBRARIES})
+target_link_libraries(mvccart ${Boost_LIBRARIES} )
 
 
 

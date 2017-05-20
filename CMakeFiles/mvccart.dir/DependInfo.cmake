@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/fuadshah/Desktop/MVCCART/main.cpp" "/Users/fuadshah/Desktop/MVCCART/CMakeFiles/mvccart.dir/main.cpp.o"
+  "/Users/fuadshah/Desktop/MVCCART/MVCCARTTest.cpp" "/Users/fuadshah/Desktop/MVCCART/CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o"
   "/Users/fuadshah/Desktop/MVCCART/transactionManager.cpp" "/Users/fuadshah/Desktop/MVCCART/CMakeFiles/mvccart.dir/transactionManager.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")

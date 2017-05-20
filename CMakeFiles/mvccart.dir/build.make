@@ -57,33 +57,9 @@ include CMakeFiles/mvccart.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/mvccart.dir/flags.make
 
-CMakeFiles/mvccart.dir/main.cpp.o: CMakeFiles/mvccart.dir/flags.make
-CMakeFiles/mvccart.dir/main.cpp.o: main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mvccart.dir/main.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mvccart.dir/main.cpp.o -c /Users/fuadshah/Desktop/MVCCART/main.cpp
-
-CMakeFiles/mvccart.dir/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mvccart.dir/main.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/fuadshah/Desktop/MVCCART/main.cpp > CMakeFiles/mvccart.dir/main.cpp.i
-
-CMakeFiles/mvccart.dir/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mvccart.dir/main.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/fuadshah/Desktop/MVCCART/main.cpp -o CMakeFiles/mvccart.dir/main.cpp.s
-
-CMakeFiles/mvccart.dir/main.cpp.o.requires:
-
-.PHONY : CMakeFiles/mvccart.dir/main.cpp.o.requires
-
-CMakeFiles/mvccart.dir/main.cpp.o.provides: CMakeFiles/mvccart.dir/main.cpp.o.requires
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/main.cpp.o.provides.build
-.PHONY : CMakeFiles/mvccart.dir/main.cpp.o.provides
-
-CMakeFiles/mvccart.dir/main.cpp.o.provides.build: CMakeFiles/mvccart.dir/main.cpp.o
-
-
 CMakeFiles/mvccart.dir/transactionManager.cpp.o: CMakeFiles/mvccart.dir/flags.make
 CMakeFiles/mvccart.dir/transactionManager.cpp.o: transactionManager.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mvccart.dir/transactionManager.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mvccart.dir/transactionManager.cpp.o"
 	/Library/Developer/CommandLineTools/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mvccart.dir/transactionManager.cpp.o -c /Users/fuadshah/Desktop/MVCCART/transactionManager.cpp
 
 CMakeFiles/mvccart.dir/transactionManager.cpp.i: cmake_force
@@ -105,22 +81,47 @@ CMakeFiles/mvccart.dir/transactionManager.cpp.o.provides: CMakeFiles/mvccart.dir
 CMakeFiles/mvccart.dir/transactionManager.cpp.o.provides.build: CMakeFiles/mvccart.dir/transactionManager.cpp.o
 
 
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o: CMakeFiles/mvccart.dir/flags.make
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o: MVCCARTTest.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o -c /Users/fuadshah/Desktop/MVCCART/MVCCARTTest.cpp
+
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mvccart.dir/MVCCARTTest.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/fuadshah/Desktop/MVCCART/MVCCARTTest.cpp > CMakeFiles/mvccart.dir/MVCCARTTest.cpp.i
+
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mvccart.dir/MVCCARTTest.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/fuadshah/Desktop/MVCCART/MVCCARTTest.cpp -o CMakeFiles/mvccart.dir/MVCCARTTest.cpp.s
+
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.requires:
+
+.PHONY : CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.requires
+
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.provides: CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.requires
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.provides.build
+.PHONY : CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.provides
+
+CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.provides.build: CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o
+
+
 # Object files for target mvccart
 mvccart_OBJECTS = \
-"CMakeFiles/mvccart.dir/main.cpp.o" \
-"CMakeFiles/mvccart.dir/transactionManager.cpp.o"
+"CMakeFiles/mvccart.dir/transactionManager.cpp.o" \
+"CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o"
 
 # External object files for target mvccart
 mvccart_EXTERNAL_OBJECTS =
 
-mvccart: CMakeFiles/mvccart.dir/main.cpp.o
 mvccart: CMakeFiles/mvccart.dir/transactionManager.cpp.o
+mvccart: CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o
 mvccart: CMakeFiles/mvccart.dir/build.make
 mvccart: /usr/local/include/lib/libboost_log.dylib
 mvccart: /usr/local/include/lib/libboost_log_setup.dylib
 mvccart: /usr/local/include/lib/libboost_system.dylib
 mvccart: /usr/local/include/lib/libboost_thread.dylib
 mvccart: /usr/local/include/lib/libboost_filesystem.dylib
+mvccart: /usr/local/include/lib/libboost_unit_test_framework.dylib
 mvccart: CMakeFiles/mvccart.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable mvccart"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/mvccart.dir/link.txt --verbose=$(VERBOSE)
@@ -130,8 +131,8 @@ CMakeFiles/mvccart.dir/build: mvccart
 
 .PHONY : CMakeFiles/mvccart.dir/build
 
-CMakeFiles/mvccart.dir/requires: CMakeFiles/mvccart.dir/main.cpp.o.requires
 CMakeFiles/mvccart.dir/requires: CMakeFiles/mvccart.dir/transactionManager.cpp.o.requires
+CMakeFiles/mvccart.dir/requires: CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o.requires
 
 .PHONY : CMakeFiles/mvccart.dir/requires
 
