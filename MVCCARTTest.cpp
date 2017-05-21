@@ -41,10 +41,12 @@ typedef pfabric::Tuple<unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
 typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
+
 auto ARTableWithTuples =  new ARTTupleContainer();
 auto ARTableWithTuples2 =  new ARTTupleContainer();
+auto ARTableWithTuples3 =  new ARTTupleContainer();
 
-char KeysToStore[200000][50];
+ char KeysToStore[250000][20];
 std::vector<RecordType> mValue;
 
 
@@ -63,6 +65,39 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
 
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
+
+
+    BOOST_AUTO_TEST_CASE(test_from_loading_from_Buckets)
+    {
+
+        cout << "loading from buckets" << endl;
+        int len, len2;
+        char buf[20];
+        char bufVal[50];
+
+        /// Reading all Values to store against keys
+        FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
+        FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words.txt", "r");
+        int index = 0;
+
+        while (fgets(bufVal, sizeof bufVal, fvals))
+        {
+            fgets(buf, sizeof buf, fkeys);
+            len = strlen(bufVal);
+            len2 = strlen(buf);
+            buf[len2] = '\0';
+            bufVal[len] = '\0';
+            RecordType tuple = RecordType((unsigned long) index, index + 100, bufVal, index / 100.0);
+            strcpy(KeysToStore[index] , buf);
+            mValue.push_back(tuple);
+            index++;
+
+            if (index > 200000)
+            {
+                break;
+            }
+        }
+    }
 
     BOOST_AUTO_TEST_CASE(test_null_snapshot_on_1st_reference)
     {
@@ -115,28 +150,13 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     {
         cout << "test_load_ARTIndex_MVCC_twenty_thousand_keys_single_transaction" << endl;
 
-        ///Writer#1 Insert/Update from Disk
+        ///Writer#1 Insert/Update from Bucket
         auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
         {
-            int len, len2;
-            char buf[20];
-            char bufVal[50];
-
-            /// Reading all Values to store against keys
-            FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
-            FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words.txt", "r");
-            int index = 0;
-
-            while (fgets(bufVal, sizeof bufVal, fvals))
+            int index=0;
+            while (true)
             {
-                fgets(buf, sizeof buf, fkeys);
-                len = strlen(bufVal);
-                len2 = strlen(buf);
-
-                buf[len2] = '\0';
-                bufVal[len] = '\0';
-                RecordType tuple = RecordType((unsigned long) index, index + 100, bufVal, index / 100.0);
-                ARTable.insertOrUpdateByKey(buf,tuple,id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
                 index++;
 
                 if(index > 200000)
@@ -159,33 +179,35 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
+    BOOST_AUTO_TEST_CASE(test_scan_all_vals)
+    {
+            cout << "test_scan_through_all_tree" << endl;
+            ///Iterator Operation on TupleContainer
+            auto scanAll = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+            {
+                std::cout<<"iterate by::"<<id<<std::endl;
+                ARTWithTuples.iterate(cb);
+            };
 
-    BOOST_AUTO_TEST_CASE(test_multi_write)
+            auto start_time2 = std::chrono::high_resolution_clock::now();
+            Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(scanAll,*ARTableWithTuples);
+            t2->CollectTransaction();
+            auto end_time2= std::chrono::high_resolution_clock::now();
+            cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+            cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+        }
+
+    BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_twenty_thousand_keys_by_two_transaction)
     {
         cout << "test multi writes" << endl;
 
         ///Writer#1 Insert/Update from Disk
         auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
         {
-            int len, len2;
-            char buf[20];
-            char bufVal[50];
-
-            /// Reading all Values to store against keys
-            FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
-            FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words3.txt", "r");
-            int index = 0;
-
-            while (fgets(bufVal, sizeof bufVal, fvals))
+            int index=0;
+            while (true)
             {
-                fgets(buf, sizeof buf, fkeys);
-                len = strlen(bufVal);
-                len2 = strlen(buf);
-
-                buf[len2] = '\0';
-                bufVal[len] = '\0';
-                RecordType tuple = RecordType((unsigned long) index, index + 100, bufVal, index / 100.0);
-                ARTable.insertOrUpdateByKey(buf,tuple,id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
                 index++;
 
                 if(index > 100000)
@@ -197,27 +219,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         auto WriteKeys2= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
         {
-            int len, len2;
-            char buf[20];
-            char bufVal[50];
-
-
-            /// Reading all Values to store against keys
-            FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
-            FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words2.txt", "r");
-            int index = 100000;
-
-            while (fgets(bufVal, sizeof bufVal, fvals))
+            int index=100000;
+            while (true)
             {
-                fgets(buf, sizeof buf, fkeys);
-                len = strlen(bufVal);
-                len2 = strlen(buf);
-
-                buf[len2] = '\0';
-                bufVal[len] = '\0';
-                RecordType tuple = RecordType((unsigned long) index, index + 100, bufVal, index / 100.0);
-                ARTable.insertOrUpdateByKey(buf,tuple,id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
                 index++;
+
                 if(index > 200000)
                 {
                     break;
@@ -231,33 +238,101 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys2,*ARTableWithTuples2);
         t1->CollectTransaction();
         t2->CollectTransaction();
-
         auto end_time= std::chrono::high_resolution_clock::now();
 
-        cout<<"Multi Thread Writer Time->";
+        cout<<"Multi 2 Thread Writer Time->";
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
 
-
     }
 
-    BOOST_AUTO_TEST_CASE(test_scan_all_vals)
+    BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_twenty_thousand_keys_by_four_transaction)
     {
-        cout << "test_scan_through_all_tree" << endl;
-        ///Iterator Operation on TupleContainer
-        auto scanAll = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        cout << "\ntest 4-multi writes" << endl;
+
+        ///Writer#1 Insert/Update from Disk
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
         {
-            std::cout<<"iterate by::"<<id<<std::endl;
-            ARTWithTuples.iterate(cb);
+            int index=0;
+            while (true)
+            {
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+                index++;
+
+                if(index > 50000)
+                {
+                    break;
+                }
+            }
         };
 
-        //auto start_time2 = std::chrono::high_resolution_clock::now();
-        //Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(scanAll,*ARTableWithTuples);
-        //t2->CollectTransaction();
-        //auto end_time2= std::chrono::high_resolution_clock::now();
-        //cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
-        //cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+        auto WriteKeys2= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        {
+            int index=50000;
+            while (true)
+            {
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+                index++;
+
+                if(index > 100000)
+                {
+                    break;
+                }
+            }
+        };
+
+
+        auto WriteKeys3= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        {
+            int index=100000;
+            while (true)
+            {
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+                index++;
+
+                if(index > 150000)
+                {
+                    break;
+                }
+            }
+        };
+
+        auto WriteKeys4= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        {
+            int index=150000;
+            while (true)
+            {
+                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+                index++;
+
+                if(index > 200000)
+                {
+                    break;
+                }
+            }
+        };
+
+
+        auto start_time = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys1,*ARTableWithTuples3);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys2,*ARTableWithTuples3);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t3 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys3,*ARTableWithTuples3);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t4 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys4,*ARTableWithTuples3);
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        auto end_time= std::chrono::high_resolution_clock::now();
+
+        cout<<"Multi Thread 4-Writers total Time->";
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+
     }
+
+
+
+
 
 
 

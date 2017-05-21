@@ -274,7 +274,6 @@ void ReadFromDiskToTuples(int maxTuplesToLoad)
         MyTuple tuple =   MyTuple((unsigned long) i, i + 100, bufVal, i/100.0);
         auto tup = makeTuplePtr((unsigned long) i, i + 100,bufVal, i/100.0);
         Bucket.push_back(tuple);
-
         cout<<" tuple key / val = "<<buf<<"/"<<tuple<<endl;
 
         //InTuplePointer tptr (new MyTuple((unsigned long) i, i + 100, bufVal, i / 10f0.0));
