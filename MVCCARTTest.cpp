@@ -202,31 +202,25 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << "test multi writes" << endl;
 
         ///Writer#1 Insert/Update from Disk
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
-        {
-            int index=0;
-            while (true)
-            {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+        auto WriteKeys1 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
+            int index = 0;
+            while (true) {
+                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
                 index++;
 
-                if(index > 100000)
-                {
+                if (index > 100000) {
                     break;
                 }
             }
         };
 
-        auto WriteKeys2= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
-        {
-            int index=100000;
-            while (true)
-            {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],mValue[index],id,status);
+        auto WriteKeys2 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
+            int index = 100000;
+            while (true) {
+                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
                 index++;
 
-                if(index > 200000)
-                {
+                if (index > 200000) {
                     break;
                 }
             }
@@ -234,16 +228,17 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
         auto start_time = std::chrono::high_resolution_clock::now();
-        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys1,*ARTableWithTuples2);
-        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys2,*ARTableWithTuples2);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                WriteKeys1, *ARTableWithTuples2);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                WriteKeys2, *ARTableWithTuples2);
         t1->CollectTransaction();
         t2->CollectTransaction();
-        auto end_time= std::chrono::high_resolution_clock::now();
+        auto end_time = std::chrono::high_resolution_clock::now();
 
-        cout<<"Multi 2 Thread Writer Time->";
+        cout << "Multi 2 Thread Writer Time->";
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
-
     }
 
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_twenty_thousand_keys_by_four_transaction)
@@ -313,7 +308,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         };
 
 
-        auto start_time = std::chrono::high_resolution_clock::now();
+        /*auto start_time = std::chrono::high_resolution_clock::now();
         Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys1,*ARTableWithTuples3);
         Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys2,*ARTableWithTuples3);
         Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t3 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys3,*ARTableWithTuples3);
@@ -326,14 +321,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         cout<<"Multi Thread 4-Writers total Time->";
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
-        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";*/
 
     }
-
-
-
-
-
 
 
 

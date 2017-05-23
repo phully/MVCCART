@@ -126,6 +126,7 @@ namespace mvcc11 {
     template <class ValueType>
     class mvcc
     {
+
     public:
         using value_type = ValueType;
         using snapshot_type = snapshot<value_type>;
@@ -149,8 +150,12 @@ namespace mvcc11 {
 
         const_snapshot_ptr overwrite(value_type const &value,std::string& status);
         const_snapshot_ptr overwrite(value_type &&value,std::string& status);
+
+
         const_snapshot_ptr overwriteMV(size_t txn_id,value_type const &value,std::string& status);
         const_snapshot_ptr overwriteMV(size_t txn_id,value_type &&value,std::string& status);
+
+        const_snapshot_ptr deleteMV(size_t txn_id,std::string& status);
 
         template <class Updater>
         const_snapshot_ptr update(Updater updater,std::string& status);
@@ -170,6 +175,9 @@ namespace mvcc11 {
 
         template <class U>
         const_snapshot_ptr overwrite_implMV(size_t txn_id,U &&value,std::string& status);
+
+        template <class U>
+        const_snapshot_ptr delete_implMV(size_t txn_id,std::string& status);
 
         template <class Updater>
         const_snapshot_ptr try_update_impl(Updater &updater,std::string& status);
@@ -297,65 +305,93 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class U>
-    auto mvcc<ValueType>::overwrite_implMV(size_t txn_id,U &&value,std::string& status) -> const_snapshot_ptr {
+    auto mvcc<ValueType>::overwrite_implMV(size_t txn_id,U &&value,std::string& status) -> const_snapshot_ptr
+    {
 
         ///1- Create New-Snapshot initially
         auto desired = smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
 
-        ///2- Fetch/Read  expected Version speculatively
-        /*auto expected = smart_ptr::atomic_load(&mutable_current_);
-        auto const const_expected_version = expected->version;
-        auto const const_expected_end_version = expected->end_version;
-        auto const &const_expected_value = expected->value;*/
-
-
-        ///3- Check for version visibility:
-
-        ///if record was created and its active currently and not by the current transaction
-    /*    if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) !=
-            active_transactionIds.end()) {
-            if (const_expected_version != txn_id) {
-                status = Abort;
-                std::cout << "Aborted" << std::endl;
-                //return nullptr;
-            }
-        }
-
-
-        if (const_expected_end_version != INF) {
-            if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_end_version) !=
-                active_transactionIds.end()) {
-                status = Abort;
-                std::cout << "Aborted" << std::endl;
-                //return nullptr;
-            }
-        }
-    */
-        //size_t newTxn_id = get_new_transaction_ID();
-
-        while (true)
+        //while (true)
         {
+
+            ///2- Fetch/Read  expected Version speculatively
             auto expected = smart_ptr::atomic_load(&mutable_current_);
             auto const const_expected_version = expected->version;
             auto const const_expected_end_version = expected->end_version;
             auto const &const_expected_value = expected->value;
+            //desired->end_version = INF;
+
+            ///3- if record was created and its active currently and not by the current transaction
+            if ( const_expected_end_version != INF && const_expected_version != txn_id)
+            {
+
+                if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
+                {
+                    status = Abort;
+                    std::cout << "Aborted on value " << expected->value<< std::endl;
+                    //continue;
+                    return nullptr;
+
+                }
+            }
+
+
             expected->end_version = txn_id;
-            desired->end_version = INF;
-
-            auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected,
-                                                                                               desired);
-
-            if (overwritten) {
-               // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
+            auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
+            if (overwritten)
+            {
+                // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
                 ///set status commited
                 smart_ptr::atomic_store(&desired->_older_snapshot,expected);
-
                 return desired;
             }
-            std::cout<<"missed"<<std::endl;
         }
         return nullptr;
     }
+
+    template <class ValueType>
+    auto mvcc<ValueType>::deleteMV(size_t txn_id,std::string& status) -> const_snapshot_ptr
+    {
+        return this->delete_implMV(txn_id,status);
+    }
+
+    template <class ValueType>
+    template <class U>
+    auto mvcc<ValueType>::delete_implMV(size_t txn_id,std::string& status) -> const_snapshot_ptr
+    {
+
+        ///1- Create New-Snapshot initially
+        //auto desired = smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
+
+        while (true)
+        {
+
+            ///2- Fetch/Read  expected Version speculatively
+            auto expected = smart_ptr::atomic_load(&mutable_current_);
+            auto const const_expected_version = expected->version;
+            auto const const_expected_end_version = expected->end_version;
+            auto const &const_expected_value = expected->value;
+
+
+            ///3- if record was created and its active currently and not by the current transaction
+            if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end()  && const_expected_end_version != INF)
+            {
+                if (const_expected_version != txn_id)
+                {
+                    status = Abort;
+                    std::cout << "Aborted" << std::endl;
+                    continue;
+                }
+            }
+
+            ///4- return expected old deleted with end version set to txn-id
+            expected->end_version = txn_id;
+            return expected;
+
+        }
+        return nullptr;
+    }
+
 
     template <class ValueType>
     template <class Updater>
@@ -375,7 +411,7 @@ namespace mvcc11 {
     template <class Updater>
     auto mvcc<ValueType>::try_update(Updater updater,std::string& status) -> const_snapshot_ptr
     {
-        return this->try_update_impl(updater);
+        return this->try_update_impl(updater,status);
     }
 
     template <class ValueType>
@@ -408,10 +444,7 @@ namespace mvcc11 {
         auto const const_expected_version = expected->version;
         auto const &const_expected_value = expected->value;
 
-        auto desired =
-                smart_ptr::make_shared<snapshot_type>(
-                        const_expected_version + 1,
-                        updater(const_expected_version, const_expected_value));
+        auto desired = smart_ptr::make_shared<snapshot_type>( const_expected_version + 1, updater(const_expected_version, const_expected_value));
 
         auto const updated =
                 smart_ptr::atomic_compare_exchange_strong(
@@ -430,41 +463,52 @@ namespace mvcc11 {
     auto mvcc<ValueType>::try_update_implMVCC(Updater &updater,size_t txn_id,std::string& status) -> const_snapshot_ptr
     {
 
-        //2- load current version
+
+        ///2- Fetch/Read  expected Version speculatively
         auto expected = smart_ptr::atomic_load(&mutable_current_);
         auto const const_expected_version = expected->version;
         auto const const_expected_end_version = expected->end_version;
         auto const &const_expected_value = expected->value;
+        expected->end_version = txn_id;
 
-        //1- Create new version
-        auto desired =  smart_ptr::make_shared<snapshot_type>(txn_id, updater(const_expected_version, const_expected_value));
+        ///1- Create New-Snapshot initially
+        auto desired =
+                smart_ptr::make_shared<snapshot_type>(
+                        const_expected_version + 1,
+                        updater(const_expected_version, const_expected_value));
 
-        //4- check if txn_id is in between begin_ts and end_ts where end_ts = infinity
-        if(txn_id > const_expected_version && txn_id < const_expected_end_version)
+
+
+
+        ///3- if record was created and its active currently and not by the current transaction
+        if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end())
         {
-            desired->begin_version = txn_id;
-            expected->end_version = txn_id;
-
-            //4.1- if true Compare and swap
-            auto const updated =
-                    smart_ptr::atomic_compare_exchange_strong(
-                            &mutable_current_,
-                            &expected,
-                            desired);
-
-            if (updated)
+            if (const_expected_version != txn_id)
             {
-
-
-                //5- Set transaction status to COMMITTED
-                return desired;
+                status = Abort;
+                std::cout << "Aborted" << std::endl;
             }
-        } else
-        {
-            //Aborted
-            return nullptr;
-
         }
+
+        /*if (const_expected_end_version != INF) {
+              if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_end_version) !=
+              active_transactionIds.end()) {
+              status = Abort;
+              std::cout << "Aborted" << std::endl;
+              //return nullptr;
+          }
+         }*/
+
+        auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
+        if (overwritten)
+        {
+            // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
+            ///set status commited
+            smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+            return desired;
+        }
+
+        return nullptr;
     }
 
     template <class ValueType>

@@ -82,8 +82,19 @@ void todo(T func,C& container , size_t id, std::string& status)
     status = Active;
     active_transactionIds.push_back(id);
     func(container,id,status);
+
     //std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
     //std::cout<<id<<std::endl;
+}
+
+
+void commitTransaction(size_t id)
+{
+
+    /*    for(int i=0; i< active_transactions. )
+            {if(active_transactions[i] == id)
+            active_transactionserase(i);
+    */
 }
 
 template <typename TransactionFunc, typename ARTContainer>
