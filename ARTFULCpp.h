@@ -75,12 +75,12 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 template <typename RecordType, typename KeyType = char[25]>
 class ARTFULCpp
 {
-    public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
-    //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
+        public: ArtCPP<RecordType, KeyType>* ARTIndexTable;
+        //auto testTable = std::make_shared<ARTable<MyTuple ,DefaultKeyType>> ();
 
-    typedef std::function<bool( void*)> Pred;
-    typedef std::function<bool(RecordType&)> UpdelFunc;
-    typedef std::function<bool(RecordType&)> UpPred;
+        typedef std::function<bool( void*)> Pred;
+        typedef std::function<bool(RecordType&)> UpdelFunc;
+        typedef std::function<bool(RecordType&)> UpPred;
 
 
 
@@ -117,25 +117,8 @@ class ARTFULCpp
         public:void insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id,std::string& status)
         {
             int len = strlen(key);
-            //key[len] = '\0';
-            //std::cout<<"addres inserted::"<<rec<<"\n";
-            //converting void pointer to the Type of TuplePointer
-            //boost::intrusive_ptr<InTuplePointer> b = *(boost::intrusive_ptr<InTuplePointer>*)(rec);
-            //auto tptrr = *rec->getAttribute<1>();
-            //std::cout<<tptrr;
-            //void * data = (void*)&rec;
-            //void* dt = static_cast<void*>(rec);
-            //void* b = reinterpret_cast<void*>(rec);
-
-            //this->NumberOfActiveWriteModifiers++;
-            //boost::thread* mythread = new boost::thread((ARTIndexTable->art_insert),(unsigned char*)key, len, (void*)rec);
-            //Writerthreads.push_back(mythread);
-            //ARTIndexTable->art_insert((unsigned char*)key, len, (void*)rec);
             ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
-
-            //ARTIndexTable->startInsertModify((unsigned char*)key, len,rec,txn_id);
-            //std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
-        }
+         }
 
         /**
         * @brief Delete a tuple.
@@ -146,7 +129,7 @@ class ARTFULCpp
         * @param key the key for which the tuples are deleted from the table
         * @return the number of deleted tuples
         */
-        public: RecordType * deleteByKey(KeyType key)
+        public: RecordType* deleteByKey(KeyType key,size_t txn_id,std::string& status)
         {
             int len;
             uintptr_t line = 1;
@@ -158,7 +141,7 @@ class ARTFULCpp
             //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
             // Delete, should get line-no back
-            ///void * val = ARTIndexTable->art_delete((unsigned char*)key, len);
+            void * val = ARTIndexTable->mv_art_delete(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status);
             ///RecordType *  val2 = (RecordType *)val;
             //return val2;
             return NULL;
@@ -190,7 +173,7 @@ class ARTFULCpp
         * @param key the key value
         * @return the tuple associated with the given key
         */
-        public: RecordType * findValueByKey(KeyType key)
+        public: void* findValueByKey(KeyType key)
         {
             int len;
             uintptr_t line = 1;
@@ -198,11 +181,8 @@ class ARTFULCpp
             key[len] = '\0';
 
             //Search first, ensure the entries still exit optional
-            void*  val = ARTIndexTable->startSearchThread((unsigned char*)key, len);
-            ///RecordType* val2= (RecordType *)val;
-            //std::cout<<"Size of ART: "<<ARTIndexTable->art_size()<<std::endl;
-            ///return val2;
-            return NULL;
+            void*  val = ARTIndexTable->searchKey((unsigned char*)key, len);
+            return val;
         }
 
 
@@ -212,11 +192,6 @@ class ARTFULCpp
         public:void iterate(art_callback cb)
         {
             uint64_t out[] = {0, 0};
-            //this->NumberOfActiveReaders++;
-            //boost::thread* mythread = new boost::thread((ARTIndexTable->art_iter),cb,&out);
-            //Readerthreads.push_back(mythread);
-            //ARTIndexTable->startIterating(cb, &out);
-            //mv_art_iter
             ARTIndexTable->mv_art_iter(ARTIndexTable->t,cb,&out);
         }
 
@@ -227,41 +202,8 @@ class ARTFULCpp
         public:void iterateByPredicate(art_callback iter_callbackByPredicate, Pred predicate)
         {
             uint64_t out[] = {0, 0};
-            ///ARTIndexTable->art_iterByPredicate(iter_callbackByPredicate, &out,predicate);
+            ARTIndexTable->mv_art_iterByPredicate(ARTIndexTable->t,iter_callbackByPredicate, &out,predicate);
         }
 
-
-
-         /**
-        * @brief Update all tuples satisfying the given predicate.
-        *
-        * Update all tuples in the table which satisfy the given predicate.
-        * The actual modification is done by the updater function specified as parameter.
-        *
-        * @param pfunc a predicate func returning true for a tuple to be modified
-        * @param ufunc a function performing the modification by returning a modified
-        *        tuple
-        * @return the number of modified tuples
-        */
-        unsigned long UpdateKeyWhere(UpPred pfunc, UpdelFunc ufunc) {
-            return 0;
-        }
-
-        /**
-         * @brief Update the tuple specified by the given key.
-         *
-         * Update the tuple in the table associated with the given key.
-         * The actual modification is done by the updater function specified as parameter.
-         *
-         * @param key the key of the tuple to be modified
-         * @param func a function performing the modification by returning a modified
-         *        tuple
-         * @return the number of modified tuples
-         */
-        unsigned long DeleteKeyWhere(KeyType key, UpdelFunc ufunc) {
-
-            return 0;
-        }
-        //ARTFULCpp(const pfabric::TableInfo& tInfo) : BaseTable(tInfo) {}
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

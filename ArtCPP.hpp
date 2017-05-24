@@ -905,64 +905,7 @@ int recursive_iter(art_node *n, art_callback cb, void *data)
  */
 int art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data);
 
-/// Recursively iterates over the tree
-static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate) {
-    // Handle base cases
-    if (!n) return 0;
-    if (IS_LEAF(n))
-    {
-        art_leaf *l = LEAF_RAW(n);
-        //printf("l-val %s",(const unsigned char *)l->value);
-        if (l->value !=NULL) {
-            if (predicate(l->value)) {
-                return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
-            }
-            return NULL;
-        }
-    }
 
-    int idx, res;
-    switch (n->type)
-    {
-        case NODE4:
-            for (int i=0; i < n->num_children; i++) {
-                res = recursive_iterByPredicate(((art_node4*)n)->children[i], cb, data,predicate);
-                if (res) return res;
-            }
-            break;
-
-        case NODE16:
-            for (int i=0; i < n->num_children; i++) {
-                res = recursive_iterByPredicate(((art_node16*)n)->children[i], cb, data,predicate);
-                if (res) return res;
-            }
-            break;
-
-        case NODE48:
-            for (int i=0; i < 256; i++) {
-                idx = ((art_node48*)n)->keys[i];
-                if (!idx) continue;
-                res = recursive_iterByPredicate(((art_node48*)n)->children[idx-1], cb, data,predicate);
-                if (res) return res;
-            }
-            break;
-
-        case NODE256:
-            for (int i=0; i < 256; i++) {
-                if (!((art_node256*)n)->children[i]) continue;
-                res = recursive_iterByPredicate(((art_node256*)n)->children[i], cb, data,predicate);
-                if (res) return res;
-            }
-            break;
-        default:
-            abort();
-    }
-    return 0;
-}
-
-int art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter) {
-    return recursive_iterByPredicate(t->root, cb, data,filter);
-}
 
 
 /**
@@ -1180,10 +1123,6 @@ class ArtCPP {
         unsigned char key[];
     };
 
-    //-#define IS_LEAF(x) (((uintptr_t)x & 1))
-    //-#define SET_LEAF(x) ((void*)((uintptr_t)x | 1))
-    // -#define LEAF_RAW(x) ((art_leaf*)((void*)((uintptr_t)x & ~1)))
-
     __inline bool IS_MV_LEAF(art_node* p)
     {
         return ((uintptr_t)p & 1) != 0;
@@ -1251,24 +1190,22 @@ class ArtCPP {
     #endif
 
 
-    auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
+    auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
     {
         int old_val = 0;
-        auto old = mv_recursive_delete(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,status);
+        auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id,status);
         if (!old_val) t->size++;
         return old;
     }
 
-    void * mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
+    void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
         // If we are at a NULL node, inject a leaf
         if (!n) {
             ///write lock to create a new leaf at the root
-            WriteLock _writeLock(_upgradeableReadLock);
-            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id,status));
-            *ref = (art_node*) snapshot;
+
             return NULL;
         }
 
@@ -1291,6 +1228,7 @@ class ArtCPP {
                 return l->value;
             }
 
+            /*
             // New value, we must split the leaf into a node4
             art_node4 *new_node = (art_node4*)alloc_node(NODE4);
 
@@ -1305,7 +1243,7 @@ class ArtCPP {
             // Add the leafs to the new node4
             *ref = (art_node*)new_node;
             add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
-            add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));
+            add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));*/
             return NULL;
         }
 
@@ -1354,7 +1292,7 @@ class ArtCPP {
         {
             //lock.unlock();
             _upgradeableReadLock.unlock();
-            return mv_recursive_delete(*child, child, key, key_len, value, depth+1, old,txn_id,status);
+            return mv_recursive_delete(*child, child, key, key_len,depth+1, old,txn_id,status);
         }
 
         // No child, node goes within us
@@ -1498,7 +1436,6 @@ class ArtCPP {
         return mv_recursive_iter(t->root, cb, data);
     }
 
-    /// Recursively iterates over the tree
     static int mv_recursive_iter(art_node *n, art_callback cb, void *data)
     {
 
@@ -1556,12 +1493,251 @@ class ArtCPP {
         return 0;
     }
 
+    int art_iter_prefix(art_tree *t, const unsigned char *key, int key_len, art_callback cb, void *data)
+    {
+        art_node **child;
+        art_node *n = t->root;
+        int prefix_len, depth = 0;
+        while (n) {
+            // Might be a leaf
+            if (IS_LEAF(n)) {
+                n = (art_node*)LEAF_RAW(n);
+                // Check if the expanded path matches
+                if (!leaf_prefix_matches((art_leaf*)n, key, key_len)) {
+                    art_leaf *l = (art_leaf*)n;
+                    return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
+                }
+                return 0;
+            }
 
-    public: void* startSearchThread(const unsigned char* key, int key_len)
+            // If the depth matches the prefix, we need to handle this node
+            if (depth == key_len) {
+                art_leaf *l = minimum(n);
+                if (!leaf_prefix_matches(l, key, key_len))
+                    return recursive_iter(n, cb, data);
+                return 0;
+            }
+
+            // Bail if the prefix does not match
+            if (n->partial_len) {
+                prefix_len = prefix_mismatch(n, key, key_len, depth);
+
+                // Guard if the mis-match is longer than the MAX_PREFIX_LEN
+                if ((uint32_t)prefix_len > n->partial_len) {
+                    prefix_len = n->partial_len;
+                }
+
+                // If there is no match, search is terminated
+                if (!prefix_len) {
+                    return 0;
+
+                    // If we've matched the prefix, iterate on this node
+                } else if (depth + prefix_len == key_len) {
+                    return recursive_iter(n, cb, data);
+                }
+
+                // if there is a full match, go deeper
+                depth = depth + n->partial_len;
+            }
+
+            // Recursively search
+            child = find_child(n, key[depth]);
+            n = (child) ? *child : NULL;
+            depth++;
+        }
+        return 0;
+    }
+
+    void* searchKey(const unsigned char* key, int key_len)
     {
         art_search(this->t, (unsigned char *)key, key_len);
     }
 
+    static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate)
+    {
+        // Handle base cases
+        if (!n) return 0;
+        if (IS_LEAF(n))
+        {
+            art_leaf *l = LEAF_RAW(n);
+            //printf("l-val %s",(const unsigned char *)l->value);
+            if (l->value !=NULL) {
+                if (predicate(l->value)) {
+                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                }
+                return NULL;
+            }
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_iterByPredicate(((art_node4*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_iterByPredicate(((art_node16*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    res = recursive_iterByPredicate(((art_node48*)n)->children[idx-1], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++) {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    res = recursive_iterByPredicate(((art_node256*)n)->children[i], cb, data,predicate);
+                    if (res) return res;
+                }
+                break;
+            default:
+                abort();
+        }
+        return 0;
+    }
+
+    int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter)
+    {
+        return recursive_iterByPredicate(t->root, cb, data,filter);
+    }
+
+    int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    {
+        return recursive_update_by_predicate(t->root,cb,value,txn_id,status, data,filter);
+    }
+
+    static int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    {
+        // Handle base cases
+        if (!n) return 0;
+        if (IS_LEAF(n))
+        {
+            art_leaf *l = LEAF_RAW(n);
+            if (l->value !=NULL)
+            {
+                if (predicate(l->value))
+                {
+                    mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+                    _mvcc->overwriteMV(txn_id,value,status);
+                    l->value = static_cast<void*>(_mvcc);
+                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                }
+            }
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++) {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+            default:
+                abort();
+        }
+        return 0;
+    }
+
+    int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    {
+        return recursive_delete_by_predicate(t->root,cb,value,txn_id,status, data,filter);
+    }
+
+    static int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    {
+        // Handle base cases
+        if (!n) return 0;
+        if (IS_LEAF(n))
+        {
+            art_leaf *l = LEAF_RAW(n);
+            if (l->value !=NULL) {
+                if (predicate(l->value))
+                {
+                    mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+                    _mvcc->deleteMV(txn_id,status);
+                    l->value = static_cast<void*>(_mvcc);
+                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                }
+                return NULL;
+            }
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++) {
+                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++) {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    if (res) return res;
+                }
+                break;
+            default:
+                abort();
+        }
+        return 0;
+    }
 
 };
 
