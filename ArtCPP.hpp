@@ -1189,16 +1189,24 @@ class ArtCPP {
     }
     #endif
 
-
-    auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
+    /**
+     * Deletes a value in the ART tree
+     * @arg t The tree
+     * @arg key The key
+     * @arg key_len The length of the key
+     * @arg txn_id as transactionID
+     * @arg status, for observer transaction status in function ;)
+     * @return NULL if the item was not found, otherwise
+     * the value pointer is returned which is deleted.
+     */
+    public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
     {
         int old_val = 0;
         auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id,status);
         if (!old_val) t->size++;
         return old;
     }
-
-    void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
+    private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1302,7 +1310,18 @@ class ArtCPP {
         return NULL;
     }
 
-    auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
+    /**
+     * Inserts a new value into the ART tree
+     * @arg t The tree
+     * @arg key The key
+     * @arg key_len The length of the key
+     * @arg value Opaque value.
+     * @arg txn_id transaction id.
+     * @arg status, for observer transaction status in function ;)
+     * @return NULL if the item was newly inserted, otherwise
+     * the old value pointer is returned.
+     */
+    public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
     {
         int old_val = 0;
         //art_node *root =static_cast<art_node*>(t->root);
@@ -1310,8 +1329,7 @@ class ArtCPP {
         if (!old_val) t->size++;
         return old;
     }
-
-    void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
+    private: auto mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1419,81 +1437,20 @@ class ArtCPP {
         return NULL;
     }
 
-    static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
-    {
-        mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
-        l->key_len = key_len;
-        memcpy(l->key, key, key_len);
-        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
-        l->value = static_cast<void*>(_mvcc);
-        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
-        return l;
-    }
 
-    static int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data)
-    {
-        std::cout<<"howdy";
-        return mv_recursive_iter(t->root, cb, data);
-    }
-
-    static int mv_recursive_iter(art_node *n, art_callback cb, void *data)
-    {
-
-        RecursiveScopedLock _recursiveLock;
-        //UpgradeLock _sharedLock(_access);
-        // Handle base cases
-        if (!n) return 0;
-        if (IS_LEAF(n))
-        {
-            art_leaf *l = LEAF_RAW(n);
-            return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
-        }
-
-        int idx, res;
-        switch (n->type)
-        {
-            case NODE4:
-                for (int i=0; i < n->num_children; i++) {
-                    //_sharedLock.unlock();
-                    res = recursive_iter(((art_node4*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE16:
-                for (int i=0; i < n->num_children; i++) {
-                    // _sharedLock.unlock();
-                    res = recursive_iter(((art_node16*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE48:
-                for (int i=0; i < 256; i++) {
-                    idx = ((art_node48*)n)->keys[i];
-                    if (!idx) continue;
-                    // _sharedLock.unlock();
-                    res = recursive_iter(((art_node48*)n)->children[idx-1], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE256:
-                for (int i=0; i < 256; i++) {
-                    if (!((art_node256*)n)->children[i]) continue;
-                    //_sharedLock.unlock();
-                    res = recursive_iter(((art_node256*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-            default:
-                // _sharedLock.unlock();
-                abort();
-        }
-        return 0;
-    }
-
-    int art_iter_prefix(art_tree *t, const unsigned char *key, int key_len, art_callback cb, void *data)
+    /**
+     * Iterates through the entries pairs in the map,
+     * invoking a callback for each that matches a given prefix.
+     * The call back gets a key, value for each and returns an integer stop value.
+     * If the callback returns non-zero, then the iteration stops.
+     * @arg t The tree to iterate over
+     * @arg prefix The prefix of keys to read
+     * @arg prefix_len The length of the prefix
+     * @arg cb The callback function to invoke
+     * @arg data Opaque handle passed to the callback
+     * @return 0 on success, or the return of the callback.
+     */
+    public:int art_iter_prefix(art_tree *t, const unsigned char *key, int key_len, art_callback cb, void *data)
     {
         art_node **child;
         art_node *n = t->root;
@@ -1548,12 +1505,102 @@ class ArtCPP {
         return 0;
     }
 
-    void* searchKey(const unsigned char* key, int key_len)
+    /**
+     * Searches for a value in the ART tree
+     * @arg t The tree
+     * @arg key The key
+     * @arg key_len The length of the key
+     * @return NULL if the item was not found, otherwise
+     * the value pointer is returned.
+     */
+    public: void* searchKey(const unsigned char* key, int key_len)
     {
         art_search(this->t, (unsigned char *)key, key_len);
     }
 
-    static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate)
+    /**
+    * Iterates through the entries pairs in the map,
+    * invoking a callback for each. The call back gets a
+    * key, value for each and returns an integer stop value.
+    * If the callback returns non-zero, then the iteration stops.
+    * @arg t The tree to iterate over
+    * @arg cb The callback function to invoke
+    * @arg data Opaque handle passed to the callback
+    * @return 0 on success, or the return of the callback.
+    */
+    public: int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data,size_t txn_id)
+        {
+            return mv_recursive_iter(t->root, cb, data,txn_id);
+        }
+    private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
+        {
+
+            RecursiveScopedLock _recursiveLock;
+            //UpgradeLock _sharedLock(_access);
+            // Handle base cases
+            if (!n) return 0;
+            if (IS_MV_LEAF(n))
+            {
+                mv_art_leaf *l = MV_LEAF_RAW(n);
+                return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
+            }
+
+            int idx, res;
+            switch (n->type)
+            {
+                case NODE4:
+                    for (int i=0; i < n->num_children; i++) {
+                        res = mv_recursive_iter(((art_node4*)n)->children[i], cb, data,txn_id);
+                        if (res) return res;
+                    }
+                    break;
+
+                case NODE16:
+                    for (int i=0; i < n->num_children; i++) {
+                        res = mv_recursive_iter(((art_node16*)n)->children[i], cb, data,txn_id);
+                        if (res) return res;
+                    }
+                    break;
+
+                case NODE48:
+                    for (int i=0; i < 256; i++) {
+                        idx = ((art_node48*)n)->keys[i];
+                        if (!idx) continue;
+                        res = mv_recursive_iter(((art_node48*)n)->children[idx-1], cb, data,txn_id);
+                        if (res) return res;
+                    }
+                    break;
+
+                case NODE256:
+                    for (int i=0; i < 256; i++) {
+                        if (!((art_node256*)n)->children[i]) continue;
+                        res = mv_recursive_iter(((art_node256*)n)->children[i], cb, data,txn_id);
+                        if (res) return res;
+                    }
+                    break;
+                default:
+                    abort();
+            }
+            return 0;
+        }
+
+    /**
+     * Iterates through the entries pairs in the map satisfying predicate,
+     * invoking a callback for each. The call back gets a
+     * key, value for each and returns an integer stop value.
+     * If the callback returns non-zero, then the iteration stops.
+     * @arg t The tree to iterate over
+     * @arg cb The callback function to invoke
+     * @arg data Opaque handle passed to the callback
+     * @arg Pred as prredicate to be satisfied, or no callback invoked
+     * @arg txn_id transaction id
+     * @return 0 on success, or the return of the callback.
+     */
+    public: int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter, size_t txn_id)
+    {
+        return recursive_iterByPredicate(t->root, cb, data,filter, txn_id;
+    }
+    private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
     {
         // Handle base cases
         if (!n) return 0;
@@ -1608,23 +1655,28 @@ class ArtCPP {
         return 0;
     }
 
-    int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter)
-    {
-        return recursive_iterByPredicate(t->root, cb, data,filter);
-    }
-
-    int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    /**
+     * Update a  value into the ART tree by Predicate
+     * @arg t The tree
+     * @arg key The key
+     * @arg key_len The length of the key
+     * @arg value Opaque value.
+     * @arg txn_id transaction id.
+     * @arg status, for observer transaction status in function ;)
+     * @return NULL if the item was newly inserted, otherwise
+     * the old value pointer is returned.
+     */
+    public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
     {
         return recursive_update_by_predicate(t->root,cb,value,txn_id,status, data,filter);
     }
-
-    static int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
         if (!n) return 0;
-        if (IS_LEAF(n))
+        if (IS_MV_LEAF(n))
         {
-            art_leaf *l = LEAF_RAW(n);
+            mv_art_leaf *l = MV_LEAF_RAW(n);
             if (l->value !=NULL)
             {
                 if (predicate(l->value))
@@ -1676,18 +1728,29 @@ class ArtCPP {
         return 0;
     }
 
-    int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+
+    /**
+     * Delete a  value into the ART tree: by Predicate
+     * @arg t The tree
+     * @arg key The key
+     * @arg key_len The length of the key
+     * @arg value Opaque value.
+     * @arg txn_id transaction id.
+     * @arg status, for observer transaction status in function ;)
+     * @return NULL if the item was newly inserted, otherwise
+     * the old value pointer is returned.
+     */
+    public: int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
     {
         return recursive_delete_by_predicate(t->root,cb,value,txn_id,status, data,filter);
     }
-
-    static int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
         if (!n) return 0;
-        if (IS_LEAF(n))
+        if (IS_MV_LEAF(n))
         {
-            art_leaf *l = LEAF_RAW(n);
+            mv_art_leaf *l = MV_LEAF_RAW(n);
             if (l->value !=NULL) {
                 if (predicate(l->value))
                 {
@@ -1738,6 +1801,19 @@ class ArtCPP {
         }
         return 0;
     }
+
+
+    private: static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
+    {
+        mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
+        l->key_len = key_len;
+        memcpy(l->key, key, key_len);
+        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
+        l->value = static_cast<void*>(_mvcc);
+        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
+        return l;
+    }
+
 
 };
 

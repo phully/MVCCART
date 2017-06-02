@@ -83,18 +83,12 @@ void todo(T func,C& container , size_t id, std::string& status)
     active_transactionIds.push_back(id);
     func(container,id,status);
 
-    //std::cout<<"Thread ID= "<<boost::this_thread::get_id()<<std::endl;
-    //std::cout<<id<<std::endl;
 }
 
 
 void commitTransaction(size_t id)
 {
-
-    /*    for(int i=0; i< active_transactions. )
-            {if(active_transactions[i] == id)
-            active_transactionserase(i);
-    */
+    active_transactionIds.erase(std::remove(active_transactionIds.begin(), active_transactionIds.end(), id), active_transactionIds.end());
 }
 
 template <typename TransactionFunc, typename ARTContainer>
@@ -105,15 +99,16 @@ class Transaction
     boost::thread* TransactionThread;
     std::string status;
 
+
     Transaction(TransactionFunc func, ARTContainer& ART );
 
     void CollectTransaction()
     {
         TransactionThread->join();
+        commitTransaction(Tid);
     }
 };
-template <typename T, typename C>
-std::vector<Transaction<T,C>> activeTransactionsGroup;
+
 
 template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
@@ -121,8 +116,5 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
     Tid=get_new_transaction_ID();
     TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
 }
-
-
-
 
 #endif //MVCCART_TRANSACTIONMANAGER_H
