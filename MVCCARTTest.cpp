@@ -56,13 +56,24 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
     {
 
         mvcc11::mvcc<RecordType>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
-        //std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
+         //std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
         //if(_mvvcValue->current()->_older_snapshot != nullptr)
         //std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<" / oldvalue="<<_mvvcValue->current()->_older_snapshot->value<<"\n";
     }
     return 0;
 }
 
+
+static  int cb_prefix(void *data, const unsigned char* key, uint32_t key_len, void *val)
+{
+    if(val != NULL)
+    {
+
+        mvcc11::mvcc<RecordType>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+        std::cout<<"###found prefix K/V  ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
+    }
+    return 0;
+}
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
@@ -175,8 +186,25 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout<<"Single Thread Writer Time->";
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+    }
 
+    BOOST_AUTO_TEST_CASE(test_scan_prefixes_vals)
+    {
+        cout << "\ntest_scan_through_prefixes" << endl;
+        ///Iterator Operation on TupleContainer
+        auto scanAll = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::cout<<"iterate by::"<<id<<std::endl;
+            KeyType prefix = "Aa";
+            ARTWithTuples.iterate(cb_prefix,(char*)"Aa",id);
+        };
 
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(scanAll,*ARTableWithTuples);
+        t2->CollectTransaction();
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
     }
 
     BOOST_AUTO_TEST_CASE(test_scan_all_vals)
@@ -186,7 +214,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             auto scanAll = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
             {
                 std::cout<<"iterate by::"<<id<<std::endl;
-                ARTWithTuples.iterate(cb);
+                ARTWithTuples.iterate(cb,id);
             };
 
             auto start_time2 = std::chrono::high_resolution_clock::now();

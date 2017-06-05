@@ -189,21 +189,33 @@ class ARTFULCpp
         /**
          * Iterate over tree
          */
-        public:void iterate(art_callback cb)
+        public:void iterate(art_callback cb,size_t txn_id)
         {
             uint64_t out[] = {0, 0};
-            ARTIndexTable->mv_art_iter(ARTIndexTable->t,cb,&out);
+            ARTIndexTable->mv_art_iter(ARTIndexTable->t,cb,&out,txn_id);
+        }
+
+        /**
+         * Iterate over tree by prefixes
+         */
+        public:void iterate(art_callback cb, const char * key,size_t txn_id)
+        {
+            uint64_t out[] = {0, 0};
+            ARTIndexTable->art_iter_prefix(ARTIndexTable->t,(unsigned char*)key,strlen(key),cb,&out,txn_id);
         }
 
 
         /**
          * Iterate over tree by Predicate
          */
-        public:void iterateByPredicate(art_callback iter_callbackByPredicate, Pred predicate)
+        public:void iterateByPredicate(art_callback iter_callbackByPredicate, Pred predicate,size_t txn_id)
         {
             uint64_t out[] = {0, 0};
-            ARTIndexTable->mv_art_iterByPredicate(ARTIndexTable->t,iter_callbackByPredicate, &out,predicate);
+            ARTIndexTable->mv_art_iterByPredicate(ARTIndexTable->t,iter_callbackByPredicate, &out,predicate,txn_id);
         }
+
+
+
 
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

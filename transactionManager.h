@@ -99,7 +99,6 @@ class Transaction
     boost::thread* TransactionThread;
     std::string status;
 
-
     Transaction(TransactionFunc func, ARTContainer& ART );
 
     void CollectTransaction()

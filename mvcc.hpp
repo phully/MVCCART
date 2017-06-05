@@ -313,7 +313,7 @@ namespace mvcc11 {
                 if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
                 {
                     status = Abort;
-                    std::cout << "Aborted on value " << expected->value<< std::endl;
+                    //std::cout << "Aborted on value " << expected->value<< std::endl;
                     //continue;
                     return nullptr;
 
