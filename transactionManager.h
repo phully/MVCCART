@@ -82,7 +82,6 @@ void todo(T func,C& container , size_t id, std::string& status)
     status = Active;
     active_transactionIds.push_back(id);
     func(container,id,status);
-
 }
 
 

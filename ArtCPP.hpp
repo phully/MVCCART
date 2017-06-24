@@ -385,19 +385,6 @@ static int leaf_matches(const art_leaf *n, const unsigned char *key, int key_len
     return memcmp(n->key, key, key_len);
 }
 
-/**
- * Searches for a value in the ART tree
- * @arg t The tree
- * @arg key The key
- * @arg key_len The length of the key
- * @return NULL if the item was not found, otherwise
- * the value pointer is returned.
- */
-void* art_search(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len);
-
-
-
-
 static art_leaf* make_leaf(const unsigned char *key, int key_len, void *value) {
     art_leaf *l = (art_leaf*)malloc(sizeof(art_leaf)+key_len);
     //memcpy(l->value, value, sizeof(value));
@@ -1240,8 +1227,41 @@ class ArtCPP {
      */
     public: void* searchKey(const unsigned char* key, int key_len)
     {
-        art_search(this->t, (unsigned char *)key, key_len);
+       return art_search(this->t, (unsigned char *)key, key_len);
     }
+
+    void* art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len) {
+        art_node **child;
+        art_node *n = t->root;
+        int prefix_len, depth = 0;
+        while (n) {
+            // Might be a leaf
+            if (IS_LEAF(n)) {
+                n = (art_node*)LEAF_RAW(n);
+                // Check if the expanded path matches
+                if (!leaf_matches((art_leaf*)n, key, key_len, depth)) {
+                    return ((art_leaf*)n)->value;
+                }
+                return NULL;
+            }
+
+            // Bail if the prefix does not match
+            if (n->partial_len) {
+                prefix_len = check_prefix(n, key, key_len, depth);
+                if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
+                    return NULL;
+                depth = depth + n->partial_len;
+            }
+
+            // Recursively search
+            child = find_child(n, key[depth]);
+            n = (child) ? *child : NULL;
+            depth++;
+        }
+        return NULL;
+    }
+
+
 
     /**
     * Iterates through the entries pairs in the map,
@@ -1254,9 +1274,9 @@ class ArtCPP {
     * @return 0 on success, or the return of the callback.
     */
     public: int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data,size_t txn_id)
-        {
+    {
             return mv_recursive_iter(t->root, cb, data,txn_id);
-        }
+    }
     private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
     {
             RecursiveScopedLock _recursiveLock;

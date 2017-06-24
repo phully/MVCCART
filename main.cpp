@@ -407,7 +407,6 @@ void SearchByKeyValue(ARTFULCpp<RecordType, KeyType> myADTTable)
         std::cout<<"\nkey ="<<buf<<" foundvalue "<<(char*)gotval<<"\n";
         line++;
         usleep(10);
-
         if (line == 10)
             break;
     }

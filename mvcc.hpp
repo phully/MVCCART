@@ -143,16 +143,16 @@ namespace mvcc11 {
         const_snapshot_ptr deleteMV(size_t txn_id,std::string& status);
 
         template <class Updater>
-        const_snapshot_ptr update(Updater updater,std::string& status);
+        const_snapshot_ptr update(Updater updater);
 
         template <class Updater>
-        const_snapshot_ptr try_update(Updater updater,std::string& status);
+        const_snapshot_ptr try_update(Updater updater);
 
         template <class Updater, class Clock, class Duration>
-        const_snapshot_ptr try_update_until(Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time,std::string& status);
+        const_snapshot_ptr try_update_until(Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
 
         template <class Updater, class Rep, class Period>
-        const_snapshot_ptr try_update_for(Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration,std::string& status);
+        const_snapshot_ptr try_update_for(Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
 
     private:
         template <class U>
@@ -165,16 +165,16 @@ namespace mvcc11 {
         const_snapshot_ptr delete_implMV(size_t txn_id,std::string& status);
 
         template <class Updater>
-        const_snapshot_ptr try_update_impl(Updater &updater,std::string& status);
+        const_snapshot_ptr try_update_impl(Updater &updater);
 
         template <class Updater>
-        const_snapshot_ptr try_update_implMVCC(Updater &updater,size_t txn_id,std::string& status);
+        const_snapshot_ptr try_update_implMVCC(Updater &updater,size_t txn_id);
 
 
         template <class Updater, class Clock, class Duration>
         const_snapshot_ptr try_update_until_impl(
                 Updater &updater,
-                std::chrono::time_point<Clock, Duration> const &timeout_time,std::string& status);
+                std::chrono::time_point<Clock, Duration> const &timeout_time);
 
         mutable_snapshot_ptr mutable_current_;
     };
@@ -380,7 +380,7 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::update(Updater updater,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::update(Updater updater) -> const_snapshot_ptr
     {
         while(true)
         {
@@ -394,16 +394,16 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update(Updater updater,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update(Updater updater) -> const_snapshot_ptr
     {
-        return this->try_update_impl(updater,status);
+        return this->try_update_impl(updater);
     }
 
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until(
             Updater updater,
-            std::chrono::time_point<Clock, Duration> const &timeout_time,std::string& status)
+            std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
         return this->try_update_until_impl(updater, timeout_time);
@@ -413,7 +413,7 @@ namespace mvcc11 {
     template <class Updater, class Rep, class Period>
     auto mvcc<ValueType>::try_update_for(
             Updater updater,
-            std::chrono::duration<Rep, Period> const &timeout_duration,std::string& status)
+            std::chrono::duration<Rep, Period> const &timeout_duration)
     -> const_snapshot_ptr
     {
         auto timeout_time = std::chrono::high_resolution_clock::now() + timeout_duration;
@@ -423,7 +423,7 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update_impl(Updater &updater,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update_impl(Updater &updater) -> const_snapshot_ptr
     {
         auto expected = smart_ptr::atomic_load(&mutable_current_);
         auto const const_expected_version = expected->version;
@@ -445,7 +445,7 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update_implMVCC(Updater &updater,size_t txn_id,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update_implMVCC(Updater &updater,size_t txn_id) -> const_snapshot_ptr
     {
 
 
@@ -470,7 +470,7 @@ namespace mvcc11 {
         {
             if (const_expected_version != txn_id)
             {
-                status = Abort;
+                //status = Abort;
                 std::cout << "Aborted" << std::endl;
             }
         }
@@ -500,7 +500,7 @@ namespace mvcc11 {
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until_impl(
             Updater &updater,
-            std::chrono::time_point<Clock, Duration> const &timeout_time,std::string& status)
+            std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
         while(true)

@@ -20,7 +20,7 @@
 
 
 using namespace std;
-
+using namespace mvcc11;
 
 namespace
 {
@@ -43,8 +43,7 @@ typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
 
 
-char KeysToStore[250000][20];
-std::vector<RecordType> mValue;
+
 
 
 static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
@@ -63,37 +62,6 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
-    BOOST_AUTO_TEST_CASE(test_from_loading_from_Buckets)
-    {
-
-        cout << "loading from buckets" << endl;
-        int len, len2;
-        char buf[20];
-        char bufVal[50];
-
-        /// Reading all Values to store against keys
-        FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
-        FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words.txt", "r");
-        int index = 0;
-
-        while (fgets(bufVal, sizeof bufVal, fvals))
-        {
-            fgets(buf, sizeof buf, fkeys);
-            len = strlen(bufVal);
-            len2 = strlen(buf);
-            buf[len2] = '\0';
-            bufVal[len] = '\0';
-            RecordType tuple = RecordType((unsigned long) index, index + 100, bufVal, index / 100.0);
-            strcpy(KeysToStore[index] , buf);
-            mValue.push_back(tuple);
-            index++;
-
-            if (index > 200000)
-            {
-                break;
-            }
-        }
-    }
 
     BOOST_AUTO_TEST_CASE(test_null_snapshot_on_1st_reference)
     {
@@ -104,9 +72,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         BOOST_CHECK(snapshot->value.empty() == true);
     }
 
-    BOOST_AUTO_TEST_CASE(test_mvcc_snapshot_with_txnId_value_statuss)
+    BOOST_AUTO_TEST_CASE(test_mvcc_snapshot_with_tuple)
     {
-        std::cout<<"test_mvcc_snapshot_with_txnId_value_statuss"<<endl;
+        std::cout<<"test_mvcc_snapshot_with_tuple"<<endl;
 
         string x = "excuse--me!!!";
         int i = 10;
@@ -121,9 +89,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(test_snapshot_isolation_and_old_snapshot)
+    BOOST_AUTO_TEST_CASE(test_snapshot_isolation_with_tuple)
     {
-        cout << "test_snapshot_isolation_and_old_snapshot" << endl;
+        cout << "test_snapshot_isolation_with_tuple" << endl;
         int i = 1;
         RecordType tuple = RecordType((unsigned long) i, i + 100, INIT, i / 100.0);
         mvcc11::mvcc<RecordType> *_mvcc = new mvcc11::mvcc<RecordType>(i, tuple, INIT);
@@ -141,6 +109,55 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         BOOST_REQUIRE(snapshot1->_older_snapshot->version == 1);
         BOOST_REQUIRE(snapshot1->_older_snapshot->value.getAttribute<2>() == INIT);
     }
+
+    BOOST_AUTO_TEST_CASE(test_current_and_op_deref_yields_equivalent_results)
+    {
+
+        cout << "test_current_and_op_deref_yields_equivalent_results" << endl;
+        mvcc11::mvcc<string> x{0,INIT,INIT};
+        auto snapshot = x.current();
+
+        BOOST_REQUIRE(snapshot == x.current());
+        BOOST_REQUIRE(snapshot == *x);
+
+        BOOST_REQUIRE(snapshot != nullptr);
+        BOOST_REQUIRE(snapshot->version == 0);
+        BOOST_REQUIRE(snapshot->value == INIT);
+    }
+
+    BOOST_AUTO_TEST_CASE(test_snapshot_mv_overwrite)
+    {
+        cout << "test_snapshot_overwrite" << endl;
+        mvcc11::mvcc<string> x{0,INIT,INIT};
+        auto snapshot = x.overwriteMV(1,OVERWRITTEN,OVERWRITTEN);
+        BOOST_REQUIRE(snapshot != nullptr);
+        BOOST_REQUIRE(snapshot->version == 1);
+        BOOST_REQUIRE(snapshot->value == OVERWRITTEN);
+    }
+
+    BOOST_AUTO_TEST_CASE(test_snapshot_update)
+    {
+        cout << "test_snapshot_update" << endl;
+
+        mvcc<string> x{0,INIT,INIT};
+        auto init = *x;
+        BOOST_REQUIRE(init->version == 0);
+        auto updated = x.update([](size_t version, string const &value) {
+            BOOST_REQUIRE(version == 0);
+            BOOST_REQUIRE(value == INIT);
+            return UPDATED;
+        });
+        BOOST_REQUIRE(updated->version == 1);
+        BOOST_REQUIRE(updated->value == UPDATED);
+        BOOST_REQUIRE(init->value == INIT);
+
+        x.update([](size_t version, string const &value) {
+            BOOST_REQUIRE(version == 1);
+            BOOST_REQUIRE(value == UPDATED);
+            return UPDATED;
+        });
+    }
+
 
 BOOST_AUTO_TEST_SUITE_END()
 

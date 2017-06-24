@@ -123,59 +123,32 @@ mvccart/fast:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
 .PHONY : mvccart/fast
 
-MVCCARTTest.o: MVCCARTTest.cpp.o
+ScaleTestsReadOnly.o: ScaleTestsReadOnly.cpp.o
 
-.PHONY : MVCCARTTest.o
-
-# target to build an object file
-MVCCARTTest.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.o
-.PHONY : MVCCARTTest.cpp.o
-
-MVCCARTTest.i: MVCCARTTest.cpp.i
-
-.PHONY : MVCCARTTest.i
-
-# target to preprocess a source file
-MVCCARTTest.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.i
-.PHONY : MVCCARTTest.cpp.i
-
-MVCCARTTest.s: MVCCARTTest.cpp.s
-
-.PHONY : MVCCARTTest.s
-
-# target to generate assembly for a file
-MVCCARTTest.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/MVCCARTTest.cpp.s
-.PHONY : MVCCARTTest.cpp.s
-
-transactionManager.o: transactionManager.cpp.o
-
-.PHONY : transactionManager.o
+.PHONY : ScaleTestsReadOnly.o
 
 # target to build an object file
-transactionManager.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.o
-.PHONY : transactionManager.cpp.o
+ScaleTestsReadOnly.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o
+.PHONY : ScaleTestsReadOnly.cpp.o
 
-transactionManager.i: transactionManager.cpp.i
+ScaleTestsReadOnly.i: ScaleTestsReadOnly.cpp.i
 
-.PHONY : transactionManager.i
+.PHONY : ScaleTestsReadOnly.i
 
 # target to preprocess a source file
-transactionManager.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.i
-.PHONY : transactionManager.cpp.i
+ScaleTestsReadOnly.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.i
+.PHONY : ScaleTestsReadOnly.cpp.i
 
-transactionManager.s: transactionManager.cpp.s
+ScaleTestsReadOnly.s: ScaleTestsReadOnly.cpp.s
 
-.PHONY : transactionManager.s
+.PHONY : ScaleTestsReadOnly.s
 
 # target to generate assembly for a file
-transactionManager.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/transactionManager.cpp.s
-.PHONY : transactionManager.cpp.s
+ScaleTestsReadOnly.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.s
+.PHONY : ScaleTestsReadOnly.cpp.s
 
 # Help Target
 help:
@@ -186,12 +159,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
-	@echo "... MVCCARTTest.o"
-	@echo "... MVCCARTTest.i"
-	@echo "... MVCCARTTest.s"
-	@echo "... transactionManager.o"
-	@echo "... transactionManager.i"
-	@echo "... transactionManager.s"
+	@echo "... ScaleTestsReadOnly.o"
+	@echo "... ScaleTestsReadOnly.i"
+	@echo "... ScaleTestsReadOnly.s"
 .PHONY : help
 
 
