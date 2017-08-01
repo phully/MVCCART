@@ -1044,6 +1044,7 @@ class ArtCPP {
     {
         UpgradeLock _upgradeableReadLock(_access);
 
+
         // If we are at a NULL node, inject a leaf
         if (!n) {
             ///write lock to create a new leaf at the root
@@ -1055,8 +1056,8 @@ class ArtCPP {
 
         // If we are at a leaf, we need to replace it with a node
         if (IS_MV_LEAF(n)) {
-            ///write lock here
-            WriteLock _writeLock(_upgradeableReadLock);
+            ///write lock here would lock it, suppose to be only readable lock
+            //WriteLock _writeLock(_upgradeableReadLock);
 
             mv_art_leaf *l = MV_LEAF_RAW(n);
 
@@ -1072,6 +1073,10 @@ class ArtCPP {
                 l->value = static_cast<void*>(_mvcc);
                 return l->value;
             }
+
+            ///write lock here would lock it, becaue we are not updating it,
+            //new leaf will be inserted
+            WriteLock _writeLock(_upgradeableReadLock);
 
             // New value, we must split the leaf into a node4
             art_node4 *new_node = (art_node4*)alloc_node(NODE4);
@@ -1279,8 +1284,8 @@ class ArtCPP {
     }
     private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
     {
-            RecursiveScopedLock _recursiveLock;
-            //UpgradeLock _sharedLock(_access);
+            //RecursiveScopedLock _recursiveLock;
+            UpgradeLock _sharedLock(_access);
             // Handle base cases
             if (!n) return 0;
             if (IS_MV_LEAF(n))
@@ -1294,6 +1299,7 @@ class ArtCPP {
             {
                 case NODE4:
                     for (int i=0; i < n->num_children; i++) {
+                        _sharedLock.unlock();
                         res = mv_recursive_iter(((art_node4*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1301,6 +1307,7 @@ class ArtCPP {
 
                 case NODE16:
                     for (int i=0; i < n->num_children; i++) {
+                        _sharedLock.unlock();
                         res = mv_recursive_iter(((art_node16*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1310,6 +1317,7 @@ class ArtCPP {
                     for (int i=0; i < 256; i++) {
                         idx = ((art_node48*)n)->keys[i];
                         if (!idx) continue;
+                        _sharedLock.unlock();
                         res = mv_recursive_iter(((art_node48*)n)->children[idx-1], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1318,6 +1326,7 @@ class ArtCPP {
                 case NODE256:
                     for (int i=0; i < 256; i++) {
                         if (!((art_node256*)n)->children[i]) continue;
+                        _sharedLock.unlock();
                         res = mv_recursive_iter(((art_node256*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1347,6 +1356,7 @@ class ArtCPP {
     private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
     {
         // Handle base cases
+        UpgradeLock _sharedLock(_access);
         if (!n) return 0;
         if (IS_LEAF(n))
         {
@@ -1365,6 +1375,7 @@ class ArtCPP {
         {
             case NODE4:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_iterByPredicate(((art_node4*)n)->children[i], cb, data,predicate,txn_id);
                     if (res) return res;
                 }
@@ -1372,6 +1383,7 @@ class ArtCPP {
 
             case NODE16:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_iterByPredicate(((art_node16*)n)->children[i], cb, data,predicate,txn_id);
                     if (res) return res;
                 }
@@ -1381,6 +1393,7 @@ class ArtCPP {
                 for (int i=0; i < 256; i++) {
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
+                    _sharedLock.unlock();
                     res = recursive_iterByPredicate(((art_node48*)n)->children[idx-1], cb, data,predicate,txn_id);
                     if (res) return res;
                 }
@@ -1389,6 +1402,7 @@ class ArtCPP {
             case NODE256:
                 for (int i=0; i < 256; i++) {
                     if (!((art_node256*)n)->children[i]) continue;
+                    _sharedLock.unlock();
                     res = recursive_iterByPredicate(((art_node256*)n)->children[i], cb, data,predicate,txn_id);
                     if (res) return res;
                 }
@@ -1417,6 +1431,8 @@ class ArtCPP {
     private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
+        UpgradeLock _sharedLock(_access);
+
         if (!n) return 0;
         if (IS_MV_LEAF(n))
         {
@@ -1438,6 +1454,7 @@ class ArtCPP {
         {
             case NODE4:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1445,6 +1462,7 @@ class ArtCPP {
 
             case NODE16:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1454,6 +1472,7 @@ class ArtCPP {
                 for (int i=0; i < 256; i++) {
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1462,6 +1481,7 @@ class ArtCPP {
             case NODE256:
                 for (int i=0; i < 256; i++) {
                     if (!((art_node256*)n)->children[i]) continue;
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1491,6 +1511,8 @@ class ArtCPP {
     private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
+        UpgradeLock _sharedLock(_access);
+
         if (!n) return 0;
         if (IS_MV_LEAF(n))
         {
@@ -1512,6 +1534,7 @@ class ArtCPP {
         {
             case NODE4:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1519,6 +1542,7 @@ class ArtCPP {
 
             case NODE16:
                 for (int i=0; i < n->num_children; i++) {
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1528,6 +1552,7 @@ class ArtCPP {
                 for (int i=0; i < 256; i++) {
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1536,6 +1561,7 @@ class ArtCPP {
             case NODE256:
                 for (int i=0; i < 256; i++) {
                     if (!((art_node256*)n)->children[i]) continue;
+                    _sharedLock.unlock();
                     res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
                     if (res) return res;
                 }
@@ -1545,7 +1571,6 @@ class ArtCPP {
         }
         return 0;
     }
-
 
     private: static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
     {

@@ -123,32 +123,45 @@ mvccart/fast:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
 .PHONY : mvccart/fast
 
-ScaleTestsReadOnly.o: ScaleTestsReadOnly.cpp.o
+#=============================================================================
+# Target rules for targets named fmt
 
-.PHONY : ScaleTestsReadOnly.o
+# Build rule for target.
+fmt: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 fmt
+.PHONY : fmt
+
+# fast build rule for target.
+fmt/fast:
+	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
+.PHONY : fmt/fast
+
+ARTCorrectnessTests.o: ARTCorrectnessTests.cpp.o
+
+.PHONY : ARTCorrectnessTests.o
 
 # target to build an object file
-ScaleTestsReadOnly.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o
-.PHONY : ScaleTestsReadOnly.cpp.o
+ARTCorrectnessTests.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o
+.PHONY : ARTCorrectnessTests.cpp.o
 
-ScaleTestsReadOnly.i: ScaleTestsReadOnly.cpp.i
+ARTCorrectnessTests.i: ARTCorrectnessTests.cpp.i
 
-.PHONY : ScaleTestsReadOnly.i
+.PHONY : ARTCorrectnessTests.i
 
 # target to preprocess a source file
-ScaleTestsReadOnly.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.i
-.PHONY : ScaleTestsReadOnly.cpp.i
+ARTCorrectnessTests.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.i
+.PHONY : ARTCorrectnessTests.cpp.i
 
-ScaleTestsReadOnly.s: ScaleTestsReadOnly.cpp.s
+ARTCorrectnessTests.s: ARTCorrectnessTests.cpp.s
 
-.PHONY : ScaleTestsReadOnly.s
+.PHONY : ARTCorrectnessTests.s
 
 # target to generate assembly for a file
-ScaleTestsReadOnly.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.s
-.PHONY : ScaleTestsReadOnly.cpp.s
+ARTCorrectnessTests.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.s
+.PHONY : ARTCorrectnessTests.cpp.s
 
 # Help Target
 help:
@@ -159,9 +172,10 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
-	@echo "... ScaleTestsReadOnly.o"
-	@echo "... ScaleTestsReadOnly.i"
-	@echo "... ScaleTestsReadOnly.s"
+	@echo "... fmt"
+	@echo "... ARTCorrectnessTests.o"
+	@echo "... ARTCorrectnessTests.i"
+	@echo "... ARTCorrectnessTests.s"
 .PHONY : help
 
 

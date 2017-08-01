@@ -493,3 +493,167 @@ int main(int argc, char** argv)
 #endif
 }
 
+Performing C++ SOURCE FILE Test HAVE_STD_CPP11_FLAG succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ac9db/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ac9db.dir/build.make CMakeFiles/cmTC_ac9db.dir/build
+Building CXX object CMakeFiles/cmTC_ac9db.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DHAVE_STD_CPP11_FLAG   -std=c++11 -o CMakeFiles/cmTC_ac9db.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_ac9db
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ac9db.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DHAVE_STD_CPP11_FLAG -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ac9db.dir/src.cxx.o  -o cmTC_ac9db  
+
+Source file was:
+int main() { return 0; }
+Performing C++ SOURCE FILE Test FMT_CPP11_CMATH succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_419ae/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_419ae.dir/build.make CMakeFiles/cmTC_419ae.dir/build
+Building CXX object CMakeFiles/cmTC_419ae.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DFMT_CPP11_CMATH -std=c++11 -O3   -o CMakeFiles/cmTC_419ae.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_419ae
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_419ae.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DFMT_CPP11_CMATH -std=c++11 -O3 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_419ae.dir/src.cxx.o  -o cmTC_419ae  
+
+Source file was:
+
+      #include <cmath>
+      int main() {}
+Performing C++ SOURCE FILE Test FMT_CPP11_UNISTD_H succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e8f45/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e8f45.dir/build.make CMakeFiles/cmTC_e8f45.dir/build
+Building CXX object CMakeFiles/cmTC_e8f45.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DFMT_CPP11_UNISTD_H -std=c++11 -O3   -o CMakeFiles/cmTC_e8f45.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_e8f45
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e8f45.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DFMT_CPP11_UNISTD_H -std=c++11 -O3 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e8f45.dir/src.cxx.o  -o cmTC_e8f45  
+
+Source file was:
+
+      #include <unistd.h>
+      int main() {}
+Performing C++ SOURCE FILE Test FMT_CPP11_SNPRINTF succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8106c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_8106c.dir/build.make CMakeFiles/cmTC_8106c.dir/build
+Building CXX object CMakeFiles/cmTC_8106c.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DFMT_CPP11_SNPRINTF -std=c++11 -O3   -o CMakeFiles/cmTC_8106c.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_8106c
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8106c.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DFMT_CPP11_SNPRINTF -std=c++11 -O3 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_8106c.dir/src.cxx.o  -o cmTC_8106c  
+
+Source file was:
+
+      #include <stdio.h>
+      int main() {
+        char buffer[10];
+        snprintf(buffer, 10, "foo");
+      }
+Performing C++ SOURCE FILE Test SUPPORTS_VARIADIC_TEMPLATES succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_935ec/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_935ec.dir/build.make CMakeFiles/cmTC_935ec.dir/build
+Building CXX object CMakeFiles/cmTC_935ec.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DSUPPORTS_VARIADIC_TEMPLATES -std=c++11   -o CMakeFiles/cmTC_935ec.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_935ec
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_935ec.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DSUPPORTS_VARIADIC_TEMPLATES -std=c++11 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_935ec.dir/src.cxx.o  -o cmTC_935ec  
+
+Source file was:
+
+  template <class T, class ...Types>
+  struct S { typedef typename S<Types...>::type type; };
+  int main() {}
+Performing C++ SOURCE FILE Test SUPPORTS_INITIALIZER_LIST succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_269cf/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_269cf.dir/build.make CMakeFiles/cmTC_269cf.dir/build
+Building CXX object CMakeFiles/cmTC_269cf.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DSUPPORTS_INITIALIZER_LIST -std=c++11   -o CMakeFiles/cmTC_269cf.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_269cf
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_269cf.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DSUPPORTS_INITIALIZER_LIST -std=c++11 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_269cf.dir/src.cxx.o  -o cmTC_269cf  
+
+Source file was:
+
+  #include <initializer_list>
+  int main() {}
+Performing C++ SOURCE FILE Test SUPPORTS_ENUM_BASE succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_affc0/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_affc0.dir/build.make CMakeFiles/cmTC_affc0.dir/build
+Building CXX object CMakeFiles/cmTC_affc0.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DSUPPORTS_ENUM_BASE -std=c++11   -o CMakeFiles/cmTC_affc0.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_affc0
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_affc0.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DSUPPORTS_ENUM_BASE -std=c++11 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_affc0.dir/src.cxx.o  -o cmTC_affc0  
+
+Source file was:
+
+  enum C : char {A};
+  int main() {}
+Performing C++ SOURCE FILE Test SUPPORTS_TYPE_TRAITS succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_3286b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_3286b.dir/build.make CMakeFiles/cmTC_3286b.dir/build
+Building CXX object CMakeFiles/cmTC_3286b.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DSUPPORTS_TYPE_TRAITS -std=c++11   -o CMakeFiles/cmTC_3286b.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_3286b
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3286b.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DSUPPORTS_TYPE_TRAITS -std=c++11 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_3286b.dir/src.cxx.o  -o cmTC_3286b  
+
+Source file was:
+
+  #include <type_traits>
+  class C { void operator=(const C&); };
+  int main() { static_assert(!std::is_copy_assignable<C>::value, ""); }
+Performing C++ SOURCE FILE Test SUPPORTS_USER_DEFINED_LITERALS succeeded with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_59996/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_59996.dir/build.make CMakeFiles/cmTC_59996.dir/build
+Building CXX object CMakeFiles/cmTC_59996.dir/src.cxx.o
+/Library/Developer/CommandLineTools/usr/bin/c++     -g -Wall -std=c++1y -DSUPPORTS_USER_DEFINED_LITERALS -std=c++11   -o CMakeFiles/cmTC_59996.dir/src.cxx.o -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/src.cxx
+Linking CXX executable cmTC_59996
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59996.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/c++    -g -Wall -std=c++1y -DSUPPORTS_USER_DEFINED_LITERALS -std=c++11 -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_59996.dir/src.cxx.o  -o cmTC_59996  
+
+Source file was:
+
+  void operator"" _udl(long double);
+  int main() {}
+Determining if the open exist passed with the following output:
+Change Dir: /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ffb44/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ffb44.dir/build.make CMakeFiles/cmTC_ffb44.dir/build
+Building C object CMakeFiles/cmTC_ffb44.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc     -o CMakeFiles/cmTC_ffb44.dir/CheckSymbolExists.c.o   -c /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_ffb44
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ffb44.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc    -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ffb44.dir/CheckSymbolExists.c.o  -o cmTC_ffb44  
+
+File /Users/fuadshah/Desktop/MVCCART/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <fcntl.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef open
+  return ((int*)(&open))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+

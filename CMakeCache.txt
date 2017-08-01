@@ -237,11 +237,35 @@ CMAKE_STRIP:FILEPATH=/Library/Developer/CommandLineTools/usr/bin/strip
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Value Computed by CMake
+FMT_BINARY_DIR:STATIC=/Users/fuadshah/Desktop/MVCCART/fmt-master
+
+//Generate the doc target.
+FMT_DOC:BOOL=OFF
+
+//Generate the install target.
+FMT_INSTALL:BOOL=OFF
+
+//Enable extra warnings and expensive tests.
+FMT_PEDANTIC:BOOL=OFF
+
+//Value Computed by CMake
+FMT_SOURCE_DIR:STATIC=/Users/fuadshah/Desktop/MVCCART/fmt-master
+
+//Generate the test target.
+FMT_TEST:BOOL=OFF
+
+//Enable the addition of C++11 compiler flags.
+FMT_USE_CPP11:BOOL=ON
+
 //Use std::shared_ptr instead of boost::shared_ptr
 MVCC11_USES_STD_SHARED_PTR:BOOL=OFF
 
 //Path to a program.
 ProcessorCount_cmd_sysctl:FILEPATH=/usr/sbin/sysctl
+
+//Dependencies for target
+fmt_LIB_DEPENDS:STATIC=
 
 //Value Computed by CMake
 mvccart_BINARY_DIR:STATIC=/Users/fuadshah/Desktop/MVCCART
@@ -384,7 +408,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=2
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -425,8 +449,28 @@ CMAKE_UNAME:INTERNAL=/usr/bin/uname
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
+//Test FMT_CPP11_CMATH
+FMT_CPP11_CMATH:INTERNAL=1
+//Test FMT_CPP11_SNPRINTF
+FMT_CPP11_SNPRINTF:INTERNAL=1
+//Test FMT_CPP11_UNISTD_H
+FMT_CPP11_UNISTD_H:INTERNAL=1
+//Have symbol open
+HAVE_OPEN:INTERNAL=1
+//Test HAVE_STD_CPP11_FLAG
+HAVE_STD_CPP11_FLAG:INTERNAL=1
 //ADVANCED property for variable: ProcessorCount_cmd_sysctl
 ProcessorCount_cmd_sysctl-ADVANCED:INTERNAL=1
+//Test SUPPORTS_ENUM_BASE
+SUPPORTS_ENUM_BASE:INTERNAL=1
+//Test SUPPORTS_INITIALIZER_LIST
+SUPPORTS_INITIALIZER_LIST:INTERNAL=1
+//Test SUPPORTS_TYPE_TRAITS
+SUPPORTS_TYPE_TRAITS:INTERNAL=1
+//Test SUPPORTS_USER_DEFINED_LITERALS
+SUPPORTS_USER_DEFINED_LITERALS:INTERNAL=1
+//Test SUPPORTS_VARIADIC_TEMPLATES
+SUPPORTS_VARIADIC_TEMPLATES:INTERNAL=1
 //Components requested for this build tree.
 _Boost_COMPONENTS_SEARCHED:INTERNAL=filesystem;log;log_setup;system;thread;unit_test_framework
 //Last used Boost_INCLUDE_DIR value.

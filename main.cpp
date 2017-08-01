@@ -19,7 +19,7 @@ void InsertAndIterateyTuples();
 
 
 ///Testing ART , with MyTuple for schema table type
-typedef pfabric::Tuple<unsigned long, int, char *, double> MyTuple;
+typedef pfabric::Tuple<char[20], unsigned long, int, char *, double> MyTuple;
 typedef TuplePtr<MyTuple> InTuplePointer;
 typedef MyTuple TuplesToStore[50];
 char ValuesToStore[50][50];

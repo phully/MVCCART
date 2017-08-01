@@ -4,18 +4,20 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/fuadshah/Desktop/MVCCART/ScaleTestsReadOnly.cpp" "/Users/fuadshah/Desktop/MVCCART/CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o"
+  "/Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp" "/Users/fuadshah/Desktop/MVCCART/CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 
 # Preprocessor definitions for this target.
 set(CMAKE_TARGET_DEFINITIONS_CXX
   "BOOST_LOG_DYN_LINK"
+  "FMT_HEADER_ONLY=1"
   )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/usr/local/include"
+  "."
   )
 
 # Targets to which this target links.

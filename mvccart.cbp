@@ -5,7 +5,7 @@
 		<Option title="mvccart"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="clang"/>
-		<Option virtualFolders="CMake Files\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\fmt-master\;CMake Files\fmt-master\fmt\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/Users/fuadshah/Desktop/MVCCART"/>
@@ -45,7 +45,9 @@
 				<Option compiler="clang"/>
 				<Compiler>
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
+					<Add option="-DFMT_HEADER_ONLY=1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -68,7 +70,9 @@
 				<Option compiler="clang"/>
 				<Compiler>
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
+					<Add option="-DFMT_HEADER_ONLY=1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
 					<Add directory="/usr/include"/>
@@ -83,15 +87,102 @@
 					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
+			<Target title="fmt">
+				<Option output="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/libfmt.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-DBOOST_LOG_DYN_LINK"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 fmt"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="fmt/fast">
+				<Option output="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/libfmt.a" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt"/>
+				<Option object_output="./"/>
+				<Option type="2"/>
+				<Option compiler="clang"/>
+				<Compiler>
+					<Add option="-DBOOST_LOG_DYN_LINK"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/System/Library/Frameworks"/>
+					<Add directory="/Library/Frameworks"/>
+					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../include/c++/v1"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 fmt/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
 		</Build>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ARTFULCpp.h">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ScaleTestsReadOnly.cpp">
-			<Option target="mvccart"/>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/README.rst">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/container.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/format.cc">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/format.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/ostream.cc">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/ostream.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/posix.cc">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/posix.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/printf.cc">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/printf.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/string.h">
+			<Option target="fmt"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/time.h">
+			<Option target="fmt"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc.hpp">
 			<Option target="mvccart"/>
@@ -101,6 +192,9 @@
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\fmt-master\fmt\"/>
 		</Unit>
 	</Project>
 </CodeBlocks_project_file>

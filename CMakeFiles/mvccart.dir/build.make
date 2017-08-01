@@ -57,38 +57,38 @@ include CMakeFiles/mvccart.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/mvccart.dir/flags.make
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o: CMakeFiles/mvccart.dir/flags.make
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o: ScaleTestsReadOnly.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o"
-	/Library/Developer/CommandLineTools/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o -c /Users/fuadshah/Desktop/MVCCART/ScaleTestsReadOnly.cpp
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o: CMakeFiles/mvccart.dir/flags.make
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o: ARTCorrectnessTests.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o"
+	/Library/Developer/CommandLineTools/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o -c /Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.i"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/fuadshah/Desktop/MVCCART/ScaleTestsReadOnly.cpp > CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.i
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.i"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp > CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.i
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.s"
-	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/fuadshah/Desktop/MVCCART/ScaleTestsReadOnly.cpp -o CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.s
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.s"
+	/Library/Developer/CommandLineTools/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp -o CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.s
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.requires:
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.requires:
 
-.PHONY : CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.requires
+.PHONY : CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.requires
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.provides: CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.requires
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.provides.build
-.PHONY : CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.provides
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.provides: CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.requires
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.provides.build
+.PHONY : CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.provides
 
-CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.provides.build: CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o
+CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.provides.build: CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o
 
 
 # Object files for target mvccart
 mvccart_OBJECTS = \
-"CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o"
+"CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o"
 
 # External object files for target mvccart
 mvccart_EXTERNAL_OBJECTS =
 
-mvccart: CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o
+mvccart: CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o
 mvccart: CMakeFiles/mvccart.dir/build.make
 mvccart: /usr/local/include/lib/libboost_log.dylib
 mvccart: /usr/local/include/lib/libboost_log_setup.dylib
@@ -105,7 +105,7 @@ CMakeFiles/mvccart.dir/build: mvccart
 
 .PHONY : CMakeFiles/mvccart.dir/build
 
-CMakeFiles/mvccart.dir/requires: CMakeFiles/mvccart.dir/ScaleTestsReadOnly.cpp.o.requires
+CMakeFiles/mvccart.dir/requires: CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o.requires
 
 .PHONY : CMakeFiles/mvccart.dir/requires
 

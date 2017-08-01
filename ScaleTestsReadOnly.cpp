@@ -196,5 +196,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
         }
 
+
+
 BOOST_AUTO_TEST_SUITE_END()
 

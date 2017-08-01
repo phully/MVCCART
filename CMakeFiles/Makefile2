@@ -66,7 +66,7 @@ CMAKE_BINARY_DIR = /Users/fuadshah/Desktop/MVCCART
 CMakeFiles/mvccart.dir/all:
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/depend
 	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=1,2 "Built target mvccart"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=6,7 "Built target mvccart"
 .PHONY : CMakeFiles/mvccart.dir/all
 
 # Include target in all.
@@ -93,6 +93,61 @@ CMakeFiles/mvccart.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/mvccart.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory fmt-master/fmt
+
+# Convenience name for "all" pass in the directory.
+fmt-master/fmt/all: fmt-master/fmt/CMakeFiles/fmt.dir/all
+
+.PHONY : fmt-master/fmt/all
+
+# Convenience name for "clean" pass in the directory.
+fmt-master/fmt/clean: fmt-master/fmt/CMakeFiles/fmt.dir/clean
+
+.PHONY : fmt-master/fmt/clean
+
+# Convenience name for "preinstall" pass in the directory.
+fmt-master/fmt/preinstall:
+
+.PHONY : fmt-master/fmt/preinstall
+
+#=============================================================================
+# Target rules for target fmt-master/fmt/CMakeFiles/fmt.dir
+
+# All Build rule for target.
+fmt-master/fmt/CMakeFiles/fmt.dir/all:
+	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/depend
+	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/fuadshah/Desktop/MVCCART/CMakeFiles --progress-num=1,2,3,4,5 "Built target fmt"
+.PHONY : fmt-master/fmt/CMakeFiles/fmt.dir/all
+
+# Include target in all.
+all: fmt-master/fmt/CMakeFiles/fmt.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+fmt-master/fmt/CMakeFiles/fmt.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/CMakeFiles 5
+	$(MAKE) -f CMakeFiles/Makefile2 fmt-master/fmt/CMakeFiles/fmt.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/fuadshah/Desktop/MVCCART/CMakeFiles 0
+.PHONY : fmt-master/fmt/CMakeFiles/fmt.dir/rule
+
+# Convenience name for target.
+fmt: fmt-master/fmt/CMakeFiles/fmt.dir/rule
+
+.PHONY : fmt
+
+# clean rule for target.
+fmt-master/fmt/CMakeFiles/fmt.dir/clean:
+	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/clean
+.PHONY : fmt-master/fmt/CMakeFiles/fmt.dir/clean
+
+# clean rule for target.
+clean: fmt-master/fmt/CMakeFiles/fmt.dir/clean
 
 .PHONY : clean
 
