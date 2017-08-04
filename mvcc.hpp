@@ -112,7 +112,7 @@ namespace mvcc11 {
     class mvcc
     {
 
-    public:
+        public:
         using value_type = ValueType;
         using snapshot_type = snapshot<value_type>;
         using mutable_snapshot_ptr = smart_ptr::shared_ptr<snapshot_type>;
@@ -143,16 +143,16 @@ namespace mvcc11 {
         const_snapshot_ptr deleteMV(size_t txn_id,std::string& status);
 
         template <class Updater>
-        const_snapshot_ptr update(Updater updater);
+        const_snapshot_ptr update(size_t txn_id,std::string& status,Updater updater);
 
         template <class Updater>
-        const_snapshot_ptr try_update(Updater updater);
+        const_snapshot_ptr try_update(size_t txn_id,std::string& status,Updater updater);
 
         template <class Updater, class Clock, class Duration>
-        const_snapshot_ptr try_update_until(Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
+        const_snapshot_ptr try_update_until(size_t txn_id,std::string& status,Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
 
         template <class Updater, class Rep, class Period>
-        const_snapshot_ptr try_update_for(Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
+        const_snapshot_ptr try_update_for(size_t txn_id,std::string& status,Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
 
     private:
         template <class U>
@@ -165,16 +165,14 @@ namespace mvcc11 {
         const_snapshot_ptr delete_implMV(size_t txn_id,std::string& status);
 
         template <class Updater>
-        const_snapshot_ptr try_update_impl(Updater &updater);
-
-        template <class Updater>
-        const_snapshot_ptr try_update_implMVCC(Updater &updater,size_t txn_id);
-
+        const_snapshot_ptr try_update_impl(size_t txn_id,std::string& status,Updater &updater);
 
         template <class Updater, class Clock, class Duration>
         const_snapshot_ptr try_update_until_impl(
+                size_t txn_id,std::string& status,
                 Updater &updater,
                 std::chrono::time_point<Clock, Duration> const &timeout_time);
+
 
         mutable_snapshot_ptr mutable_current_;
     };
@@ -214,7 +212,6 @@ namespace mvcc11 {
     {
         smart_ptr::atomic_store(&this->mutable_current_,
                                 smart_ptr::atomic_load(&other.mutable_current_));
-
         return *this;
     }
 
@@ -380,11 +377,11 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::update(Updater updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::update(size_t txn_id,std::string& status,Updater updater) -> const_snapshot_ptr
     {
         while(true)
         {
-            auto updated = this->try_update_impl(updater);
+            auto updated = this->try_update_impl(txn_id,status,updater);
             if(updated != nullptr)
                 return updated;
 
@@ -394,118 +391,87 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update(Updater updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update(size_t txn_id,std::string& status,Updater updater) -> const_snapshot_ptr
     {
-        return this->try_update_impl(updater);
+        return this->try_update_impl(txn_id,status,updater);
     }
 
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until(
+            size_t txn_id,std::string& status,
             Updater updater,
             std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
-        return this->try_update_until_impl(updater, timeout_time);
+        return this->try_update_until_impl(txn_id,status,updater, timeout_time);
     }
 
     template <class ValueType>
     template <class Updater, class Rep, class Period>
     auto mvcc<ValueType>::try_update_for(
+            size_t txn_id,std::string& status,
             Updater updater,
             std::chrono::duration<Rep, Period> const &timeout_duration)
     -> const_snapshot_ptr
     {
         auto timeout_time = std::chrono::high_resolution_clock::now() + timeout_duration;
-        return this->try_update_until_impl(updater, timeout_time);
+        return this->try_update_until_impl(txn_id,status,updater, timeout_time);
     }
 
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update_impl(Updater &updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update_impl(size_t txn_id,std::string& status,Updater &updater) -> const_snapshot_ptr
     {
-        auto expected = smart_ptr::atomic_load(&mutable_current_);
-        auto const const_expected_version = expected->version;
-        auto const &const_expected_value = expected->value;
+            //auto desired = smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
 
-        auto desired = smart_ptr::make_shared<snapshot_type>( const_expected_version + 1, updater(const_expected_version, const_expected_value));
+            ///1- Fetch/Read  expected Version speculatively
+            auto expected = smart_ptr::atomic_load(&mutable_current_);
+            auto const const_expected_version = expected->version;
+            auto const const_expected_end_version = expected->end_version;
+            auto const &const_expected_value = expected->value;
 
-        auto const updated =
-                smart_ptr::atomic_compare_exchange_strong(
-                        &mutable_current_,
-                        &expected,
-                        desired);
+            ///2- Create New-Snapshot initially
+            auto desired = smart_ptr::make_shared<snapshot_type>( txn_id, updater(expected->value));
 
-        if(updated)
-            return desired;
-
-        return nullptr;
-    }
-
-    template <class ValueType>
-    template <class Updater>
-    auto mvcc<ValueType>::try_update_implMVCC(Updater &updater,size_t txn_id) -> const_snapshot_ptr
-    {
-
-
-        ///2- Fetch/Read  expected Version speculatively
-        auto expected = smart_ptr::atomic_load(&mutable_current_);
-        auto const const_expected_version = expected->version;
-        auto const const_expected_end_version = expected->end_version;
-        auto const &const_expected_value = expected->value;
-        expected->end_version = txn_id;
-
-        ///1- Create New-Snapshot initially
-        auto desired =
-                smart_ptr::make_shared<snapshot_type>(
-                        const_expected_version + 1,
-                        updater(const_expected_version, const_expected_value));
-
-
-
-
-        ///3- if record was created and its active currently and not by the current transaction
-        if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end())
-        {
-            if (const_expected_version != txn_id)
+            ///3- if record was created and its active currently and not by the current transaction
+            if ( const_expected_end_version != INF && const_expected_version != txn_id)
             {
-                //status = Abort;
-                std::cout << "Aborted" << std::endl;
+                if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
+                {
+                    status = Abort;
+                    //std::cout << "Aborted on value " << expected->value<< std::endl;
+                    //continue;
+                    return nullptr;
+                }
             }
-        }
 
-        /*if (const_expected_end_version != INF) {
-              if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_end_version) !=
-              active_transactionIds.end()) {
-              status = Abort;
-              std::cout << "Aborted" << std::endl;
-              //return nullptr;
-          }
-         }*/
-
-        auto const overwritten = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
-        if (overwritten)
-        {
-            // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
-            ///set status commited
-            smart_ptr::atomic_store(&desired->_older_snapshot,expected);
-            return desired;
-        }
+            expected->end_version = txn_id;
+            auto const updated = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
+            if (updated)
+            {
+                // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
+                ///set status commited
+                smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+                return desired;
+            }
 
         return nullptr;
     }
+
 
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until_impl(
+            size_t txn_id,std::string& status,
             Updater &updater,
             std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
         while(true)
         {
-            auto updated = this->try_update_impl(updater);
+            auto updated = this->try_update_impl(txn_id,status,updater);
 
             if(updated != nullptr)
                 return updated;

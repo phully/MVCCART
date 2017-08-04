@@ -705,7 +705,6 @@ static art_leaf* recursive_delete(std::shared_ptr<art_tree> t,art_node *n, art_n
 }
 
 
-
 template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP {
 
@@ -713,6 +712,9 @@ class ArtCPP {
     public: char buf[512];
     public: int res;
     public: uint64_t ARTSize;
+
+    typedef std::function<RecordType ( RecordType&)> Updater;
+
 
     /**
      * Represents a leaf. These are
@@ -735,9 +737,6 @@ class ArtCPP {
         // Compare the keys
         return memcmp(n->key, prefix, prefix_len);
     }
-
-
-
 
 
     __inline bool IS_MV_LEAF(art_node* p)
@@ -1032,125 +1031,12 @@ class ArtCPP {
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-    public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
-    {
-        int old_val = 0;
-        //art_node *root =static_cast<art_node*>(t->root);
-        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,status);
-        if (!old_val) t->size++;
-        return old;
-    }
-    private: void* mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
-    {
-        UpgradeLock _upgradeableReadLock(_access);
+    public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status);
+    private: void* mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status);
 
+    public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, size_t txn_id,std::string& status,Updater updater);
+    private: void* mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status,Updater updater);
 
-        // If we are at a NULL node, inject a leaf
-        if (!n) {
-            ///write lock to create a new leaf at the root
-            WriteLock _writeLock(_upgradeableReadLock);
-            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id,status));
-            *ref = (art_node*) snapshot;
-            return NULL;
-        }
-
-        // If we are at a leaf, we need to replace it with a node
-        if (IS_MV_LEAF(n)) {
-            ///write lock here would lock it, suppose to be only readable lock
-            //WriteLock _writeLock(_upgradeableReadLock);
-
-            mv_art_leaf *l = MV_LEAF_RAW(n);
-
-            // Check if we are updating an existing value
-            if (!mv_leaf_matches(l, key, key_len, depth))
-            {
-                *old = 1;
-
-                ///MVCC update current version
-                //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
-                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                _mvcc->overwriteMV(txn_id,value,status);
-                l->value = static_cast<void*>(_mvcc);
-                return l->value;
-            }
-
-            ///write lock here would lock it, becaue we are not updating it,
-            //new leaf will be inserted
-            WriteLock _writeLock(_upgradeableReadLock);
-
-            // New value, we must split the leaf into a node4
-            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
-
-            // Create a new leaf
-            /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id,status);
-
-            // Determine longest prefix
-            int longest_prefix = mv_longest_common_prefix(l, l2, depth);
-            new_node->n.partial_len = longest_prefix;
-            memcpy(new_node->n.partial, key+depth, min(MAX_PREFIX_LEN, longest_prefix));
-            // Add the leafs to the new node4
-            *ref = (art_node*)new_node;
-            add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
-            add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));
-            return NULL;
-        }
-
-        // Check if given node has a prefix
-        if (n->partial_len) {
-            // Determine if the prefixes differ, since we need to split
-            int prefix_diff = prefix_mismatch(n, key, key_len, depth);
-            if ((uint32_t)prefix_diff >= n->partial_len) {
-                depth += n->partial_len;
-                goto RECURSE_SEARCH;
-            }
-
-            // Create a new node
-            ///Write lock here again to create new node
-            WriteLock _writeLock(_upgradeableReadLock);
-
-            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
-            *ref = (art_node*)new_node;
-            new_node->n.partial_len = prefix_diff;
-            memcpy(new_node->n.partial, n->partial, min(MAX_PREFIX_LEN, prefix_diff));
-
-            // Adjust the prefix of the old node
-            if (n->partial_len <= MAX_PREFIX_LEN) {
-                add_child4(new_node, ref, n->partial[prefix_diff], n);
-                n->partial_len -= (prefix_diff+1);
-                memmove(n->partial, n->partial+prefix_diff+1,
-                        min(MAX_PREFIX_LEN, n->partial_len));
-            } else {
-                n->partial_len -= (prefix_diff+1);
-                mv_art_leaf *l = minimum(n);
-                add_child4(new_node, ref, l->key[depth+prefix_diff], n);
-                memcpy(n->partial, l->key+depth+prefix_diff+1, min(MAX_PREFIX_LEN, n->partial_len));
-            }
-
-            // Insert the new leaf
-
-            ///mvcc make new leaf
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
-            add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
-            return NULL;
-        }
-
-        RECURSE_SEARCH:;
-        // Find a child to recurse to
-        art_node **child = find_child(n, key[depth]);
-        if (child)
-        {
-            //lock.unlock();
-            _upgradeableReadLock.unlock();
-            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,status);
-        }
-
-        // No child, node goes within us
-        ///mvcc make new leaf
-        mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
-        add_child(n, ref, key[depth], SET_MV_LEAF(l));
-        return NULL;
-    }
 
 
     /**
@@ -1584,6 +1470,253 @@ class ArtCPP {
     }
 
 
+
 };
+
+template <typename RecordType, typename KeyType>
+auto ArtCPP<RecordType,KeyType>::mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
+{
+    int old_val = 0;
+    //art_node *root =static_cast<art_node*>(t->root);
+    auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,status);
+    if (!old_val) t->size++;
+    return old;
+}
+template <typename RecordType, typename KeyType>
+void* ArtCPP<RecordType,KeyType>::mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status)
+{
+    UpgradeLock _upgradeableReadLock(_access);
+
+
+    // If we are at a NULL node, inject a leaf
+    if (!n) {
+        ///write lock to create a new leaf at the root
+        WriteLock _writeLock(_upgradeableReadLock);
+        auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id,status));
+        *ref = (art_node*) snapshot;
+        return NULL;
+    }
+
+    // If we are at a leaf, we need to replace it with a node
+    if (IS_MV_LEAF(n)) {
+        ///write lock here would lock it, suppose to be only readable lock
+        //WriteLock _writeLock(_upgradeableReadLock);
+
+        mv_art_leaf *l = MV_LEAF_RAW(n);
+
+        // Check if we are updating an existing value
+        if (!mv_leaf_matches(l, key, key_len, depth))
+        {
+            *old = 1;
+
+            ///MVCC update current version
+            //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
+            mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+            _mvcc->overwriteMV(txn_id,value,status);
+            l->value = static_cast<void*>(_mvcc);
+            return l->value;
+        }
+
+        ///write lock here would lock it, becaue we are not updating it,
+        //new leaf will be inserted
+        WriteLock _writeLock(_upgradeableReadLock);
+
+        // New value, we must split the leaf into a node4
+        art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+
+        // Create a new leaf
+        /// MVCC make new mvcc object pointing to current-version;
+        mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id,status);
+
+        // Determine longest prefix
+        int longest_prefix = mv_longest_common_prefix(l, l2, depth);
+        new_node->n.partial_len = longest_prefix;
+        memcpy(new_node->n.partial, key+depth, min(MAX_PREFIX_LEN, longest_prefix));
+        // Add the leafs to the new node4
+        *ref = (art_node*)new_node;
+        add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
+        add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));
+        return NULL;
+    }
+
+    // Check if given node has a prefix
+    if (n->partial_len) {
+        // Determine if the prefixes differ, since we need to split
+        int prefix_diff = prefix_mismatch(n, key, key_len, depth);
+        if ((uint32_t)prefix_diff >= n->partial_len) {
+            depth += n->partial_len;
+            goto RECURSE_SEARCH;
+        }
+
+        // Create a new node
+        ///Write lock here again to create new node
+        WriteLock _writeLock(_upgradeableReadLock);
+
+        art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+        *ref = (art_node*)new_node;
+        new_node->n.partial_len = prefix_diff;
+        memcpy(new_node->n.partial, n->partial, min(MAX_PREFIX_LEN, prefix_diff));
+
+        // Adjust the prefix of the old node
+        if (n->partial_len <= MAX_PREFIX_LEN) {
+            add_child4(new_node, ref, n->partial[prefix_diff], n);
+            n->partial_len -= (prefix_diff+1);
+            memmove(n->partial, n->partial+prefix_diff+1,
+                    min(MAX_PREFIX_LEN, n->partial_len));
+        } else {
+            n->partial_len -= (prefix_diff+1);
+            mv_art_leaf *l = minimum(n);
+            add_child4(new_node, ref, l->key[depth+prefix_diff], n);
+            memcpy(n->partial, l->key+depth+prefix_diff+1, min(MAX_PREFIX_LEN, n->partial_len));
+        }
+
+        // Insert the new leaf
+
+        ///mvcc make new leaf
+        mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
+        add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
+        return NULL;
+    }
+
+    RECURSE_SEARCH:;
+    // Find a child to recurse to
+    art_node **child = find_child(n, key[depth]);
+    if (child)
+    {
+        //lock.unlock();
+        _upgradeableReadLock.unlock();
+        return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,status);
+    }
+
+    // No child, node goes within us
+    ///mvcc make new leaf
+    mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
+    add_child(n, ref, key[depth], SET_MV_LEAF(l));
+    return NULL;
+}
+
+template <typename RecordType, typename KeyType>
+auto ArtCPP<RecordType,KeyType>::mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status,Updater updater)
+{
+    int old_val = 0;
+    //art_node *root =static_cast<art_node*>(t->root);
+    auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,status,updater);
+    if (!old_val) t->size++;
+    return old;
+}
+
+template <typename RecordType, typename KeyType>
+void* ArtCPP<RecordType,KeyType>::mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len,int depth, int *old,size_t txn_id,std::string& status,Updater updater)
+{
+    UpgradeLock _upgradeableReadLock(_access);
+
+    // If we are at a NULL node, inject a leaf
+    if (!n) {
+        ///write lock to create a new leaf at the root
+        WriteLock _writeLock(_upgradeableReadLock);
+        //auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len,r,txn_id,status));
+        //*ref = (art_node*) snapshot;
+        return NULL;
+    }
+
+    // If we are at a leaf, we need to replace it with a node
+    if (IS_MV_LEAF(n))
+    {
+        ///proceed with upgradeable lock here I  suppose so to be only f
+        /// airly get to access MVCC to undergo with update operation
+
+        mv_art_leaf *l = MV_LEAF_RAW(n);
+
+        // Check if we are updating an existing value
+        if (!mv_leaf_matches(l, key, key_len, depth))
+        {
+            *old = 1;
+
+            ///MVCC update current version
+            //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
+            mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
+            _mvcc->update(txn_id,status,updater);
+            l->value = static_cast<void*>(_mvcc);
+            return l->value;
+        }
+
+        ///write lock here would lock it, becaue we are not updating it
+        //new leaf will be inserted
+        //WriteLock _writeLock(_upgradeableReadLock);
+
+        // New value, we must split the leaf into a node4
+        /*art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+
+        // Create a new leaf
+        /// MVCC make new mvcc object pointing to current-version;
+        mv_art_leaf *l2 = make_mvv_leaf(key, key_len, r,txn_id,status);
+
+        // Determine longest prefix
+        int longest_prefix = mv_longest_common_prefix(l, l2, depth);
+        new_node->n.partial_len = longest_prefix;
+        memcpy(new_node->n.partial, key+depth, min(MAX_PREFIX_LEN, longest_prefix));
+        // Add the leafs to the new node4
+        *ref = (art_node*)new_node;
+        add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
+        add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));*/
+        return NULL;
+    }
+
+    // Check if given node has a prefix
+    if (n->partial_len) {
+        // Determine if the prefixes differ, since we need to split
+        int prefix_diff = prefix_mismatch(n, key, key_len, depth);
+        if ((uint32_t)prefix_diff >= n->partial_len) {
+            depth += n->partial_len;
+            goto RECURSE_SEARCH;
+        }
+
+        // Create a new node
+        ///Write lock here again to create new node
+        /*WriteLock _writeLock(_upgradeableReadLock);
+
+        art_node4 *new_node = (art_node4*)alloc_node(NODE4);
+        *ref = (art_node*)new_node;
+        new_node->n.partial_len = prefix_diff;
+        memcpy(new_node->n.partial, n->partial, min(MAX_PREFIX_LEN, prefix_diff));
+
+        // Adjust the prefix of the old node
+        if (n->partial_len <= MAX_PREFIX_LEN) {
+            add_child4(new_node, ref, n->partial[prefix_diff], n);
+            n->partial_len -= (prefix_diff+1);
+            memmove(n->partial, n->partial+prefix_diff+1,
+                    min(MAX_PREFIX_LEN, n->partial_len));
+        } else {
+            n->partial_len -= (prefix_diff+1);
+            mv_art_leaf *l = minimum(n);
+            add_child4(new_node, ref, l->key[depth+prefix_diff], n);
+            memcpy(n->partial, l->key+depth+prefix_diff+1, min(MAX_PREFIX_LEN, n->partial_len));
+        }
+
+        // Insert the new leaf
+
+        ///mvcc make new leaf
+        mv_art_leaf *l = make_mvv_leaf(key, key_len, r,txn_id,status);
+        add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));*/
+        return NULL;
+    }
+
+    RECURSE_SEARCH:;
+    // Find a child to recurse to
+    art_node **child = find_child(n, key[depth]);
+    if (child)
+    {
+        //lock.unlock();
+        _upgradeableReadLock.unlock();
+        return mv_recursive_insert(*child, child, key, key_len,depth+1, old,txn_id,status,updater);
+    }
+
+    // No child, node goes within us
+    ///mvcc make new leaf
+    /*mv_art_leaf *l = make_mvv_leaf(key, key_len,r,txn_id,status);
+    add_child(n, ref, key[depth], SET_MV_LEAF(l));*/
+    return NULL;
+}
+
 
 #endif //MVCCART_ARTCPP_HPP

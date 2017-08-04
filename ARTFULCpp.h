@@ -32,9 +32,6 @@ using namespace pfabric;
 #define MAX_VERSION_DEPTH 100
 typedef char DefaultKeyType[20];
 typedef unsigned char MVRecordType[MAX_VERSION_DEPTH][100];
-
-
-
 typedef struct {
     int count;
     int max_count;
@@ -71,7 +68,6 @@ int iter_cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 }
 
 
-
 template <typename RecordType, typename KeyType = char[25]>
 class ARTFULCpp
 {
@@ -81,10 +77,11 @@ class ARTFULCpp
         typedef std::function<bool( void*)> Pred;
         typedef std::function<bool(RecordType&)> UpdelFunc;
         typedef std::function<bool(RecordType&)> UpPred;
+        typedef std::function<RecordType (RecordType&)> Updater;
 
 
 
-        public: uint64_t getARTSize()
+public: uint64_t getARTSize()
         {
             return ARTIndexTable->art_size();
         }
@@ -120,15 +117,22 @@ class ARTFULCpp
             ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
          }
 
-        /**
-        * @brief Delete a tuple.
-        *
-        * Delete the tuples associated with the given key from the table
-        * and TODO:: inform the observers.
-        *
-        * @param key the key for which the tuples are deleted from the table
-        * @return the number of deleted tuples
-        */
+        public:void insertOrUpdateByKey(KeyType key, Updater updater,size_t txn_id,std::string& status)
+        {
+            int len = strlen(key);
+            ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status,updater);
+        }
+
+
+    /**
+    * @brief Delete a tuple.
+    *
+    * Delete the tuples associated with the given key from the table
+    * and TODO:: inform the observers.
+    *
+    * @param key the key for which the tuples are deleted from the table
+    * @return the number of deleted tuples
+    */
         public: RecordType* deleteByKey(KeyType key,size_t txn_id,std::string& status)
         {
             int len;

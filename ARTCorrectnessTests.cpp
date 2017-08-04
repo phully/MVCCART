@@ -122,7 +122,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             buf[len2] = '\0';
             bufVal[len] = '\0';
 
-            RecordType tuple = RecordType(buf,(unsigned long) index, index + 100, fmt::format("String#{}", index), index / 100.0);
+            RecordType tuple = RecordType(buf,(unsigned long) index, index + 100, fmt::format("String/{}",buf), index / 100.0);
             strcpy(KeysToStore[index] , buf);
             vectorValues.push_back(tuple);
             index++;
@@ -134,6 +134,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         }
 
     }
+
 
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_single_transaction)
     {
@@ -165,7 +166,45 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
-/*
+
+    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_single_transaction)
+    {
+        cout << "testing_1000keys_loaded_by_single_transaction, randomly between 0-200,000" << endl;
+        ///Iterator Operation on TupleContainer
+        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys(0,200000);
+            cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples);
+
+        t2->CollectTransaction();
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+    }
+
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_two_transactions)
     {
         cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_two_transactions" << endl;
@@ -174,7 +213,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto WriteKeys1 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
             int index = 0;
             while (true) {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 100000) {
@@ -186,7 +225,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto WriteKeys2 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
             int index = 100000;
             while (true) {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 200000) {
@@ -210,6 +249,71 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
 
+    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_two_transactions)
+    {
+        cout << "testing_random_1000_keys_loaded_by_two_transactions, randomly between 0-100,000,100,000-200,000-" << endl;
+        ///Iterator Operation on TupleContainer
+
+        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,100000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,200000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples2);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples2);
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+    }
+
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_four_transactions)
     {
         cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_four_transactions" << endl;
@@ -218,7 +322,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 50000) {
@@ -231,7 +335,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 50000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 100000) {
@@ -244,7 +348,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 100000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 150000) {
@@ -257,7 +361,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 150000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 200000)
@@ -285,6 +389,126 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
 
+    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_four_transactions)
+    {
+        cout << "testing_random_1000_keys_loaded_by_four_transactions, randomly" << endl;
+        ///Iterator Operation on TupleContainer
+
+        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,50000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(50000,100000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto findKeys3 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,150000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys4 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(150000,200000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples4);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples4);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t3 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples4);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t4 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples4);
+
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+    }
+
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_eight_transactions)
     {
         cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_four_transactions" << endl;
@@ -293,7 +517,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 25000) {
@@ -306,7 +530,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 25000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 50000) {
@@ -319,7 +543,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 50000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 75000) {
@@ -332,7 +556,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 75000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 100000)
@@ -346,7 +570,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 100000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 125000) {
@@ -359,7 +583,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 125000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 150000) {
@@ -372,7 +596,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 150000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 175000) {
@@ -385,7 +609,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 175000;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], mValue[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
                 index++;
 
                 if (index > 200000)
@@ -423,48 +647,325 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
-*/
-    BOOST_AUTO_TEST_CASE(test_find_100_values)
+
+    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_8_transactions)
     {
-            cout << "test_scan_through_all_tree" << endl;
-            ///Iterator Operation on TupleContainer
-            auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        cout << "testing_random_1000_keys_loaded_by_four_transactions, randomly" << endl;
+        ///Iterator Operation on TupleContainer
+
+        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,25000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
             {
-                std::vector<void *> writeSet;
-                std::vector<void *> ReadSet;
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
-                random::mt19937 rng(current_time_nanoseconds());
-                random::uniform_int_distribution<> randomKeys(0,200000);
-                cout << randomKeys(rng) << endl;
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
 
-                std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+        };
 
-                for(int i=0; i < 100; i++)
+
+        auto findKeys2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(25000,50000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto findKeys3 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(50000,75000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys4 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(75000,100000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto findKeys5 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,125000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys6 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(125000,150000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto findKeys7 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(150000,175000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+
+        auto findKeys8 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(175000,200000);
+            //cout << randomKeys(rng) << endl;
+
+            std::cout<<"Reading 100 keys'values:: by transaction:: "<<id<<std::endl;
+
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
+            }
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t3 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t4 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t5 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t6 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t7 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t8 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+    }
+
+
+    /*
+     * Testing correctness on concurrent updates
+     */
+
+    BOOST_AUTO_TEST_CASE(testing_Updates_by_8_transactions)
+    {
+        cout << "testing_Updates_by_transactions" << endl;
+
+        auto WriteKeys1 = [](ARTTupleContainer &ARTable, size_t id, std::string &status)
+        {
+            int index = 0;
+            while (true)
+            {
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
+                index++;
+
+                if (index > 200000)
                 {
-                    char* keysToFind = KeysToStore[randomKeys(rng)];
-                    void* val = ARTWithTuples.findValueByKey(keysToFind);
-                    mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
-
-                    auto tp= _mvccValue->current()->value;
-
-                    //BOOST_REQUIRE(get<1>(tp) == get<1>(tp_inBucket->second));
-                    //BOOST_REQUIRE(get<2>(tp) == get<2>(tp_inBucket->second));
-                    //BOOST_REQUIRE(get<3>(tp) == get<3>(tp_inBucket->second));
-                    //BOOST_REQUIRE(get<4>(tp) == get<4>(tp_inBucket->second));
-
-                    std::cout<<"###found K/V = "<<_mvccValue->current()->value.getAttribute<0>()<<"/current="<<"\n";
+                    break;
                 }
+            }
+        };
 
+
+
+        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
             };
 
-            auto start_time2 = std::chrono::high_resolution_clock::now();
-            Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples);
+            for(int i=0; i < 1000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+            }
+        };
+        cout<<"starting new inserts"<<endl;
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(WriteKeys1, *ARTableWithTuples8);
+        t1->CollectTransaction();
+        cout<<"starting updates "<<endl;
+        auto start_time = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update1, *ARTableWithTuples8);
+        auto end_time = std::chrono::high_resolution_clock::now();
 
-            t2->CollectTransaction();
-            auto end_time2= std::chrono::high_resolution_clock::now();
-            cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
-            cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
-        }
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+    }
+
+    BOOST_AUTO_TEST_CASE(Verifying_updates)
+    {
+        cout << "Verifying updates" << endl;
+        ///Iterator Operation on TupleContainer
+        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+            for(int i=0; i < 10; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                void* val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+
+                auto tp= _mvccValue->current()->value;
+
+                //BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                std::cout<<"###found K/V = "<<tp.getAttribute<2>()<<"\n";
+            }
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
+
+        t2->CollectTransaction();
+        auto end_time2= std::chrono::high_resolution_clock::now();
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+    }
+
 
 
 BOOST_AUTO_TEST_SUITE_END()
