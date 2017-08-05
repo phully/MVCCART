@@ -384,7 +384,6 @@ namespace mvcc11 {
             auto updated = this->try_update_impl(txn_id,status,updater);
             if(updated != nullptr)
                 return updated;
-
             std::this_thread::sleep_for(std::chrono::milliseconds(MVCC11_CONTENSION_BACKOFF_SLEEP_MS));
         }
     }
@@ -441,7 +440,7 @@ namespace mvcc11 {
                 if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
                 {
                     status = Abort;
-                    //std::cout << "Aborted on value " << expected->value<< std::endl;
+                    std::cout << "Aborted on value " << expected->value<<" by transaction##"<< txn_id<<std::endl;
                     //continue;
                     return nullptr;
                 }

@@ -1032,10 +1032,10 @@ class ArtCPP {
      * the old value pointer is returned.
      */
     public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status);
-    private: void* mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status);
+    private: void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, RecordType& value, int depth, int *old,size_t txn_id,std::string& status);
 
     public: auto mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, size_t txn_id,std::string& status,Updater updater);
-    private: void* mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status,Updater updater);
+    private: void * mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status,Updater updater);
 
 
 
@@ -1611,7 +1611,8 @@ void* ArtCPP<RecordType,KeyType>::mv_recursive_insert(art_node *n, art_node **re
     UpgradeLock _upgradeableReadLock(_access);
 
     // If we are at a NULL node, inject a leaf
-    if (!n) {
+    if (!n)
+    {
         ///write lock to create a new leaf at the root
         WriteLock _writeLock(_upgradeableReadLock);
         //auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len,r,txn_id,status));
@@ -1635,7 +1636,9 @@ void* ArtCPP<RecordType,KeyType>::mv_recursive_insert(art_node *n, art_node **re
             ///MVCC update current version
             //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
             mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-            _mvcc->update(txn_id,status,updater);
+            //_mvcc->try_update(txn_id,status,updater);
+
+            _mvcc->try_update_for(txn_id,status,updater,std::chrono::seconds(1));
             l->value = static_cast<void*>(_mvcc);
             return l->value;
         }
@@ -1663,10 +1666,12 @@ void* ArtCPP<RecordType,KeyType>::mv_recursive_insert(art_node *n, art_node **re
     }
 
     // Check if given node has a prefix
-    if (n->partial_len) {
+    if (n->partial_len)
+    {
         // Determine if the prefixes differ, since we need to split
         int prefix_diff = prefix_mismatch(n, key, key_len, depth);
-        if ((uint32_t)prefix_diff >= n->partial_len) {
+        if ((uint32_t)prefix_diff >= n->partial_len)
+        {
             depth += n->partial_len;
             goto RECURSE_SEARCH;
         }

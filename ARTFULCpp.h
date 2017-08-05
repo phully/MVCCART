@@ -111,28 +111,28 @@ public: uint64_t getARTSize()
         * @param key the key value of the tuple
         * @param rec the actual tuple
         */
-        public:void insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id,std::string& status)
+        public:auto insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id,std::string& status)
         {
             int len = strlen(key);
-            ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
+            return ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
          }
 
-        public:void insertOrUpdateByKey(KeyType key, Updater updater,size_t txn_id,std::string& status)
+        public:auto insertOrUpdateByKey(KeyType key, Updater updater,size_t txn_id,std::string& status)
         {
             int len = strlen(key);
-            ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status,updater);
+           return  ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status,updater);
         }
 
 
-    /**
-    * @brief Delete a tuple.
-    *
-    * Delete the tuples associated with the given key from the table
-    * and TODO:: inform the observers.
-    *
-    * @param key the key for which the tuples are deleted from the table
-    * @return the number of deleted tuples
-    */
+        /**
+        * @brief Delete a tuple.
+        *
+        * Delete the tuples associated with the given key from the table
+        * and TODO:: inform the observers.
+        *
+        * @param key the key for which the tuples are deleted from the table
+        * @return the number of deleted tuples
+        */
         public: RecordType* deleteByKey(KeyType key,size_t txn_id,std::string& status)
         {
             int len;
@@ -217,9 +217,6 @@ public: uint64_t getARTSize()
             uint64_t out[] = {0, 0};
             ARTIndexTable->mv_art_iterByPredicate(ARTIndexTable->t,iter_callbackByPredicate, &out,predicate,txn_id);
         }
-
-
-
 
 };
 #endif //MVCCART_ADAPTIVERADIXTREETABLE_H

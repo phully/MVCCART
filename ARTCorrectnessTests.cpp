@@ -55,6 +55,9 @@ auto ARTableWithTuples2 =  new ARTTupleContainer();
 auto ARTableWithTuples4 =  new ARTTupleContainer();
 auto ARTableWithTuples8 =  new ARTTupleContainer();
 
+auto ARTable_for_updates =  new ARTTupleContainer();
+
+
 static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
     if(val != NULL)
@@ -98,20 +101,26 @@ int current_time_nanoseconds(){
     return tm.tv_nsec;
 }
 
+char * rootpath_uuid = "/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt";
+char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
+
+
 
     BOOST_AUTO_TEST_CASE(test_loading_Buckets_from_TextFIle)
     {
-
-        cout << "test_loading_Buckets_from_TextFIle" << endl;
+        cout << "loading_Buckets_from_TextFIle" << endl;
         int len, len2;
         char buf[20];
         char bufVal[50];
         char bufVal2[20];
 
         /// Reading all Values to store against keys
-        FILE *fvals = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt", "r");
-        FILE *fkeys = fopen("/Users/fuadshah/Desktop/MVCCART/test_data/words.txt", "r");
+
+
+        FILE *fvals = fopen(rootpath_uuid, "r");
+        FILE *fkeys = fopen(rootpath_words, "r");
         int index = 0;
 
         while (fgets(bufVal, sizeof bufVal, fvals))
@@ -122,19 +131,32 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             buf[len2] = '\0';
             bufVal[len] = '\0';
 
-            RecordType tuple = RecordType(buf,(unsigned long) index, index + 100, fmt::format("String/{}",buf), index / 100.0);
-            strcpy(KeysToStore[index] , buf);
-            vectorValues.push_back(tuple);
-            index++;
+            if(buf != "")
+            {
+                RecordType tuple = RecordType(buf,
+                                              (unsigned long) index,
+                                              index + 100,
+                                              fmt::format("String/{}", buf),
+                                              index / 100.0);
 
+                strcpy(KeysToStore[index], buf);
+                vectorValues.push_back(tuple);
+                index++;
+            }
+            else
+            {
+                cout << "empty key" << endl;
+            }
             if (index > 200000)
             {
                 break;
             }
         }
-
     }
 
+    /*
+    * Testing correctness on concurrent Writes 100% write intensive, scaled till 8 transactions in concurrent
+    */
 
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_single_transaction)
     {
@@ -190,7 +212,14 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
                 auto tp= _mvccValue->current()->value;
 
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -272,7 +301,14 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -412,7 +448,14 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -436,8 +479,17 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 void* val = ARTWithTuples.findValueByKey(keysToFind);
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
+
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -461,7 +513,16 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -486,7 +547,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -671,7 +740,16 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -696,7 +774,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -720,7 +806,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -745,7 +839,16 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -769,7 +872,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -794,7 +905,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -818,7 +937,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -843,7 +970,14 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
 
                 auto tp= _mvccValue->current()->value;
-                BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
+                unsigned long index = tp.getAttribute<1>();
+
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
 
@@ -878,9 +1012,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     /*
      * Testing correctness on concurrent updates
+     * scaling transactions to 8 concurrent ones
+     * for try updates once (each update tries without retrying)
+     * Update Intensive
      */
 
-    BOOST_AUTO_TEST_CASE(testing_Updates_by_8_transactions)
+    BOOST_AUTO_TEST_CASE(testing_update_intensive)
     {
         cout << "testing_Updates_by_transactions" << endl;
 
@@ -889,7 +1026,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index = 0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
+               auto result =  ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
+               if(result != NULL)
+               {
+                   cout<<"cannot insert "<<KeysToStore[index]<<endl;
+               }
                 index++;
 
                 if (index > 200000)
@@ -917,55 +1058,268 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 return tuple;
             };
 
-            for(int i=0; i < 1000; i++)
+            for(int i=0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
             }
         };
-        cout<<"starting new inserts"<<endl;
-        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(WriteKeys1, *ARTableWithTuples8);
-        t1->CollectTransaction();
-        cout<<"starting updates "<<endl;
-        auto start_time = std::chrono::high_resolution_clock::now();
-        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update1, *ARTableWithTuples8);
-        auto end_time = std::chrono::high_resolution_clock::now();
 
+        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=25000; i < 50000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+        auto update3 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=50000; i < 75000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+
+        auto update4 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=75000; i < 100000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+        auto update5 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=100000; i < 125000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+        auto update6 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=125000; i < 150000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+        auto update7 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=150000; i < 175000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+
+            }
+        };
+
+        auto update8 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+            std::function<RecordType(RecordType&)> updater = [](RecordType& record)
+            {
+
+                RecordType tuple = RecordType(record.getAttribute<0>(),
+                                              record.getAttribute<1>(),
+                                              record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                return tuple;
+            };
+
+            for(int i=175000; i < 200000; i++)
+            {
+                char* keysToFind = KeysToStore[i];
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                //BOOST_TEST(result != NULL);
+            }
+        };
+
+        cout<<"starting new inserts"<<endl;
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t0 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(WriteKeys1, *ARTable_for_updates);
+        t0->CollectTransaction();
+        cout<<"starting 8 updaters "<<endl;
+        auto start_time = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update1, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update2, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t3 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update3, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t4 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update4, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t5 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update5, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t6 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update6, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t7 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update7, *ARTable_for_updates);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t8 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(update8, *ARTable_for_updates);
+
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+
+        auto end_time = std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
 
-    BOOST_AUTO_TEST_CASE(Verifying_updates)
+    BOOST_AUTO_TEST_CASE(Verifying_updates_intensive)
     {
         cout << "Verifying updates" << endl;
         ///Iterator Operation on TupleContainer
-        auto findKeys1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
-        {
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
-            for(int i=0; i < 10; i++)
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,200000);
+            //cout << randomKeys(rng) << endl;
+
+            for (int i = 0; i < 50000; i++)
             {
-                char* keysToFind = KeysToStore[i];
-                void* val = ARTWithTuples.findValueByKey(keysToFind);
-                mvcc11::mvcc<RecordType>* _mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                void *val = ARTWithTuples.findValueByKey(keysToFind);
+                mvcc11::mvcc<RecordType> *_mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType> *>(val);
 
-                auto tp= _mvccValue->current()->value;
+                auto tp = _mvccValue->current()->value;
 
-                //BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
-                std::cout<<"###found K/V = "<<tp.getAttribute<2>()<<"\n";
+                unsigned long index = tp.getAttribute<1>();
+                BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()) + 100);
+                BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                BOOST_TEST(tp.getAttribute<4>() == (index) / 200.0);
+
+                /*
+                 * original
+                 *             RecordType tuple = RecordType(buf,                           //0
+                 *                                          (unsigned long) index,          //1
+                 *                                          index + 100,                    //2
+                 *                                          fmt::format("String/{}",buf),   //3
+                 *                                          index / 100.0);                 //4
+                 * Updated
+                    record.getAttribute<0>()
+                    record.getAttribute<1>(),
+                    record.getAttribute<2>() + 100,
+                                              fmt::format("String/{}",record.getAttribute<0>()),
+                                              record.getAttribute<1>() / 200.0);
+                 *
+                 */
+               std::cout << "###found K/V = " << tp.getAttribute<2>() << "\n";
             }
-
         };
 
         auto start_time2 = std::chrono::high_resolution_clock::now();
-        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t2 =  new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findKeys1,*ARTableWithTuples8);
-
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys1, *ARTableWithTuples8);
         t2->CollectTransaction();
-        auto end_time2= std::chrono::high_resolution_clock::now();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
     }
-
 
 
 BOOST_AUTO_TEST_SUITE_END()
