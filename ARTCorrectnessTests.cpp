@@ -349,6 +349,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
     }
 
+
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_four_transactions)
     {
         cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_four_transactions" << endl;
@@ -999,7 +1000,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
 
     }
-     /*
+
+
+    /*
      * Testing correctness on concurrent updates
      * scaling transactions to 8 concurrent ones
      * for try updates once (each update tries without retrying)
