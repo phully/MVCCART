@@ -99,6 +99,7 @@ public: uint64_t getARTSize()
         */
         public:void DestroyAdaptiveRadixTreeTable()
         {
+            ARTIndexTable->art_tree_destroy();
             delete ARTIndexTable;
         }
 

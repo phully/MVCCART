@@ -256,14 +256,7 @@ static void destroy_node(art_node *n) {
     free(n);
 }
 
-/**
- * Destroys an ART tree
- * @return 0 on success.
- */
-int art_tree_destroy(std::shared_ptr<art_tree> t) {
-    destroy_node(t->root);
-    return 0;
-}
+
 
 
 
@@ -886,9 +879,17 @@ class ArtCPP {
      */
     ~ArtCPP()
     {
-        art_tree_destroy(t);
     }
 
+
+    /**
+    * Destroys an ART tree
+    * @return 0 on success.
+    */
+    public: int art_tree_destroy() {
+        destroy_node(t->root);
+        return 0;
+    }
 
     /**
     * Returns the size of the ART tree.

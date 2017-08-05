@@ -47,7 +47,8 @@ size_t get_new_transaction_ID()
 
 size_t reset_transaction_ID()
 {
-    nextTid=std::atomic<int>(0);
+    int temp = (-1)*nextTid;
+    nextTid.fetch_add(temp, boost::memory_order_relaxed);
 }
 
 

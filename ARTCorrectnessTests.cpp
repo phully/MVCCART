@@ -107,6 +107,9 @@ int current_time_nanoseconds(){
     return tm.tv_nsec;
 }
 
+
+///home/muum8236/code/MVCCART/test_data
+
 char * rootpath_uuid = "/Users/fuadshah/Desktop/MVCCART/test_data/uuid.txt";
 char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
 
