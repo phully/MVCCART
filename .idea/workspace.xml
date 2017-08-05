@@ -17,8 +17,8 @@
       <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ARTCorrectnessTests.cpp" afterPath="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ArtCPP.hpp" afterPath="$PROJECT_DIR$/ArtCPP.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/transactionManager.h" afterPath="$PROJECT_DIR$/transactionManager.h" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -178,25 +178,26 @@
       <file leaf-file-name="ARTCorrectnessTests.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ARTCorrectnessTests.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="1002" column="0" lean-forward="true" selection-start-line="1002" selection-start-column="0" selection-end-line="1002" selection-end-column="0" />
+            <state relative-caret-position="10">
+              <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
               <folding>
                 <element signature="e#65#84#0" expanded="true" />
-                <element signature="e#1544#2134#0" expanded="false" />
-                <element signature="e#2136#2724#0" expanded="false" />
-                <element signature="e#2726#3118#0" expanded="false" />
-                <element signature="e#3120#3240#0" expanded="false" />
-                <element signature="e#3496#4751#0" expanded="false" />
-                <element signature="e#4972#6132#0" expanded="false" />
-                <element signature="e#6213#8413#0" expanded="false" />
-                <element signature="e#8507#10224#0" expanded="false" />
-                <element signature="e#10303#13645#0" expanded="false" />
-                <element signature="e#13741#16647#0" expanded="false" />
-                <element signature="e#16727#24011#0" expanded="false" />
-                <element signature="e#24107#29416#0" expanded="false" />
-                <element signature="e#29493#43658#0" expanded="false" />
-                <element signature="e#43914#54805#0" expanded="false" />
-                <element signature="e#54860#57778#0" expanded="false" />
+                <element signature="e#666#804#0" expanded="false" />
+                <element signature="e#1665#2255#0" expanded="false" />
+                <element signature="e#2257#2845#0" expanded="false" />
+                <element signature="e#2847#3239#0" expanded="false" />
+                <element signature="e#3241#3361#0" expanded="false" />
+                <element signature="e#3617#4872#0" expanded="false" />
+                <element signature="e#6334#8582#0" expanded="false" />
+                <element signature="e#10472#13862#0" expanded="false" />
+                <element signature="e#13958#16864#0" expanded="false" />
+                <element signature="e#16944#24277#0" expanded="false" />
+                <element signature="e#29759#43977#0" expanded="false" />
+                <element signature="e#44232#55123#0" expanded="false" />
+                <marker date="1501971953000" expanded="false" signature="5098:6253" ph="{...}" />
+                <marker date="1501971953000" expanded="false" signature="8681:10393" ph="{...}" />
+                <marker date="1501971953000" expanded="false" signature="24378:29682" ph="{...}" />
+                <marker date="1501971953000" expanded="false" signature="55183:58096" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -205,8 +206,8 @@
       <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="369">
-              <caret line="1214" column="72" lean-forward="true" selection-start-line="1214" selection-start-column="72" selection-end-line="1214" selection-end-column="72" />
+            <state relative-caret-position="190">
+              <caret line="262" column="28" lean-forward="true" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
               <folding>
                 <element signature="e#1450#2152#0" expanded="false" />
                 <element signature="e#2215#2295#0" expanded="false" />
@@ -250,28 +251,38 @@
                 <element signature="e#50744#53150#0" expanded="false" />
                 <element signature="e#53563#53817#0" expanded="false" />
                 <element signature="e#53831#56245#0" expanded="false" />
-                <element signature="e#56260#56844#0" expanded="false" />
-                <marker date="1501967922000" expanded="false" signature="4035:5221" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="5330:5374" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="5437:8064" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="8123:8154" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="8336:8562" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="9813:9895" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="13926:14332" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="17560:17950" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="18093:19145" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="20259:20306" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="20620:21460" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="21548:22424" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="24353:24428" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="24493:24529" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="24702:24733" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="25241:25425" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="43283:43356" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="43447:44400" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="44955:45026" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="47826:47909" ph="{...}" />
-                <marker date="1501967922000" expanded="false" signature="48035:50065" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="4035:5221" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="5437:8064" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="8123:8154" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="8336:8562" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="9813:9895" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="13926:14332" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="17560:17950" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="18093:19145" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="20259:20306" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="20620:21460" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="21548:22424" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="24353:24428" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="24493:24529" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="24702:24733" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="25241:25425" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="43283:43356" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="43447:44400" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="44955:45026" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="47826:47909" ph="{...}" />
+                <marker date="1501968342000" expanded="false" signature="48035:50065" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="transactionManager.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/transactionManager.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="47" column="7" lean-forward="false" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+              <folding>
+                <element signature="e#124#143#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -280,17 +291,17 @@
       <file leaf-file-name="ARTFULCpp.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+            <state relative-caret-position="390">
+              <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
               <folding>
                 <element signature="e#1553#1624#0" expanded="false" />
                 <element signature="e#1789#2192#0" expanded="false" />
                 <element signature="e#2274#2527#0" expanded="false" />
                 <element signature="e#2539#2589#0" expanded="true" />
+                <element signature="e#2590#7532#1" expanded="false" />
                 <element signature="e#2994#3081#0" expanded="false" />
                 <element signature="e#3091#3178#0" expanded="false" />
                 <element signature="e#3194#3289#0" expanded="false" />
-                <element signature="e#3361#3451#0" expanded="false" />
                 <element signature="e#4677#5379#0" expanded="false" />
                 <element signature="e#5390#5476#0" expanded="false" />
                 <element signature="e#5493#5901#0" expanded="false" />
@@ -307,8 +318,8 @@
       <file leaf-file-name="mvcc.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mvcc.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
-              <caret line="115" column="37" lean-forward="true" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
+            <state relative-caret-position="654">
+              <caret line="314" column="35" lean-forward="true" selection-start-line="314" selection-start-column="35" selection-end-line="314" selection-end-column="35" />
               <folding>
                 <element signature="e#568#609#0" expanded="true" />
                 <element signature="e#1166#1184#0" expanded="true" />
@@ -328,7 +339,6 @@
                 <element signature="e#9388#9611#0" expanded="false" />
                 <element signature="e#9626#9643#0" expanded="true" />
                 <element signature="e#9657#9666#0" expanded="true" />
-                <element signature="e#9617#11427#0" expanded="false" />
                 <element signature="e#11442#11459#0" expanded="true" />
                 <element signature="e#11433#11614#0" expanded="false" />
                 <element signature="e#11629#11646#0" expanded="true" />
@@ -465,7 +475,6 @@
         <option value="$PROJECT_DIR$/test_data/words50K1.txt" />
         <option value="$PROJECT_DIR$/test_data/words50k.txt" />
         <option value="$PROJECT_DIR$/MVCCARTTest.cpp" />
-        <option value="$PROJECT_DIR$/transactionManager.h" />
         <option value="$PROJECT_DIR$/ScaleTestsReadOnly.cpp" />
         <option value="$PROJECT_DIR$/main.cpp" />
         <option value="$PROJECT_DIR$/table/HashMapTableTest.cpp" />
@@ -475,8 +484,9 @@
         <option value="$PROJECT_DIR$/mvcc.hpp" />
         <option value="$PROJECT_DIR$/test_data/words.txt" />
         <option value="$PROJECT_DIR$/CMakeLists_Production.txt" />
-        <option value="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
         <option value="$PROJECT_DIR$/ArtCPP.hpp" />
+        <option value="$PROJECT_DIR$/transactionManager.h" />
+        <option value="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
       </list>
     </option>
   </component>
@@ -805,12 +815,12 @@
       <workItem from="1501952334077" duration="396000" />
       <workItem from="1501953069534" duration="708000" />
       <workItem from="1501953940517" duration="3303000" />
-      <workItem from="1501962282277" duration="4657000" />
+      <workItem from="1501962282277" duration="7211000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="921199000" />
+    <option name="totallyTimeSpent" value="923753000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -832,7 +842,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32378224" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22922637" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22922637" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32655826" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1056,13 +1066,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transactionManager.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="2" lean-forward="false" selection-start-line="4" selection-start-column="2" selection-end-line="4" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ScaleTestsReadOnly.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2970">
@@ -1143,13 +1146,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/transactionManager.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CMakeCache.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1192,31 +1188,6 @@
         <state relative-caret-position="2984490">
           <caret line="198966" column="9" lean-forward="false" selection-start-line="198966" selection-start-column="9" selection-end-line="198966" selection-end-column="9" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="0" lean-forward="false" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
-          <folding>
-            <element signature="e#1553#1624#0" expanded="false" />
-            <element signature="e#1789#2192#0" expanded="false" />
-            <element signature="e#2274#2527#0" expanded="false" />
-            <element signature="e#2539#2589#0" expanded="true" />
-            <element signature="e#2994#3081#0" expanded="false" />
-            <element signature="e#3091#3178#0" expanded="false" />
-            <element signature="e#3194#3289#0" expanded="false" />
-            <element signature="e#3361#3451#0" expanded="false" />
-            <element signature="e#4677#5379#0" expanded="false" />
-            <element signature="e#5390#5476#0" expanded="false" />
-            <element signature="e#5493#5901#0" expanded="false" />
-            <element signature="e#5912#6274#0" expanded="false" />
-            <element signature="e#6291#6626#0" expanded="false" />
-            <element signature="e#6697#6870#0" expanded="false" />
-            <element signature="e#6952#7179#0" expanded="false" />
-            <element signature="e#7263#7529#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1269,8 +1240,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mvcc.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="115" column="37" lean-forward="true" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
+        <state relative-caret-position="654">
+          <caret line="314" column="35" lean-forward="true" selection-start-line="314" selection-start-column="35" selection-end-line="314" selection-end-column="35" />
           <folding>
             <element signature="e#568#609#0" expanded="true" />
             <element signature="e#1166#1184#0" expanded="true" />
@@ -1290,7 +1261,6 @@
             <element signature="e#9388#9611#0" expanded="false" />
             <element signature="e#9626#9643#0" expanded="true" />
             <element signature="e#9657#9666#0" expanded="true" />
-            <element signature="e#9617#11427#0" expanded="false" />
             <element signature="e#11442#11459#0" expanded="true" />
             <element signature="e#11433#11614#0" expanded="false" />
             <element signature="e#11629#11646#0" expanded="true" />
@@ -1308,10 +1278,53 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/transactionManager.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="0" lean-forward="true" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/transactionManager.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="47" column="7" lean-forward="false" selection-start-line="47" selection-start-column="7" selection-end-line="47" selection-end-column="7" />
+          <folding>
+            <element signature="e#124#143#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ARTFULCpp.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="72" column="0" lean-forward="false" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
+          <folding>
+            <element signature="e#1553#1624#0" expanded="false" />
+            <element signature="e#1789#2192#0" expanded="false" />
+            <element signature="e#2274#2527#0" expanded="false" />
+            <element signature="e#2539#2589#0" expanded="true" />
+            <element signature="e#2590#7532#1" expanded="false" />
+            <element signature="e#2994#3081#0" expanded="false" />
+            <element signature="e#3091#3178#0" expanded="false" />
+            <element signature="e#3194#3289#0" expanded="false" />
+            <element signature="e#4677#5379#0" expanded="false" />
+            <element signature="e#5390#5476#0" expanded="false" />
+            <element signature="e#5493#5901#0" expanded="false" />
+            <element signature="e#5912#6274#0" expanded="false" />
+            <element signature="e#6291#6626#0" expanded="false" />
+            <element signature="e#6697#6870#0" expanded="false" />
+            <element signature="e#6952#7179#0" expanded="false" />
+            <element signature="e#7263#7529#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="1214" column="72" lean-forward="true" selection-start-line="1214" selection-start-column="72" selection-end-line="1214" selection-end-column="72" />
+        <state relative-caret-position="190">
+          <caret line="262" column="28" lean-forward="true" selection-start-line="262" selection-start-column="28" selection-end-line="262" selection-end-column="28" />
           <folding>
             <element signature="e#1450#2152#0" expanded="false" />
             <element signature="e#2215#2295#0" expanded="false" />
@@ -1355,53 +1368,52 @@
             <element signature="e#50744#53150#0" expanded="false" />
             <element signature="e#53563#53817#0" expanded="false" />
             <element signature="e#53831#56245#0" expanded="false" />
-            <element signature="e#56260#56844#0" expanded="false" />
-            <marker date="1501967922000" expanded="false" signature="4035:5221" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="5330:5374" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="5437:8064" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="8123:8154" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="8336:8562" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="9813:9895" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="13926:14332" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="17560:17950" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="18093:19145" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="20259:20306" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="20620:21460" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="21548:22424" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="24353:24428" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="24493:24529" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="24702:24733" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="25241:25425" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="43283:43356" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="43447:44400" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="44955:45026" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="47826:47909" ph="{...}" />
-            <marker date="1501967922000" expanded="false" signature="48035:50065" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="4035:5221" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="5437:8064" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="8123:8154" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="8336:8562" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="9813:9895" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="13926:14332" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="17560:17950" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="18093:19145" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="20259:20306" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="20620:21460" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="21548:22424" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="24353:24428" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="24493:24529" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="24702:24733" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="25241:25425" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="43283:43356" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="43447:44400" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="44955:45026" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="47826:47909" ph="{...}" />
+            <marker date="1501968342000" expanded="false" signature="48035:50065" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ARTCorrectnessTests.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="1002" column="0" lean-forward="true" selection-start-line="1002" selection-start-column="0" selection-end-line="1002" selection-end-column="0" />
+        <state relative-caret-position="10">
+          <caret line="113" column="0" lean-forward="true" selection-start-line="113" selection-start-column="0" selection-end-line="113" selection-end-column="0" />
           <folding>
             <element signature="e#65#84#0" expanded="true" />
-            <element signature="e#1544#2134#0" expanded="false" />
-            <element signature="e#2136#2724#0" expanded="false" />
-            <element signature="e#2726#3118#0" expanded="false" />
-            <element signature="e#3120#3240#0" expanded="false" />
-            <element signature="e#3496#4751#0" expanded="false" />
-            <element signature="e#4972#6132#0" expanded="false" />
-            <element signature="e#6213#8413#0" expanded="false" />
-            <element signature="e#8507#10224#0" expanded="false" />
-            <element signature="e#10303#13645#0" expanded="false" />
-            <element signature="e#13741#16647#0" expanded="false" />
-            <element signature="e#16727#24011#0" expanded="false" />
-            <element signature="e#24107#29416#0" expanded="false" />
-            <element signature="e#29493#43658#0" expanded="false" />
-            <element signature="e#43914#54805#0" expanded="false" />
-            <element signature="e#54860#57778#0" expanded="false" />
+            <element signature="e#666#804#0" expanded="false" />
+            <element signature="e#1665#2255#0" expanded="false" />
+            <element signature="e#2257#2845#0" expanded="false" />
+            <element signature="e#2847#3239#0" expanded="false" />
+            <element signature="e#3241#3361#0" expanded="false" />
+            <element signature="e#3617#4872#0" expanded="false" />
+            <element signature="e#6334#8582#0" expanded="false" />
+            <element signature="e#10472#13862#0" expanded="false" />
+            <element signature="e#13958#16864#0" expanded="false" />
+            <element signature="e#16944#24277#0" expanded="false" />
+            <element signature="e#29759#43977#0" expanded="false" />
+            <element signature="e#44232#55123#0" expanded="false" />
+            <marker date="1501971953000" expanded="false" signature="5098:6253" ph="{...}" />
+            <marker date="1501971953000" expanded="false" signature="8681:10393" ph="{...}" />
+            <marker date="1501971953000" expanded="false" signature="24378:29682" ph="{...}" />
+            <marker date="1501971953000" expanded="false" signature="55183:58096" ph="{...}" />
           </folding>
         </state>
       </provider>

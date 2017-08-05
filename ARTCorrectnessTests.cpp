@@ -54,9 +54,15 @@ auto ARTableWithTuples =  new ARTTupleContainer();
 auto ARTableWithTuples2 =  new ARTTupleContainer();
 auto ARTableWithTuples4 =  new ARTTupleContainer();
 auto ARTableWithTuples8 =  new ARTTupleContainer();
-
 auto ARTable_for_updates =  new ARTTupleContainer();
 
+
+void RESET_AND_DELETE(ARTTupleContainer& ART )
+{
+    ART.DestroyAdaptiveRadixTreeTable();
+    reset_transaction_ID();
+
+}
 
 static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val)
 {
@@ -231,6 +237,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto end_time2= std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+
+        RESET_AND_DELETE(*ARTableWithTuples);
+
     }
 
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_two_transactions)
@@ -335,7 +344,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                 BOOST_REQUIRE(tp.getAttribute<3>() == fmt::format("String/{}",keysToFind));
                 std::cout<<"###found K/V = "<<tp.getAttribute<3>()<<"\n";
             }
-
         };
 
         auto start_time2 = std::chrono::high_resolution_clock::now();
@@ -347,6 +355,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto end_time2= std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+
+        RESET_AND_DELETE(*ARTableWithTuples2);
+
     }
 
 
@@ -576,6 +587,9 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto end_time2= std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
+
+        RESET_AND_DELETE(*ARTableWithTuples4);
+
     }
 
     BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_eight_transactions)
@@ -717,7 +731,8 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
 
-    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_8_transactions) {
+    BOOST_AUTO_TEST_CASE(testing_random_1000_keys_loaded_by_8_transactions)
+    {
         cout << "testing_random_1000_keys_loaded_by_four_transactions, randomly" << endl;
         ///Iterator Operation on TupleContainer
 
@@ -999,8 +1014,10 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
 
-    }
+        RESET_AND_DELETE(*ARTableWithTuples8);
 
+
+    }
 
     /*
      * Testing correctness on concurrent updates

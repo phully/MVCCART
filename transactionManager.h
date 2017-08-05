@@ -45,6 +45,12 @@ size_t get_new_transaction_ID()
     return Tid;
 }
 
+size_t reset_transaction_ID()
+{
+    nextTid=std::atomic<int>(0);
+}
+
+
 namespace smart_ptr
 {
     using boost::shared_ptr;
@@ -73,6 +79,8 @@ class TransactionManager
     {
         TransactionGroup.join_all();
     }
+
+
 };
 
 template <typename T, typename C>
