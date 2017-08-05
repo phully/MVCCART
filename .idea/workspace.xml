@@ -14,8 +14,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists_Production.txt" afterPath="$PROJECT_DIR$/CMakeLists_Production.txt" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/ARTCorrectnessTests.cpp.o" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ARTCorrectnessTests.cpp" afterPath="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -172,29 +173,29 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ARTCorrectnessTests.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="ARTCorrectnessTests.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/ARTCorrectnessTests.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="1326" column="0" lean-forward="false" selection-start-line="1326" selection-start-column="0" selection-end-line="1326" selection-end-column="0" />
+            <state relative-caret-position="703">
+              <caret line="1000" column="5" lean-forward="false" selection-start-line="1000" selection-start-column="5" selection-end-line="1000" selection-end-column="5" />
               <folding>
                 <element signature="e#65#84#0" expanded="true" />
                 <element signature="e#3496#4751#0" expanded="false" />
-                <element signature="e#43778#54715#0" expanded="false" />
-                <element signature="e#54770#57686#0" expanded="false" />
-                <marker date="1501954954000" expanded="false" signature="660:941" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="1626:2134" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="2219:2724" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="2815:3118" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="3150:3240" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="4977:6126" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="6212:8406" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="8505:10217" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="10301:13636" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="13736:16637" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="16722:23993" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="24094:29398" ph="{...}" />
-                <marker date="1501954954000" expanded="false" signature="29480:43522" ph="{...}" />
+                <element signature="e#43912#54803#0" expanded="false" />
+                <element signature="e#54858#57776#0" expanded="false" />
+                <marker date="1501960589000" expanded="false" signature="660:941" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="1626:2134" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="2219:2724" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="2815:3118" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="3150:3240" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="4977:6132" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="6218:8413" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="8512:10224" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="10308:13645" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="13745:16646" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="16731:24010" ph="{...}" />
+                <marker date="1501960589000" expanded="false" signature="24111:29415" ph="{...}" />
+                <marker date="1501960589000" expanded="true" signature="29493:43651" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -210,7 +211,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists_Production.txt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CMakeLists_Production.txt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CMakeLists_Production.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="345">
@@ -233,8 +234,8 @@
       <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="24600">
-              <caret line="1640" column="33" lean-forward="false" selection-start-line="1640" selection-start-column="19" selection-end-line="1640" selection-end-column="33" />
+            <state relative-caret-position="390">
+              <caret line="1486" column="0" lean-forward="false" selection-start-line="1486" selection-start-column="0" selection-end-line="1486" selection-end-column="0" />
               <folding>
                 <element signature="e#1450#2152#0" expanded="false" />
                 <element signature="e#2215#2295#0" expanded="false" />
@@ -303,6 +304,7 @@
                 <element signature="e#51833#51872#0" expanded="true" />
                 <element signature="e#51824#52265#0" expanded="false" />
                 <element signature="e#52276#52315#0" expanded="true" />
+                <element signature="e#52267#56759#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -506,8 +508,8 @@
         <option value="$PROJECT_DIR$/mvcc.hpp" />
         <option value="$PROJECT_DIR$/test_data/words.txt" />
         <option value="$PROJECT_DIR$/ArtCPP.hpp" />
-        <option value="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists_Production.txt" />
+        <option value="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
       </list>
     </option>
   </component>
@@ -835,12 +837,12 @@
       <workItem from="1501940606403" duration="5651000" />
       <workItem from="1501952334077" duration="396000" />
       <workItem from="1501953069534" duration="708000" />
-      <workItem from="1501953940517" duration="1364000" />
+      <workItem from="1501953940517" duration="2715000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="914603000" />
+    <option name="totallyTimeSpent" value="915954000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -857,8 +859,8 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16504854" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21060172" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21060172" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.247851" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22922637" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1266,10 +1268,82 @@
         </state>
       </provider>
     </entry>
+    <entry file="file:///usr/local/include/boost/test/tools/assertion.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="174">
+          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_data/words.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2984490">
+          <caret line="198966" column="9" lean-forward="false" selection-start-line="198966" selection-start-column="9" selection-end-line="198966" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="7200">
+          <caret line="480" column="62" lean-forward="false" selection-start-line="480" selection-start-column="0" selection-end-line="481" selection-end-column="0" />
+          <folding>
+            <element signature="e#568#609#0" expanded="true" />
+            <element signature="e#1166#1184#0" expanded="true" />
+            <element signature="e#1253#1282#0" expanded="true" />
+            <element signature="e#1375#1392#0" expanded="true" />
+            <element signature="e#2730#2747#0" expanded="true" />
+            <element signature="e#4174#4189#0" expanded="true" />
+            <element signature="e#6755#7042#0" expanded="false" />
+            <element signature="e#7047#7328#0" expanded="false" />
+            <element signature="e#7334#7510#0" expanded="false" />
+            <element signature="e#7515#7667#0" expanded="false" />
+            <element signature="e#7672#7825#0" expanded="false" />
+            <element signature="e#7831#8023#0" expanded="false" />
+            <element signature="e#8029#8227#0" expanded="false" />
+            <element signature="e#8233#9159#0" expanded="false" />
+            <element signature="e#9165#9382#0" expanded="false" />
+            <element signature="e#9388#9611#0" expanded="false" />
+            <element signature="e#9626#9643#0" expanded="true" />
+            <element signature="e#9657#9666#0" expanded="true" />
+            <element signature="e#9617#11427#0" expanded="false" />
+            <element signature="e#11442#11459#0" expanded="true" />
+            <element signature="e#11433#11614#0" expanded="false" />
+            <element signature="e#11629#11646#0" expanded="true" />
+            <element signature="e#11660#11669#0" expanded="true" />
+            <element signature="e#11620#12999#0" expanded="false" />
+            <element signature="e#13046#13061#0" expanded="true" />
+            <element signature="e#13006#13463#0" expanded="false" />
+            <element signature="e#13478#13495#0" expanded="true" />
+            <element signature="e#13509#13524#0" expanded="true" />
+            <element signature="e#13469#13707#0" expanded="false" />
+            <element signature="e#14611#14628#0" expanded="true" />
+            <element signature="e#14642#14657#0" expanded="true" />
+            <element signature="e#14602#16466#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists_Production.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="30" column="118" lean-forward="false" selection-start-line="30" selection-start-column="118" selection-end-line="30" selection-end-column="118" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="30" column="95" lean-forward="false" selection-start-line="30" selection-start-column="72" selection-end-line="30" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/ArtCPP.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="24600">
-          <caret line="1640" column="33" lean-forward="false" selection-start-line="1640" selection-start-column="19" selection-end-line="1640" selection-end-column="33" />
+        <state relative-caret-position="390">
+          <caret line="1486" column="0" lean-forward="false" selection-start-line="1486" selection-start-column="0" selection-end-line="1486" selection-end-column="0" />
           <folding>
             <element signature="e#1450#2152#0" expanded="false" />
             <element signature="e#2215#2295#0" expanded="false" />
@@ -1338,105 +1412,34 @@
             <element signature="e#51833#51872#0" expanded="true" />
             <element signature="e#51824#52265#0" expanded="false" />
             <element signature="e#52276#52315#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/include/boost/test/tools/assertion.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="174">
-          <caret line="162" column="0" lean-forward="false" selection-start-line="162" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_data/words.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2984490">
-          <caret line="198966" column="9" lean-forward="false" selection-start-line="198966" selection-start-column="9" selection-end-line="198966" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7200">
-          <caret line="480" column="62" lean-forward="false" selection-start-line="480" selection-start-column="0" selection-end-line="481" selection-end-column="0" />
-          <folding>
-            <element signature="e#568#609#0" expanded="true" />
-            <element signature="e#1166#1184#0" expanded="true" />
-            <element signature="e#1253#1282#0" expanded="true" />
-            <element signature="e#1375#1392#0" expanded="true" />
-            <element signature="e#2730#2747#0" expanded="true" />
-            <element signature="e#4174#4189#0" expanded="true" />
-            <element signature="e#6755#7042#0" expanded="false" />
-            <element signature="e#7047#7328#0" expanded="false" />
-            <element signature="e#7334#7510#0" expanded="false" />
-            <element signature="e#7515#7667#0" expanded="false" />
-            <element signature="e#7672#7825#0" expanded="false" />
-            <element signature="e#7831#8023#0" expanded="false" />
-            <element signature="e#8029#8227#0" expanded="false" />
-            <element signature="e#8233#9159#0" expanded="false" />
-            <element signature="e#9165#9382#0" expanded="false" />
-            <element signature="e#9388#9611#0" expanded="false" />
-            <element signature="e#9626#9643#0" expanded="true" />
-            <element signature="e#9657#9666#0" expanded="true" />
-            <element signature="e#9617#11427#0" expanded="false" />
-            <element signature="e#11442#11459#0" expanded="true" />
-            <element signature="e#11433#11614#0" expanded="false" />
-            <element signature="e#11629#11646#0" expanded="true" />
-            <element signature="e#11660#11669#0" expanded="true" />
-            <element signature="e#11620#12999#0" expanded="false" />
-            <element signature="e#13046#13061#0" expanded="true" />
-            <element signature="e#13006#13463#0" expanded="false" />
-            <element signature="e#13478#13495#0" expanded="true" />
-            <element signature="e#13509#13524#0" expanded="true" />
-            <element signature="e#13469#13707#0" expanded="false" />
-            <element signature="e#14611#14628#0" expanded="true" />
-            <element signature="e#14642#14657#0" expanded="true" />
-            <element signature="e#14602#16466#0" expanded="false" />
+            <element signature="e#52267#56759#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ARTCorrectnessTests.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="1326" column="0" lean-forward="false" selection-start-line="1326" selection-start-column="0" selection-end-line="1326" selection-end-column="0" />
+        <state relative-caret-position="703">
+          <caret line="1000" column="5" lean-forward="false" selection-start-line="1000" selection-start-column="5" selection-end-line="1000" selection-end-column="5" />
           <folding>
             <element signature="e#65#84#0" expanded="true" />
             <element signature="e#3496#4751#0" expanded="false" />
-            <element signature="e#43778#54715#0" expanded="false" />
-            <element signature="e#54770#57686#0" expanded="false" />
-            <marker date="1501954954000" expanded="false" signature="660:941" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="1626:2134" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="2219:2724" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="2815:3118" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="3150:3240" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="4977:6126" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="6212:8406" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="8505:10217" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="10301:13636" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="13736:16637" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="16722:23993" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="24094:29398" ph="{...}" />
-            <marker date="1501954954000" expanded="false" signature="29480:43522" ph="{...}" />
+            <element signature="e#43912#54803#0" expanded="false" />
+            <element signature="e#54858#57776#0" expanded="false" />
+            <marker date="1501960589000" expanded="false" signature="660:941" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="1626:2134" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="2219:2724" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="2815:3118" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="3150:3240" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="4977:6132" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="6218:8413" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="8512:10224" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="10308:13645" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="13745:16646" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="16731:24010" ph="{...}" />
+            <marker date="1501960589000" expanded="false" signature="24111:29415" ph="{...}" />
+            <marker date="1501960589000" expanded="true" signature="29493:43651" ph="{...}" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="30" column="95" lean-forward="false" selection-start-line="30" selection-start-column="72" selection-end-line="30" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists_Production.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="30" column="118" lean-forward="false" selection-start-line="30" selection-start-column="118" selection-end-line="30" selection-end-column="118" />
-          <folding />
         </state>
       </provider>
     </entry>
