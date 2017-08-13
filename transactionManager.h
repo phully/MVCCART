@@ -21,6 +21,8 @@
 #include <strings.h>
 #include <stdio.h>
 #include <assert.h>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/thread/thread.hpp>
 
 
 #define INF 99999
@@ -37,11 +39,12 @@ auto Abort = "abort";
 
 size_t get_new_transaction_ID()
 {
-    //cntmutex.lock(); //emulates strict order
+    ///cntmutex.lock(); //emulates strict order
     size_t Tid;
     nextTid.fetch_add(1, boost::memory_order_relaxed);
     Tid = nextTid.load(boost::memory_order_relaxed);
-    //cntmutex.unlock();
+    ///cntmutex.unlock();
+    boost::this_thread::sleep(boost::posix_time::milliseconds(100));
     return Tid;
 }
 
@@ -49,6 +52,7 @@ size_t reset_transaction_ID()
 {
     int temp = (-1)*nextTid;
     nextTid.fetch_add(temp, boost::memory_order_relaxed);
+
 }
 
 
@@ -80,8 +84,6 @@ class TransactionManager
     {
         TransactionGroup.join_all();
     }
-
-
 };
 
 template <typename T, typename C>
