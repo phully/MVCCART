@@ -80,8 +80,13 @@ class ARTFULCpp
         typedef std::function<RecordType (RecordType&)> Updater;
 
 
+        using snapshot_type = mvcc11::snapshot<RecordType>;
+        typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-public: uint64_t getARTSize()
+        ///Callbacks for Predicates, UpdateFun and etc.
+        typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
+
+        public: uint64_t getARTSize()
         {
             return ARTIndexTable->art_size();
         }

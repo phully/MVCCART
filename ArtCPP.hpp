@@ -56,8 +56,7 @@ typedef boost::upgrade_lock<Mutex> UpgradeLock;
 typedef boost::upgrade_to_unique_lock<Mutex> WriteLock;
 Mutex _access;
 
-///Callbacks for Predicates, UpdateFun and etc.
-typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, void* value);
+
 
 
 
@@ -815,9 +814,12 @@ class ArtCPP {
     typedef std::function<RecordType ( RecordType&)> Updater;
 
 
+
     using snapshot_type = mvcc11::snapshot<RecordType>;
     typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
+    ///Callbacks for Predicates, UpdateFun and etc.
+    typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
     /**
      * Represents a leaf. These are
     * of arbitrary size, as they include the key with multiversioned object to get lock free Read access.
@@ -1459,8 +1461,8 @@ class ArtCPP {
                 n = (art_node*)MV_LEAF_RAW(n);
                 // Check if the expanded path matches
                 if (!mv_leaf_prefix_matches((mv_art_leaf*)n, key, key_len)) {
-                    art_leaf *l = (art_leaf*)n;
-                    return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
+                    mv_art_leaf *l = (mv_art_leaf*)(n);
+                    return cb(data, (const unsigned char*)l->key, l->key_len, l->_mvcc->current());
                 }
                 return 0;
             }
@@ -1566,21 +1568,21 @@ class ArtCPP {
     private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
     {
             //RecursiveScopedLock _recursiveLock;
-            UpgradeLock _sharedLock(_access);
+            //UpgradeLock _sharedLock(_access);
             // Handle base cases
             if (!n) return 0;
             if (IS_MV_LEAF(n))
             {
                 mv_art_leaf *l = MV_LEAF_RAW(n);
-                return cb(data, (const unsigned char*)l->key, l->key_len, l->value);
+                return cb(data, (const unsigned char*)l->key, l->key_len, l->_mvcc->current());
             }
 
-            int idx, res;
+        int idx, res;
             switch (n->type)
             {
                 case NODE4:
                     for (int i=0; i < n->num_children; i++) {
-                        _sharedLock.unlock();
+                        //_sharedLock.unlock();
                         res = mv_recursive_iter(((art_node4*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1588,7 +1590,7 @@ class ArtCPP {
 
                 case NODE16:
                     for (int i=0; i < n->num_children; i++) {
-                        _sharedLock.unlock();
+                        //_sharedLock.unlock();
                         res = mv_recursive_iter(((art_node16*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1598,7 +1600,7 @@ class ArtCPP {
                     for (int i=0; i < 256; i++) {
                         idx = ((art_node48*)n)->keys[i];
                         if (!idx) continue;
-                        _sharedLock.unlock();
+                        //_sharedLock.unlock();
                         res = mv_recursive_iter(((art_node48*)n)->children[idx-1], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1607,7 +1609,7 @@ class ArtCPP {
                 case NODE256:
                     for (int i=0; i < 256; i++) {
                         if (!((art_node256*)n)->children[i]) continue;
-                        _sharedLock.unlock();
+                        //_sharedLock.unlock();
                         res = mv_recursive_iter(((art_node256*)n)->children[i], cb, data,txn_id);
                         if (res) return res;
                     }
@@ -1645,7 +1647,7 @@ class ArtCPP {
             //printf("l-val %s",(const unsigned char *)l->value);
             if (l->value !=NULL) {
                 if (predicate(l->value)) {
-                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                    return cb(data, (const unsigned char *) l->key, l->key_len,l->value);
                 }
                 return NULL;
             }
