@@ -178,8 +178,9 @@ bool upgradeToWriteLockOrRestart(art_node* node, uint64_t version,bool &needRest
 
 bool upgradeToWriteLockOrRestart(art_node* node, uint64_t version,art_node* lockedNode,bool &needRestart)
 {
-    if (!node->version.compare_exchange_strong(version, setLockedBit(version)))
+    if (!node->version.compare_exchange_strong(version, version + 0b10))
     {
+        version = version + 0b10;
         lockedNode->writeUnlock();
         needRestart = true;
         //restart();
@@ -956,7 +957,7 @@ class ArtCPP {
     * Checks if a leaf matches
     * @return 0 on success.
     */
-    static int mv_leaf_matches(const mv_art_leaf *n, const unsigned char *key, int key_len, int depth) {
+    int mv_leaf_matches(const mv_art_leaf *n, const unsigned char *key, int key_len, int depth) {
         (void)depth;
         // Fail if the key lengths are different
         if (n->key_len != (uint32_t)key_len) return 1;
@@ -1514,12 +1515,13 @@ class ArtCPP {
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned.
      */
-    public: void* searchKey(const unsigned char* key, int key_len)
+    public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
     {
        return art_search(this->t, (unsigned char *)key, key_len);
     }
 
-    void* art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len) {
+    const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)
+    {
         art_node **child;
         art_node *n = t->root;
         int prefix_len, depth = 0;
@@ -1528,8 +1530,13 @@ class ArtCPP {
             if (IS_LEAF(n)) {
                 n = (art_node*)LEAF_RAW(n);
                 // Check if the expanded path matches
-                if (!leaf_matches((art_leaf*)n, key, key_len, depth)) {
-                    return ((art_leaf*)n)->value;
+                if (!mv_leaf_matches((mv_art_leaf*)n, key, key_len, depth))
+                {
+                        mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+                        if(snapshot != nullptr)
+                            return snapshot->_mvcc->current();
+                        else
+                            return nullptr;
                 }
                 return NULL;
             }

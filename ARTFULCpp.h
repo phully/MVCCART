@@ -183,7 +183,7 @@ class ARTFULCpp
         * @param key the key value
         * @return the tuple associated with the given key
         */
-        public: void* findValueByKey(KeyType key)
+        public: const_snapshot_ptr findValueByKey(KeyType key)
         {
             int len;
             uintptr_t line = 1;
@@ -191,7 +191,7 @@ class ARTFULCpp
             key[len] = '\0';
 
             //Search first, ensure the entries still exit optional
-            void*  val = ARTIndexTable->searchKey((unsigned char*)key, len);
+            auto val = ARTIndexTable->searchKey((unsigned char*)key, len);
             return val;
         }
 
