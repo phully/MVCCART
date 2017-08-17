@@ -136,13 +136,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ARTCorrectnessTests.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ARTFULCpp.h">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ARTFULCpp.h">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ArtCPP.hpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/transactionManager.h">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/ReadOnly.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">
@@ -184,10 +187,7 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/time.h">
 			<Option target="fmt"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc.hpp">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/transactionManager.h">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc/mvcc.hpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CMakeLists.txt">
