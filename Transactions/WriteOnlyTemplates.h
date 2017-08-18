@@ -96,6 +96,7 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &st
     std::vector<void *> ReadSet;
     int totalCachedMissed=0;
     int index=range.first;
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     while (true)
     {
