@@ -145,7 +145,7 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/transactionManager.h">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/ReadOnly.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/ReadIntensive.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">

@@ -82,7 +82,6 @@ char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
-
     BOOST_AUTO_TEST_CASE(test_loading_Buckets_from_TextFIle)
     {
         cout << "loading_Buckets_from_TextFIle" << endl;
@@ -108,7 +107,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                                               index + 100,
                                               fmt::format("String/{}", buf),
                                               index / 100.0);
-
+                strcpy(KeysToStore[index],buf);
                 vectorValues.push_back(tuple);
                 index++;
             }
@@ -742,6 +741,586 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 }
 
+    BOOST_AUTO_TEST_CASE(ReadOnly10000Ops2Transactions)
+    {
+        cout << "ReadOnly10000Ops2Transactions" << endl;
+        ///Iterator Operation on TupleContainer
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,100000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,200000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys1, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys2, *ARTable1);
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+
+        cout<<"Total time by ReadOnly10000Ops2Transactions::"<<endl;
+
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
+    BOOST_AUTO_TEST_CASE(ReadOnly10000Ops4Transactions)
+    {
+        cout << "ReadOnly10000Ops4Transactions" << endl;
+        ///Iterator Operation on TupleContainer
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,50000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(50000,100000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,150000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(150000,200000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys1, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys2, *ARTable1);
+
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t3 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys3, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t4 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys4, *ARTable1);
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+
+        cout<<"Total time by ReadOnly10000Ops4Transactions::"<<endl;
+
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
+    BOOST_AUTO_TEST_CASE(ReadOnly10000Ops8Transactions)
+    {
+        cout << "ReadOnly10000Ops4Transactions" << endl;
+        ///Iterator Operation on TupleContainer
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(0,25000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(25000,50000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(50000,75000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(75000,100000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto findKeys5 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(100000,125000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys6 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(125000,150000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto findKeys7 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(150000,175000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+        };
+
+        auto findKeys8 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+            std::vector<void *> writeSet;
+            std::vector<void *> ReadSet;
+
+
+            random::mt19937 rng(current_time_nanoseconds());
+            random::uniform_int_distribution<> randomKeys1(175000,200000);
+            //cout << randomKeys(rng) << endl;
+            int totalCachedMissed=0;
+            for (int i = 0; i < 10000; i++)
+            {
+                char* keysToFind = KeysToStore[randomKeys1(rng)];
+                auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+
+                if(val == nullptr)
+                {
+                    totalCachedMissed++;
+                }
+                else
+                {
+                    auto tp = val->value;
+                    unsigned long index = tp.getAttribute<1>();
+                    BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
+                    BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
+                    BOOST_TEST(tp.getAttribute<2>() == (int)(vectorValues[index].getAttribute<2>()));
+                    //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
+                    BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 100.0);
+                }
+
+            }
+
+            cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+        };
+
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys1, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys2, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t3 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys3, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t4 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys4, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t5= new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys5, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t6 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys6, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t7 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys7, *ARTable1);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t8 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys8, *ARTable1);
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+
+        cout<<"Total time by ReadOnly10000Ops8Transactions::"<<endl;
+
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
 
 BOOST_AUTO_TEST_SUITE_END()
 

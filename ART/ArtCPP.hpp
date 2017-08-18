@@ -1329,7 +1329,6 @@ class ArtCPP {
         if (!n)
         {
             ///write lock to create a new leaf at the root
-            WriteLock _writeLock(_upgradeableReadLock);
             //auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len,r,txn_id,status));
             //*ref = (art_node*) snapshot;
             return NULL;
@@ -1353,9 +1352,9 @@ class ArtCPP {
                 //mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
                 //_mvcc->try_update(txn_id,status,updater);
 
-                l->_mvcc->update(txn_id,status,updater);
+                return l->_mvcc->update(txn_id,status,updater);
 
-                return l->_mvcc->current();
+
             }
 
             ///write lock here would lock it, becaue we are not updating it

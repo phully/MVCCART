@@ -159,7 +159,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                                               index + 100,
                                               fmt::format("String/{}", buf),
                                               index / 100.0);
-
+                strcpy(KeysToStore[index],buf);
                 vectorValues.push_back(tuple);
                 index++;
             }

@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-WorkloadTests/ReadOnly.o: WorkloadTests/ReadOnly.cpp.o
+WorkloadTests/ReadIntensive.o: WorkloadTests/ReadIntensive.cpp.o
 
-.PHONY : WorkloadTests/ReadOnly.o
+.PHONY : WorkloadTests/ReadIntensive.o
 
 # target to build an object file
-WorkloadTests/ReadOnly.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.o
-.PHONY : WorkloadTests/ReadOnly.cpp.o
+WorkloadTests/ReadIntensive.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o
+.PHONY : WorkloadTests/ReadIntensive.cpp.o
 
-WorkloadTests/ReadOnly.i: WorkloadTests/ReadOnly.cpp.i
+WorkloadTests/ReadIntensive.i: WorkloadTests/ReadIntensive.cpp.i
 
-.PHONY : WorkloadTests/ReadOnly.i
+.PHONY : WorkloadTests/ReadIntensive.i
 
 # target to preprocess a source file
-WorkloadTests/ReadOnly.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.i
-.PHONY : WorkloadTests/ReadOnly.cpp.i
+WorkloadTests/ReadIntensive.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.i
+.PHONY : WorkloadTests/ReadIntensive.cpp.i
 
-WorkloadTests/ReadOnly.s: WorkloadTests/ReadOnly.cpp.s
+WorkloadTests/ReadIntensive.s: WorkloadTests/ReadIntensive.cpp.s
 
-.PHONY : WorkloadTests/ReadOnly.s
+.PHONY : WorkloadTests/ReadIntensive.s
 
 # target to generate assembly for a file
-WorkloadTests/ReadOnly.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.s
-.PHONY : WorkloadTests/ReadOnly.cpp.s
+WorkloadTests/ReadIntensive.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.s
+.PHONY : WorkloadTests/ReadIntensive.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... WorkloadTests/ReadOnly.o"
-	@echo "... WorkloadTests/ReadOnly.i"
-	@echo "... WorkloadTests/ReadOnly.s"
+	@echo "... WorkloadTests/ReadIntensive.o"
+	@echo "... WorkloadTests/ReadIntensive.i"
+	@echo "... WorkloadTests/ReadIntensive.s"
 .PHONY : help
 
 

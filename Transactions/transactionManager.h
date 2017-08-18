@@ -44,7 +44,7 @@ size_t get_new_transaction_ID()
     nextTid.fetch_add(1, boost::memory_order_relaxed);
     Tid = nextTid.load(boost::memory_order_relaxed);
     ///cntmutex.unlock();
-    boost::this_thread::sleep(boost::posix_time::milliseconds(100));
+    //boost::this_thread::sleep(boost::posix_time::milliseconds(10));
     return Tid;
 }
 
@@ -72,7 +72,7 @@ namespace smart_ptr
 
 }
 
-class TransactionManager
+static class TransactionManager
 {
     public:
     static boost::mutex cntmutex;
@@ -102,7 +102,7 @@ void commitTransaction(size_t id)
 }
 
 template <typename TransactionFunc, typename ARTContainer>
-class Transaction
+class Transaction : TransactionManager
 {
     public:
     size_t  Tid;
@@ -124,6 +124,8 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
 {
     Tid=get_new_transaction_ID();
     TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
+    TransactionGroup.add_thread(TransactionThread);
+
 }
 
 #endif //MVCCART_TRANSACTIONMANAGER_H
