@@ -95,6 +95,15 @@ void todo(T func,C& container , size_t id, std::string& status)
     func(container,id,status);
 }
 
+template <typename T, typename C>
+void todo2(T func,C& container , size_t id, std::string& status,std::pair<int,int> range)
+{
+    /// Set Transaction to active
+    status = Active;
+    active_transactionIds.push_back(id);
+    func(container,id,status,range);
+}
+
 
 void commitTransaction(size_t id)
 {
@@ -111,6 +120,8 @@ class Transaction : TransactionManager
 
     Transaction(TransactionFunc func, ARTContainer& ART );
 
+    Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
+
     void CollectTransaction()
     {
         TransactionThread->join();
@@ -124,6 +135,15 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
 {
     Tid=get_new_transaction_ID();
     TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
+    TransactionGroup.add_thread(TransactionThread);
+
+}
+
+template <typename TransactionFunc, typename ARTContainer>
+Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range )
+{
+    Tid=get_new_transaction_ID();
+    TransactionThread = new boost::thread(&todo2<TransactionFunc,ARTContainer>,func,ART,Tid,status,range);
     TransactionGroup.add_thread(TransactionThread);
 
 }

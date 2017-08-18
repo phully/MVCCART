@@ -2494,6 +2494,7 @@ CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o
  /usr/local/include/boost/weak_ptr.hpp
  ART/ARTFULCpp.h
  ART/ArtCPP.hpp
+ Transactions/ReadIntensiveTemplates.h
  Transactions/transactionManager.h
  core/ElementSerializable.hpp
  core/PFabricTypes.hpp

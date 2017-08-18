@@ -2493,6 +2493,7 @@ CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: /usr/local/include/boo
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: /usr/local/include/boost/weak_ptr.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: ART/ARTFULCpp.h
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: ART/ArtCPP.hpp
+CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: Transactions/ReadIntensiveTemplates.h
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: Transactions/transactionManager.h
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: core/ElementSerializable.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o: core/PFabricTypes.hpp
