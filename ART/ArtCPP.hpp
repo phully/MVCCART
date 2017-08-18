@@ -1216,6 +1216,7 @@ class ArtCPP {
             n->writeUnlock();
             return NULL;
         }
+
         ///not a leaf, it is a node, Do following checks
         ///  Check if given node has a prefix OR
         //// then Check if prefix matches, may increment level

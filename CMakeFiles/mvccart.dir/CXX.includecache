@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/ReadIntensive.cpp
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/WriteOnly.cpp
 iostream
 -
 boost/test/unit_test.hpp
@@ -17,8 +17,8 @@ mvcc/mvcc.hpp
 /Users/fuadshah/Desktop/MVCCART/WorkloadTests/mvcc/mvcc.hpp
 ART/ARTFULCpp.h
 /Users/fuadshah/Desktop/MVCCART/WorkloadTests/ART/ARTFULCpp.h
-Transactions/ReadIntensiveTemplates.h
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/ReadIntensiveTemplates.h
+Transactions/WriteOnlyTemplates.h
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/WriteOnlyTemplates.h
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
@@ -29152,7 +29152,7 @@ emmintrin.h
 emmintrin.h
 -
 
-Transactions/ReadIntensiveTemplates.h
+Transactions/WriteOnlyTemplates.h
 transactionManager.h
 Transactions/transactionManager.h
 iostream

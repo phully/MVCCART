@@ -28,7 +28,7 @@ OPTION(MVCC11_USES_STD_SHARED_PTR "Use std::shared_ptr instead of boost::shared_
 OPTION(BUILD_MVCC11_TEST_WITH_STDLIB_LIBCPP "Build mvcc_test with -stdlib=libc++" OFF)
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
-set(SOURCE_FILES  ART/ARTFULCpp.h ART/ArtCPP.hpp Transactions/transactionManager.h mvcc/mvcc.hpp  WorkloadTests/ReadIntensive.cpp Transactions/TransactionTemplates.h)
+set(SOURCE_FILES  ART/ARTFULCpp.h ART/ArtCPP.hpp Transactions/transactionManager.h mvcc/mvcc.hpp  WorkloadTests/WriteOnly.cpp Transactions/TransactionTemplates.h)
 add_subdirectory(fmt-master/fmt)
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES} fmt::fmt-header-only)
