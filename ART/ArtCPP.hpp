@@ -1314,18 +1314,19 @@ class ArtCPP {
         }
     }
 
-    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status,Updater updater)
+    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,
+                                             size_t txn_id,std::string& status,Updater updater)
     {
         int old_val = 0;
         //art_node *root =static_cast<art_node*>(t->root);
-        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,status,updater);
-        if (!old_val) t->size++;
-        return old;
+        return mv_iterative_insert(this->t,key,key_len,txn_id,status,updater);
+        //auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,status,updater);
+        //if (!old_val) t->size++;
+        //return old;
     }
 
     private: const_snapshot_ptr mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key, int key_len,int depth, int *old,size_t txn_id,std::string& status,Updater updater)
     {
-        UpgradeLock _upgradeableReadLock(_access);
         // If we are at a NULL node, inject a leaf
         if (!n)
         {
@@ -1427,7 +1428,7 @@ class ArtCPP {
         if (child)
         {
             //lock.unlock();
-            _upgradeableReadLock.unlock();
+            //_upgradeableReadLock.unlock();
             return mv_recursive_insert(*child, child, key, key_len,depth+1, old,txn_id,status,updater);
         }
 
@@ -1437,6 +1438,48 @@ class ArtCPP {
         add_child(n, ref, key[depth], SET_MV_LEAF(l));*/
         return NULL;
     }
+
+    const_snapshot_ptr mv_iterative_insert(std::shared_ptr<art_tree> t, const unsigned char *key,
+                                           int key_len,size_t txn_id,std::string& status,Updater updater)
+    {
+        art_node **child;
+        art_node *n = t->root;
+        int prefix_len, depth = 0;
+        while (n) {
+            // Might be a leaf
+            if (IS_LEAF(n)) {
+                n = (art_node*)LEAF_RAW(n);
+                // Check if the expanded path matches
+                if (!mv_leaf_matches((mv_art_leaf*)n, key, key_len, depth))
+                {
+                    mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+                    if(snapshot != nullptr)
+                    {
+                        return snapshot->_mvcc->update(txn_id,status,updater);
+                    }
+                    else
+                        return nullptr;
+                }
+                return NULL;
+            }
+
+            // Bail if the prefix does not match
+            if (n->partial_len) {
+                prefix_len = check_prefix(n, key, key_len, depth);
+                if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
+                    return NULL;
+                depth = depth + n->partial_len;
+            }
+
+            // Recursively search
+            child = find_child(n, key[depth]);
+            n = (child) ? *child : NULL;
+            depth++;
+        }
+        return NULL;
+    }
+
+
 
     /**
      * Iterates through the entries pairs in the map,
