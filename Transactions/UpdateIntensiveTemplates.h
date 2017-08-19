@@ -111,11 +111,11 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
         else
         {
             auto tp = result->value;
-            WriteSet.push_back(tp);
+            if(tp != nullptr)
+                WriteSet.push_back(tp);
         }
     }
-    cout<<"Total updates cached missed out of 100::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
-
+    cout<<"Total updates cached missed out of 60::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
 
     ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
     random::uniform_int_distribution<> randomKeys2(0,80);
@@ -128,7 +128,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
         auto result= ARTWithTuples.findValueByKey(cstr);
-        if(result != NULL)
+        if(result != NULL )
         {
             auto tp = result->value;
             Evaluater(tp);
@@ -163,11 +163,11 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
         else
         {
             auto tp = result->value;
-            WriteSet.push_back(tp);
+            if(tp != nullptr)
+                WriteSet.push_back(tp);
         }
     }
     cout<<"Total updates cached missed out of 8000::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
-
 
     ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
     random::uniform_int_distribution<> randomKeys2(0,8000);
@@ -210,14 +210,15 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &s
         char *keysToFind = KeysToStore[randomKeys1(rng)];
         auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id, status);
 
-        if (result == nullptr)
+        if (result == nullptr || result == NULL)
         {
             totalCachedMissed++;
         }
         else
         {
             auto tp = result->value;
-            WriteSet.push_back(tp);
+            if(tp != nullptr)
+                WriteSet.push_back(tp);
         }
     }
     cout<<"Total updates cached missed out of 80000::"<<totalCachedMissed<<" by transaction#"<<id<<endl;

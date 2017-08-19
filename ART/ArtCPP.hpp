@@ -159,11 +159,11 @@ void readUnlockOrRestart(art_node* node, uint64_t version,bool &needRestart)
     //restart();
 }
 
-bool upgradeToWriteLockOrRestart(art_node* node, uint64_t version,bool &needRestart)
+bool upgradeToWriteLockOrRestart(art_node* node, uint64_t& v,bool &needRestart)
 {
-    if (!node->version.compare_exchange_strong(version,version + 0b10)) ///CAS(version, setLockedBit(version)))
+    if (!node->version.compare_exchange_strong(v,v + 0b10)) ///CAS(version, setLockedBit(version)))
     {
-        version = version + 0b10;
+        v = v + 0b10;
         needRestart = true;
         //restart();
         return true;
@@ -1632,7 +1632,7 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned.
      */
-public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
+    public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
     {
         return art_search(this->t, (unsigned char *)key, key_len);
     }

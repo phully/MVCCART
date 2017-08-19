@@ -72,7 +72,7 @@ namespace smart_ptr
 
 }
 
-static class TransactionManager
+class TransactionManager
 {
     public:
     static boost::mutex cntmutex;

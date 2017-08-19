@@ -1,0 +1,206 @@
+==71721== Memcheck, a memory error detector
+==71721== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==71721== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==71721== Command: ./mvccart
+==71721== Parent PID: 71710
+==71721== 
+--71721-- 
+--71721-- Valgrind options:
+--71721--    --leak-check=full
+--71721--    --log-file=logfile.out
+--71721--    -v
+--71721-- Output from sysctl({CTL_KERN,KERN_VERSION}):
+--71721--   Darwin Kernel Version 16.1.0: Wed Oct 19 20:31:56 PDT 2016; root:xnu-3789.21.4~4/RELEASE_X86_64
+--71721-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-rdtscp-sse3-avx
+--71721-- Page sizes: currently 4096, max supported 4096
+--71721-- Valgrind library directory: /usr/local/Cellar/valgrind/3.13.0/lib/valgrind
+--71721-- ./mvccart (rx at 0x100000000, rw at 0x100051000)
+--71721--    reading syms   from primary file (185 8251)
+--71721--    dSYM= ./mvccart.dSYM/Contents/Resources/DWARF/mvccart
+--71721--    reading dwarf3 from dsyms file
+--71721-- /usr/lib/dyld (rx at 0x100559000, rw at 0x100597000)
+--71721--    reading syms   from primary file (6 1219)
+--71721-- Scheduler: using generic scheduler lock implementation.
+--71721-- Reading suppressions file: /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/default.supp
+==71721== embedded gdbserver: reading from /var/folders/xr/_1jsy58s5jx8q5s91h3lns4m0000gn/T//vgdb-pipe-from-vgdb-to-71721-by-fuadshah-on-???
+==71721== embedded gdbserver: writing to   /var/folders/xr/_1jsy58s5jx8q5s91h3lns4m0000gn/T//vgdb-pipe-to-vgdb-from-71721-by-fuadshah-on-???
+==71721== embedded gdbserver: shared mem   /var/folders/xr/_1jsy58s5jx8q5s91h3lns4m0000gn/T//vgdb-pipe-shared-mem-vgdb-71721-by-fuadshah-on-???
+==71721== 
+==71721== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==71721== don't want to do, unless you know exactly what you're doing,
+==71721== or are doing some strange experiment):
+==71721==   /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/../../bin/vgdb --pid=71721 ...command...
+==71721== 
+==71721== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==71721==   /path/to/gdb ./mvccart
+==71721== and then give GDB the following command
+==71721==   target remote | /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/../../bin/vgdb --pid=71721
+==71721== --pid is optional if only one valgrind process is running
+==71721== 
+--71721-- REDIR: 0x10057f340 (dyld:strcmp) redirected to 0x25805bbee (???)
+--71721-- REDIR: 0x100578e70 (dyld:arc4random) redirected to 0x25805bc8c (???)
+--71721-- REDIR: 0x100578d20 (dyld:strlen) redirected to 0x25805bbbd (???)
+--71721-- REDIR: 0x100578c80 (dyld:strcpy) redirected to 0x25805bc0a (???)
+--71721-- REDIR: 0x10057c51d (dyld:strcat) redirected to 0x25805bbce (???)
+--71721-- REDIR: 0x10057c55b (dyld:strlcat) redirected to 0x25805bc27 (???)
+--71721-- /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_core-amd64-darwin.so (rx at 0x1005e4000, rw at 0x1005e9000)
+--71721--    reading syms   from primary file (3 73)
+--71721--    dSYM= /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_core-amd64-darwin.so.dSYM/Contents/Resources/DWARF/vgpreload_core-amd64-darwin.so
+--71721-- /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so (rx at 0x1005ed000, rw at 0x1005f5000)
+--71721--    reading syms   from primary file (72 81)
+--71721--    dSYM= /usr/local/Cellar/valgrind/3.13.0/lib/valgrind/vgpreload_memcheck-amd64-darwin.so.dSYM/Contents/Resources/DWARF/vgpreload_memcheck-amd64-darwin.so
+--71721-- /usr/local/lib/libboost_log.dylib (rx at 0x1005fb000, rw at 0x100674000)
+--71721--    reading syms   from primary file (640 11631)
+--71721-- /usr/local/lib/libboost_log_setup.dylib (rx at 0x100743000, rw at 0x1007c9000)
+--71721--    reading syms   from primary file (78 11085)
+--71721-- /usr/local/lib/libboost_system.dylib (rx at 0x1008ce000, rw at 0x1008d1000)
+--71721--    reading syms   from primary file (7 117)
+--71721-- /usr/local/lib/libboost_thread.dylib (rx at 0x1008d5000, rw at 0x1008e3000)
+--71721--    reading syms   from primary file (124 1462)
+--71721-- /usr/local/lib/libboost_filesystem.dylib (rx at 0x1008fc000, rw at 0x10090b000)
+--71721--    reading syms   from primary file (104 867)
+--71721-- /usr/local/lib/libboost_unit_test_framework.dylib (rx at 0x10091b000, rw at 0x100987000)
+--71721--    reading syms   from primary file (693 5646)
+--71721-- /usr/lib/libc++.1.dylib (rx at 0x100a03000, rw at 0x100a5a000)
+--71721--    reading syms   from primary file (1979 1610)
+--71721-- /usr/lib/libSystem.B.dylib (rx at 0x100ab7000, rw at 0x100ab9000)
+--71721--    reading syms   from primary file (31 5)
+--71721-- /usr/local/lib/libboost_chrono.dylib (rx at 0x100ac2000, rw at 0x100ac4000)
+--71721--    reading syms   from primary file (16 103)
+--71721-- /usr/local/lib/libboost_date_time.dylib (rx at 0x100ac7000, rw at 0x100acc000)
+--71721--    reading syms   from primary file (43 559)
+--71721-- /usr/local/lib/libboost_regex.dylib (rx at 0x100ada000, rw at 0x100b78000)
+--71721--    reading syms   from primary file (656 5937)
+--71721-- /usr/lib/libc++abi.dylib (rx at 0x100c03000, rw at 0x100c2e000)
+--71721--    reading syms   from primary file (339 189)
+--71721-- /usr/lib/system/libcache.dylib (rx at 0x100c3d000, rw at 0x100c42000)
+--71721--    reading syms   from primary file (32 29)
+--71721-- /usr/lib/system/libcommonCrypto.dylib (rx at 0x100c47000, rw at 0x100c52000)
+--71721--    reading syms   from primary file (214 183)
+--71721-- /usr/lib/system/libcompiler_rt.dylib (rx at 0x100c5f000, rw at 0x100c67000)
+--71721--    reading syms   from primary file (510 8)
+--71721-- /usr/lib/system/libcopyfile.dylib (rx at 0x100c74000, rw at 0x100c7d000)
+--71721--    reading syms   from primary file (13 35)
+--71721-- /usr/lib/system/libcorecrypto.dylib (rx at 0x100c83000, rw at 0x100d06000)
+--71721--    reading syms   from primary file (471 676)
+--71721-- /usr/lib/system/libdispatch.dylib (rx at 0x100d21000, rw at 0x100d54000)
+--71721--    reading syms   from primary file (257 904)
+--71721-- /usr/lib/system/libdyld.dylib (rx at 0x100d8d000, rw at 0x100d93000)
+--71721--    reading syms   from primary file (96 128)
+--71721-- /usr/lib/system/libkeymgr.dylib (rx at 0x100d9b000, rw at 0x100d9c000)
+--71721--    reading syms   from primary file (12 3)
+--71721-- /usr/lib/system/liblaunch.dylib (rx at 0x100da0000, rw at 0x100da1000)
+--71721--    reading syms   from primary file (113 3)
+--71721-- /usr/lib/system/libmacho.dylib (rx at 0x100da8000, rw at 0x100dae000)
+--71721--    reading syms   from primary file (101 1)
+--71721-- /usr/lib/system/libquarantine.dylib (rx at 0x100db4000, rw at 0x100db7000)
+--71721--    reading syms   from primary file (67 32)
+--71721-- /usr/lib/system/libremovefile.dylib (rx at 0x100dbd000, rw at 0x100dbf000)
+--71721--    reading syms   from primary file (15 4)
+--71721-- /usr/lib/system/libsystem_asl.dylib (rx at 0x100dc4000, rw at 0x100ddd000)
+--71721--    reading syms   from primary file (222 224)
+--71721-- /usr/lib/system/libsystem_blocks.dylib (rx at 0x100dea000, rw at 0x100deb000)
+--71721--    reading syms   from primary file (21 6)
+--71721-- /usr/lib/system/libsystem_c.dylib (rx at 0x100def000, rw at 0x100e7d000)
+--71721--    reading syms   from primary file (1330 777)
+--71721-- /usr/lib/system/libsystem_configuration.dylib (rx at 0x100ea4000, rw at 0x100ea8000)
+--71721--    reading syms   from primary file (38 75)
+--71721-- /usr/lib/system/libsystem_coreservices.dylib (rx at 0x100eaf000, rw at 0x100eb3000)
+--71721--    reading syms   from primary file (14 36)
+--71721-- /usr/lib/system/libsystem_coretls.dylib (rx at 0x100eb8000, rw at 0x100ed1000)
+--71721--    reading syms   from primary file (130 250)
+--71721-- /usr/lib/system/libsystem_dnssd.dylib (rx at 0x100edc000, rw at 0x100ee3000)
+--71721--    reading syms   from primary file (49 24)
+--71721-- /usr/lib/system/libsystem_info.dylib (rx at 0x100ee8000, rw at 0x100f12000)
+--71721--    reading syms   from primary file (523 519)
+--71721-- /usr/lib/system/libsystem_kernel.dylib (rx at 0x100f27000, rw at 0x100f4a000)
+--71721--    reading syms   from primary file (1175 98)
+--71721-- /usr/lib/system/libsystem_m.dylib (rx at 0x100f61000, rw at 0x100fa9000)
+--71721--    reading syms   from primary file (605 1)
+--71721-- /usr/lib/system/libsystem_malloc.dylib (rx at 0x100fb5000, rw at 0x100fd4000)
+--71721--    reading syms   from primary file (117 251)
+--71721-- /usr/lib/system/libsystem_network.dylib (rx at 0x100fe0000, rw at 0x101038000)
+--71721--    reading syms   from primary file (716 640)
+--71721-- /usr/lib/system/libsystem_networkextension.dylib (rx at 0x10105a000, rw at 0x101064000)
+--71721--    reading syms   from primary file (87 229)
+--71721-- /usr/lib/system/libsystem_notify.dylib (rx at 0x10106f000, rw at 0x101079000)
+--71721--    reading syms   from primary file (113 54)
+--71721-- /usr/lib/system/libsystem_platform.dylib (rx at 0x101080000, rw at 0x101089000)
+--71721--    reading syms   from primary file (158 105)
+--71721-- /usr/lib/system/libsystem_pthread.dylib (rx at 0x101091000, rw at 0x10109c000)
+--71721--    reading syms   from primary file (168 79)
+--71721-- /usr/lib/system/libsystem_sandbox.dylib (rx at 0x1010a8000, rw at 0x1010ac000)
+--71721--    reading syms   from primary file (85 9)
+--71721-- /usr/lib/system/libsystem_secinit.dylib (rx at 0x1010b2000, rw at 0x1010b4000)
+--71721--    reading syms   from primary file (3 6)
+--71721-- /usr/lib/system/libsystem_symptoms.dylib (rx at 0x1010b9000, rw at 0x1010c1000)
+--71721--    reading syms   from primary file (9 65)
+--71721-- /usr/lib/system/libsystem_trace.dylib (rx at 0x1010c7000, rw at 0x1010e8000)
+--71721--    reading syms   from primary file (179 497)
+--71721-- /usr/lib/system/libunwind.dylib (rx at 0x1010fc000, rw at 0x101102000)
+--71721--    reading syms   from primary file (102 52)
+--71721-- /usr/lib/system/libxpc.dylib (rx at 0x101109000, rw at 0x101133000)
+--71721--    reading syms   from primary file (515 826)
+--71721-- /usr/lib/libobjc.A.dylib (rx at 0x101152000, rw at 0x101528000)
+--71721--    reading syms   from primary file (365 861)
+--71721-- /usr/lib/libauto.dylib (rx at 0x101605000, rw at 0x101606000)
+--71721--    reading syms   from primary file (65 1)
+--71721-- /usr/local/lib/libboost_timer.dylib (rx at 0x10160b000, rw at 0x101610000)
+--71721--    reading syms   from primary file (21 268)
+--71721-- REDIR: 0x1010817e0 (libsystem_platform.dylib:_platform_memcmp) redirected to 0x1005f069a (_platform_memcmp)
+--71721-- REDIR: 0x101081d40 (libsystem_platform.dylib:_platform_strncmp) redirected to 0x1005f002d (_platform_strncmp)
+--71721-- REDIR: 0x100df0b40 (libsystem_c.dylib:strlen) redirected to 0x1005efcd6 (strlen)
+--71721-- REDIR: 0x101082300 (libsystem_platform.dylib:_platform_strcmp) redirected to 0x1005f00ae (_platform_strcmp)
+--71721-- REDIR: 0x100fb9e11 (libsystem_malloc.dylib:calloc) redirected to 0x1005eebbf (calloc)
+--71721-- REDIR: 0x100fb948c (libsystem_malloc.dylib:malloc_default_zone) redirected to 0x1005ef901 (malloc_default_zone)
+--71721-- REDIR: 0x100fb72c7 (libsystem_malloc.dylib:malloc_zone_malloc) redirected to 0x1005ee80b (malloc_zone_malloc)
+--71721-- REDIR: 0x100fb9497 (libsystem_malloc.dylib:malloc_zone_calloc) redirected to 0x1005eedad (malloc_zone_calloc)
+--71721-- REDIR: 0x100fb6298 (libsystem_malloc.dylib:malloc) redirected to 0x1005ee5a0 (malloc)
+--71721-- REDIR: 0x100fb955f (libsystem_malloc.dylib:malloc_zone_from_ptr) redirected to 0x1005ef942 (malloc_zone_from_ptr)
+--71721-- REDIR: 0x100fb8e85 (libsystem_malloc.dylib:free) redirected to 0x1005ee981 (free)
+--71721-- REDIR: 0x100fb9fc4 (libsystem_malloc.dylib:realloc) redirected to 0x1005eef41 (realloc)
+==71721== Conditional jump or move depends on uninitialised value(s)
+==71721==    at 0x101081668: _platform_memchr$VARIANT$Base (in /usr/lib/system/libsystem_platform.dylib)
+==71721==    by 0x100E2F4D1: __sfvwrite (in /usr/lib/system/libsystem_c.dylib)
+==71721==    by 0x100E2F88C: fwrite (in /usr/lib/system/libsystem_c.dylib)
+==71721==    by 0x100A20961: std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > std::__1::__pad_and_output<char, std::__1::char_traits<char> >(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, char const*, char const*, char const*, std::__1::ios_base&, char) (in /usr/lib/libc++.1.dylib)
+==71721==    by 0x100A20C5F: std::__1::num_put<char, std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> > >::do_put(std::__1::ostreambuf_iterator<char, std::__1::char_traits<char> >, std::__1::ios_base&, char, unsigned long) const (in /usr/lib/libc++.1.dylib)
+==71721==    by 0x100A14403: std::__1::basic_ostream<char, std::__1::char_traits<char> >::operator<<(unsigned long) (in /usr/lib/libc++.1.dylib)
+==71721==    by 0x10091DC28: boost::unit_test::output::compiler_log_formatter::log_start(std::__1::basic_ostream<char, std::__1::char_traits<char> >&, unsigned long) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x100943862: boost::unit_test::unit_test_log_t::test_start(unsigned long) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x1009269DE: boost::detail::function::function_obj_invoker0<boost::detail::forward, int>::invoke(boost::detail::function::function_buffer&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092436E: boost::execution_monitor::catch_signals(boost::function<int ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092452C: boost::execution_monitor::execute(boost::function<int ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x100925BAA: boost::execution_monitor::vexecute(boost::function<void ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721== 
+==71721== Thread 2:
+==71721== Invalid read of size 4
+==71721==    at 0x101094A09: _pthread_body (in /usr/lib/system/libsystem_pthread.dylib)
+==71721==    by 0x1010949F6: _pthread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==71721==    by 0x101094220: thread_start (in /usr/lib/system/libsystem_pthread.dylib)
+==71721==  Address 0x18 is not stack'd, malloc'd or (recently) free'd
+==71721== 
+==71721== Warning: client switching stacks?  SP change: 0x70000bbdebe8 --> 0x104de2fa0
+==71721==          to suppress, use: --max-stackframe=123141122669640 or greater
+==71721== Invalid read of size 4
+==71721==    at 0x101081B2A: _os_once (in /usr/lib/system/libsystem_platform.dylib)
+==71721==    by 0x101094C9A: pthread_once (in /usr/lib/system/libsystem_pthread.dylib)
+==71721==    by 0x100C263EE: __cxa_get_globals_fast (in /usr/lib/libc++abi.dylib)
+==71721==    by 0x100C2637F: __cxa_get_globals (in /usr/lib/libc++abi.dylib)
+==71721==    by 0x100C2677D: __cxa_throw (in /usr/lib/libc++abi.dylib)
+==71721==    by 0x100924451: void boost::unit_test::ut_detail::throw_exception<boost::detail::system_signal_exception>(boost::detail::system_signal_exception const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092439F: boost::execution_monitor::catch_signals(boost::function<int ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092452C: boost::execution_monitor::execute(boost::function<int ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x100925BAA: boost::execution_monitor::vexecute(boost::function<void ()> const&) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x100948319: boost::unit_test::unit_test_monitor_t::execute_and_translate(boost::function<void ()> const&, unsigned int) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092D494: boost::unit_test::framework::state::execute_test_tree(unsigned long, unsigned int, boost::unit_test::framework::state::random_generator_helper const*) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==    by 0x10092D594: boost::unit_test::framework::state::execute_test_tree(unsigned long, unsigned int, boost::unit_test::framework::state::random_generator_helper const*) (in /usr/local/lib/libboost_unit_test_framework.dylib)
+==71721==  Address 0x18 is not stack'd, malloc'd or (recently) free'd
+==71721== 
+==71721== 
+==71721== More than 10000000 total errors detected.  I'm not reporting any more.
+==71721== Final error counts will be inaccurate.  Go fix your program!
+==71721== Rerun with --error-limit=no to disable this cutoff.  Note
+==71721== that errors may occur in your program without prior warning from
+==71721== Valgrind, because errors are no longer being displayed.
+==71721== 

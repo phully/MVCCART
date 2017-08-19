@@ -28,7 +28,7 @@ add_subdirectory(fmt-master/fmt)
 
 
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
-set(SOURCE_FILES  ARTFULCpp.h ArtCPP.hpp transactionManager.h transactionManager.cpp mvcc.hpp  ARTCorrectnessTests.cpp)
+set(SOURCE_FILES  ART/ARTFULCpp.h ART/ArtCPP.hpp Transactions/transactionManager.h mvcc/mvcc.hpp  WorkloadTests/UpdateIntensive.cpp Transactions/TransactionTemplates.h)
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES} fmt::fmt-header-only)
 
