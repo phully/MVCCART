@@ -465,7 +465,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         t32->CollectTransaction();
         auto end_time2 = std::chrono::high_resolution_clock::now();
 
-        cout<<"Total time by ReadOnly100Ops16Transactions::"<<endl;
+        cout<<"Total time by ReadOnly100Ops32Transactions::"<<endl;
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
 

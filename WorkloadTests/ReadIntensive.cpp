@@ -119,6 +119,26 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_timeWriter - start_timeWriter).count() << ":"<<endl;
     }
 
+    BOOST_AUTO_TEST_CASE(ReadIntensive100Ops1Transactions)
+    {
+        cout << "ReadIntensive100Ops1Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(0, 200000));
+
+        t1->CollectTransaction();
+
+
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by ReadIntensive100Ops1Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
     BOOST_AUTO_TEST_CASE(ReadIntensive100Ops2Transactions)
     {
         cout << "ReadIntensive100Ops2Transactions" << endl;
@@ -211,15 +231,278 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(ReadIntensive10000Ops2Transactions)
+    BOOST_AUTO_TEST_CASE(ReadIntensive100Ops16Transactions)
+    {
+        cout << "ReadIntensive100Ops16Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(0, 12500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(12500, 25000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(25000, 37500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(37500, 50000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(50000, 62500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(62500, 75000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(75000, 87500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(87500, 100000));
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(100000, 112500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(112500, 125000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(125000, 137500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(137500, 150000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(150000, 162500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(162500, 175000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(175000, 187500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(187500, 200000));
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+        t9->CollectTransaction();
+        t10->CollectTransaction();
+        t11->CollectTransaction();
+        t12->CollectTransaction();
+        t13->CollectTransaction();
+        t14->CollectTransaction();
+        t15->CollectTransaction();
+        t16->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by ReadIntensive100Ops16Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
+    BOOST_AUTO_TEST_CASE(ReadIntensive100Ops32Transactions)
+    {
+        cout << "ReadIntensive100Ops32Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        int x = 0;
+        int y =6250;
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t17 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t18 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t19 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t20 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t21 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t22 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t23 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t24 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t25 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t26 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t27 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t28 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t29 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t30 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t31 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+        x=y;
+        y=x*2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t32 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1,std::make_pair(x, y));
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+
+        t9->CollectTransaction();
+        t10->CollectTransaction();
+        t11->CollectTransaction();
+        t12->CollectTransaction();
+        t13->CollectTransaction();
+        t14->CollectTransaction();
+        t15->CollectTransaction();
+        t16->CollectTransaction();
+
+        t17->CollectTransaction();
+        t18->CollectTransaction();
+        t19->CollectTransaction();
+        t20->CollectTransaction();
+        t21->CollectTransaction();
+        t22->CollectTransaction();
+        t23->CollectTransaction();
+        t24->CollectTransaction();
+
+        t25->CollectTransaction();
+        t26->CollectTransaction();
+        t27->CollectTransaction();
+        t28->CollectTransaction();
+        t29->CollectTransaction();
+        t30->CollectTransaction();
+        t31->CollectTransaction();
+        t32->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by ReadIntensive100Ops32Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
+
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops1Transactions)
+    {
+        cout << "ReadIntensive1000Ops1Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(0, 200000));
+
+        t1->CollectTransaction();
+
+
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by ReadIntensive1000Ops1Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+    
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops2Transactions)
     {
         cout << "ReadIntensive10000Ops2Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(0, 100000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(0, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(100000, 200000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(100000, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
@@ -233,19 +516,19 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(ReadIntensive10000Ops4Transactions)
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops4Transactions)
     {
         cout << "ReadIntensive10000Ops4Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(0, 50000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(0, 50000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(50000, 100000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(50000, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(100000, 150000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(100000, 150000));
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(150000, 200000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(150000, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
@@ -261,27 +544,27 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(ReadIntensive10000Ops8Transactions)
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops8Transactions)
     {
         cout << "ReadIntensive10000Ops4Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(0, 25000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(0, 25000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(25000, 50000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(25000, 50000));
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(50000, 75000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(50000, 75000));
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(75000, 100000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(75000, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(100000, 125000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(100000, 125000));
         Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(125000, 150000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(125000, 150000));
         Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(150000, 175000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(150000, 175000));
         Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                ReadIntensiveLong, *ARTable1,std::make_pair(175000, 200000));
+                ReadIntensiveMedium, *ARTable1,std::make_pair(175000, 200000));
 
 
 
@@ -301,6 +584,246 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
 
 
+    }
+
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops16Transactions)
+    {
+        cout << "ReadIntensive1000Ops16Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(0, 12500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(12500, 25000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(25000, 37500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(37500, 50000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(50000, 62500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(62500, 75000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(75000, 87500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(87500, 100000));
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(100000, 112500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(112500, 125000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(125000, 137500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(137500, 150000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(150000, 162500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(162500, 175000));
+        Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(175000, 187500));
+        Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1,std::make_pair(187500, 200000));
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+        t9->CollectTransaction();
+        t10->CollectTransaction();
+        t11->CollectTransaction();
+        t12->CollectTransaction();
+        t13->CollectTransaction();
+        t14->CollectTransaction();
+        t15->CollectTransaction();
+        t16->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by ReadIntensive1000Ops16Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+
+    }
+
+    BOOST_AUTO_TEST_CASE(ReadIntensive1000Ops32Transactions)
+    {
+        cout << "ReadIntensive1000Ops32Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
+        int x = 0;
+        int y = 6250;
+
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t17 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t18 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t19 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t20 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveSmall, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t21 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t22 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t23 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t24 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t25 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t26 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t27 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t28 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t29 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t30 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t31 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+        x = y;
+        y = x * 2;
+        Transaction<TransactionLambda, ARTTupleContainer> *t32 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                ReadIntensiveMedium, *ARTable1, std::make_pair(x, y));
+
+        t1->CollectTransaction();
+        t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+
+        t9->CollectTransaction();
+        t10->CollectTransaction();
+        t11->CollectTransaction();
+        t12->CollectTransaction();
+        t13->CollectTransaction();
+        t14->CollectTransaction();
+        t15->CollectTransaction();
+        t16->CollectTransaction();
+
+        t17->CollectTransaction();
+        t18->CollectTransaction();
+        t19->CollectTransaction();
+        t20->CollectTransaction();
+        t21->CollectTransaction();
+        t22->CollectTransaction();
+        t23->CollectTransaction();
+        t24->CollectTransaction();
+
+        t25->CollectTransaction();
+        t26->CollectTransaction();
+        t27->CollectTransaction();
+        t28->CollectTransaction();
+        t29->CollectTransaction();
+        t30->CollectTransaction();
+        t31->CollectTransaction();
+        t32->CollectTransaction();
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout << "Total time by ReadIntensive1000Ops32Transactions::" << endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":" << endl;
     }
 
 BOOST_AUTO_TEST_SUITE_END()

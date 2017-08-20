@@ -98,7 +98,6 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
     random::mt19937 rng(current_time_nanoseconds());
     random::uniform_int_distribution<> randomKeys1(range.first,range.second);
 
-
     ///Reading 60 values from ART, store in -> ReadSet
     int totalCachedMissed=0;
     for (int i = 0; i < 60; i++)
@@ -116,7 +115,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
         }
     }
 
-    ///Updating randomly 20 keys from ReadSet & store in -> WriteSet:
+    int totalCachedUpdateMissed=0;
     for(int i=0; i < 20; i++)
     {
         auto tuple = ReadSet[i];
@@ -129,13 +128,15 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
             WriteSet.push_back(result->value);
         }
         else
-            cout<<"key to update not found"<<endl;
+            totalCachedUpdateMissed++;
     }
 
-    int totalCachedMissedbyfinder2=0;
+    ///Updating randomly 20 keys from ReadSet & store in -> WriteSet:
+    random::uniform_int_distribution<> randomKeys2(0,WriteSet.size());
+
     for (int i = 0; i < 20; i++)
     {
-        auto tuple = WriteSet[i];
+        auto tuple = WriteSet[randomKeys2(rng)];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -144,7 +145,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
 
         if(val == nullptr)
         {
-            totalCachedMissedbyfinder2++;
+            totalCachedMissed++;
         }
         else
         {
@@ -153,13 +154,13 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
         }
     }
 
-    cout<<"Total Cached missed out of 60 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
-    cout<<"Total Cached missed out of 20 keys from WriteSet ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Cached missed out of 80 random keys Reads  ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Cached missed out of 20 keys from WriteSet/Updated ="<<totalCachedUpdateMissed<<" by transaction#"<<id<<endl;
 
 };
 
 
-auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -169,7 +170,7 @@ auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::st
 
     ///Reading 6000 values from ART, store in -> ReadSet
     int totalCachedMissed=0;
-    for (int i = 0; i < 6000; i++)
+    for (int i = 0; i < 600; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
         auto val = ARTWithTuples.findValueByKey(keysToFind);
@@ -184,8 +185,9 @@ auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::st
         }
     }
 
-    ///Updating randomly 2000 keys from ReadSet & store in -> WriteSet:
-    for(int i=0; i < 2000; i++)
+    ///Updating randomly 200 keys from ReadSet & store in -> WriteSet:
+    int totalCachedUpdateMissed =0;
+    for(int i=0; i < 200; i++)
     {
         auto tuple = ReadSet[i];
         string str =  tuple.getAttribute<0>();
@@ -197,13 +199,13 @@ auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::st
             WriteSet.push_back(result->value);
         }
         else
-            cout<<"key to update not found"<<endl;
+            totalCachedUpdateMissed++;
     }
 
-    int totalCachedMissedbyfinder2=0;
-    for (int i = 0; i < 2000; i++)
+    random::uniform_int_distribution<> randomKeys2(0,WriteSet.size());
+    for (int i = 0; i < 200; i++)
     {
-        auto tuple = WriteSet[i];
+        auto tuple = WriteSet[randomKeys2(rng)];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -212,7 +214,7 @@ auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::st
 
         if(val == nullptr)
         {
-            totalCachedMissedbyfinder2++;
+            totalCachedMissed++;
         }
         else
         {
@@ -221,8 +223,8 @@ auto ReadIntensiveLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::st
         }
     }
 
-    cout<<"Total Cached missed out of 6000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
-    cout<<"Total Cached missed out of 2000 keys from WriteSet ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Cached missed out of 800 random keys Reads  ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Cached missed out of 200 keys from WriteSet/Updated ="<<totalCachedUpdateMissed<<" by transaction#"<<id<<endl;
 };
 
 #endif //MVCCART_TRANSACTIONTEMPLATES_H

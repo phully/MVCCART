@@ -115,7 +115,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
                 WriteSet.push_back(tp);
         }
     }
-    cout<<"Total updates cached missed out of 60::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
 
     ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
 
@@ -141,7 +141,8 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
             totalCachedMissed2++;
         }
     }
-    cout<<"Total Reads cached missed out of 20::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
+    cout<<"Total updates cached missed out of 80 Updates::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Reads cached missed out of 20  Reads::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
 
 };
 
@@ -153,7 +154,7 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
     random::mt19937 rng(current_time_nanoseconds());
     random::uniform_int_distribution<> randomKeys1(range.first,range.second);
     int totalCachedMissed=0;
-    for (int i = 0; i < 8000; i++)
+    for (int i = 0; i < 800; i++)
     {
         char *keysToFind = KeysToStore[randomKeys1(rng)];
         auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id, status);
@@ -169,13 +170,12 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
                 WriteSet.push_back(tp);
         }
     }
-    cout<<"Total updates cached missed out of 8000::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
 
     ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
-    random::uniform_int_distribution<> randomKeys2(0,8000);
+    random::uniform_int_distribution<> randomKeys2(0,WriteSet.size());
     int totalCachedMissed2=0;
 
-    for(int i=0; i < 2000; i++)
+    for(int i=0; i < 200; i++)
     {
         int index = randomKeys2(rng);
         auto tuple = WriteSet[index];
@@ -195,7 +195,8 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
             totalCachedMissed2++;
         }
     }
-    cout<<"Total updates cached missed out of 2000::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
+    cout<<"Total updates cached missed out of 800 Updates::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total updates cached missed out of 200 Reads  ::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
 
 };
 
