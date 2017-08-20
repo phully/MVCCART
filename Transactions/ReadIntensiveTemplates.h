@@ -136,7 +136,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
 
     for (int i = 0; i < 20; i++)
     {
-        auto tuple = WriteSet[randomKeys2(rng)];
+        auto tuple = WriteSet[i];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -205,7 +205,7 @@ auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::
     random::uniform_int_distribution<> randomKeys2(0,WriteSet.size());
     for (int i = 0; i < 200; i++)
     {
-        auto tuple = WriteSet[randomKeys2(rng)];
+        auto tuple = WriteSet[i];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());

@@ -124,8 +124,8 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
 
     for(int i=0; i < 20; i++)
     {
-        int index = randomKeys2(rng);
-        auto tuple = WriteSet[index];
+        //int index = randomKeys2(rng);
+        auto tuple = WriteSet[i];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -177,8 +177,8 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
 
     for(int i=0; i < 200; i++)
     {
-        int index = randomKeys2(rng);
-        auto tuple = WriteSet[index];
+        //int index = randomKeys2(rng);
+        auto tuple = WriteSet[i];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -234,8 +234,8 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &s
 
     for(int i=0; i < 20000; i++)
     {
-        int index = randomKeys2(rng);
-        auto tuple = WriteSet[index];
+        //int index = randomKeys2(rng);
+        auto tuple = WriteSet[i];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());

@@ -91,12 +91,13 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 
+
 auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
     std::vector<void *> writeSet;
     std::vector<void *> ReadSet;
     int totalCachedMissed=0;
     int index=range.first;
-    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+//    std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     while (true)
     {
@@ -117,7 +118,6 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &st
     }
     cout<<"Total writes succeed ="<<totalCachedMissed<<" by transaction#"<<id<<"  from Total# Writes "<<range.second-range.first<<endl;
 };
-
 
 auto WriteOnlyRandom = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
     std::vector<void *> writeSet;
