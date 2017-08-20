@@ -111,19 +111,21 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
         else
         {
             auto tp = result->value;
-            if(tp != nullptr)
+            if(tp.getAttribute<0>() != "")
                 WriteSet.push_back(tp);
         }
     }
     cout<<"Total updates cached missed out of 60::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
 
     ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
+
     random::uniform_int_distribution<> randomKeys2(0,80);
     int totalCachedMissed2=0;
 
     for(int i=0; i < 20; i++)
     {
-        auto tuple = WriteSet[randomKeys2(rng)];
+        int index = randomKeys2(rng);
+        auto tuple = WriteSet[index];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -163,7 +165,7 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
         else
         {
             auto tp = result->value;
-            if(tp != nullptr)
+            if(tp.getAttribute<0>() != "")
                 WriteSet.push_back(tp);
         }
     }
@@ -175,7 +177,8 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
 
     for(int i=0; i < 2000; i++)
     {
-        auto tuple = WriteSet[randomKeys2(rng)];
+        int index = randomKeys2(rng);
+        auto tuple = WriteSet[index];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
@@ -217,7 +220,7 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &s
         else
         {
             auto tp = result->value;
-            if(tp != nullptr)
+            if(tp.getAttribute<0>() != "")
                 WriteSet.push_back(tp);
         }
     }
@@ -230,7 +233,8 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &s
 
     for(int i=0; i < 20000; i++)
     {
-        auto tuple = WriteSet[randomKeys2(rng)];
+        int index = randomKeys2(rng);
+        auto tuple = WriteSet[index];
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());

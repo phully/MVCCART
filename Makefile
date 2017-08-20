@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-WorkloadTests/UpdateIntensive.o: WorkloadTests/UpdateIntensive.cpp.o
+CorrectnessTests/MainTest.o: CorrectnessTests/MainTest.cpp.o
 
-.PHONY : WorkloadTests/UpdateIntensive.o
+.PHONY : CorrectnessTests/MainTest.o
 
 # target to build an object file
-WorkloadTests/UpdateIntensive.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o
-.PHONY : WorkloadTests/UpdateIntensive.cpp.o
+CorrectnessTests/MainTest.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.o
+.PHONY : CorrectnessTests/MainTest.cpp.o
 
-WorkloadTests/UpdateIntensive.i: WorkloadTests/UpdateIntensive.cpp.i
+CorrectnessTests/MainTest.i: CorrectnessTests/MainTest.cpp.i
 
-.PHONY : WorkloadTests/UpdateIntensive.i
+.PHONY : CorrectnessTests/MainTest.i
 
 # target to preprocess a source file
-WorkloadTests/UpdateIntensive.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.i
-.PHONY : WorkloadTests/UpdateIntensive.cpp.i
+CorrectnessTests/MainTest.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.i
+.PHONY : CorrectnessTests/MainTest.cpp.i
 
-WorkloadTests/UpdateIntensive.s: WorkloadTests/UpdateIntensive.cpp.s
+CorrectnessTests/MainTest.s: CorrectnessTests/MainTest.cpp.s
 
-.PHONY : WorkloadTests/UpdateIntensive.s
+.PHONY : CorrectnessTests/MainTest.s
 
 # target to generate assembly for a file
-WorkloadTests/UpdateIntensive.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.s
-.PHONY : WorkloadTests/UpdateIntensive.cpp.s
+CorrectnessTests/MainTest.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.s
+.PHONY : CorrectnessTests/MainTest.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... WorkloadTests/UpdateIntensive.o"
-	@echo "... WorkloadTests/UpdateIntensive.i"
-	@echo "... WorkloadTests/UpdateIntensive.s"
+	@echo "... CorrectnessTests/MainTest.o"
+	@echo "... CorrectnessTests/MainTest.i"
+	@echo "... CorrectnessTests/MainTest.s"
 .PHONY : help
 
 

@@ -7,7 +7,11 @@
 #include "mvcc/mvcc.hpp"
 #include "ART/ARTFULCpp.h"
 #include "Transactions/UpdateIntensiveTemplates.h"
-
+#include <fcntl.h>
+#include <inttypes.h>
+#include <stdio.h>
+#include <string.h>
+#include <check.h>
 
 using namespace std;
 
