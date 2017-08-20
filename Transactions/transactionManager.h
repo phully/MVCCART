@@ -31,6 +31,8 @@
 boost::mutex cntmutex;
 std::vector<size_t> active_transactionIds;
 boost::atomic<int> nextTid;
+boost::thread_group TransactionGroup;
+
 
 auto Active = "active";
 auto Preparing = "preparing";
@@ -111,7 +113,7 @@ void commitTransaction(size_t id)
 }
 
 template <typename TransactionFunc, typename ARTContainer>
-class Transaction : TransactionManager
+class Transaction
 {
     public:
     size_t  Tid;
@@ -119,8 +121,12 @@ class Transaction : TransactionManager
     std::string status;
 
     Transaction(TransactionFunc func, ARTContainer& ART );
-
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
+
+    ~Transaction()
+    {
+        commitTransaction(Tid);
+    }
 
     void CollectTransaction()
     {
@@ -136,6 +142,7 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
     Tid=get_new_transaction_ID();
     TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
     TransactionGroup.add_thread(TransactionThread);
+
 
 }
 

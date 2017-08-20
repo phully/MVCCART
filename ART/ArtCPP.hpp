@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "mvcc/mvcc.hpp"
+#include <atomic>
 #ifdef __i386__
 #include <emmintrin.h>
 #else

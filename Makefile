@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-CorrectnessTests/MainTest.o: CorrectnessTests/MainTest.cpp.o
+WorkloadTests/ReadOnly.o: WorkloadTests/ReadOnly.cpp.o
 
-.PHONY : CorrectnessTests/MainTest.o
+.PHONY : WorkloadTests/ReadOnly.o
 
 # target to build an object file
-CorrectnessTests/MainTest.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.o
-.PHONY : CorrectnessTests/MainTest.cpp.o
+WorkloadTests/ReadOnly.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.o
+.PHONY : WorkloadTests/ReadOnly.cpp.o
 
-CorrectnessTests/MainTest.i: CorrectnessTests/MainTest.cpp.i
+WorkloadTests/ReadOnly.i: WorkloadTests/ReadOnly.cpp.i
 
-.PHONY : CorrectnessTests/MainTest.i
+.PHONY : WorkloadTests/ReadOnly.i
 
 # target to preprocess a source file
-CorrectnessTests/MainTest.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.i
-.PHONY : CorrectnessTests/MainTest.cpp.i
+WorkloadTests/ReadOnly.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.i
+.PHONY : WorkloadTests/ReadOnly.cpp.i
 
-CorrectnessTests/MainTest.s: CorrectnessTests/MainTest.cpp.s
+WorkloadTests/ReadOnly.s: WorkloadTests/ReadOnly.cpp.s
 
-.PHONY : CorrectnessTests/MainTest.s
+.PHONY : WorkloadTests/ReadOnly.s
 
 # target to generate assembly for a file
-CorrectnessTests/MainTest.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MainTest.cpp.s
-.PHONY : CorrectnessTests/MainTest.cpp.s
+WorkloadTests/ReadOnly.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.s
+.PHONY : WorkloadTests/ReadOnly.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... CorrectnessTests/MainTest.o"
-	@echo "... CorrectnessTests/MainTest.i"
-	@echo "... CorrectnessTests/MainTest.s"
+	@echo "... WorkloadTests/ReadOnly.o"
+	@echo "... WorkloadTests/ReadOnly.i"
+	@echo "... WorkloadTests/ReadOnly.s"
 .PHONY : help
 
 

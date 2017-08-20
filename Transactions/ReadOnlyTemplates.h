@@ -131,7 +131,7 @@ auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::strin
     random::uniform_int_distribution<> randomKeys1(range.first,range.second);
     //cout << randomKeys(rng) << endl;
     int totalCachedMissed=0;
-    for (int i = 0; i < 10000; i++)
+    for (int i = 0; i < 1000; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
         auto val = ARTWithTuples.findValueByKey(keysToFind);
@@ -148,7 +148,7 @@ auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::strin
         }
     }
 
-    cout<<"Total Cached missed out of 10000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Cached missed out of 1000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
 };
 
 auto ReadOnlyLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
