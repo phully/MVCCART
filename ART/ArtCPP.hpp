@@ -977,8 +977,19 @@ public: uint64_t ARTSize;
         return idx;
     }
 
+    private: static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
+    {
+        mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
+        l->key_len = key_len;
+        memcpy(l->key, key, key_len);
+        l->_mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
+        //mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
+        //l->value = static_cast<void*>(_mvcc);
+        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
+        return l;
+    }
 
-public: ArtCPP()
+    public: ArtCPP()
     {
         t = std::make_shared<art_tree>();
         art_tree_init(t);
@@ -996,7 +1007,7 @@ public: ArtCPP()
     * Destroys an ART tree
     * @return 0 on success.
     */
-public: int art_tree_destroy() {
+    public: int art_tree_destroy() {
         destroy_node(t->root);
         return 0;
     }
@@ -1004,14 +1015,14 @@ public: int art_tree_destroy() {
     /**
     * Returns the size of the ART tree.
     */
-#ifdef BROKEN_GCC_C99_INLINE
-# define art_size(t) ((t)->size)
-#else
-    inline uint64_t art_size()
-    {
-        return t->size;
-    }
-#endif
+    #ifdef BROKEN_GCC_C99_INLINE
+    # define art_size(t) ((t)->size)
+    #else
+        inline uint64_t art_size()
+        {
+            return t->size;
+        }
+    #endif
 
     /**
      * Deletes a value in the ART tree
@@ -1023,14 +1034,14 @@ public: int art_tree_destroy() {
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned which is deleted.
      */
-public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
+    public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
     {
         int old_val = 0;
         auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id,status);
         if (!old_val) t->size++;
         return old;
     }
-private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
+    private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1321,7 +1332,7 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
         int old_val = 0;
         //art_node *root =static_cast<art_node*>(t->root);
         //return mv_iterative_insert(this->t,key,key_len,txn_id,status,updater);
-        return Lookup(key,key_len,txn_id,status,updater);
+        return UpdateIterative(key,key_len,txn_id,status,updater);
 
         //auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,status,updater);
         //if (!old_val) t->size++;
@@ -1484,7 +1495,7 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
     }
 
 
-    const_snapshot_ptr Lookup(const unsigned char* key,  int key_len,size_t txn_id,std::string& status,Updater updater)
+    const_snapshot_ptr UpdateIterative(const unsigned char* key,  int key_len,size_t txn_id,std::string& status,Updater updater)
     {
 
         restart:
@@ -1635,17 +1646,17 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
      */
     public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
     {
-        return art_search(this->t, (unsigned char *)key, key_len);
+        return art_search_OCC(this->t, (unsigned char *)key, key_len);
     }
 
-    const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)
+    private: const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)
     {
         art_node **child;
         art_node *n = t->root;
         int prefix_len, depth = 0;
         while (n) {
             // Might be a leaf
-            if (IS_LEAF(n)) {
+            if (IS_MV_LEAF(n)) {
                 n = (art_node*)LEAF_RAW(n);
                 // Check if the expanded path matches
                 if (!mv_leaf_matches((mv_art_leaf*)n, key, key_len, depth))
@@ -1675,6 +1686,77 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
         return NULL;
     }
 
+    const_snapshot_ptr art_search_OCC(const unsigned char* key,  int key_len,size_t txn_id,std::string& status)
+    {
+
+        restart:
+        bool needRestart = false;
+
+        art_node *node;
+        art_node *parentNode = nullptr;
+        uint64_t v;
+        int level = 0;
+        bool optimisticPrefixMatch = false;
+        int prefix_len=0;
+
+        node = this->t->root;
+        v = node->readLockOrRestart(needRestart);
+        if (needRestart) goto restart;
+
+        while (true)
+        {
+
+            // Bail if the prefix does not match
+            if (node->partial_len)
+            {
+                prefix_len = check_prefix(node, key, key_len, level);
+                if (prefix_len != min(MAX_PREFIX_LEN, node->partial_len))
+                    return NULL;
+                level = level + node->partial_len;
+            }
+
+
+            // Recursively search
+            parentNode = node;
+            auto child = find_child(node, key[level]);
+            node = (child) ? *child : NULL;
+
+            checkOrRestart(v,parentNode,needRestart);
+            if (needRestart) goto restart;
+
+            if (node == nullptr) {
+                return 0;
+            }
+
+
+            if (IS_MV_LEAF(node))
+            {
+                parentNode->readUnlockOrRestart(v, needRestart);
+                if (needRestart) goto restart;
+                node = (art_node*)LEAF_RAW(node);
+                // Check if the expanded path matches
+                if (!mv_leaf_matches((mv_art_leaf*)node, key, key_len,level))
+                {
+                    mv_art_leaf* snapshot = ((mv_art_leaf*)node);
+                    if(snapshot != nullptr)
+                    {
+                        return snapshot->_mvcc->current();
+                    }
+                    else
+                        return nullptr;
+                }
+                return NULL;
+            }
+            level++;
+
+            uint64_t nv = node->readLockOrRestart(needRestart);
+            if (needRestart) goto restart;
+
+            parentNode->readUnlockOrRestart(v, needRestart);
+            if (needRestart) goto restart;
+            v = nv;
+        }
+    }
 
     /**
     * Iterates through the entries pairs in the map,
@@ -1686,11 +1768,11 @@ private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned c
     * @arg data Opaque handle passed to the callback
     * @return 0 on success, or the return of the callback.
     */
-public: int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data,size_t txn_id)
+    public: int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data,size_t txn_id)
     {
         return mv_recursive_iter(t->root, cb, data,txn_id);
     }
-private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
+    private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
     {
         //RecursiveScopedLock _recursiveLock;
         //UpgradeLock _sharedLock(_access);
@@ -1757,11 +1839,12 @@ private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t 
      * @arg txn_id transaction id
      * @return 0 on success, or the return of the callback.
      */
-public: int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter, size_t txn_id)
+    public: int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter, size_t txn_id)
     {
         return recursive_iterByPredicate(t->root, cb, data,filter, txn_id);
     }
-private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
+
+    private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
@@ -1832,11 +1915,11 @@ private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
     {
         return recursive_update_by_predicate(t->root,cb,value,txn_id,status, data,filter);
     }
-private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
@@ -1912,11 +1995,11 @@ private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordTyp
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-public: int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    public: int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
     {
         return recursive_delete_by_predicate(t->root,cb,value,txn_id,status, data,filter);
     }
-private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
@@ -1980,17 +2063,7 @@ private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordTyp
         return 0;
     }
 
-private: static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
-    {
-        mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
-        l->key_len = key_len;
-        memcpy(l->key, key, key_len);
-        l->_mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
-        //mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
-        //l->value = static_cast<void*>(_mvcc);
-        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
-        return l;
-    }
+
 };
 
 

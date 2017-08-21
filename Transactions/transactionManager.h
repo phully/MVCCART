@@ -123,10 +123,6 @@ class Transaction
     Transaction(TransactionFunc func, ARTContainer& ART );
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
 
-    ~Transaction()
-    {
-        commitTransaction(Tid);
-    }
 
     void CollectTransaction()
     {
@@ -140,7 +136,7 @@ template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
 {
     Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,ART,Tid,status);
+    TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,status);
     TransactionGroup.add_thread(TransactionThread);
 
 
@@ -150,7 +146,7 @@ template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range )
 {
     Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&todo2<TransactionFunc,ARTContainer>,func,ART,Tid,status,range);
+    TransactionThread = new boost::thread(&todo2<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,status,range);
     TransactionGroup.add_thread(TransactionThread);
 
 }
