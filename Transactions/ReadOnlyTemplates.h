@@ -92,8 +92,8 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
-    std::vector<void *> writeSet;
-    std::vector<void *> ReadSet;
+    std::vector<RecordType> writeSet;
+    std::vector<RecordType> ReadSet;
 
 
     random::mt19937 rng(current_time_nanoseconds());
@@ -123,8 +123,8 @@ auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string
 
 auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
 {
-    std::vector<void *> writeSet;
-    std::vector<void *> ReadSet;
+    std::vector<RecordType> writeSet;
+    std::vector<RecordType> ReadSet;
 
 
     random::mt19937 rng(current_time_nanoseconds());
@@ -153,8 +153,8 @@ auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::strin
 
 auto ReadOnlyLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
 {
-    std::vector<void *> writeSet;
-    std::vector<void *> ReadSet;
+    std::vector<RecordType> writeSet;
+    std::vector<RecordType> ReadSet;
 
 
     random::mt19937 rng(current_time_nanoseconds());

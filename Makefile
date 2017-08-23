@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-WorkloadTests/ReadOnly.o: WorkloadTests/ReadOnly.cpp.o
+WorkloadTests/WriteOnly.o: WorkloadTests/WriteOnly.cpp.o
 
-.PHONY : WorkloadTests/ReadOnly.o
+.PHONY : WorkloadTests/WriteOnly.o
 
 # target to build an object file
-WorkloadTests/ReadOnly.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.o
-.PHONY : WorkloadTests/ReadOnly.cpp.o
+WorkloadTests/WriteOnly.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.o
+.PHONY : WorkloadTests/WriteOnly.cpp.o
 
-WorkloadTests/ReadOnly.i: WorkloadTests/ReadOnly.cpp.i
+WorkloadTests/WriteOnly.i: WorkloadTests/WriteOnly.cpp.i
 
-.PHONY : WorkloadTests/ReadOnly.i
+.PHONY : WorkloadTests/WriteOnly.i
 
 # target to preprocess a source file
-WorkloadTests/ReadOnly.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.i
-.PHONY : WorkloadTests/ReadOnly.cpp.i
+WorkloadTests/WriteOnly.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.i
+.PHONY : WorkloadTests/WriteOnly.cpp.i
 
-WorkloadTests/ReadOnly.s: WorkloadTests/ReadOnly.cpp.s
+WorkloadTests/WriteOnly.s: WorkloadTests/WriteOnly.cpp.s
 
-.PHONY : WorkloadTests/ReadOnly.s
+.PHONY : WorkloadTests/WriteOnly.s
 
 # target to generate assembly for a file
-WorkloadTests/ReadOnly.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadOnly.cpp.s
-.PHONY : WorkloadTests/ReadOnly.cpp.s
+WorkloadTests/WriteOnly.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.s
+.PHONY : WorkloadTests/WriteOnly.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... WorkloadTests/ReadOnly.o"
-	@echo "... WorkloadTests/ReadOnly.i"
-	@echo "... WorkloadTests/ReadOnly.s"
+	@echo "... WorkloadTests/WriteOnly.o"
+	@echo "... WorkloadTests/WriteOnly.i"
+	@echo "... WorkloadTests/WriteOnly.s"
 .PHONY : help
 
 

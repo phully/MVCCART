@@ -1646,7 +1646,7 @@ public: uint64_t ARTSize;
      */
     public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
     {
-        return art_search_OCC(this->t, (unsigned char *)key, key_len);
+        return art_search_OCC((unsigned char *)key, key_len);
     }
 
     private: const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)
@@ -1686,7 +1686,7 @@ public: uint64_t ARTSize;
         return NULL;
     }
 
-    const_snapshot_ptr art_search_OCC(const unsigned char* key,  int key_len,size_t txn_id,std::string& status)
+    const_snapshot_ptr art_search_OCC(const unsigned char* key,  int key_len)
     {
 
         restart:

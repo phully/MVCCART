@@ -16,8 +16,11 @@ using namespace std;
 
 auto ARTable1 =  new ARTTupleContainer();
 auto ARTable2 =  new ARTTupleContainer();
-auto ARTable3 =  new ARTTupleContainer();
 auto ARTable4 =  new ARTTupleContainer();
+auto ARTable8 =  new ARTTupleContainer();
+auto ARTable16 =  new ARTTupleContainer();
+auto ARTable32 =  new ARTTupleContainer();
+
 
 
 
@@ -90,7 +93,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     */
 
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops1Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly1Transactions)
     {
         cout << "WriteOnly100Ops1Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
@@ -109,15 +112,15 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops2Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly2Transactions)
     {
         cout << "WriteOnly100Ops2Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(0, 100000));
+                WriteOnly, *ARTable2,std::make_pair(0, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(100000, 200000));
+                WriteOnly, *ARTable2,std::make_pair(100000, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
@@ -131,19 +134,19 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops4Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly4Transactions)
     {
         cout << "WriteOnly100Ops4Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(0, 50000));
+                WriteOnly, *ARTable4,std::make_pair(0, 50000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(50000, 100000));
+                WriteOnly, *ARTable4,std::make_pair(50000, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(100000, 150000));
+                WriteOnly, *ARTable4,std::make_pair(100000, 150000));
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(150000, 200000));
+                WriteOnly, *ARTable4,std::make_pair(150000, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
@@ -159,27 +162,27 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops8Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly8Transactions)
     {
         cout << "WriteOnly100Ops8Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(0, 25000));
+                WriteOnly, *ARTable8,std::make_pair(0, 25000));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(25000, 50000));
+                WriteOnly, *ARTable8,std::make_pair(25000, 50000));
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(50000, 75000));
+                WriteOnly, *ARTable8,std::make_pair(50000, 75000));
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(75000, 100000));
+                WriteOnly, *ARTable8,std::make_pair(75000, 100000));
         Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(100000, 125000));
+                WriteOnly, *ARTable8,std::make_pair(100000, 125000));
         Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(125000, 150000));
+                WriteOnly, *ARTable8,std::make_pair(125000, 150000));
         Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(150000, 175000));
+                WriteOnly, *ARTable8,std::make_pair(150000, 175000));
         Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(175000, 200000));
+                WriteOnly, *ARTable8,std::make_pair(175000, 200000));
 
 
 
@@ -201,44 +204,44 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops16Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly16Transactions)
     {
         cout << "WriteOnly100Ops16Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(0, 12500));
+                WriteOnly, *ARTable16,std::make_pair(0, 12500));
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(12500, 25000));
+                WriteOnly, *ARTable16,std::make_pair(12500, 25000));
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(25000, 37500));
+                WriteOnly, *ARTable16,std::make_pair(25000, 37500));
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(37500, 50000));
+                WriteOnly, *ARTable16,std::make_pair(37500, 50000));
         Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(50000, 62500));
+                WriteOnly, *ARTable16,std::make_pair(50000, 62500));
         Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(62500, 75000));
+                WriteOnly, *ARTable16,std::make_pair(62500, 75000));
         Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(75000, 87500));
+                WriteOnly, *ARTable16,std::make_pair(75000, 87500));
         Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(87500, 100000));
+                WriteOnly, *ARTable16,std::make_pair(87500, 100000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(100000, 112500));
+                WriteOnly, *ARTable16,std::make_pair(100000, 112500));
         Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(112500, 125000));
+                WriteOnly, *ARTable16,std::make_pair(112500, 125000));
         Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(125000, 137500));
+                WriteOnly, *ARTable16,std::make_pair(125000, 137500));
         Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(137500, 150000));
+                WriteOnly, *ARTable16,std::make_pair(137500, 150000));
         Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(150000, 162500));
+                WriteOnly, *ARTable16,std::make_pair(150000, 162500));
         Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(162500, 175000));
+                WriteOnly, *ARTable16,std::make_pair(162500, 175000));
         Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(175000, 187500));
+                WriteOnly, *ARTable16,std::make_pair(175000, 187500));
         Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(187500, 200000));
+                WriteOnly, *ARTable16,std::make_pair(187500, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
@@ -265,107 +268,107 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-    BOOST_AUTO_TEST_CASE(WriteOnly100Ops32Transactions)
+    BOOST_AUTO_TEST_CASE(WriteOnly32Transactions)
     {
         cout << "WriteOnly100Ops32Transactions" << endl;
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(0, 6250));
+                WriteOnly, *ARTable32,std::make_pair(0, 6250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t2 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(6250, 12500));
+                WriteOnly, *ARTable32,std::make_pair(6250, 12500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t3 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(12500, 18750));
+                WriteOnly, *ARTable32,std::make_pair(12500, 18750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t4 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(18750, 25000));
+                WriteOnly, *ARTable32,std::make_pair(18750, 25000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t5 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(25000, 31250));
+                WriteOnly, *ARTable32,std::make_pair(25000, 31250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t6 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(31250, 37500));
+                WriteOnly, *ARTable32,std::make_pair(31250, 37500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t7 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(37500, 43750));
+                WriteOnly, *ARTable32,std::make_pair(37500, 43750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t8 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(43750, 50000));
+                WriteOnly, *ARTable32,std::make_pair(43750, 50000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t9 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(50000, 56250));
+                WriteOnly, *ARTable32,std::make_pair(50000, 56250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t10 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(56250, 62500));
+                WriteOnly, *ARTable32,std::make_pair(56250, 62500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t11 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(62500, 68750));
+                WriteOnly, *ARTable32,std::make_pair(62500, 68750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t12 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(68750, 75000));
+                WriteOnly, *ARTable32,std::make_pair(68750, 75000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t13 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(75000, 81250));
+                WriteOnly, *ARTable32,std::make_pair(75000, 81250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t14 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(81250, 87500));
+                WriteOnly, *ARTable32,std::make_pair(81250, 87500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t15 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(87500, 93750));
+                WriteOnly, *ARTable32,std::make_pair(87500, 93750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t16 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(93750, 100000));
+                WriteOnly, *ARTable32,std::make_pair(93750, 100000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t17 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(100000, 106250));
+                WriteOnly, *ARTable32,std::make_pair(100000, 106250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t18 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(106250, 112500));
+                WriteOnly, *ARTable32,std::make_pair(106250, 112500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t19 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(112500, 118750));
+                WriteOnly, *ARTable32,std::make_pair(112500, 118750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t20 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(118750, 125000));
+                WriteOnly, *ARTable32,std::make_pair(118750, 125000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t21 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(125000, 131250));
+                WriteOnly, *ARTable32,std::make_pair(125000, 131250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t22 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(131250, 137500));
+                WriteOnly, *ARTable32,std::make_pair(131250, 137500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t23 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(137500, 143750));
+                WriteOnly, *ARTable32,std::make_pair(137500, 143750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t24 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(143750, 150000));
+                WriteOnly, *ARTable32,std::make_pair(143750, 150000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t25 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(150000, 156250));
+                WriteOnly, *ARTable32,std::make_pair(150000, 156250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t26 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(156250, 162500));
+                WriteOnly, *ARTable32,std::make_pair(156250, 162500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t27 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(162500, 168750));
+                WriteOnly, *ARTable32,std::make_pair(162500, 168750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t28 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(168750, 175000));
+                WriteOnly, *ARTable32,std::make_pair(168750, 175000));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t29 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(175000, 181250));
+                WriteOnly, *ARTable32,std::make_pair(175000, 181250));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t30 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(181250, 187500));
+                WriteOnly, *ARTable32,std::make_pair(181250, 187500));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t31 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(187500, 193750));
+                WriteOnly, *ARTable32,std::make_pair(187500, 193750));
 
         Transaction<TransactionLambda, ARTTupleContainer> *t32 = new Transaction<TransactionLambda, ARTTupleContainer>(
-                WriteOnly, *ARTable1,std::make_pair(193750, 200000));
+                WriteOnly, *ARTable32,std::make_pair(193750, 200000));
 
         t1->CollectTransaction();
         t2->CollectTransaction();
