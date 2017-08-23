@@ -14,10 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists_Production.txt" afterPath="$PROJECT_DIR$/CMakeLists_Production.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Readme.Md" afterPath="$PROJECT_DIR$/Readme.Md" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -218,8 +215,8 @@
       <file leaf-file-name="Readme.Md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Readme.Md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-60">
-              <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+            <state relative-caret-position="360">
+              <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
               <folding />
             </state>
           </provider>
@@ -876,12 +873,12 @@
       <workItem from="1503200160286" duration="5057000" />
       <workItem from="1503243698661" duration="8690000" />
       <workItem from="1503262239771" duration="14540000" />
-      <workItem from="1503433674659" duration="7655000" />
+      <workItem from="1503433674659" duration="7934000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1151729000" />
+    <option name="totallyTimeSpent" value="1152008000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1479,8 +1476,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Readme.Md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-60">
-          <caret line="39" column="0" lean-forward="true" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+        <state relative-caret-position="360">
+          <caret line="24" column="2" lean-forward="false" selection-start-line="24" selection-start-column="2" selection-end-line="24" selection-end-column="2" />
           <folding />
         </state>
       </provider>

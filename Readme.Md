@@ -3,28 +3,27 @@ C++ wrapping,  C++11 primitives, Boost SmartPointers, threads and tests were use
 
  Running Solution on multi-core machine cloud01.prakinf.tu-ilmenau.de cloud:
 
-1 SSH into server with credentials with login id:
+1-  SSH into server with credentials with login id:
     ssh -p 2222  yourlogin@cloud01.prakinf.tu-ilmenau.de
-2 Clone a new MVCCART repository from  Github:
+2-  Clone a new MVCCART repository from  Github:
     https://github.com/umairsheikh/MVCCART
-3 Please Delete cmake build files, i.e.. cmake-build-debug, CMakeFiles, cmake_install.cmake, CMakeCache.txt and
+3-  Please Delete cmake build files, i.e.. cmake-build-debug, CMakeFiles, cmake_install.cmake, CMakeCache.txt and
     I am sorry for it needed to be ignored, i will do it i promise.
 
-4 Rename CMakeLists_Production to CMakeLists.txt , written for multicore boost environment for prakinf.tu-ilmenau awesome cloud.
+4- Rename CMakeLists_Production to CMakeLists.txt , written for multicore boost environment for prakinf.tu-ilmenau awesome cloud.
   boost install path is hardcoded and should be set accordingly with your boost install path in a file  CMakeFile_Production.txt,
   which is to be renamed ofcourse to make it functional. (Original CMake is for the dev environment i have on MACOSX, It works
   fine and CMakes auto finds boost as well)
 
-5 Update the CMakeLists.txt file, and choose the desired Test CPP file, to run from WorkloadTests or from CorrectnessTests
+5- Update the CMakeLists.txt file, and choose the desired Test CPP file, to run from WorkloadTests or from CorrectnessTests
   folder relative path.
 
-6 Make it happen, by getting int MVCCART path, and execute command -> Cmake .
+6- In your MVCCART path, and execute command -> Cmake .
 - Compile the code through CMAKE using command:
     cmake --build MVCCART/ --target mvccart -- -j 4
 - Running the solution  ./mvccart
   ERROR:: "Please set path in your WorkloadTests/...CPP file chosen" to run. I need to automate this too. Path should be
-  absolute path to test_data/words.txt" file.
-   Here it it to be updated in a variable rootpath_words"
+  absolute path to test_data/words.txt" file. Here it it to be updated in a variable "rootpath_words"
 
 
 
