@@ -7,10 +7,7 @@
 #include "mvcc/mvcc.hpp"
 #include "ART/ARTFULCpp.h"
 #include "Transactions/UpdateIntensiveTemplates.h"
-#include <fcntl.h>
-#include <inttypes.h>
-#include <stdio.h>
-#include <string.h>
+
 
 using namespace std;
 
@@ -78,17 +75,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
     /*
-     * Testing Read Intesnsive workloads small
-     * and long transactions. Each transaction
-     * carries out 100 for small and 10000 for
-     * long transactions. While scaling from 1 to 8
-     * transactions. 80% Reads and 20% Updates
-     * randomly from the the ReadSet vector obtained
-     * from Reading values.
+     * 80% Updates and 20% reads. UpdateIntensiveTemplate
+     * were used , where 80% updates stored in WriteSet
+     * while reading randomly 20% of the write set keys
+     *
     */
-
-
-
 
 
     BOOST_AUTO_TEST_CASE(Write200000keys)
