@@ -93,12 +93,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
         ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id)
         {
             int index=0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
                 index++;
 
                 if(index > 200000)
@@ -156,7 +156,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout<<"Total time by ReadOnly100Ops2Transactions::"<<endl;
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
-
 
     }
 
@@ -439,7 +438,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
     }
-
 
     BOOST_AUTO_TEST_CASE(ReadOnly1000Ops1Transactions)
     {

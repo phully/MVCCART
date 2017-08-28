@@ -37,8 +37,8 @@ std::vector<RecordType> vectorValues;
 using snapshot_type = mvcc11::snapshot<RecordType>;
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status,std::pair<int,int>)> TransactionLambda;
+typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
+typedef std::function <void(ARTTupleContainer&,size_t id,std::pair<int,int>)> TransactionLambda;
 
 namespace
 {
@@ -91,7 +91,7 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 
-auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -102,7 +102,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
     for (int i = 0; i < 80; i++)
     {
         char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id, status);
+        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
 
         if (result == nullptr)
         {
@@ -146,7 +146,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &
 
 };
 
-auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -157,7 +157,7 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
     for (int i = 0; i < 800; i++)
     {
         char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id, status);
+        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
 
         if (result == nullptr)
         {
@@ -201,7 +201,7 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
 };
 
 
-auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -212,7 +212,7 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &s
     for (int i = 0; i < 80000; i++)
     {
         char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id, status);
+        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
 
         if (result == nullptr || result == NULL)
         {

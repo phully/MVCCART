@@ -37,8 +37,8 @@ std::vector<RecordType> vectorValues;
 using snapshot_type = mvcc11::snapshot<RecordType>;
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status,std::pair<int,int>)> TransactionLambda;
+typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
+typedef std::function <void(ARTTupleContainer&,size_t id,std::pair<int,int>)> TransactionLambda;
 
 namespace
 {
@@ -91,7 +91,7 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 
-auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
+auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range){
     std::vector<RecordType> writeSet;
     std::vector<RecordType> ReadSet;
 
@@ -121,7 +121,7 @@ auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string
 };
 
 
-auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> writeSet;
     std::vector<RecordType> ReadSet;

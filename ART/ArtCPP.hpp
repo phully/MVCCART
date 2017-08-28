@@ -20,6 +20,7 @@
 #include <strings.h>
 #include <stdio.h>
 #include <assert.h>
+#include <table/BaseTable.hpp>
 #include "mvcc/mvcc.hpp"
 #include <atomic>
 #ifdef __i386__
@@ -806,7 +807,7 @@ static art_leaf* recursive_delete(std::shared_ptr<art_tree> t,art_node *n, art_n
 
 
 template <typename RecordType, typename KeyType = DefaultKeyType>
-class ArtCPP {
+class ArtCPP : public pfabric::BaseTable {
 
 public: std::shared_ptr<art_tree> t;
 public: char buf[512];
@@ -815,15 +816,41 @@ public: uint64_t ARTSize;
 
     typedef std::function<RecordType ( RecordType&)> Updater;
 
-
-
     using snapshot_type = mvcc11::snapshot<RecordType>;
     typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
     ///Callbacks for Predicates, UpdateFun and etc.
     typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
+
+    ///< typedef for a callback function which is invoked when the table was updated
+    typedef boost::signals2::signal<void (const_snapshot_ptr, pfabric::TableParams::ModificationMode)> ObserverCallback;
+    ObserverCallback mImmediateObservers, mDeferredObservers;
+
+
     /**
-     * Represents a leaf. These are
+      * @brief Register an observer
+      *
+      * Registers an observer (a slot) which is notified in case of updates on the table.
+      *
+      * @param cb the observer (slot)
+      * @param mode the nofication mode (immediate or defered)
+     */
+    void registerObserver(typename ObserverCallback::slot_type const& cb,
+                          pfabric::TableParams::NotificationMode mode) {
+        switch (mode)
+        {
+            case pfabric::TableParams::Immediate:
+                mImmediateObservers.connect(cb);
+                break;
+            case pfabric::TableParams::OnCommit:
+                mDeferredObservers.connect(cb);
+                break;
+        }
+    }
+
+
+    /**
+    * Represents a leaf. These are
     * of arbitrary size, as they include the key with multiversioned object to get lock free Read access.
     */
     typedef struct mv_art_leaf {
@@ -831,6 +858,7 @@ public: uint64_t ARTSize;
         uint32_t key_len;
         unsigned char key[];
     };
+
 
     /**
     * Checks if a leaf prefix matches
@@ -977,15 +1005,13 @@ public: uint64_t ARTSize;
         return idx;
     }
 
-    private: static mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id,std::string& status)
+    private: mv_art_leaf* make_mvv_leaf(const unsigned char *key, int key_len,RecordType& value,const size_t txn_id)
     {
         mv_art_leaf *l = (mv_art_leaf*)malloc(sizeof(mv_art_leaf)+key_len);
         l->key_len = key_len;
         memcpy(l->key, key, key_len);
-        l->_mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
-        //mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(txn_id,value,status);
-        //l->value = static_cast<void*>(_mvcc);
-        //std::cout<<"Inserting by::"<<txn_id<<"-"<<key<<std::endl;
+        l->_mvcc = new mvcc11::mvcc<RecordType>(txn_id,value);
+        notifyObservers(l->_mvcc->current(), pfabric::TableParams::Insert, pfabric::TableParams::Immediate);
         return l;
     }
 
@@ -1030,18 +1056,17 @@ public: uint64_t ARTSize;
      * @arg key The key
      * @arg key_len The length of the key
      * @arg txn_id as transactionID
-     * @arg status, for observer transaction status in function ;)
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned which is deleted.
      */
-    public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id,std::string& status)
+    public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id)
     {
         int old_val = 0;
-        auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id,status);
+        auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id);
         if (!old_val) t->size++;
         return old;
     }
-    private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id,std::string& status)
+    private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1066,7 +1091,7 @@ public: uint64_t ARTSize;
                 ///MVCC update current version
                 //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
                 mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                _mvcc->deleteMV(txn_id,status);
+                _mvcc->deleteMV(txn_id);
                 l->value = reinterpret_cast<void*>(_mvcc);
                 return l->value;
             }
@@ -1077,7 +1102,7 @@ public: uint64_t ARTSize;
 
             // Create a new leaf
             /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id,status);
+            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id);
 
             // Determine longest prefix
             int longest_prefix = mv_longest_common_prefix(l, l2, depth);
@@ -1123,7 +1148,7 @@ public: uint64_t ARTSize;
             // Insert the new leaf
 
             ///mvcc make new leaf
-            //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
+            //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
             //add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
             return NULL;
         }
@@ -1135,12 +1160,12 @@ public: uint64_t ARTSize;
         {
             //lock.unlock();
             _upgradeableReadLock.unlock();
-            return mv_recursive_delete(*child, child, key, key_len,depth+1, old,txn_id,status);
+            return mv_recursive_delete(*child, child, key, key_len,depth+1, old,txn_id);
         }
 
         // No child, node goes within us
         ///mvcc make new leaf
-        //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
+        //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
         //add_child(n, ref, key[depth], SET_MV_LEAF(l));
         return NULL;
     }
@@ -1152,29 +1177,28 @@ public: uint64_t ARTSize;
      * @arg key_len The length of the key
      * @arg value Opaque value.
      * @arg txn_id transaction id.
-     * @arg status, for observer transaction status in function ;)
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id,std::string& status)
+    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id)
     {
         int old_val = 0;
         //art_node *root =static_cast<art_node*>(t->root);
-        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,status,0,t->root,false);
+        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,0,t->root,false);
         if (!old_val) t->size++;
         return old;
     }
 
-
+    /// Recursive insert/Update tuple replacement implementation
     private: const_snapshot_ptr mv_recursive_insert(art_node *n,art_node **ref,const unsigned char *key, int key_len,
-                                                RecordType& value,int depth, int *old,size_t txn_id,std::string& status,
+                                                RecordType& value,int depth, int *old,size_t txn_id,
                                                 uint64_t parentVersion, art_node* parent,bool needRestart)
     {
 
         // If we are at a NULL node, inject a leaf
         if (!n)
         {
-            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id,status));
+            auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len, value,txn_id));
             *ref = (art_node*) snapshot;
             return NULL;
         }
@@ -1186,7 +1210,7 @@ public: uint64_t ARTSize;
         if (needRestart)
         {
             int old_val = 0;
-            auto older = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val, txn_id, status, 0,
+            auto older = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val, txn_id, 0,
                                              t->root, false);
         }
 
@@ -1202,9 +1226,8 @@ public: uint64_t ARTSize;
             {
                 *old = 1;
                 ///MVCC update current version
-                //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
-                //mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                l->_mvcc->overwriteMV(txn_id,value,status);
+                l->_mvcc->overwriteMV(txn_id,value);
+                notifyObservers(l->_mvcc->current(), pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                 return l->_mvcc->current();
             }
 
@@ -1215,7 +1238,7 @@ public: uint64_t ARTSize;
             art_node4 *new_node = (art_node4*)alloc_node(NODE4);
             // Create a new leaf
             /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id,status);
+            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id);
 
 
             int longest_prefix = mv_longest_common_prefix(l, l2, depth);
@@ -1270,7 +1293,7 @@ public: uint64_t ARTSize;
 
             // Insert the new leaf
             ///mvcc make new leaf
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id,status);
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
             add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
 
             n->writeUnlock();
@@ -1287,14 +1310,14 @@ public: uint64_t ARTSize;
         if (needRestart)
         {
             int old_val = 0;
-            auto older = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val, txn_id, status, 0,t->root, false);
+            auto older = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val, txn_id, 0,t->root, false);
         }
 
         art_node **child = nextNode;
 
         if (child)
         {
-            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,status,version,n,needRestart);
+            return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,version,n,needRestart);
         }
 
         // No child, node goes within us
@@ -1307,7 +1330,7 @@ public: uint64_t ARTSize;
             upgradeToWriteLockOrRestart(parent, parentVersion,needRestart);
             upgradeToWriteLockOrRestart(n, version, parent,needRestart);
 
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, value, txn_id, status);
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, value, txn_id);
             add_child(n, ref, key[depth], SET_MV_LEAF(l));
 
             n->writeUnlockObsolete();
@@ -1319,34 +1342,74 @@ public: uint64_t ARTSize;
 
             upgradeToWriteLockOrRestart(n, version,needRestart);
             parent->readUnlockOrRestart(parentVersion,needRestart);
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, value, txn_id, status);
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, value, txn_id);
             add_child(n, ref, key[depth], SET_MV_LEAF(l));
             n->writeUnlock();
             return NULL;
         }
     }
 
-    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,
-                                         size_t txn_id,std::string& status,Updater updater)
+    /// Iterative Insert Implementation
+    const_snapshot_ptr mv_iterative_insert(std::shared_ptr<art_tree> t, const unsigned char *key,
+                                           int key_len,size_t txn_id,Updater updater)
     {
-        int old_val = 0;
-        //art_node *root =static_cast<art_node*>(t->root);
-        //return mv_iterative_insert(this->t,key,key_len,txn_id,status,updater);
-        return UpdateIterative(key,key_len,txn_id,status,updater);
+        art_node **child;
+        art_node *n = t->root;
+        int prefix_len, depth = 0;
+        while (n) {
+            // Might be a leaf
+            if (IS_MV_LEAF(n)) {
+                n = (art_node*)LEAF_RAW(n);
+                // Check if the expanded path matches
+                if (!mv_leaf_matches((mv_art_leaf*)n, key, key_len, depth))
+                {
+                    mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+                    if(snapshot != nullptr)
+                    {
+                        auto updated= snapshot->_mvcc->update(txn_id,updater);
+                        notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
+                        return updated;
+                    }
+                    else
+                        return nullptr;
+                }
+                return NULL;
+            }
 
-        //auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,status,updater);
-        //if (!old_val) t->size++;
-        //return old;
+            // Bail if the prefix does not match
+            if (n->partial_len) {
+                prefix_len = check_prefix(n, key, key_len, depth);
+                if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
+                    return NULL;
+                depth = depth + n->partial_len;
+            }
+
+            // Recursively search
+            child = find_child(n, key[depth]);
+            n = (child) ? *child : NULL;
+            depth++;
+        }
+        return NULL;
     }
 
+
+    /// Recursive Updater
+    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,
+                                         size_t txn_id,Updater updater)
+    {
+        int old_val = 0;
+        return UpdateIterative(key,key_len,txn_id,updater);
+        //auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,updater);
+    }
+    /// Recursive Updater Implementation
     private: const_snapshot_ptr mv_recursive_insert(art_node *n, art_node **ref, const unsigned char *key,
-                                                int key_len,int depth, int *old,size_t txn_id,std::string& status,Updater updater)
+                                                int key_len,int depth, int *old,size_t txn_id,Updater updater)
     {
         // If we are at a NULL node, inject a leaf
         if (!n)
         {
             ///write lock to create a new leaf at the root
-            //auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len,r,txn_id,status));
+            //auto snapshot = SET_MV_LEAF(make_mvv_leaf(key, key_len,r,txn_id));
             //*ref = (art_node*) snapshot;
             return NULL;
         }
@@ -1367,9 +1430,9 @@ public: uint64_t ARTSize;
                 ///MVCC update current version
                 //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
                 //mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                //_mvcc->try_update(txn_id,status,updater);
+                //_mvcc->try_update(txn_id,updater);
 
-                return l->_mvcc->update(txn_id,status,updater);
+                return l->_mvcc->update(txn_id,updater);
 
 
             }
@@ -1383,7 +1446,7 @@ public: uint64_t ARTSize;
 
             // Create a new leaf
             /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, r,txn_id,status);
+            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, r,txn_id);
 
             // Determine longest prefix
             int longest_prefix = mv_longest_common_prefix(l, l2, depth);
@@ -1432,7 +1495,7 @@ public: uint64_t ARTSize;
             // Insert the new leaf
 
             ///mvcc make new leaf
-            mv_art_leaf *l = make_mvv_leaf(key, key_len, r,txn_id,status);
+            mv_art_leaf *l = make_mvv_leaf(key, key_len, r,txn_id);
             add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));*/
             return NULL;
         }
@@ -1444,58 +1507,19 @@ public: uint64_t ARTSize;
         {
             //lock.unlock();
             //_upgradeableReadLock.unlock();
-            return mv_recursive_insert(*child, child, key, key_len,depth+1, old,txn_id,status,updater);
+            return mv_recursive_insert(*child, child, key, key_len,depth+1, old,txn_id,updater);
         }
 
         // No child, node goes within us
         ///mvcc make new leaf
-        /*mv_art_leaf *l = make_mvv_leaf(key, key_len,r,txn_id,status);
+        /*mv_art_leaf *l = make_mvv_leaf(key, key_len,r,txn_id);
         add_child(n, ref, key[depth], SET_MV_LEAF(l));*/
         return NULL;
     }
 
-    const_snapshot_ptr mv_iterative_insert(std::shared_ptr<art_tree> t, const unsigned char *key,
-                                           int key_len,size_t txn_id,std::string& status,Updater updater)
-    {
-        art_node **child;
-        art_node *n = t->root;
-        int prefix_len, depth = 0;
-        while (n) {
-            // Might be a leaf
-            if (IS_MV_LEAF(n)) {
-                n = (art_node*)LEAF_RAW(n);
-                // Check if the expanded path matches
-                if (!mv_leaf_matches((mv_art_leaf*)n, key, key_len, depth))
-                {
-                    mv_art_leaf* snapshot = ((mv_art_leaf*)n);
-                    if(snapshot != nullptr)
-                    {
-                        return snapshot->_mvcc->update(txn_id,status,updater);
-                    }
-                    else
-                        return nullptr;
-                }
-                return NULL;
-            }
-
-            // Bail if the prefix does not match
-            if (n->partial_len) {
-                prefix_len = check_prefix(n, key, key_len, depth);
-                if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len))
-                    return NULL;
-                depth = depth + n->partial_len;
-            }
-
-            // Recursively search
-            child = find_child(n, key[depth]);
-            n = (child) ? *child : NULL;
-            depth++;
-        }
-        return NULL;
-    }
-
-
-    const_snapshot_ptr UpdateIterative(const unsigned char* key,  int key_len,size_t txn_id,std::string& status,Updater updater)
+    /// Iterative Update Implementation
+    const_snapshot_ptr UpdateIterative(const unsigned char* key,  int key_len,
+                                       size_t txn_id,Updater updater)
     {
 
         restart:
@@ -1549,7 +1573,9 @@ public: uint64_t ARTSize;
                     mv_art_leaf* snapshot = ((mv_art_leaf*)node);
                     if(snapshot != nullptr)
                     {
-                        return snapshot->_mvcc->update(txn_id,status,updater);
+                        auto updated= snapshot->_mvcc->update(txn_id,updater);
+                        notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
+                        return updated;
                     }
                     else
                         return nullptr;
@@ -1911,15 +1937,14 @@ public: uint64_t ARTSize;
      * @arg key_len The length of the key
      * @arg value Opaque value.
      * @arg txn_id transaction id.
-     * @arg status, for observer transaction status in function ;)
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-    public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,void *data, Pred filter)
     {
-        return recursive_update_by_predicate(t->root,cb,value,txn_id,status, data,filter);
+        return recursive_update_by_predicate(t->root,cb,value,txn_id, data,filter);
     }
-    private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,void *data,Pred predicate)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
@@ -1933,7 +1958,7 @@ public: uint64_t ARTSize;
                 if (predicate(l->value))
                 {
                     mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                    _mvcc->overwriteMV(txn_id,value,status);
+                    _mvcc->overwriteMV(txn_id,value);
                     l->value = static_cast<void*>(_mvcc);
                     return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
                 }
@@ -1946,7 +1971,7 @@ public: uint64_t ARTSize;
             case NODE4:
                 for (int i=0; i < n->num_children; i++) {
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -1954,7 +1979,7 @@ public: uint64_t ARTSize;
             case NODE16:
                 for (int i=0; i < n->num_children; i++) {
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -1964,7 +1989,7 @@ public: uint64_t ARTSize;
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -1973,7 +1998,7 @@ public: uint64_t ARTSize;
                 for (int i=0; i < 256; i++) {
                     if (!((art_node256*)n)->children[i]) continue;
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -1991,15 +2016,14 @@ public: uint64_t ARTSize;
      * @arg key_len The length of the key
      * @arg value Opaque value.
      * @arg txn_id transaction id.
-     * @arg status, for observer transaction status in function ;)
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-    public: int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data, Pred filter)
+    public: int mv_art_delete_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,void *data, Pred filter)
     {
-        return recursive_delete_by_predicate(t->root,cb,value,txn_id,status, data,filter);
+        return recursive_delete_by_predicate(t->root,cb,value,txn_id, data,filter);
     }
-    private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,std::string& status,void *data,Pred predicate)
+    private: int recursive_delete_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,void *data,Pred predicate)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
@@ -2012,7 +2036,7 @@ public: uint64_t ARTSize;
                 if (predicate(l->value))
                 {
                     mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                    _mvcc->deleteMV(txn_id,status);
+                    _mvcc->deleteMV(txn_id);
                     l->value = static_cast<void*>(_mvcc);
                     return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
                 }
@@ -2026,7 +2050,7 @@ public: uint64_t ARTSize;
             case NODE4:
                 for (int i=0; i < n->num_children; i++) {
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -2034,7 +2058,7 @@ public: uint64_t ARTSize;
             case NODE16:
                 for (int i=0; i < n->num_children; i++) {
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -2044,7 +2068,7 @@ public: uint64_t ARTSize;
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -2053,7 +2077,7 @@ public: uint64_t ARTSize;
                 for (int i=0; i < 256; i++) {
                     if (!((art_node256*)n)->children[i]) continue;
                     _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,status,data,predicate);
+                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,data,predicate);
                     if (res) return res;
                 }
                 break;
@@ -2064,6 +2088,31 @@ public: uint64_t ARTSize;
     }
 
 
+
+private:
+    /**
+     * @brief Perform the actual notification
+     *
+     * Notify all registered observers about a update.
+     *
+     * @param rec the modified tuple
+     * @param mode the modification mode (insert, update, delete)
+     * @param notify the nofication mode (immediate or defered)
+     */
+    void notifyObservers(const_snapshot_ptr rec,
+                         pfabric::TableParams::ModificationMode mode,
+                         pfabric::TableParams::NotificationMode notify)
+    {
+        if (notify == pfabric::TableParams::Immediate)
+        {
+            mImmediateObservers(rec, mode);
+        }
+        else
+        {
+            // TODO: implement defered notification
+            mDeferredObservers(rec, mode);
+        }
+    }
 };
 
 

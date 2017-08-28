@@ -23,7 +23,7 @@
 #include <assert.h>
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp>
-
+#include <boost/signals2.hpp>
 
 #define INF 99999
 
@@ -54,7 +54,6 @@ size_t reset_transaction_ID()
 {
     int temp = (-1)*nextTid;
     nextTid.fetch_add(temp, boost::memory_order_relaxed);
-
 }
 
 
@@ -64,7 +63,6 @@ namespace smart_ptr
     using boost::make_shared;
     using boost::atomic_load;
     using boost::atomic_store;
-
 
     template <class T>
     bool atomic_compare_exchange_strong(shared_ptr<T> * p, shared_ptr<T> * v, shared_ptr<T> w)
@@ -89,23 +87,28 @@ class TransactionManager
 };
 
 template <typename T, typename C>
-void todo(T func,C& container , size_t id, std::string& status)
+void ThreadFunc1(T func,C& container , size_t id)
 {
     /// Set Transaction to active
-    status = Active;
     active_transactionIds.push_back(id);
-    func(container,id,status);
+    func(container,id);
 }
 
 template <typename T, typename C>
-void todo2(T func,C& container , size_t id, std::string& status,std::pair<int,int> range)
+void ThreadFunc2(T func,C& container , size_t id,std::pair<int,int> range)
 {
     /// Set Transaction to active
-    status = Active;
     active_transactionIds.push_back(id);
-    func(container,id,status,range);
+    func(container,id,range);
 }
 
+template <typename T, typename C>
+void ThreadFunc3(T func,C& container , size_t id,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
+{
+    /// Set Transaction to active
+    active_transactionIds.push_back(id);
+    func(container,id,range);
+}
 
 void commitTransaction(size_t id)
 {
@@ -120,8 +123,12 @@ class Transaction
     boost::thread* TransactionThread;
     std::string status;
 
+
+
+
     Transaction(TransactionFunc func, ARTContainer& ART );
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
+    Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet);
 
 
     void CollectTransaction()
@@ -136,19 +143,25 @@ template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
 {
     Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&todo<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,status);
+    TransactionThread = new boost::thread(&ThreadFunc1<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid);
     TransactionGroup.add_thread(TransactionThread);
-
-
 }
 
 template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range )
 {
     Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&todo2<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,status,range);
+    TransactionThread = new boost::thread(&ThreadFunc2<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,range);
     TransactionGroup.add_thread(TransactionThread);
 
+}
+
+template <typename TransactionFunc, typename ARTContainer>
+Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
+{
+    Tid=get_new_transaction_ID();
+    TransactionThread = new boost::thread(&ThreadFunc3<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,range,boost::ref(ReadSet),boost::ref(WriteSet));
+    TransactionGroup.add_thread(TransactionThread);
 }
 
 #endif //MVCCART_TRANSACTIONMANAGER_H

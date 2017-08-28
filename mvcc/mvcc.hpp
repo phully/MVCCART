@@ -120,10 +120,10 @@ namespace mvcc11 {
         using const_snapshot_ptr = smart_ptr::shared_ptr<snapshot_type const>;
 
         mvcc() MVCC11_NOEXCEPT(true);
-        mvcc(size_t txn_id, value_type const &value,std::string& status);
-        mvcc(size_t txn_id,value_type &&value,std::string& status);
-        mvcc(size_t txn_id,mvcc const &other,std::string& status) MVCC11_NOEXCEPT(true);
-        mvcc(size_t txn_id,mvcc &&other,std::string& status) MVCC11_NOEXCEPT(true);
+        mvcc(size_t txn_id, value_type const &value);
+        mvcc(size_t txn_id,value_type &&value);
+        mvcc(size_t txn_id,mvcc const &other) MVCC11_NOEXCEPT(true);
+        mvcc(size_t txn_id,mvcc &&other) MVCC11_NOEXCEPT(true);
 
         ~mvcc() = default;
 
@@ -134,43 +134,43 @@ namespace mvcc11 {
         const_snapshot_ptr operator*() MVCC11_NOEXCEPT(true);
         const_snapshot_ptr operator->() MVCC11_NOEXCEPT(true);
 
-        const_snapshot_ptr overwrite(value_type const &value,std::string& status);
-        const_snapshot_ptr overwrite(value_type &&value,std::string& status);
+        const_snapshot_ptr overwrite(value_type const &value);
+        const_snapshot_ptr overwrite(value_type &&value);
 
 
-        const_snapshot_ptr overwriteMV(size_t txn_id,value_type const &value,std::string& status);
-        const_snapshot_ptr overwriteMV(size_t txn_id,value_type &&value,std::string& status);
+        const_snapshot_ptr overwriteMV(size_t txn_id,value_type const &value);
+        const_snapshot_ptr overwriteMV(size_t txn_id,value_type &&value);
 
-        const_snapshot_ptr deleteMV(size_t txn_id,std::string& status);
-
-        template <class Updater>
-        const_snapshot_ptr update(size_t txn_id,std::string& status,Updater updater);
+        const_snapshot_ptr deleteMV(size_t txn_id);
 
         template <class Updater>
-        const_snapshot_ptr try_update(size_t txn_id,std::string& status,Updater updater);
+        const_snapshot_ptr update(size_t txn_id,Updater updater);
+
+        template <class Updater>
+        const_snapshot_ptr try_update(size_t txn_id,Updater updater);
 
         template <class Updater, class Clock, class Duration>
-        const_snapshot_ptr try_update_until(size_t txn_id,std::string& status,Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
+        const_snapshot_ptr try_update_until(size_t txn_id,Updater updater,std::chrono::time_point<Clock, Duration> const &timeout_time);
 
         template <class Updater, class Rep, class Period>
-        const_snapshot_ptr try_update_for(size_t txn_id,std::string& status,Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
+        const_snapshot_ptr try_update_for(size_t txn_id,Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
 
     private:
         template <class U>
-        const_snapshot_ptr overwrite_impl(U &&value,std::string& status);
+        const_snapshot_ptr overwrite_impl(U &&value);
 
         template <class U>
-        const_snapshot_ptr overwrite_implMV(size_t txn_id,U &&value,std::string& status);
+        const_snapshot_ptr overwrite_implMV(size_t txn_id,U &&value);
 
         template <class U>
-        const_snapshot_ptr delete_implMV(size_t txn_id,std::string& status);
+        const_snapshot_ptr delete_implMV(size_t txn_id);
 
         template <class Updater>
-        const_snapshot_ptr try_update_impl(size_t txn_id,std::string& status,Updater &updater);
+        const_snapshot_ptr try_update_impl(size_t txn_id,Updater &updater);
 
         template <class Updater, class Clock, class Duration>
         const_snapshot_ptr try_update_until_impl(
-                size_t txn_id,std::string& status,
+                size_t txn_id,
                 Updater &updater,
                 std::chrono::time_point<Clock, Duration> const &timeout_time);
 
@@ -184,19 +184,19 @@ namespace mvcc11 {
             : mutable_current_{smart_ptr::make_shared<snapshot_type>(0)}
     {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
-    mvcc<ValueType>::mvcc(size_t txn_id,value_type const &value,std::string& status)
+    mvcc<ValueType>::mvcc(size_t txn_id,value_type const &value)
             : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, value)}
     {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
-    mvcc<ValueType>::mvcc(size_t txn_id,value_type &&value,std::string& status)
+    mvcc<ValueType>::mvcc(size_t txn_id,value_type &&value)
             : mutable_current_{smart_ptr::make_shared<snapshot_type>(txn_id,INF, std::move(value))}
     {mutable_current_->_older_snapshot=nullptr;}
     template <class ValueType>
-    mvcc<ValueType>::mvcc(size_t txn_id,mvcc const &other,std::string& status) MVCC11_NOEXCEPT(true)
+    mvcc<ValueType>::mvcc(size_t txn_id,mvcc const &other) MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::atomic_load(other)}
     {}
     template <class ValueType>
-    mvcc<ValueType>::mvcc(size_t txn_id,mvcc &&other,std::string& status) MVCC11_NOEXCEPT(true)
+    mvcc<ValueType>::mvcc(size_t txn_id,mvcc &&other) MVCC11_NOEXCEPT(true)
             : mutable_current_{smart_ptr::atomic_load(other)}
     {}
 
@@ -233,20 +233,20 @@ namespace mvcc11 {
     }
 
     template <class ValueType>
-    auto mvcc<ValueType>::overwrite(value_type const &value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwrite(value_type const &value) -> const_snapshot_ptr
     {
-        return this->overwrite_impl(value,status);
+        return this->overwrite_impl(value);
     }
 
     template <class ValueType>
-    auto mvcc<ValueType>::overwrite(value_type &&value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwrite(value_type &&value) -> const_snapshot_ptr
     {
-        return this->overwrite_impl(std::move(value),status);
+        return this->overwrite_impl(std::move(value));
     }
 
     template <class ValueType>
     template <class U>
-    auto mvcc<ValueType>::overwrite_impl(U &&value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwrite_impl(U &&value) -> const_snapshot_ptr
     {
         auto desired =
                 smart_ptr::make_shared<snapshot_type>(
@@ -275,20 +275,20 @@ namespace mvcc11 {
     }
 
     template <class ValueType>
-    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type const &value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type const &value) -> const_snapshot_ptr
     {
-        return this->overwrite_implMV(txn_id,value,status);
+        return this->overwrite_implMV(txn_id,value);
     }
 
     template <class ValueType>
-    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type &&value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwriteMV(size_t txn_id,value_type &&value) -> const_snapshot_ptr
     {
-        return this->overwrite_implMV(txn_id,std::move(value),status);
+        return this->overwrite_implMV(txn_id,std::move(value));
     }
 
     template <class ValueType>
     template <class U>
-    auto mvcc<ValueType>::overwrite_implMV(size_t txn_id,U &&value,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::overwrite_implMV(size_t txn_id,U &&value) -> const_snapshot_ptr
     {
 
         ///1- Create New-Snapshot initially
@@ -310,7 +310,6 @@ namespace mvcc11 {
 
                 if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
                 {
-                    status = Abort;
                     //std::cout << "Aborted on value " << expected->value<< std::endl;
                     //continue;
                     return nullptr;
@@ -333,14 +332,14 @@ namespace mvcc11 {
     }
 
     template <class ValueType>
-    auto mvcc<ValueType>::deleteMV(size_t txn_id,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::deleteMV(size_t txn_id) -> const_snapshot_ptr
     {
-        return this->delete_implMV(txn_id,status);
+        return this->delete_implMV(txn_id);
     }
 
     template <class ValueType>
     template <class U>
-    auto mvcc<ValueType>::delete_implMV(size_t txn_id,std::string& status) -> const_snapshot_ptr
+    auto mvcc<ValueType>::delete_implMV(size_t txn_id) -> const_snapshot_ptr
     {
 
         ///1- Create New-Snapshot initially
@@ -361,7 +360,6 @@ namespace mvcc11 {
             {
                 if (const_expected_version != txn_id)
                 {
-                    status = Abort;
                     std::cout << "Aborted" << std::endl;
                     continue;
                 }
@@ -378,11 +376,11 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::update(size_t txn_id,std::string& status,Updater updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::update(size_t txn_id,Updater updater) -> const_snapshot_ptr
     {
         while(true)
         {
-            auto updated = this->try_update_impl(txn_id,status,updater);
+            auto updated = this->try_update_impl(txn_id,updater);
             if(updated != nullptr)
                 return updated;
             std::this_thread::sleep_for(std::chrono::milliseconds(MVCC11_CONTENSION_BACKOFF_SLEEP_MS));
@@ -391,38 +389,38 @@ namespace mvcc11 {
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update(size_t txn_id,std::string& status,Updater updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update(size_t txn_id,Updater updater) -> const_snapshot_ptr
     {
-        return this->try_update_impl(txn_id,status,updater);
+        return this->try_update_impl(txn_id,updater);
     }
 
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until(
-            size_t txn_id,std::string& status,
+            size_t txn_id,
             Updater updater,
             std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
-        return this->try_update_until_impl(txn_id,status,updater, timeout_time);
+        return this->try_update_until_impl(txn_id,updater, timeout_time);
     }
 
     template <class ValueType>
     template <class Updater, class Rep, class Period>
     auto mvcc<ValueType>::try_update_for(
-            size_t txn_id,std::string& status,
+            size_t txn_id,
             Updater updater,
             std::chrono::duration<Rep, Period> const &timeout_duration)
     -> const_snapshot_ptr
     {
         auto timeout_time = std::chrono::high_resolution_clock::now() + timeout_duration;
-        return this->try_update_until_impl(txn_id,status,updater, timeout_time);
+        return this->try_update_until_impl(txn_id,updater, timeout_time);
     }
 
 
     template <class ValueType>
     template <class Updater>
-    auto mvcc<ValueType>::try_update_impl(size_t txn_id,std::string& status,Updater &updater) -> const_snapshot_ptr
+    auto mvcc<ValueType>::try_update_impl(size_t txn_id,Updater &updater) -> const_snapshot_ptr
     {
             //auto desired = smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
 
@@ -440,7 +438,6 @@ namespace mvcc11 {
             {
                 if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
                 {
-                    status = Abort;
                     std::cout << "Aborted on value " << expected->value<<" by transaction##"<< txn_id<<std::endl;
                     //continue;
                     return nullptr;
@@ -464,14 +461,14 @@ namespace mvcc11 {
     template <class ValueType>
     template <class Updater, class Clock, class Duration>
     auto mvcc<ValueType>::try_update_until_impl(
-            size_t txn_id,std::string& status,
+            size_t txn_id,
             Updater &updater,
             std::chrono::time_point<Clock, Duration> const &timeout_time)
     -> const_snapshot_ptr
     {
         while(true)
         {
-            auto updated = this->try_update_impl(txn_id,status,updater);
+            auto updated = this->try_update_impl(txn_id,updater);
 
             if(updated != nullptr)
                 return updated;

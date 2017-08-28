@@ -107,24 +107,24 @@ TEST_CASE("Creating a table with a given schema, inserting and deleting data", "
         deleteDetected = false,
         updateDetected = false;
 
-    auto observer = [&insertDetected, &deleteDetected, &updateDetected](const MyTuple& rec,
-      TableParams::ModificationMode mode) {
-      switch (mode) {
-      case TableParams::Insert:
-        if (get<0>(rec) == 20000lu)
-          insertDetected = true;
-        break;
-      case TableParams::Delete:
-        if (get<0>(rec) == 20000lu)
-          deleteDetected = true;
-        break;
-      case TableParams::Update:
-        if (get<0>(rec) == 5000lu)
-          updateDetected = true;
-        break;
-      default:
-        break;
-      }
+        auto observer = [&insertDetected, &deleteDetected, &updateDetected](const MyTuple& rec,
+                                                                            TableParams::ModificationMode mode) {
+            switch (mode) {
+              case TableParams::Insert:
+                if (get<0>(rec) == 20000lu)
+                  insertDetected = true;
+                    break;
+              case TableParams::Delete:
+                if (get<0>(rec) == 20000lu)
+                  deleteDetected = true;
+                    break;
+              case TableParams::Update:
+                if (get<0>(rec) == 5000lu)
+                  updateDetected = true;
+                    break;
+              default:
+                break;
+            }
     };
     testTable->registerObserver(observer, TableParams::Immediate);
     testTable->insert(20000, MyTuple(20000lu, 20, std::string("A String"), 100.0));

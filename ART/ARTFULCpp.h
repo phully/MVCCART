@@ -16,15 +16,7 @@
 
 #include <iostream>
 #include <inttypes.h>
-
-//#include "table/TableInfo.hpp"
-//#include "table/TableException.hpp"
-//#include "table/BaseTable.hpp"
-//#include <boost/signals2.hpp>
-//#include "table/TableInfo.hpp"
-//#include "fmt/format.h"
 #include "core/Tuple.hpp"
-//#include <boost/tuple/tuple.hpp>
 #include "ArtCPP.hpp"
 
 using namespace pfabric;
@@ -117,16 +109,16 @@ class ARTFULCpp
         * @param key the key value of the tuple
         * @param rec the actual tuple
         */
-        public:auto insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id,std::string& status)
+        public:auto insertOrUpdateByKey(KeyType key,  RecordType& rec,size_t txn_id)
         {
             int len = strlen(key);
-            return ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id,status);
+            return ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,rec,txn_id);
          }
 
-        public:auto insertOrUpdateByKey(KeyType key, Updater updater,size_t txn_id,std::string& status)
+        public:auto insertOrUpdateByKey(KeyType key, Updater updater,size_t txn_id)
         {
             int len = strlen(key);
-           return  ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status,updater);
+           return  ARTIndexTable->mv_art_insert(ARTIndexTable->t, (unsigned char *)key, len,txn_id,updater);
         }
 
 
@@ -139,7 +131,7 @@ class ARTFULCpp
         * @param key the key for which the tuples are deleted from the table
         * @return the number of deleted tuples
         */
-        public: RecordType* deleteByKey(KeyType key,size_t txn_id,std::string& status)
+        public: RecordType* deleteByKey(KeyType key,size_t txn_id)
         {
             int len;
             uintptr_t line = 1;
@@ -151,7 +143,7 @@ class ARTFULCpp
             //val = (RecordType *)art_search(&t, (unsigned char*)key, len);
 
             // Delete, should get line-no back
-            void * val = ARTIndexTable->mv_art_delete(ARTIndexTable->t, (unsigned char *)key, len,txn_id,status);
+            void * val = ARTIndexTable->mv_art_delete(ARTIndexTable->t, (unsigned char *)key, len,txn_id);
             ///RecordType *  val2 = (RecordType *)val;
             //return val2;
             return NULL;

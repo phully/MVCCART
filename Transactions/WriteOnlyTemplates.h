@@ -36,9 +36,8 @@ char KeysToStore[235890][20];
 std::vector<RecordType> vectorValues;
 using snapshot_type = mvcc11::snapshot<RecordType>;
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
-
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status,std::pair<int,int>)> TransactionLambda;
+typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
+typedef std::function <void(ARTTupleContainer&,size_t id,std::pair<int,int>)> TransactionLambda;
 
 namespace
 {
@@ -92,7 +91,7 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 
-auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
+auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range){
     std::vector<void *> writeSet;
     std::vector<void *> ReadSet;
     int totalCachedMissed=0;
@@ -102,7 +101,7 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &st
     while (true)
     {
 
-        auto result= ARTWithTuples.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+        auto result= ARTWithTuples.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
 
 
         if(result == NULL)
@@ -119,7 +118,7 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &st
     cout<<"Total writes succeed ="<<totalCachedMissed<<" by transaction#"<<id<<"  from Total# Writes "<<range.second-range.first<<endl;
 };
 
-auto WriteOnlyRandom = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range){
+auto WriteOnlyRandom = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range){
     std::vector<void *> writeSet;
     std::vector<void *> ReadSet;
     random::mt19937 rng(current_time_nanoseconds());
@@ -129,7 +128,7 @@ auto WriteOnlyRandom = [](ARTTupleContainer &ARTWithTuples, size_t id, std::stri
     int index=range.first;
     while (true)
     {
-        auto result= ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)],vectorValues[randomKeys1(rng)],id,status);
+        auto result= ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)],vectorValues[randomKeys1(rng)],id);
 
         if(result == NULL)
         {
