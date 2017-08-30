@@ -11,7 +11,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.hpp"
 
 #include <atomic>
 #include <string>
@@ -31,7 +31,7 @@
 using namespace std;
 typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
 char KeysToStore[235890][20];
 std::vector<RecordType> vectorValues;
 using snapshot_type = mvcc11::snapshot<RecordType>;
@@ -91,7 +91,7 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
 
 
 
-auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -122,7 +122,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,updater,id,status);
+        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,id,updater);
         if(result != NULL)
         {
             WriteSet.push_back(result->value);
@@ -160,7 +160,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id, std::s
 };
 
 
-auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status,std::pair<int,int> range)
+auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
 {
     std::vector<RecordType> WriteSet;
     std::vector<RecordType> ReadSet;
@@ -193,7 +193,7 @@ auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id, std::
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,updater,id,status);
+        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,id,updater);
         if(result != NULL)
         {
             WriteSet.push_back(result->value);

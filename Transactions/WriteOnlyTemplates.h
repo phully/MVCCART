@@ -11,7 +11,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.hpp"
 
 #include <atomic>
 #include <string>
@@ -31,7 +31,7 @@
 using namespace std;
 typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
 char KeysToStore[235890][20];
 std::vector<RecordType> vectorValues;
 using snapshot_type = mvcc11::snapshot<RecordType>;
@@ -96,7 +96,7 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,in
     std::vector<void *> ReadSet;
     int totalCachedMissed=0;
     int index=range.first;
-//    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    //std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
     while (true)
     {
@@ -119,8 +119,8 @@ auto WriteOnly = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,in
 };
 
 auto WriteOnlyRandom = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range){
-    std::vector<void *> writeSet;
-    std::vector<void *> ReadSet;
+    std::vector<RecordType> writeSet;
+    std::vector<RecordType> ReadSet;
     random::mt19937 rng(current_time_nanoseconds());
     random::uniform_int_distribution<> randomKeys1(range.first,range.second);
     //cout << randomKeys(rng) << endl;

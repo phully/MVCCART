@@ -103,7 +103,16 @@ void ThreadFunc2(T func,C& container , size_t id,std::pair<int,int> range)
 }
 
 template <typename T, typename C>
-void ThreadFunc3(T func,C& container , size_t id,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
+void ThreadFunc3(T func,C& container , size_t id,int numVersions,int keyIndex,int delayms)
+{
+    /// Set Transaction to active
+    active_transactionIds.push_back(id);
+    func(container,id,numVersions,keyIndex,delayms);
+}
+
+
+template <typename T, typename C>
+void ThreadFunc4(T func,C& container , size_t id,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
 {
     /// Set Transaction to active
     active_transactionIds.push_back(id);
@@ -123,10 +132,8 @@ class Transaction
     boost::thread* TransactionThread;
     std::string status;
 
-
-
-
-    Transaction(TransactionFunc func, ARTContainer& ART );
+    Transaction(TransactionFunc func, ARTContainer& ART);
+    Transaction(TransactionFunc func, ARTContainer& ART,int numVersions,int keyIndex,int delayms);
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet);
 
@@ -154,6 +161,14 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
     TransactionThread = new boost::thread(&ThreadFunc2<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,range);
     TransactionGroup.add_thread(TransactionThread);
 
+}
+
+template <typename TransactionFunc, typename ARTContainer>
+Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,int numVersions,int keyIndex,int delayms)
+{
+    Tid=get_new_transaction_ID();
+    TransactionThread = new boost::thread(&ThreadFunc3<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,numVersions,keyIndex,delayms);
+    TransactionGroup.add_thread(TransactionThread);
 }
 
 template <typename TransactionFunc, typename ARTContainer>

@@ -5,7 +5,6 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
 #include "Transactions/ReadIntensiveTemplates.h"
 
 
@@ -93,12 +92,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
         ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id)
         {
             int index=0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
                 index++;
 
                 if(index > 200000)

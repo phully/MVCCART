@@ -807,12 +807,13 @@ static art_leaf* recursive_delete(std::shared_ptr<art_tree> t,art_node *n, art_n
 
 
 template <typename RecordType, typename KeyType = DefaultKeyType>
-class ArtCPP : public pfabric::BaseTable {
+class ArtCPP : public pfabric::BaseTable
+{
 
-public: std::shared_ptr<art_tree> t;
-public: char buf[512];
-public: int res;
-public: uint64_t ARTSize;
+    public: std::shared_ptr<art_tree> t;
+    public: char buf[512];
+    public: int res;
+    public: uint64_t ARTSize;
 
     typedef std::function<RecordType ( RecordType&)> Updater;
 
@@ -835,7 +836,7 @@ public: uint64_t ARTSize;
       * @param cb the observer (slot)
       * @param mode the nofication mode (immediate or defered)
      */
-    void registerObserver(typename ObserverCallback::slot_type const& cb,
+    public: void registerObserver(typename ObserverCallback::slot_type const& cb,
                           pfabric::TableParams::NotificationMode mode) {
         switch (mode)
         {
@@ -1021,6 +1022,8 @@ public: uint64_t ARTSize;
         art_tree_init(t);
     }
 
+
+
     /**
      * Destructor for table.
      */
@@ -1033,7 +1036,7 @@ public: uint64_t ARTSize;
     * Destroys an ART tree
     * @return 0 on success.
     */
-    public: int art_tree_destroy() {
+    public: int DestroyAdaptiveRadixTreeTable() {
         destroy_node(t->root);
         return 0;
     }
@@ -1059,14 +1062,16 @@ public: uint64_t ARTSize;
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned which is deleted.
      */
-    public: auto mv_art_delete(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,size_t txn_id)
+    public: auto deleteByKey(char *key,size_t txn_id)
     {
         int old_val = 0;
-        auto old = mv_recursive_delete(t->root, &t->root, key, key_len,0, &old_val,txn_id);
+        auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, std::strlen(key),0, &old_val,txn_id);
         if (!old_val) t->size++;
         return old;
     }
-    private: void* mv_recursive_delete(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth, int *old,size_t txn_id)
+    private: void* mv_recursive_delete(art_node *n, art_node **ref,
+                                       const unsigned char *key, int key_len,
+                                       int depth, int *old,size_t txn_id)
     {
         UpgradeLock _upgradeableReadLock(_access);
 
@@ -1180,11 +1185,12 @@ public: uint64_t ARTSize;
      * @return NULL if the item was newly inserted, otherwise
      * the old value pointer is returned.
      */
-    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len, RecordType&  value,size_t txn_id)
+    public: const_snapshot_ptr insertOrUpdateByKey(char *key,  RecordType&  value,size_t txn_id)
     {
         int old_val = 0;
+        int key_len =  std::strlen(key);
         //art_node *root =static_cast<art_node*>(t->root);
-        auto old = mv_recursive_insert(t->root, &t->root, key, key_len, value, 0, &old_val,txn_id,0,t->root,false);
+        auto old = mv_recursive_insert(t->root, &t->root,(const unsigned char *) key, key_len, value, 0, &old_val,txn_id,0,t->root,false);
         if (!old_val) t->size++;
         return old;
     }
@@ -1350,7 +1356,7 @@ public: uint64_t ARTSize;
     }
 
     /// Iterative Insert Implementation
-    const_snapshot_ptr mv_iterative_insert(std::shared_ptr<art_tree> t, const unsigned char *key,
+    private: const_snapshot_ptr mv_iterative_insert(std::shared_ptr<art_tree> t, const unsigned char *key,
                                            int key_len,size_t txn_id,Updater updater)
     {
         art_node **child;
@@ -1394,11 +1400,11 @@ public: uint64_t ARTSize;
 
 
     /// Recursive Updater
-    public: const_snapshot_ptr mv_art_insert(std::shared_ptr<art_tree> t,const unsigned char *key, int key_len,
-                                         size_t txn_id,Updater updater)
+    public: const_snapshot_ptr insertOrUpdateByKey(char *key, size_t txn_id,Updater updater)
     {
         int old_val = 0;
-        return UpdateIterative(key,key_len,txn_id,updater);
+        int key_len =  std::strlen(key);
+        return UpdateIterative((const unsigned char *)key,key_len,txn_id,updater);
         //auto old = mv_recursive_insert(t->root, &t->root, key, key_len, 0, &old_val,txn_id,updater);
     }
     /// Recursive Updater Implementation
@@ -1605,7 +1611,9 @@ public: uint64_t ARTSize;
      * @arg data Opaque handle passed to the callback
      * @return 0 on success, or the return of the callback.
      */
-    public:int art_iter_prefix(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len, art_callback cb, void *data,size_t txn_id)
+    public:int art_iter_prefix(const unsigned char *key,
+                               int key_len, art_callback cb,
+                               void *data,size_t txn_id)
     {
         art_node **child;
         art_node *n = t->root;
@@ -1670,9 +1678,9 @@ public: uint64_t ARTSize;
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned.
      */
-    public: const_snapshot_ptr searchKey(const unsigned char* key, int key_len)
+    public: const_snapshot_ptr findValueByKey( char* key)
     {
-        return art_search_OCC((unsigned char *)key, key_len);
+        return art_search_OCC((unsigned char *)key,std::strlen(key));
     }
 
     private: const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)

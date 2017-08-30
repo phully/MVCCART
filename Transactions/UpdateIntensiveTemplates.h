@@ -11,7 +11,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.hpp"
 
 #include <atomic>
 #include <string>
@@ -29,16 +29,27 @@
 #include "fmt-master/fmt/format.h"
 
 using namespace std;
-typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
+
+/// key default type for Indexing
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+///type definition Tuple schema
+typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
+///type definition for ART Index Table type
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
+/// Keys Array to re-use
 char KeysToStore[235890][20];
+/// vector to contain initial tuples for tests
 std::vector<RecordType> vectorValues;
+/// mvcc snapshot definition
 using snapshot_type = mvcc11::snapshot<RecordType>;
+/// snapshot pointer type as boost::shared pointer to snapshot type
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
+/// std::function as Transaction , type definitions, for serveral uses
 typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::pair<int,int>)> TransactionLambda;
+typedef std::function <void(ARTTupleContainer&,size_t id,int , int, int)> TransactionLambda2;
+
 
 namespace
 {
@@ -101,8 +112,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,
     int totalCachedMissed=0;
     for (int i = 0; i < 80; i++)
     {
-        char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)], id,updater);
 
         if (result == nullptr)
         {
@@ -156,8 +166,8 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int
     int totalCachedMissed=0;
     for (int i = 0; i < 800; i++)
     {
-        char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
+        char * keyToInsert = KeysToStore[randomKeys1(rng)];
+        auto result = ARTWithTuples.insertOrUpdateByKey(keyToInsert, id, updater);
 
         if (result == nullptr)
         {
@@ -211,8 +221,7 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,i
     int totalCachedMissed=0;
     for (int i = 0; i < 80000; i++)
     {
-        char *keysToFind = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keysToFind, updater, id);
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)], id,updater);
 
         if (result == nullptr || result == NULL)
         {
@@ -254,5 +263,63 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,i
     cout<<"Total updates cached missed out of 20000::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
 
 };
+
+auto UpdateContinuously = [](ARTTupleContainer &ARTWithTuples, size_t id,int numVersions,int keyIndex,int delayms)
+{
+
+    auto observer = [](const_snapshot_ptr snap,   pfabric::TableParams::ModificationMode mode) {
+        switch (mode) {
+            case pfabric::TableParams::Insert:
+                break;
+            case pfabric::TableParams::Delete:
+                break;
+            case pfabric::TableParams::Update:
+                cout<<snap->version<<"::"<<snap->value<<endl;
+                break;
+            default:
+                break;
+        }
+    };
+    ARTWithTuples.registerObserver(observer, pfabric::TableParams::Immediate);
+
+    int totalCachedMissed=0;
+    for (int i = 0; i < numVersions; i++)
+    {
+        char *keysToFind = KeysToStore[keyIndex];
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[keyIndex], id,updater);
+        std::this_thread::sleep_for(std::chrono::milliseconds(delayms));
+        if (result == nullptr || result == NULL)
+        {
+            totalCachedMissed++;
+        }
+    }
+    cout<<"Total updates cached missed::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
+
+};
+
+auto ReadOnlyContiniously = [](ARTTupleContainer &ARTWithTuples, size_t id,int numVersions,int keyIndex,int delayms)
+{
+
+    int totalCachedMissed=0;
+    for (int i = 0; i < 100; i++)
+    {
+        char* keysToFind = KeysToStore[keyIndex];
+        auto val = ARTWithTuples.findValueByKey(keysToFind);
+
+        if(val == nullptr)
+        {
+            totalCachedMissed++;
+        }
+        else
+        {
+            auto tp = val->value;
+            cout<<"Reading="<<tp<<endl;
+            std::this_thread::sleep_for(std::chrono::milliseconds(delayms));
+
+        }
+    }
+    cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
+};
+
 
 #endif //MVCCART_TRANSACTIONTEMPLATES_H

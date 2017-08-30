@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensive.cpp
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/WriteOnly.cpp
 iostream
 -
 boost/test/unit_test.hpp
@@ -15,10 +15,8 @@ boost/lexical_cast.hpp
 -
 mvcc/mvcc.hpp
 /Users/fuadshah/Desktop/MVCCART/WorkloadTests/mvcc/mvcc.hpp
-ART/ARTFULCpp.h
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/ART/ARTFULCpp.h
-Transactions/UpdateIntensiveTemplates.h
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/UpdateIntensiveTemplates.h
+Transactions/WriteOnlyTemplates.h
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/WriteOnlyTemplates.h
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
@@ -30402,16 +30400,6 @@ boost/type_traits/is_void.hpp
 boost/smart_ptr/weak_ptr.hpp
 -
 
-ART/ARTFULCpp.h
-iostream
--
-inttypes.h
--
-core/Tuple.hpp
-ART/core/Tuple.hpp
-ArtCPP.hpp
-ART/ArtCPP.hpp
-
 ART/ArtCPP.hpp
 iostream
 -
@@ -30452,7 +30440,7 @@ emmintrin.h
 emmintrin.h
 -
 
-Transactions/UpdateIntensiveTemplates.h
+Transactions/WriteOnlyTemplates.h
 transactionManager.h
 Transactions/transactionManager.h
 iostream
@@ -30463,8 +30451,8 @@ boost/lexical_cast.hpp
 -
 mvcc/mvcc.hpp
 Transactions/mvcc/mvcc.hpp
-ART/ARTFULCpp.h
-Transactions/ART/ARTFULCpp.h
+ART/ArtCPP.hpp
+Transactions/ART/ArtCPP.hpp
 atomic
 -
 string

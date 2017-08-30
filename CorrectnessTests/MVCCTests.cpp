@@ -40,7 +40,7 @@ namespace
 typedef pfabric::Tuple<unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
 typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
+typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
 
 
 
@@ -109,6 +109,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         BOOST_REQUIRE(snapshot1->_older_snapshot->version == 1);
         BOOST_REQUIRE(snapshot1->_older_snapshot->value.getAttribute<2>() == INIT);
     }
+
 
     BOOST_AUTO_TEST_CASE(test_current_and_op_deref_yields_equivalent_results)
     {

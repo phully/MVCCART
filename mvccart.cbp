@@ -136,9 +136,6 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ARTFULCpp.h">
-			<Option target="mvccart"/>
-		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
@@ -148,7 +145,7 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/transactionManager.h">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensive.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/WriteOnly.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">

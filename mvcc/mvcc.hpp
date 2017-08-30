@@ -422,7 +422,6 @@ namespace mvcc11 {
     template <class Updater>
     auto mvcc<ValueType>::try_update_impl(size_t txn_id,Updater &updater) -> const_snapshot_ptr
     {
-            //auto desired = smart_ptr::make_shared<snapshot_type>(txn_id, std::forward<U>(value));
 
             ///1- Fetch/Read  expected Version speculatively
             auto expected = smart_ptr::atomic_load(&mutable_current_);
