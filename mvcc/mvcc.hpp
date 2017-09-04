@@ -423,14 +423,25 @@ namespace mvcc11 {
     auto mvcc<ValueType>::try_update_impl(size_t txn_id,Updater &updater) -> const_snapshot_ptr
     {
 
-            ///1- Fetch/Read  expected Version speculatively
+            ///1- Fetch/Read  expected Version speculatively: Set Active
             auto expected = smart_ptr::atomic_load(&mutable_current_);
             auto const const_expected_version = expected->version;
             auto const const_expected_end_version = expected->end_version;
             auto const &const_expected_value = expected->value;
 
+
+
+
+
             ///2- Create New-Snapshot initially
             auto desired = smart_ptr::make_shared<snapshot_type>( txn_id, updater(expected->value));
+
+            ///
+            /// * Set Preparing Obserer call back triggerd
+            ///
+
+
+
 
             ///3- if record was created and its active currently and not by the current transaction
             if ( const_expected_end_version != INF && const_expected_version != txn_id)
@@ -443,6 +454,7 @@ namespace mvcc11 {
                 }
             }
 
+            ///
             expected->end_version = txn_id;
             auto const updated = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
             if (updated)

@@ -30,6 +30,17 @@ void RESET_AND_DELETE(ARTTupleContainer& ART )
 
 }
 
+using snapshot_type = mvcc11::snapshot<RecordType>;
+typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
+static  int cb(void *data, const unsigned char* key, uint32_t key_len, const_snapshot_ptr val)
+{
+    if(val != NULL)
+    {
+        cout<<"keystr::"<<key<<endl;
+        cout<<"found key::"<<val->value<<endl;
+    }
+    return 0;
+}
 
 
 ///home/muum8236/code/MVCCART/test_data
@@ -107,6 +118,39 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
     }
+
+    BOOST_AUTO_TEST_CASE(test_Iterators_ARTIndex_MVCC)
+    {
+        cout << "test_Iterators_ARTIndex_MVCC" << endl;
+
+        ///Run iterators simple on prefix with call back!!
+        ///Get transaction readers
+        auto iterate= [] (ARTTupleContainer& ARTable,size_t id)
+        {
+            std::vector<RecordType> ReadSet;
+            std::vector<RecordType> ScanSet;
+            std::vector<RecordType> WriteSet;
+            int index=0;
+            uint64_t out[] = {0, 0};
+            ARTable.iterate(cb,&out,id);
+            index++;
+
+
+
+        };
+
+        auto start_time = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new
+                Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(iterate,*ARTable1);
+        t1->CollectTransaction();
+        auto end_time= std::chrono::high_resolution_clock::now();
+
+        cout<<endl<<"Single Thread Writer Time->";
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+    }
+
+
 
     BOOST_AUTO_TEST_CASE(WriteOnly2Transactions)
     {

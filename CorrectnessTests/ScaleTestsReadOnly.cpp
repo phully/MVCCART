@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.h"
 #include "Transactions/transactionManager.h"
 
 #include <atomic>
@@ -42,7 +42,7 @@ namespace
 
 typedef pfabric::Tuple<unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
 
 auto ARTableWithTuples =  new ARTTupleContainer();

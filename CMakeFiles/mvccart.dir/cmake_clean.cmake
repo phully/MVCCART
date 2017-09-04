@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.o"
+  "CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessIterators.cpp.o"
   "mvccart.pdb"
   "mvccart"
 )

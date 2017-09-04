@@ -1572,7 +1572,7 @@ class ArtCPP : public pfabric::BaseTable
             {
                 parentNode->readUnlockOrRestart(v, needRestart);
                 if (needRestart) goto restart;
-                node = (art_node*)LEAF_RAW(node);
+                node = (art_node*)MV_LEAF_RAW(node);
                 // Check if the expanded path matches
                 if (!mv_leaf_matches((mv_art_leaf*)node, key, key_len,level))
                 {
@@ -1802,9 +1802,9 @@ class ArtCPP : public pfabric::BaseTable
     * @arg data Opaque handle passed to the callback
     * @return 0 on success, or the return of the callback.
     */
-    public: int mv_art_iter(std::shared_ptr<art_tree> t,art_callback cb, void *data,size_t txn_id)
+    public: int iterate(art_callback cb, void *data,size_t txn_id)
     {
-        return mv_recursive_iter(t->root, cb, data,txn_id);
+        return mv_recursive_iter(this->t->root, cb, data,txn_id);
     }
     private: int mv_recursive_iter(art_node *n, art_callback cb, void *data, size_t txn_id)
     {
@@ -1814,15 +1814,25 @@ class ArtCPP : public pfabric::BaseTable
         if (!n) return 0;
         if (IS_MV_LEAF(n))
         {
-            mv_art_leaf *l = MV_LEAF_RAW(n);
-            return cb(data, (const unsigned char*)l->key, l->key_len, l->_mvcc->current());
+                //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+                mv_art_leaf *snapshot = MV_LEAF_RAW(n);
+               //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+
+                if(snapshot != nullptr)
+                {
+                    //return snapshot->_mvcc->current();
+                    std::cout<<snapshot->_mvcc->current()->value;
+                    return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
+                }
+                return 0;
         }
 
         int idx, res;
         switch (n->type)
         {
             case NODE4:
-                for (int i=0; i < n->num_children; i++) {
+                for (int i=0; i < n->num_children; i++)
+                {
                     //_sharedLock.unlock();
                     res = mv_recursive_iter(((art_node4*)n)->children[i], cb, data,txn_id);
                     if (res) return res;
@@ -1830,7 +1840,8 @@ class ArtCPP : public pfabric::BaseTable
                 break;
 
             case NODE16:
-                for (int i=0; i < n->num_children; i++) {
+                for (int i=0; i < n->num_children; i++)
+                {
                     //_sharedLock.unlock();
                     res = mv_recursive_iter(((art_node16*)n)->children[i], cb, data,txn_id);
                     if (res) return res;
@@ -1848,7 +1859,8 @@ class ArtCPP : public pfabric::BaseTable
                 break;
 
             case NODE256:
-                for (int i=0; i < 256; i++) {
+                for (int i=0; i < 256; i++)
+                {
                     if (!((art_node256*)n)->children[i]) continue;
                     //_sharedLock.unlock();
                     res = mv_recursive_iter(((art_node256*)n)->children[i], cb, data,txn_id);
@@ -2097,7 +2109,7 @@ class ArtCPP : public pfabric::BaseTable
 
 
 
-private:
+    private:
     /**
      * @brief Perform the actual notification
      *

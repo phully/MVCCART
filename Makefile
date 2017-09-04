@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-WorkloadTests/WriteOnly.o: WorkloadTests/WriteOnly.cpp.o
+CorrectnessTests/ARTCorrectnessIterators.o: CorrectnessTests/ARTCorrectnessIterators.cpp.o
 
-.PHONY : WorkloadTests/WriteOnly.o
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.o
 
 # target to build an object file
-WorkloadTests/WriteOnly.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.o
-.PHONY : WorkloadTests/WriteOnly.cpp.o
+CorrectnessTests/ARTCorrectnessIterators.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessIterators.cpp.o
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.cpp.o
 
-WorkloadTests/WriteOnly.i: WorkloadTests/WriteOnly.cpp.i
+CorrectnessTests/ARTCorrectnessIterators.i: CorrectnessTests/ARTCorrectnessIterators.cpp.i
 
-.PHONY : WorkloadTests/WriteOnly.i
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.i
 
 # target to preprocess a source file
-WorkloadTests/WriteOnly.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.i
-.PHONY : WorkloadTests/WriteOnly.cpp.i
+CorrectnessTests/ARTCorrectnessIterators.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessIterators.cpp.i
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.cpp.i
 
-WorkloadTests/WriteOnly.s: WorkloadTests/WriteOnly.cpp.s
+CorrectnessTests/ARTCorrectnessIterators.s: CorrectnessTests/ARTCorrectnessIterators.cpp.s
 
-.PHONY : WorkloadTests/WriteOnly.s
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.s
 
 # target to generate assembly for a file
-WorkloadTests/WriteOnly.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/WriteOnly.cpp.s
-.PHONY : WorkloadTests/WriteOnly.cpp.s
+CorrectnessTests/ARTCorrectnessIterators.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessIterators.cpp.s
+.PHONY : CorrectnessTests/ARTCorrectnessIterators.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... WorkloadTests/WriteOnly.o"
-	@echo "... WorkloadTests/WriteOnly.i"
-	@echo "... WorkloadTests/WriteOnly.s"
+	@echo "... CorrectnessTests/ARTCorrectnessIterators.o"
+	@echo "... CorrectnessTests/ARTCorrectnessIterators.i"
+	@echo "... CorrectnessTests/ARTCorrectnessIterators.s"
 .PHONY : help
 
 

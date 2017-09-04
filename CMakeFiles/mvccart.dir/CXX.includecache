@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/WriteOnly.cpp
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessIterators.cpp
 iostream
 -
 boost/test/unit_test.hpp
@@ -14,9 +14,25 @@ boost/test/unit_test.hpp
 boost/lexical_cast.hpp
 -
 mvcc/mvcc.hpp
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/mvcc/mvcc.hpp
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/mvcc/mvcc.hpp
+ART/ArtCPP.hpp
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ART/ArtCPP.hpp
+condition_variable
+-
+future
+-
+random
+-
+boost/random/mersenne_twister.hpp
+-
+boost/random/uniform_int_distribution.hpp
+-
+boost/random/variate_generator.hpp
+-
+fmt-master/fmt/format.h
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/fmt-master/fmt/format.h
 Transactions/WriteOnlyTemplates.h
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/WriteOnlyTemplates.h
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/Transactions/WriteOnlyTemplates.h
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
