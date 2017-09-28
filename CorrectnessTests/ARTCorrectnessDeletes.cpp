@@ -5,102 +5,41 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
-#include "Transactions/transactionManager.h"
-
-#include <atomic>
-#include <string>
-#include <thread>
-#include <mutex>
+#include "ART/ArtCPP.hpp"
 #include <condition_variable>
 #include <future>
-#include <cassert>
-#include "core/Tuple.hpp"
-#include <boost/tuple/tuple.hpp>
 #include <random>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 #include "fmt-master/fmt/format.h"
-
+#include "Transactions/WriteOnlyTemplates.h"
 
 using namespace std;
 
 
-namespace
-{
-    auto hr_now() -> decltype(std::chrono::high_resolution_clock::now())
-    {
-        return std::chrono::high_resolution_clock::now();
-    }
-
-    string INIT = "init";
-    string OVERWRITTEN = "overwritten";
-    string UPDATED = "updated";
-    string DISTURBED = "disturbed";
-}
-
-
-typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
-typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
-
-char KeysToStore[235890][20];
-std::vector<RecordType> vectorValues;
-
 
 auto ARTableWithTuples =  new ARTTupleContainer();
-auto ARTableWithTuples2 =  new ARTTupleContainer();
-auto ARTableWithTuples4 =  new ARTTupleContainer();
-auto ARTableWithTuples8 =  new ARTTupleContainer();
-auto ARTable_for_updates =  new ARTTupleContainer();
 
 
-void RESET_AND_DELETE(ARTTupleContainer& ART )
-{
-    ART.DestroyAdaptiveRadixTreeTable();
-    reset_transaction_ID();
-
-}
 
 using snapshot_type = mvcc11::snapshot<RecordType>;
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
-
 static  int cb(void *data, const unsigned char* key, uint32_t key_len, const_snapshot_ptr val)
 {
     if(val != NULL)
     {
-
-        //mvcc11::mvcc<RecordType> *_mvccValue = reinterpret_cast<mvcc11::mvcc<RecordType> *>(val);
-        //auto _mvccValue = val->value;
-        auto tp = val->value;
-
+        cout<<"keystr::"<<key<<endl;
+        cout<<"found key::"<<val->value<<endl;
+        /*auto tp = val->value;
         unsigned long index = tp.getAttribute<1>();
         cout<<"found val "<<tp.getAttribute<0>()<<endl;
         BOOST_TEST(tp.getAttribute<0>() == vectorValues[index].getAttribute<0>());
         BOOST_TEST(tp.getAttribute<1>() == vectorValues[index].getAttribute<1>());
         BOOST_TEST(tp.getAttribute<2>() == (vectorValues[index].getAttribute<2>()));
         //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
-        BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);
-        //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
-        //mvcc11::mvcc<RecordType>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
-        //std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
-        //if(_mvvcValue->current()->_older_snapshot != nullptr)
-        //std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<" / oldvalue="<<_mvvcValue->current()->_older_snapshot->value<<"\n";
-    }
-    return 0;
-}
-
-static  int cb2(void *data, const unsigned char* key, uint32_t key_len, void *val)
-{
-    if(val != NULL)
-    {
-
-        mvcc11::mvcc<RecordType>* _mvvcValue = reinterpret_cast<mvcc11::mvcc<RecordType>*>(val);
-        std::cout<<"###found K/V ="<<key<<"/"<<_mvvcValue->current()->value.getAttribute<1>()<<"/current="<<_mvvcValue->current()->version<<"\n";
-        //if(_mvvcValue->current()->_older_snapshot != nullptr)
-        //std::cout<<"/old="<<_mvvcValue->current()->_older_snapshot->version<<" / oldvalue="<<_mvvcValue->current()->_older_snapshot->value<<"\n";
+        BOOST_TEST(tp.getAttribute<4>() == (index) / 100.0);*/
+        //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));*/
     }
     return 0;
 }
@@ -116,18 +55,13 @@ static  int cb_prefix(void *data, const unsigned char* key, uint32_t key_len, vo
     return 0;
 }
 
-int current_time_nanoseconds(){
-    struct timespec tm;
-    clock_gettime(CLOCK_REALTIME, &tm);
-    return tm.tv_nsec;
-}
+
 
 
 ///home/muum8236/code/MVCCART/test_data
 char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
-
 
 
     BOOST_AUTO_TEST_CASE(test_loading_Buckets_from_TextFIle)
@@ -156,6 +90,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                                               fmt::format("String/{}", buf),
                                               index / 100.0);
 
+                strcpy(KeysToStore[index],buf);
                 vectorValues.push_back(tuple);
                 index++;
             }
@@ -175,32 +110,76 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
      * Testing correctness on concurrent Writes 100% write intensive, scaled till 8 transactions in concurrent
     */
 
-    BOOST_AUTO_TEST_CASE(test_load_ARTIndex_MVCC_two_hundred_thousand_keys_single_transaction)
+    BOOST_AUTO_TEST_CASE(WriteOnly1Transactions)
     {
-        cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_single_transaction" << endl;
+        cout << "WriteOnly100Ops1Transactions" << endl;
+        auto start_time2 = std::chrono::high_resolution_clock::now();
 
-        ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
+                WriteOnly, *ARTableWithTuples,std::make_pair(0, 200000));
+
+        t1->CollectTransaction();
+
+        auto end_time2 = std::chrono::high_resolution_clock::now();
+
+        cout<<"Total time by WriteOnly100Ops1Transactions::"<<endl;
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
+
+    }
+
+    BOOST_AUTO_TEST_CASE(test_delete_mvcc_snapshot)
+    {
+        cout << "deleting keys" << endl;
+
+        auto deletekeys = [](ARTTupleContainer &ARTable, size_t id)
         {
-            int index=0;
-            while (true)
-            {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+            int index = 0;
+            while (true) {
+                ARTable.deleteByKey(KeysToStore[index], id);
                 index++;
 
-                if(index > 200000)
-                {
+                if (index > 20) {
                     break;
                 }
             }
         };
 
         auto start_time = std::chrono::high_resolution_clock::now();
-        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(WriteKeys1,*ARTableWithTuples);
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new
+                Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(deletekeys,*ARTableWithTuples);
         t1->CollectTransaction();
         auto end_time= std::chrono::high_resolution_clock::now();
 
-        cout<<endl<<"Single Thread Writer Time->";
+        cout<<endl<<"Single Thread deletion Time->";
+        cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
+        cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
+    }
+
+    BOOST_AUTO_TEST_CASE(test_find_mvcc_snapshot)
+    {
+        cout << "finding keys" << endl;
+
+        auto findkeys = [](ARTTupleContainer &ARTable, size_t id)
+        {
+            int index = 0;
+            while (true) {
+               auto found=  ARTable.findValueByKey(KeysToStore[index]);
+                index++;
+                cout<<found->end_version<<endl;
+                if (index > 20) {
+                    break;
+                }
+            }
+        };
+
+        auto start_time = std::chrono::high_resolution_clock::now();
+        Transaction<TableOperationOnTupleFunc,ARTTupleContainer>* t1 = new
+                Transaction<TableOperationOnTupleFunc,ARTTupleContainer>(findkeys,*ARTableWithTuples);
+        t1->CollectTransaction();
+        auto end_time= std::chrono::high_resolution_clock::now();
+
+        cout<<endl<<"Single Thread deletion Time->";
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }

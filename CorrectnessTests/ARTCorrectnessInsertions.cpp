@@ -262,7 +262,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << "test_load_ARTIndex_MVCC_two_hundred_thousand_keys_two_transactions" << endl;
 
         ///Writer#1 Insert/Update from Disk
-        auto WriteKeys1 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
+        auto WriteKeys1 = [](ARTTupleContainer &ARTable, size_t id) {
             int index = 0;
             while (true) {
                 ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
@@ -274,10 +274,10 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             }
         };
 
-        auto WriteKeys2 = [](ARTTupleContainer &ARTable, size_t id, std::string &status) {
+        auto WriteKeys2 = [](ARTTupleContainer &ARTable, size_t id) {
             int index = 100000;
             while (true) {
-                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id, status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index], vectorValues[index], id);
                 index++;
 
                 if (index > 200000) {

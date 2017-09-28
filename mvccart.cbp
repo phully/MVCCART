@@ -139,13 +139,16 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessIterators.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/Epochs.hpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/TransactionTemplates.h">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/transactionManager.h">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensive.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">
@@ -188,6 +191,9 @@
 			<Option target="fmt"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc/mvcc.hpp">
+			<Option target="mvccart"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc/snapshot.hpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CMakeLists.txt">

@@ -77,7 +77,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
      * 80% Updates and 20% reads. UpdateIntensiveTemplate
      * were used , where 80% updates stored in WriteSet
      * while reading randomly 20% of the write set keys
-     *
+     * to evaluate if the updates were correct.
     */
 
 
@@ -430,7 +430,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     }
 
-
     BOOST_AUTO_TEST_CASE(UpdateIntensive10000Ops1Transactions)
     {
         cout << "UpdateIntensive10000Ops1Transactions" << endl;
@@ -612,6 +611,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         auto start_time2 = std::chrono::high_resolution_clock::now();
 
 
+
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
                 UpdateMedium, *ARTable1,std::make_pair(0, 6250));
 
@@ -748,7 +748,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout<<"Total time by UpdateIntensive1000Ops32Transactions::"<<endl;
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
-
 
     }
 

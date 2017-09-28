@@ -27,8 +27,11 @@ using std::atomic_compare_exchange_strong
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
 #include "Transactions/transactionManager.h"
+//#include "snapshot.hpp"
 
 namespace mvcc11 {
+
+
     namespace smart_ptr {
 
         using boost::shared_ptr;
@@ -50,6 +53,8 @@ namespace mvcc11 {
 #include <utility>
 #include <chrono>
 #include <thread>
+#include "Transactions/transactionManager.h"
+#define INF 99999
 
 #ifdef MVCC11_DISABLE_NOEXCEPT
 #define MVCC11_NOEXCEPT(COND)
@@ -59,61 +64,12 @@ namespace mvcc11 {
 
 namespace mvcc11 {
 
-    template <class ValueType>
-    struct snapshot
-    {
-        using value_type = ValueType;
-
-        snapshot(size_t ver) MVCC11_NOEXCEPT(true);
-
-        template <class U>
-        snapshot(size_t ver, U&& arg)
-        MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) );
-
-        template <class U>
-        snapshot(size_t ver, size_t end_ver, U&& arg)
-        MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) );
-
-        smart_ptr::shared_ptr<snapshot> _older_snapshot;
-        size_t version;
-        size_t end_version;
-        value_type value;
-    };
-
-
-    template <class ValueType>
-    snapshot<ValueType>::snapshot(size_t ver) MVCC11_NOEXCEPT(true)
-            : version{ver}
-            , end_version{INF}
-            , value{}
-    {}
-
-    template <class ValueType>
-    template <class U>
-    snapshot<ValueType>::snapshot(size_t ver, U&& arg)
-    MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) )
-            : version{ver}
-            , end_version{INF}
-            , value{std::forward<U>(arg)}
-    {}
-
-    template <class ValueType>
-    template <class U>
-    snapshot<ValueType>::snapshot(size_t ver,size_t end_ver, U&& arg)
-    MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) )
-            : version{ver}
-            , end_version{INF}
-            , value{std::forward<U>(arg)}
-    {}
-
-
-
 
     template <class ValueType>
     class mvcc
     {
 
-        public:
+    public:
         using value_type = ValueType;
         using snapshot_type = snapshot<value_type>;
         using mutable_snapshot_ptr = smart_ptr::shared_ptr<snapshot_type>;
@@ -156,6 +112,13 @@ namespace mvcc11 {
         const_snapshot_ptr try_update_for(size_t txn_id,Updater updater, std::chrono::duration<Rep, Period> const &timeout_duration);
 
     private:
+
+        bool isActiveTxn(size_t txn_id)
+        {
+
+        }
+
+
         template <class U>
         const_snapshot_ptr overwrite_impl(U &&value);
 
@@ -173,7 +136,6 @@ namespace mvcc11 {
                 size_t txn_id,
                 Updater &updater,
                 std::chrono::time_point<Clock, Duration> const &timeout_time);
-
 
         mutable_snapshot_ptr mutable_current_;
     };
@@ -308,7 +270,7 @@ namespace mvcc11 {
             if ( const_expected_end_version != INF && const_expected_version != txn_id)
             {
 
-                if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
+                if (isActiveTransaction(const_expected_version) )
                 {
                     //std::cout << "Aborted on value " << expected->value<< std::endl;
                     //continue;
@@ -356,7 +318,7 @@ namespace mvcc11 {
 
 
             ///3- if record was created and its active currently and not by the current transaction
-            if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end()  && const_expected_end_version != INF)
+            if (isActiveTransaction(const_expected_version)  && const_expected_end_version != INF)
             {
                 if (const_expected_version != txn_id)
                 {
@@ -423,47 +385,37 @@ namespace mvcc11 {
     auto mvcc<ValueType>::try_update_impl(size_t txn_id,Updater &updater) -> const_snapshot_ptr
     {
 
-            ///1- Fetch/Read  expected Version speculatively: Set Active
-            auto expected = smart_ptr::atomic_load(&mutable_current_);
-            auto const const_expected_version = expected->version;
-            auto const const_expected_end_version = expected->end_version;
-            auto const &const_expected_value = expected->value;
+        ///1- Fetch/Read  expected Version speculatively: Set Active
+        auto expected = smart_ptr::atomic_load(&mutable_current_);
+        auto const const_expected_version = expected->version;
+        auto const const_expected_end_version = expected->end_version;
+        auto const &const_expected_value = expected->value;
+
+        ///2- Create New-Snapshot initially
+        auto desired = smart_ptr::make_shared<snapshot_type>( txn_id, updater(expected->value));
 
 
 
-
-
-            ///2- Create New-Snapshot initially
-            auto desired = smart_ptr::make_shared<snapshot_type>( txn_id, updater(expected->value));
-
-            ///
-            /// * Set Preparing Obserer call back triggerd
-            ///
-
-
-
-
-            ///3- if record was created and its active currently and not by the current transaction
-            if ( const_expected_end_version != INF && const_expected_version != txn_id)
+        ///3- if record was created and its active currently and not by the current transaction
+        if ( const_expected_end_version != INF && const_expected_version != txn_id)
+        {
+            if (isActiveTransaction(const_expected_version))
             {
-                if (std::find(active_transactionIds.begin(), active_transactionIds.end(), const_expected_version) != active_transactionIds.end() )
-                {
-                    std::cout << "Aborted on value " << expected->value<<" by transaction##"<< txn_id<<std::endl;
-                    //continue;
-                    return nullptr;
-                }
+                std::cout << "Aborted on value " << expected->value<<" by transaction##"<< txn_id<<std::endl;
+                //continue;
+                return nullptr;
             }
+        }
 
-            ///
-            expected->end_version = txn_id;
-            auto const updated = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
-            if (updated)
-            {
-                // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
-                ///set status commited
-                smart_ptr::atomic_store(&desired->_older_snapshot,expected);
-                return desired;
-            }
+        expected->end_version = txn_id;
+        auto const updated = smart_ptr::atomic_compare_exchange_strong(&mutable_current_, &expected, desired);
+        if (updated)
+        {
+            // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
+            ///set status commited
+            smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+            return desired;
+        }
 
         return nullptr;
     }

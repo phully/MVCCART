@@ -16,7 +16,7 @@ if(Boost_FOUND)
     include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
     link_directories(SYSTEM ${Boost_LIBRARY_DIRS})
 
-    set(Boost_USE_STATIC_LIBS        ON) # only find static libs
+    set(Boost_USE_STATIC_LIBS        ON)   # only find static libs
     set(Boost_USE_MULTITHREADED      ON)
     set(Boost_USE_STATIC_RUNTIME    OFF)
     set(BOOST_ALL_DYN_LINK           ON)   # force dynamic linking for all libraries
@@ -30,13 +30,12 @@ OPTION(BUILD_MVCC11_TEST_WITH_STDLIB_LIBCPP "Build mvcc_test with -stdlib=libc++
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
 set(SOURCE_FILES
         ART/ArtCPP.hpp
-        Transactions/transactionManager.h
+        mvcc/snapshot.hpp
         mvcc/mvcc.hpp
+        Transactions/Epochs.hpp
+        Transactions/transactionManager.h
         Transactions/TransactionTemplates.h
-        CorrectnessTests/ARTCorrectnessIterators.cpp)
+        WorkloadTests/UpdateIntensive.cpp )
 add_subdirectory(fmt-master/fmt)
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES} fmt::fmt-header-only)
-
-
-

@@ -71,6 +71,7 @@ int current_time_nanoseconds()
     return tm.tv_nsec;
 }
 
+
 std::function<RecordType(RecordType&)> updater = [](RecordType& record)
 {
 
@@ -99,6 +100,9 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
     //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
     BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 200.0);*/
 };
+
+
+
 
 
 

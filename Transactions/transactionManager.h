@@ -24,20 +24,31 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/thread/thread.hpp>
 #include <boost/signals2.hpp>
-
-#define INF 99999
+#include "mvcc/snapshot.hpp"
+#include "Epochs.hpp"
 
 
 boost::mutex cntmutex;
 std::vector<size_t> active_transactionIds;
+typedef std::pair<std::vector<void*>,std::vector<void*>> vectorPair;
+std::map<size_t,vectorPair> activeTxns;
 boost::atomic<int> nextTid;
 boost::thread_group TransactionGroup;
 
 
-auto Active = "active";
-auto Preparing = "preparing";
-auto Commit = "commit";
-auto Abort = "abort";
+bool isActiveTransaction(size_t txn_id)
+{
+    if ( activeTxns.find(txn_id) == activeTxns.end() )
+    {
+        return false;
+    }
+    else
+    {
+        return true;;
+    }
+}
+
+
 
 size_t get_new_transaction_ID()
 {
@@ -56,35 +67,6 @@ size_t reset_transaction_ID()
     nextTid.fetch_add(temp, boost::memory_order_relaxed);
 }
 
-
-namespace smart_ptr
-{
-    using boost::shared_ptr;
-    using boost::make_shared;
-    using boost::atomic_load;
-    using boost::atomic_store;
-
-    template <class T>
-    bool atomic_compare_exchange_strong(shared_ptr<T> * p, shared_ptr<T> * v, shared_ptr<T> w)
-    {
-        return boost::atomic_compare_exchange(p, v, w);
-    }
-
-}
-
-class TransactionManager
-{
-    public:
-    static boost::mutex cntmutex;
-    static boost::atomic<int> nextTid;
-    boost::thread_group TransactionGroup;
-    std::vector<size_t> active_transactions;
-
-    void CollectTranscations()
-    {
-        TransactionGroup.join_all();
-    }
-};
 
 template <typename T, typename C>
 void ThreadFunc1(T func,C& container , size_t id)
@@ -114,29 +96,34 @@ void ThreadFunc3(T func,C& container , size_t id,int numVersions,int keyIndex,in
 template <typename T, typename C>
 void ThreadFunc4(T func,C& container , size_t id,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
 {
-    /// Set Transaction to active
+    std::cout<<"starting transaction"<<id<<std::endl;
+    // Set Transaction to active
+    vectorPair vPair = std::pair<std::vector<void*>,std::vector<void*>>(ReadSet,WriteSet);
+    activeTxns.insert(std::pair<size_t,vectorPair>(id,vPair));
     active_transactionIds.push_back(id);
     func(container,id,range);
 }
 
 void commitTransaction(size_t id)
 {
-    active_transactionIds.erase(std::remove(active_transactionIds.begin(), active_transactionIds.end(), id), active_transactionIds.end());
+    activeTxns.erase(id);
+    //active_transactionIds.erase(std::remove(active_transactionIds.begin(), active_transactionIds.end(), id), active_transactionIds.end());
 }
 
+GlobalEpoch theGlobalEpochControl = GlobalEpoch();
 template <typename TransactionFunc, typename ARTContainer>
 class Transaction
 {
-    public:
+public:
     size_t  Tid;
     boost::thread* TransactionThread;
     std::string status;
 
+    std::vector<void*> ReadSet;
+    std::vector<void*> WriteSet;
     Transaction(TransactionFunc func, ARTContainer& ART);
     Transaction(TransactionFunc func, ARTContainer& ART,int numVersions,int keyIndex,int delayms);
     Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range);
-    Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet);
-
 
     void CollectTransaction()
     {
@@ -149,7 +136,11 @@ class Transaction
 template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
 {
+
     Tid=get_new_transaction_ID();
+    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch.TxnSet.push_back(Tid);
+    myEpoch.counter++;
     TransactionThread = new boost::thread(&ThreadFunc1<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid);
     TransactionGroup.add_thread(TransactionThread);
 }
@@ -158,7 +149,11 @@ template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range )
 {
     Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&ThreadFunc2<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,range);
+    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch.TxnSet.push_back(Tid);
+    myEpoch.counter++;
+    TransactionThread = new boost::thread(&ThreadFunc4<TransactionFunc,ARTContainer>,func,
+                                          boost::ref(ART),Tid,range,boost::ref(ReadSet),boost::ref(WriteSet));
     TransactionGroup.add_thread(TransactionThread);
 
 }
@@ -167,16 +162,12 @@ template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,int numVersions,int keyIndex,int delayms)
 {
     Tid=get_new_transaction_ID();
+    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch.TxnSet.push_back(Tid);
+    myEpoch.counter++;
     TransactionThread = new boost::thread(&ThreadFunc3<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,numVersions,keyIndex,delayms);
     TransactionGroup.add_thread(TransactionThread);
 }
 
-template <typename TransactionFunc, typename ARTContainer>
-Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range,std::vector<void*>& ReadSet,std::vector<void*>& WriteSet)
-{
-    Tid=get_new_transaction_ID();
-    TransactionThread = new boost::thread(&ThreadFunc3<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,range,boost::ref(ReadSet),boost::ref(WriteSet));
-    TransactionGroup.add_thread(TransactionThread);
-}
 
 #endif //MVCCART_TRANSACTIONMANAGER_H

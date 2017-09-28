@@ -116,7 +116,6 @@ bool isObsolete(uint64_t version)
 }
 
 
-
 void art_node::writeUnlock()
 {
     // reset locked bit and overflow into version
@@ -210,8 +209,6 @@ typedef struct {
     art_node *children[16];
 } art_node16;
 
-
-
 /**
  * Node with 48 children, but
  * a full 256 byte field.
@@ -247,9 +244,6 @@ typedef struct {
     art_node *root;
     uint64_t size;
 } art_tree;
-
-
-
 typedef std::function<bool( void *)> Pred;
 typedef std::function<bool( void *)> UpdelFunc;
 
@@ -815,13 +809,18 @@ class ArtCPP : public pfabric::BaseTable
     public: int res;
     public: uint64_t ARTSize;
 
-    typedef std::function<RecordType ( RecordType&)> Updater;
 
+    using valueType = RecordType;
     using snapshot_type = mvcc11::snapshot<RecordType>;
     typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
+    typedef std::function<RecordType ( RecordType&)> Updater;
+    typedef std::function<RecordType ( const_snapshot_ptr)> SnapshotUpdater;
+
+
     ///Callbacks for Predicates, UpdateFun and etc.
     typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
+
 
     ///< typedef for a callback function which is invoked when the table was updated
     typedef boost::signals2::signal<void (const_snapshot_ptr, pfabric::TableParams::ModificationMode)> ObserverCallback;
@@ -1023,7 +1022,6 @@ class ArtCPP : public pfabric::BaseTable
     }
 
 
-
     /**
      * Destructor for table.
      */
@@ -1055,9 +1053,7 @@ class ArtCPP : public pfabric::BaseTable
 
     /**
      * Deletes a value in the ART tree
-     * @arg t The tree
      * @arg key The key
-     * @arg key_len The length of the key
      * @arg txn_id as transactionID
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned which is deleted.
@@ -1065,114 +1061,90 @@ class ArtCPP : public pfabric::BaseTable
     public: auto deleteByKey(char *key,size_t txn_id)
     {
         int old_val = 0;
-        auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, std::strlen(key),0, &old_val,txn_id);
+        int key_len =  std::strlen(key);
+        //auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, std::strlen(key),0, &old_val,txn_id);
+        auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, key_len, 0, &old_val,txn_id,0,t->root,false);
         if (!old_val) t->size++;
         return old;
     }
-    private: void* mv_recursive_delete(art_node *n, art_node **ref,
-                                       const unsigned char *key, int key_len,
-                                       int depth, int *old,size_t txn_id)
+
+    /// Recursive delete tuple, will mark end-ts to txn_id
+    private: const_snapshot_ptr mv_recursive_delete(art_node *n,art_node **ref,const unsigned char *key, int key_len,
+                                                int depth, int *old,size_t txn_id,
+                                                uint64_t parentVersion, art_node* parent,bool needRestart)
     {
-        UpgradeLock _upgradeableReadLock(_access);
 
         // If we are at a NULL node, inject a leaf
-        if (!n) {
-            ///write lock to create a new leaf at the root
-
+        if (!n)
+        {
             return NULL;
         }
 
-        // If we are at a leaf, we need to replace it with a node
-        if (IS_MV_LEAF(n)) {
-            ///write lock here
-            WriteLock _writeLock(_upgradeableReadLock);
+        uint64_t version;
+        version = n->readLockOrRestart(needRestart);
 
+        if (needRestart)
+        {
+            int old_val = 0;
+            auto older = mv_recursive_delete(t->root, &t->root, key, key_len, 0, &old_val, txn_id, 0,
+                                             t->root, false);
+        }
+
+        ///-- If we are at a leaf,
+        ///----We need to replace it with a node
+        ///----Or create a new node if partial prefix mismatches.
+        if (IS_MV_LEAF(n))
+        {
             mv_art_leaf *l = MV_LEAF_RAW(n);
 
             // Check if we are updating an existing value
             if (!mv_leaf_matches(l, key, key_len, depth))
             {
                 *old = 1;
-                ///MVCC update current version
-                //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
-                mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                _mvcc->deleteMV(txn_id);
-                l->value = reinterpret_cast<void*>(_mvcc);
-                return l->value;
+                ///MVCC delete head version.
+                auto mutable_snapshot_ptr=  l->_mvcc->deleteMV(txn_id);
+                void* voidptr = reinterpret_cast<void*>(mutable_snapshot_ptr);
+                notifyObservers(l->_mvcc->current(), pfabric::TableParams::Update, pfabric::TableParams::Immediate);
+                return mutable_snapshot_ptr;
             }
 
-            /*
-            // New value, we must split the leaf into a node4
-            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
-
-            // Create a new leaf
-            /// MVCC make new mvcc object pointing to current-version;
-            mv_art_leaf *l2 = make_mvv_leaf(key, key_len, value,txn_id);
-
-            // Determine longest prefix
-            int longest_prefix = mv_longest_common_prefix(l, l2, depth);
-            new_node->n.partial_len = longest_prefix;
-            memcpy(new_node->n.partial, key+depth, min(MAX_PREFIX_LEN, longest_prefix));
-            // Add the leafs to the new node4
-            *ref = (art_node*)new_node;
-            add_child4(new_node, ref, l->key[depth+longest_prefix], SET_MV_LEAF(l));
-            add_child4(new_node, ref, l2->key[depth+longest_prefix], SET_MV_LEAF(l2));*/
             return NULL;
         }
 
-        // Check if given node has a prefix
-        if (n->partial_len) {
+        ///  Not a leaf, it is a node, Do following checks
+        ///  Check if given node has a prefix OR
+        ///  Then Check if prefix matches, may increment level
+        if (n->partial_len)
+        {
             // Determine if the prefixes differ, since we need to split
             int prefix_diff = prefix_mismatch(n, key, key_len, depth);
-            if ((uint32_t)prefix_diff >= n->partial_len) {
+            if ((uint32_t)prefix_diff >= n->partial_len)
+            {
                 depth += n->partial_len;
                 goto RECURSE_SEARCH;
             }
 
-            // Create a new node
-            ///Write lock here again to create new node
-            WriteLock _writeLock(_upgradeableReadLock);
 
-            art_node4 *new_node = (art_node4*)alloc_node(NODE4);
-            *ref = (art_node*)new_node;
-            new_node->n.partial_len = prefix_diff;
-            memcpy(new_node->n.partial, n->partial, min(MAX_PREFIX_LEN, prefix_diff));
-
-            // Adjust the prefix of the old node
-            if (n->partial_len <= MAX_PREFIX_LEN) {
-                add_child4(new_node, ref, n->partial[prefix_diff], n);
-                n->partial_len -= (prefix_diff+1);
-                memmove(n->partial, n->partial+prefix_diff+1, min(MAX_PREFIX_LEN, n->partial_len));
-            } else {
-                n->partial_len -= (prefix_diff+1);
-                art_leaf *l = minimum(n);
-                add_child4(new_node, ref, l->key[depth+prefix_diff], n);
-                memcpy(n->partial, l->key+depth+prefix_diff+1, min(MAX_PREFIX_LEN, n->partial_len));
-            }
-
-            // Insert the new leaf
-
-            ///mvcc make new leaf
-            //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
-            //add_child4(new_node, ref, key[depth+prefix_diff], SET_MV_LEAF(l));
             return NULL;
         }
 
         RECURSE_SEARCH:;
+
         // Find a child to recurse to
-        art_node **child = find_child(n, key[depth]);
-        if (child)
+        art_node** nextNode = find_child(n, key[depth]);
+        //checkOrRestart(version,*nextNode,needRestart);
+        if (needRestart)
         {
-            //lock.unlock();
-            _upgradeableReadLock.unlock();
-            return mv_recursive_delete(*child, child, key, key_len,depth+1, old,txn_id);
+            int old_val = 0;
+            auto older = mv_recursive_delete(t->root, &t->root, key, key_len, 0, &old_val, txn_id, 0,t->root, false);
         }
 
-        // No child, node goes within us
-        ///mvcc make new leaf
-        //mv_art_leaf *l = make_mvv_leaf(key, key_len, value,txn_id);
-        //add_child(n, ref, key[depth], SET_MV_LEAF(l));
-        return NULL;
+        art_node **child = nextNode;
+        if (child)
+        {
+            return mv_recursive_delete(*child, child, key, key_len, depth+1, old,txn_id,version,n,needRestart);
+        }
+
     }
 
     /**
@@ -1211,7 +1183,6 @@ class ArtCPP : public pfabric::BaseTable
 
         uint64_t version;
         version = n->readLockOrRestart(needRestart);
-
 
         if (needRestart)
         {
@@ -1258,9 +1229,9 @@ class ArtCPP : public pfabric::BaseTable
             return NULL;
         }
 
-        ///not a leaf, it is a node, Do following checks
+        ///  Not a leaf, it is a node, Do following checks
         ///  Check if given node has a prefix OR
-        //// then Check if prefix matches, may increment level
+        ///  Then Check if prefix matches, may increment level
         if (n->partial_len)
         {
             // Determine if the prefixes differ, since we need to split
@@ -1273,7 +1244,6 @@ class ArtCPP : public pfabric::BaseTable
 
             ///Write lock here again to create new node
             //insert-split-prefix
-
             upgradeToWriteLockOrRestart(n,version,parent,needRestart);
             upgradeToWriteLockOrRestart(parent,parentVersion,needRestart);
 
@@ -1311,8 +1281,7 @@ class ArtCPP : public pfabric::BaseTable
 
         // Find a child to recurse to
         art_node** nextNode = find_child(n, key[depth]);
-
-        //checkOrRestart( version,*nextNode,needRestart);
+        //checkOrRestart(version,*nextNode,needRestart);
         if (needRestart)
         {
             int old_val = 0;
@@ -1320,7 +1289,6 @@ class ArtCPP : public pfabric::BaseTable
         }
 
         art_node **child = nextNode;
-
         if (child)
         {
             return mv_recursive_insert(*child, child, key, key_len, value, depth+1, old,txn_id,version,n,needRestart);
@@ -1331,8 +1299,6 @@ class ArtCPP : public pfabric::BaseTable
 
         if(isNodeFull(n))
         {
-
-
             upgradeToWriteLockOrRestart(parent, parentVersion,needRestart);
             upgradeToWriteLockOrRestart(n, version, parent,needRestart);
 
@@ -1345,7 +1311,6 @@ class ArtCPP : public pfabric::BaseTable
         }
         else
         {
-
             upgradeToWriteLockOrRestart(n, version,needRestart);
             parent->readUnlockOrRestart(parentVersion,needRestart);
             mv_art_leaf *l = make_mvv_leaf(key, key_len, value, txn_id);
@@ -1872,6 +1837,97 @@ class ArtCPP : public pfabric::BaseTable
         }
         return 0;
     }
+
+
+    /**
+    * Iterates through the entries pairs in the map,
+    * invoking a callback for each. The call back gets a
+    * key, value for each and returns an integer stop value.
+    * If the callback returns non-zero, then the iteration stops.
+    * @arg t The tree to iterate over
+    * @arg cb The callback function to invoke
+    * @arg data Opaque handle passed to the callback
+    * @return 0 on success, or the return of the callback.
+    */
+
+    private: static  int gc_callback(void *data, const unsigned char* key, uint32_t key_len, const_snapshot_ptr val)
+    {
+        if(val != NULL)
+        {
+            std::cout<<"keystr::"<<key<<std::endl;
+            std::cout<<"found key::"<<val->value<<std::endl;
+        }
+        return 0;
+    }
+    private: int GC()
+    {
+        void* data;
+        return mv_recursive_iter_GC(this->t->root, this->gc_callback, data);
+    }
+    private: int mv_recursive_iter_GC(art_node *n, art_callback cb, void *data)
+    {
+        if (!n) return 0;
+        if (IS_MV_LEAF(n))
+        {
+            //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+            mv_art_leaf *snapshot = MV_LEAF_RAW(n);
+            //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
+
+            if(snapshot != nullptr)
+            {
+                //return snapshot->_mvcc->current();
+                std::cout<<snapshot->_mvcc->current()->value;
+                return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
+            }
+            return 0;
+        }
+
+        int idx, res;
+        switch (n->type)
+        {
+            case NODE4:
+                for (int i=0; i < n->num_children; i++)
+                {
+                    //_sharedLock.unlock();
+                    res = mv_recursive_iter_GC(((art_node4*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE16:
+                for (int i=0; i < n->num_children; i++)
+                {
+                    //_sharedLock.unlock();
+                    res = mv_recursive_iter_GC(((art_node16*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE48:
+                for (int i=0; i < 256; i++) {
+                    idx = ((art_node48*)n)->keys[i];
+                    if (!idx) continue;
+                    //_sharedLock.unlock();
+                    res = mv_recursive_iter_GC(((art_node48*)n)->children[idx-1], cb, data);
+                    if (res) return res;
+                }
+                break;
+
+            case NODE256:
+                for (int i=0; i < 256; i++)
+                {
+                    if (!((art_node256*)n)->children[i]) continue;
+                    //_sharedLock.unlock();
+                    res = mv_recursive_iter_GC(((art_node256*)n)->children[i], cb, data);
+                    if (res) return res;
+                }
+                break;
+            default:
+                abort();
+        }
+        return 0;
+    }
+
 
     /**
      * Iterates through the entries pairs in the map satisfying predicate,

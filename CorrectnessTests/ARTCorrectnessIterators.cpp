@@ -131,7 +131,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
 
-
     }
 
     BOOST_AUTO_TEST_CASE(test_Iterators_ARTIndex_MVCC)
