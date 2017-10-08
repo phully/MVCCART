@@ -2598,7 +2598,7 @@ CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o
  /usr/local/include/boost/weak_ptr.hpp
  ART/ArtCPP.hpp
  Transactions/Epochs.hpp
- Transactions/UpdateIntensiveTemplates.h
+ Transactions/UpdateIntensiveTemplates.hpp
  Transactions/transactionManager.h
  core/ElementSerializable.hpp
  core/PFabricTypes.hpp

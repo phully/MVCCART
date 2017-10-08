@@ -15,8 +15,8 @@ boost/lexical_cast.hpp
 -
 mvcc/mvcc.hpp
 /Users/fuadshah/Desktop/MVCCART/WorkloadTests/mvcc/mvcc.hpp
-Transactions/UpdateIntensiveTemplates.h
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/UpdateIntensiveTemplates.h
+Transactions/UpdateIntensiveTemplates.hpp
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/UpdateIntensiveTemplates.hpp
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
@@ -30482,7 +30482,7 @@ queue
 atomic
 -
 
-Transactions/UpdateIntensiveTemplates.h
+Transactions/UpdateIntensiveTemplates.hpp
 transactionManager.h
 Transactions/transactionManager.h
 iostream

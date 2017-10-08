@@ -125,8 +125,6 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,
         else
         {
             auto tp = result->value;
-            auto firstRset = activeTxns[id].first;
-            //rset.insert()
             if(tp.getAttribute<0>() != "")
                 WriteSet.push_back(tp);
         }
@@ -201,7 +199,6 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int
         auto result= ARTWithTuples.findValueByKey(cstr);
         if(result != NULL)
         {
-
             auto tp = result->value;
             Evaluater(tp);
             ReadSet.push_back(tp);
@@ -321,7 +318,6 @@ auto ReadOnlyContiniously = [](ARTTupleContainer &ARTWithTuples, size_t id,int n
             auto tp = val->value;
             cout<<"Reading="<<tp<<endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(delayms));
-
         }
     }
     cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;

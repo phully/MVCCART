@@ -125,8 +125,6 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,
         else
         {
             auto tp = result->value;
-            auto firstRset = activeTxns[id].first;
-            //rset.insert()
             if(tp.getAttribute<0>() != "")
                 WriteSet.push_back(tp);
         }
@@ -145,7 +143,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.findValueByKey(cstr);
+        auto result= ARTWithTuples.findValueByKey(cstr,id);
         if(result != NULL )
         {
             auto tp = result->value;
@@ -198,10 +196,9 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.findValueByKey(cstr);
+        auto result= ARTWithTuples.findValueByKey(cstr,id);
         if(result != NULL)
         {
-
             auto tp = result->value;
             Evaluater(tp);
             ReadSet.push_back(tp);
@@ -254,7 +251,7 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,i
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.findValueByKey(cstr);
+        auto result= ARTWithTuples.findValueByKey(cstr,id);
         if(result != NULL)
         {
             auto tp = result->value;
@@ -310,7 +307,7 @@ auto ReadOnlyContiniously = [](ARTTupleContainer &ARTWithTuples, size_t id,int n
     for (int i = 0; i < 100; i++)
     {
         char* keysToFind = KeysToStore[keyIndex];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
         if(val == nullptr)
         {
@@ -321,7 +318,6 @@ auto ReadOnlyContiniously = [](ARTTupleContainer &ARTWithTuples, size_t id,int n
             auto tp = val->value;
             cout<<"Reading="<<tp<<endl;
             std::this_thread::sleep_for(std::chrono::milliseconds(delayms));
-
         }
     }
     cout<<"Total Cached missed out of 100 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;

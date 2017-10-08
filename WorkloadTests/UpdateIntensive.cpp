@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "Transactions/UpdateIntensiveTemplates.h"
+#include "Transactions/UpdateIntensiveTemplates.hpp"
 
 
 using namespace std;

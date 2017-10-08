@@ -35,14 +35,21 @@ auto hr_now() -> decltype(std::chrono::high_resolution_clock::now())
 
 class Epoch
 {
+
     public:
         std::vector<size_t> TxnSet;
         int counter;
-    Epoch()
-    {
-        TxnSet.clear();
-        counter=0;
-    }
+
+        void addTxnToEpoch(size_t Tid)
+        {
+            TxnSet.push_back(Tid);
+            counter++;
+        }
+        Epoch()
+        {
+            TxnSet.clear();
+            counter=0;
+        }
 };
 
 class GlobalEpoch
@@ -54,7 +61,7 @@ private:
 
 public:
    static std::queue<Epoch> EpochsPast;
-        Epoch ActiveEpoch;
+          Epoch ActiveEpoch;
 
     GlobalEpoch()
     {}

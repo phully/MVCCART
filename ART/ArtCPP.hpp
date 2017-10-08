@@ -810,9 +810,13 @@ class ArtCPP : public pfabric::BaseTable
     public: uint64_t ARTSize;
 
 
+
     using valueType = RecordType;
     using snapshot_type = mvcc11::snapshot<RecordType>;
     typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
+
+    typedef std::pair<std::vector<const_snapshot_ptr>,std::vector<const_snapshot_ptr>> vectorPair;
+    public: std::map<size_t,vectorPair> ActiveTxnRWSet;
 
     typedef std::function<RecordType ( RecordType&)> Updater;
     typedef std::function<RecordType ( const_snapshot_ptr)> SnapshotUpdater;
@@ -1045,8 +1049,8 @@ class ArtCPP : public pfabric::BaseTable
     #ifdef BROKEN_GCC_C99_INLINE
     # define art_size(t) ((t)->size)
     #else
-        inline uint64_t art_size()
-        {
+    inline uint64_t art_size()
+    {
             return t->size;
         }
     #endif
@@ -1064,6 +1068,8 @@ class ArtCPP : public pfabric::BaseTable
         int key_len =  std::strlen(key);
         //auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, std::strlen(key),0, &old_val,txn_id);
         auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, key_len, 0, &old_val,txn_id,0,t->root,false);
+        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+        vecPair.second.push_back(old);
         if (!old_val) t->size++;
         return old;
     }
@@ -1163,6 +1169,9 @@ class ArtCPP : public pfabric::BaseTable
         int key_len =  std::strlen(key);
         //art_node *root =static_cast<art_node*>(t->root);
         auto old = mv_recursive_insert(t->root, &t->root,(const unsigned char *) key, key_len, value, 0, &old_val,txn_id,0,t->root,false);
+        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+        vecPair.second.push_back(old);
+
         if (!old_val) t->size++;
         return old;
     }
@@ -1545,6 +1554,8 @@ class ArtCPP : public pfabric::BaseTable
                     if(snapshot != nullptr)
                     {
                         auto updated= snapshot->_mvcc->update(txn_id,updater);
+                        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+                        vecPair.second.push_back(updated);
                         notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                         return updated;
                     }
@@ -1591,7 +1602,10 @@ class ArtCPP : public pfabric::BaseTable
                 // Check if the expanded path matches
                 if (!mv_leaf_prefix_matches((mv_art_leaf*)n, key, key_len)) {
                     mv_art_leaf *l = (mv_art_leaf*)(n);
-                    return cb(data, (const unsigned char*)l->key, l->key_len, l->_mvcc->current());
+                    auto current = l->_mvcc->current();
+                    vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+                    vecPair.first.push_back(current);
+                    return cb(data, (const unsigned char*)l->key, l->key_len, current);
                 }
                 return 0;
             }
@@ -1643,9 +1657,12 @@ class ArtCPP : public pfabric::BaseTable
      * @return NULL if the item was not found, otherwise
      * the value pointer is returned.
      */
-    public: const_snapshot_ptr findValueByKey( char* key)
+    public: const_snapshot_ptr findValueByKey( char* key,size_t txn_id)
     {
-        return art_search_OCC((unsigned char *)key,std::strlen(key));
+        auto current = art_search_OCC((unsigned char *)key,std::strlen(key));
+        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+        vecPair.first.push_back(current);
+        return current;
     }
 
     private: const_snapshot_ptr art_search(std::shared_ptr<art_tree> t, const unsigned char *key, int key_len)
@@ -1786,8 +1803,10 @@ class ArtCPP : public pfabric::BaseTable
                 if(snapshot != nullptr)
                 {
                     //return snapshot->_mvcc->current();
-                    std::cout<<snapshot->_mvcc->current()->value;
-                    return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
+                    auto current = snapshot->_mvcc->current();
+                    vectorPair vecPair =  ActiveTxnRWSet[txn_id];
+                    vecPair.first.push_back(current);
+                    return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, current->value);
                 }
                 return 0;
         }
@@ -1943,20 +1962,22 @@ class ArtCPP : public pfabric::BaseTable
      */
     public: int mv_art_iterByPredicate(std::shared_ptr<art_tree> t,art_callback cb, void *data, Pred filter, size_t txn_id)
     {
+
         return recursive_iterByPredicate(t->root, cb, data,filter, txn_id);
     }
 
-    private: static int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
+    private:  int recursive_iterByPredicate(art_node *n, art_callback cb, void *data,Pred predicate,size_t txn_id)
     {
         // Handle base cases
         UpgradeLock _sharedLock(_access);
         if (!n) return 0;
-        if (IS_LEAF(n))
+        if (IS_MV_LEAF(n))
         {
             art_leaf *l = LEAF_RAW(n);
             //printf("l-val %s",(const unsigned char *)l->value);
             if (l->value !=NULL) {
                 if (predicate(l->value)) {
+
                     return cb(data, (const unsigned char *) l->key, l->key_len,l->value);
                 }
                 return NULL;

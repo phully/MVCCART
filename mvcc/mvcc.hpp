@@ -270,7 +270,7 @@ namespace mvcc11 {
             if ( const_expected_end_version != INF && const_expected_version != txn_id)
             {
 
-                if (isActiveTransaction(const_expected_version) )
+                if (TransactionsStatus[const_expected_version] == "Active" )
                 {
                     //std::cout << "Aborted on value " << expected->value<< std::endl;
                     //continue;
@@ -399,7 +399,7 @@ namespace mvcc11 {
         ///3- if record was created and its active currently and not by the current transaction
         if ( const_expected_end_version != INF && const_expected_version != txn_id)
         {
-            if (isActiveTransaction(const_expected_version))
+            if (TransactionsStatus[const_expected_version] == "Active" )
             {
                 std::cout << "Aborted on value " << expected->value<<" by transaction##"<< txn_id<<std::endl;
                 //continue;
