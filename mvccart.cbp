@@ -142,6 +142,9 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/Epochs.hpp">
 			<Option target="mvccart"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/GlobalEpoch.hpp">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/TransactionTemplates.h">
 			<Option target="mvccart"/>
 		</Unit>

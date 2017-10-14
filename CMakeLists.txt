@@ -33,6 +33,7 @@ set(SOURCE_FILES
         mvcc/snapshot.hpp
         mvcc/mvcc.hpp
         Transactions/Epochs.hpp
+        Transactions/GlobalEpoch.hpp
         Transactions/transactionManager.h
         Transactions/TransactionTemplates.h
         WorkloadTests/UpdateIntensive.cpp )

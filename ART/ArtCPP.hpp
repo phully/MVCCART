@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <table/BaseTable.hpp>
 #include "mvcc/mvcc.hpp"
+#include "Transactions/Epochs.hpp"
 #include <atomic>
 #ifdef __i386__
 #include <emmintrin.h>
@@ -39,9 +40,6 @@ using namespace boost;
 #define IS_LEAF(x) (((uintptr_t)x & 1))
 #define SET_LEAF(x) ((void*)((uintptr_t)x | 1))
 #define LEAF_RAW(x) ((art_leaf*)((void*)((uintptr_t)x & ~1)))
-
-
-
 
 #define NODE4   1
 #define NODE16  2
@@ -818,6 +816,12 @@ class ArtCPP : public pfabric::BaseTable
     typedef std::pair<std::vector<const_snapshot_ptr>,std::vector<const_snapshot_ptr>> vectorPair;
     public: std::map<size_t,vectorPair> ActiveTxnRWSet;
 
+    private: struct keyStruct
+    {
+        KeyType k;
+    };
+    std::vector<keyStruct> deletionList;
+
     typedef std::function<RecordType ( RecordType&)> Updater;
     typedef std::function<RecordType ( const_snapshot_ptr)> SnapshotUpdater;
 
@@ -852,6 +856,30 @@ class ArtCPP : public pfabric::BaseTable
         }
     }
 
+    private:
+    /**
+     * @brief Perform the actual notification
+     *
+     * Notify all registered observers about a update.
+     *
+     * @param rec the modified tuple
+     * @param mode the modification mode (insert, update, delete)
+     * @param notify the nofication mode (immediate or defered)
+     */
+    void notifyObservers(const_snapshot_ptr rec,
+                         pfabric::TableParams::ModificationMode mode,
+                         pfabric::TableParams::NotificationMode notify)
+    {
+        if (notify == pfabric::TableParams::Immediate)
+        {
+            mImmediateObservers(rec, mode);
+        }
+        else
+        {
+            // TODO: implement defered notification
+            mDeferredObservers(rec, mode);
+        }
+    }
 
     /**
     * Represents a leaf. These are
@@ -1019,11 +1047,6 @@ class ArtCPP : public pfabric::BaseTable
         return l;
     }
 
-    public: ArtCPP()
-    {
-        t = std::make_shared<art_tree>();
-        art_tree_init(t);
-    }
 
 
     /**
@@ -1878,12 +1901,13 @@ class ArtCPP : public pfabric::BaseTable
         }
         return 0;
     }
-    private: int GC()
+
+    public:  void GC(void)
     {
         void* data;
-        return mv_recursive_iter_GC(this->t->root, this->gc_callback, data);
+        mv_recursive_iter_GC(t->root, gc_callback, data);
     }
-    private: int mv_recursive_iter_GC(art_node *n, art_callback cb, void *data)
+    private:  int mv_recursive_iter_GC(art_node *n, art_callback cb, void *data)
     {
         if (!n) return 0;
         if (IS_MV_LEAF(n))
@@ -1896,7 +1920,7 @@ class ArtCPP : public pfabric::BaseTable
             {
                 //return snapshot->_mvcc->current();
                 std::cout<<snapshot->_mvcc->current()->value;
-                return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
+                return gc_callback(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
             }
             return 0;
         }
@@ -2185,31 +2209,13 @@ class ArtCPP : public pfabric::BaseTable
     }
 
 
-
-    private:
-    /**
-     * @brief Perform the actual notification
-     *
-     * Notify all registered observers about a update.
-     *
-     * @param rec the modified tuple
-     * @param mode the modification mode (insert, update, delete)
-     * @param notify the nofication mode (immediate or defered)
-     */
-    void notifyObservers(const_snapshot_ptr rec,
-                         pfabric::TableParams::ModificationMode mode,
-                         pfabric::TableParams::NotificationMode notify)
+    public: ArtCPP()
     {
-        if (notify == pfabric::TableParams::Immediate)
-        {
-            mImmediateObservers(rec, mode);
-        }
-        else
-        {
-            // TODO: implement defered notification
-            mDeferredObservers(rec, mode);
-        }
+        t = std::make_shared<art_tree>();
+        art_tree_init(t);
     }
+
+
 };
 
 

@@ -25,7 +25,7 @@
 #include <boost/thread/thread.hpp>
 #include <boost/signals2.hpp>
 #include "mvcc/snapshot.hpp"
-#include "Epochs.hpp"
+#include "GlobalEpoch.hpp"
 
 
 ///Transaction Globals
@@ -97,14 +97,16 @@ void commitTransaction(size_t id)
     //active_transactionIds.erase(std::remove(active_transactionIds.begin(), active_transactionIds.end(), id), active_transactionIds.end());
 }
 
-GlobalEpoch theGlobalEpochControl = GlobalEpoch();
 template <typename TransactionFunc, typename ARTContainer>
 class Transaction
 {
+
 public:
     size_t  Tid;
     boost::thread* TransactionThread;
     std::string status;
+    Epoch myEpoch;
+
 
     std::vector<void*> ReadSet;
     std::vector<void*> WriteSet;
@@ -116,9 +118,9 @@ public:
     {
         TransactionThread->join();
         commitTransaction(Tid);
+        myEpoch.counter--;
     }
 };
-
 
 template <typename TransactionFunc, typename ARTContainer>
 Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART )
@@ -126,18 +128,18 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
 
     Tid=get_new_transaction_ID();
     TransactionsStatus[Tid]= "Active";
-    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch = myEpochGlobal.getActiveEpoch();
     myEpoch.addTxnToEpoch(Tid);
     TransactionThread = new boost::thread(&ThreadFunc1<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid);
     TransactionGroup.add_thread(TransactionThread);
 }
 
 template <typename TransactionFunc, typename ARTContainer>
-Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range )
+Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ARTContainer& ART,std::pair<int,int> range)
 {
     Tid=get_new_transaction_ID();
     TransactionsStatus[Tid]= "Active";
-    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch = myEpochGlobal.getActiveEpoch();
     myEpoch.addTxnToEpoch(Tid);
     TransactionThread = new boost::thread(&ThreadFunc4<TransactionFunc,ARTContainer>,func,
                                           boost::ref(ART),Tid,range,boost::ref(ReadSet),boost::ref(WriteSet));
@@ -150,7 +152,7 @@ Transaction<TransactionFunc,ARTContainer>::Transaction(TransactionFunc func, ART
 {
     Tid=get_new_transaction_ID();
     TransactionsStatus[Tid]= "Active";
-    Epoch myEpoch = theGlobalEpochControl.getActiveEpoch();
+    myEpoch = myEpochGlobal.getActiveEpoch();
     myEpoch.addTxnToEpoch(Tid);
     TransactionThread = new boost::thread(&ThreadFunc3<TransactionFunc,ARTContainer>,func,boost::ref(ART),Tid,numVersions,keyIndex,delayms);
     TransactionGroup.add_thread(TransactionThread);

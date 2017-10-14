@@ -37,6 +37,7 @@ class Epoch
 {
 
     public:
+        int EpochId;
         std::vector<size_t> TxnSet;
         int counter;
 
@@ -52,52 +53,5 @@ class Epoch
         }
 };
 
-class GlobalEpoch
-{
-
-private:
-    double EpochLapse;
-
-
-public:
-   static std::queue<Epoch> EpochsPast;
-          Epoch ActiveEpoch;
-
-    GlobalEpoch()
-    {}
-
-    Epoch getActiveEpoch()
-    {
-        return ActiveEpoch;
-    }
-
-    void startClock()
-    {
-
-        while(true)
-        {
-            if(EpochsPast.size() ==0)
-            {
-                EpochsPast.emplace(ActiveEpoch);
-                ActiveEpoch = Epoch();
-            }
-            else
-            {
-                if(ActiveEpoch.counter==0)
-                {
-                   ///Trigger GC but check if all Epochs counters are 0
-                    continue;
-                }
-                else
-                {
-                    EpochsPast.emplace(ActiveEpoch);
-                    ActiveEpoch = Epoch();
-                }
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(EPOCH_TIME_ELPSE_SLEEP_MS));
-
-        }
-    }
-};
 
 #endif //MVCCART_EPOCHS_HPP

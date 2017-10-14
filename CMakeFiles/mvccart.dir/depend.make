@@ -2597,6 +2597,7 @@ CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: /usr/local/include/b
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: /usr/local/include/boost/weak_ptr.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: ART/ArtCPP.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: Transactions/Epochs.hpp
+CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: Transactions/GlobalEpoch.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: Transactions/UpdateIntensiveTemplates.hpp
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: Transactions/transactionManager.h
 CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o: core/ElementSerializable.hpp
