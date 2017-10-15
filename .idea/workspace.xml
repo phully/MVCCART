@@ -14,18 +14,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ART/ArtCPP.hpp" afterPath="$PROJECT_DIR$/ART/ArtCPP.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/Epochs.hpp" afterPath="$PROJECT_DIR$/Transactions/Epochs.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" afterPath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" afterPath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/transactionManager.h" afterPath="$PROJECT_DIR$/Transactions/transactionManager.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvcc/mvcc.hpp" afterPath="$PROJECT_DIR$/mvcc/mvcc.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvcc/snapshot.hpp" afterPath="$PROJECT_DIR$/mvcc/snapshot.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart.cbp" afterPath="$PROJECT_DIR$/mvccart.cbp" />
     </list>
@@ -184,81 +189,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="HashMapTableTest.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/table/HashMapTableTest.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="127" column="6" lean-forward="false" selection-start-line="109" selection-start-column="8" selection-end-line="127" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transactionManager.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1549">
-              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-              <folding>
-                <element signature="e#1338#1362#0" expanded="true" />
-                <element signature="e#1526#1550#0" expanded="true" />
-                <element signature="e#1745#1769#0" expanded="true" />
-                <element signature="e#2740#2789#0" expanded="true" />
-                <element signature="e#3374#3423#0" expanded="true" />
-                <element signature="e#3851#3900#0" expanded="true" />
-                <element signature="e#4442#4491#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UpdateIntensive.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2460">
-              <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="326">
-              <caret line="36" column="41" lean-forward="true" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mvcc.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="163">
-              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlobalEpoch.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="54" column="7" lean-forward="true" selection-start-line="54" selection-start-column="7" selection-end-line="54" selection-end-column="7" />
-              <folding>
-                <element signature="e#114#133#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="UpdateIntensiveTemplatesGC.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1517">
-              <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="35" />
+            <state relative-caret-position="236">
+              <caret line="116" column="66" lean-forward="false" selection-start-line="116" selection-start-column="66" selection-end-line="116" selection-end-column="66" />
               <folding>
                 <element signature="e#128#159#0" expanded="true" />
               </folding>
@@ -269,22 +204,178 @@
       <file leaf-file-name="UpdateIntensiveGC.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-124">
-              <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state relative-caret-position="280">
+              <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
               <folding>
-                <element signature="e#641#1828#0" expanded="false" />
-                <element signature="e#2064#38630#0" expanded="false" />
+                <element signature="e#65#84#0" expanded="true" />
+                <element signature="e#728#1915#0" expanded="false" />
+                <element signature="e#2193#3309#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists_Production.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists_Production.txt">
+      <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="75" lean-forward="false" selection-start-line="28" selection-start-column="75" selection-end-line="28" selection-end-column="75" />
-              <folding />
+            <state relative-caret-position="345">
+              <caret line="1907" column="33" lean-forward="false" selection-start-line="1907" selection-start-column="33" selection-end-line="1907" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#2#0" expanded="false" />
+                <element signature="e#104#123#0" expanded="true" />
+                <element signature="e#1397#1831#0" expanded="false" />
+                <element signature="e#1844#2187#0" expanded="false" />
+                <element signature="e#2189#2387#0" expanded="false" />
+                <element signature="e#2389#2459#0" expanded="false" />
+                <element signature="e#2462#2583#0" expanded="false" />
+                <element signature="e#2585#2718#0" expanded="false" />
+                <element signature="e#2720#3002#0" expanded="false" />
+                <element signature="e#3004#3146#0" expanded="false" />
+                <element signature="e#3148#3274#0" expanded="false" />
+                <element signature="e#3276#3445#0" expanded="false" />
+                <element signature="e#3447#3807#0" expanded="false" />
+                <element signature="e#3809#4160#0" expanded="false" />
+                <element signature="e#4163#4205#0" expanded="false" />
+                <element signature="e#4214#4294#0" expanded="false" />
+                <element signature="e#4307#4339#0" expanded="false" />
+                <element signature="e#4348#4430#0" expanded="false" />
+                <element signature="e#4444#4507#0" expanded="false" />
+                <element signature="e#4516#4599#0" expanded="false" />
+                <element signature="e#4613#4651#0" expanded="false" />
+                <element signature="e#4660#4715#0" expanded="false" />
+                <element signature="e#4730#4816#0" expanded="false" />
+                <element signature="e#4825#4933#0" expanded="false" />
+                <element signature="e#4944#4983#0" expanded="false" />
+                <element signature="e#4992#5041#0" expanded="false" />
+                <element signature="e#5145#5234#0" expanded="false" />
+                <element signature="e#5145#5787#0" expanded="false" />
+                <element signature="e#5789#5848#0" expanded="false" />
+                <element signature="e#5789#5950#0" expanded="false" />
+                <element signature="e#6209#6318#1" expanded="false" />
+                <element signature="e#7211#9897#0" expanded="false" />
+                <element signature="e#7303#7412#1" expanded="false" />
+                <element signature="e#7560#7713#0" expanded="false" />
+                <element signature="e#9193#9370#0" expanded="false" />
+                <element signature="e#9989#10075#0" expanded="false" />
+                <element signature="e#9989#10395#0" expanded="false" />
+                <element signature="e#10397#10457#0" expanded="false" />
+                <element signature="e#11046#11331#0" expanded="false" />
+                <element signature="e#11333#11557#0" expanded="false" />
+                <element signature="e#11559#11728#0" expanded="false" />
+                <element signature="e#11730#12416#0" expanded="false" />
+                <element signature="e#12418#14610#0" expanded="false" />
+                <element signature="e#14612#15676#0" expanded="false" />
+                <element signature="e#15678#16165#0" expanded="false" />
+                <element signature="e#16167#16601#0" expanded="false" />
+                <element signature="e#16603#17305#0" expanded="false" />
+                <element signature="e#17307#17971#0" expanded="false" />
+                <element signature="e#17973#18589#0" expanded="false" />
+                <element signature="e#18591#19741#0" expanded="false" />
+                <element signature="e#19743#20218#0" expanded="false" />
+                <element signature="e#20220#21413#0" expanded="false" />
+                <element signature="e#21425#21481#0" expanded="true" />
+                <element signature="e#21818#21957#0" expanded="false" />
+                <element signature="e#21970#22084#0" expanded="false" />
+                <element signature="e#22100#22147#0" expanded="false" />
+                <element signature="e#22931#23185#0" expanded="false" />
+                <element signature="e#23198#23630#0" expanded="false" />
+                <element signature="e#23649#23942#0" expanded="false" />
+                <element signature="e#23649#24392#0" expanded="false" />
+                <element signature="e#24400#24476#0" expanded="false" />
+                <element signature="e#24400#24766#0" expanded="false" />
+                <element signature="e#24781#24862#0" expanded="false" />
+                <element signature="e#24876#24979#0" expanded="false" />
+                <element signature="e#24993#25089#0" expanded="false" />
+                <element signature="e#25095#26016#0" expanded="false" />
+                <element signature="e#26022#26980#0" expanded="false" />
+                <element signature="e#26986#27036#0" expanded="false" />
+                <element signature="e#26986#27134#0" expanded="false" />
+                <element signature="e#27140#27190#0" expanded="false" />
+                <element signature="e#27140#27288#0" expanded="false" />
+                <element signature="e#27294#27364#0" expanded="false" />
+                <element signature="e#27294#28141#0" expanded="false" />
+                <element signature="e#28147#28216#0" expanded="false" />
+                <element signature="e#28147#28541#0" expanded="false" />
+                <element signature="e#28547#28873#0" expanded="false" />
+                <element signature="e#28888#29337#0" expanded="false" />
+                <element signature="e#29345#29385#0" expanded="false" />
+                <element signature="e#29418#29483#0" expanded="false" />
+                <element signature="e#29496#29588#0" expanded="false" />
+                <element signature="e#29594#29644#0" expanded="false" />
+                <element signature="e#29729#29799#0" expanded="false" />
+                <element signature="e#29816#30038#0" expanded="false" />
+                <element signature="e#30051#30481#0" expanded="false" />
+                <element signature="e#30555#33179#0" expanded="false" />
+                <element signature="e#33185#33501#0" expanded="false" />
+                <element signature="e#33514#33927#0" expanded="false" />
+                <element signature="e#34007#40031#0" expanded="false" />
+                <element signature="e#40086#41646#0" expanded="false" />
+                <element signature="e#41687#42031#0" expanded="false" />
+                <element signature="e#42086#46536#0" expanded="false" />
+                <element signature="e#43518#44263#0" expanded="false" />
+                <element signature="e#44790#45952#0" expanded="false" />
+                <element signature="e#46396#46509#0" expanded="false" />
+                <element signature="e#46542#49014#0" expanded="false" />
+                <element signature="e#49020#49594#0" expanded="false" />
+                <element signature="e#49606#51792#0" expanded="false" />
+                <element signature="e#51799#52038#0" expanded="false" />
+                <element signature="e#52051#52277#0" expanded="false" />
+                <element signature="e#52292#53553#0" expanded="false" />
+                <element signature="e#53559#55672#0" expanded="false" />
+                <element signature="e#55678#56121#0" expanded="false" />
+                <element signature="e#56134#56266#0" expanded="false" />
+                <element signature="e#56280#58669#0" expanded="false" />
+                <element signature="e#58676#59119#0" expanded="false" />
+                <element signature="e#60911#61203#0" expanded="false" />
+                <element signature="e#61209#62536#0" expanded="false" />
+                <element signature="e#62542#63120#0" expanded="false" />
+                <element signature="e#63133#63333#0" expanded="false" />
+                <element signature="e#63349#65487#0" expanded="false" />
+                <element signature="e#65493#65818#0" expanded="false" />
+                <element signature="e#65831#66058#0" expanded="false" />
+                <element signature="e#66072#68423#0" expanded="false" />
+                <element signature="e#68430#68756#0" expanded="false" />
+                <element signature="e#68769#68996#0" expanded="false" />
+                <element signature="e#69010#71369#0" expanded="false" />
+                <element signature="e#71384#71472#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="mvcc.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="373">
+              <caret line="289" column="38" lean-forward="true" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
+              <folding>
+                <element signature="e#6281#6452#0" expanded="false" />
+                <element signature="e#6458#7364#0" expanded="false" />
+                <element signature="e#7370#7560#0" expanded="false" />
+                <element signature="e#7768#9452#0" expanded="false" />
+                <element signature="e#9618#10850#0" expanded="false" />
+                <element signature="e#10857#11287#0" expanded="false" />
+                <element signature="e#11293#11504#0" expanded="false" />
+                <element signature="e#11510#11880#0" expanded="false" />
+                <element signature="e#11886#12338#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GlobalEpoch.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-275">
+              <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
+              <folding>
+                <element signature="e#114#133#0" expanded="true" />
+                <element signature="e#1099#1129#0" expanded="false" />
+                <element signature="e#1137#1234#0" expanded="false" />
+                <element signature="e#1242#1341#0" expanded="false" />
+                <element signature="e#1349#1419#0" expanded="false" />
+                <element signature="e#1468#2662#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -378,18 +469,18 @@
         <option value="$PROJECT_DIR$/GarbageCollectorIterators.h" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.hpp.h" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.h" />
-        <option value="$PROJECT_DIR$/mvcc/snapshot.hpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" />
         <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" />
-        <option value="$PROJECT_DIR$/mvcc/mvcc.hpp" />
-        <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
         <option value="$PROJECT_DIR$/Transactions/Epochs.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.cpp" />
-        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
         <option value="$PROJECT_DIR$/Transactions/transactionManager.h" />
-        <option value="$PROJECT_DIR$/ART/ArtCPP.hpp" />
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/mvcc/snapshot.hpp" />
+        <option value="$PROJECT_DIR$/mvcc/mvcc.hpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
+        <option value="$PROJECT_DIR$/ART/ArtCPP.hpp" />
+        <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
       </list>
     </option>
@@ -436,21 +527,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="WorkloadTests" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvccart" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MVCCART" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="table" />
+              <option name="myItemId" value="Transactions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -801,12 +878,13 @@
       <workItem from="1507665803519" duration="780000" />
       <workItem from="1507668497291" duration="747000" />
       <workItem from="1507745623359" duration="1023000" />
-      <workItem from="1507747291131" duration="14610000" />
+      <workItem from="1507747291131" duration="14752000" />
+      <workItem from="1420070775225" duration="29016000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1337176000" />
+    <option name="totallyTimeSpent" value="1366334000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -819,27 +897,27 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1360" height="768" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2501867" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20463032" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37535816" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.5026139" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31948423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.98567337" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39255014" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39255014" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -878,18 +956,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="391" />
+      <option name="time" value="408" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/parser/TupleParser.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="88" column="8" lean-forward="false" selection-start-line="88" selection-start-column="8" selection-end-line="88" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Tests/ARTCorrectnessTests.cpp" />
     <entry file="file://$PROJECT_DIR$/Tests/MVCCARTTest.cpp" />
     <entry file="file://$PROJECT_DIR$/Tests/MVCCTests.cpp" />
@@ -1021,13 +1092,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="162" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="162" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GarbageCollectorIterators.h" />
     <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -1049,13 +1113,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="930">
           <caret line="62" column="39" lean-forward="false" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc/snapshot.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="35" column="0" lean-forward="false" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1111,180 +1168,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.cpp">
+    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.cpp" />
+    <entry file="file:///usr/local/include/boost/thread/detail/thread.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="1049" column="0" lean-forward="false" selection-start-line="1049" selection-start-column="0" selection-end-line="1049" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#104#123#0" expanded="true" />
-            <element signature="e#1397#1831#0" expanded="false" />
-            <element signature="e#4163#4205#0" expanded="false" />
-            <element signature="e#4214#4294#0" expanded="false" />
-            <element signature="e#4307#4339#0" expanded="false" />
-            <element signature="e#4348#4430#0" expanded="false" />
-            <element signature="e#4444#4507#0" expanded="false" />
-            <element signature="e#4516#4599#0" expanded="false" />
-            <element signature="e#4613#4651#0" expanded="false" />
-            <element signature="e#4660#4715#0" expanded="false" />
-            <element signature="e#4730#4816#0" expanded="false" />
-            <element signature="e#4825#4933#0" expanded="false" />
-            <element signature="e#4944#4983#0" expanded="false" />
-            <element signature="e#4992#5041#0" expanded="false" />
-            <element signature="e#5145#5234#0" expanded="false" />
-            <element signature="e#5789#5848#0" expanded="false" />
-            <element signature="e#6209#6318#1" expanded="false" />
-            <element signature="e#7303#7412#1" expanded="false" />
-            <element signature="e#7560#7713#0" expanded="false" />
-            <element signature="e#9193#9370#0" expanded="false" />
-            <element signature="e#9989#10075#0" expanded="false" />
-            <element signature="e#10397#10457#0" expanded="false" />
-            <element signature="e#21425#21481#0" expanded="true" />
-            <element signature="e#22657#22911#0" expanded="false" />
-            <element signature="e#23375#23668#0" expanded="false" />
-            <element signature="e#24124#24275#0" expanded="false" />
-            <element signature="e#24288#24410#0" expanded="false" />
-            <element signature="e#24418#24494#0" expanded="false" />
-            <element signature="e#27004#27054#0" expanded="false" />
-            <element signature="e#27158#27208#0" expanded="false" />
-            <element signature="e#27312#27382#0" expanded="false" />
-            <element signature="e#28165#28234#0" expanded="false" />
-            <element signature="e#28906#29355#0" expanded="false" />
-            <element signature="e#29363#29403#0" expanded="false" />
-            <element signature="e#29436#29501#0" expanded="false" />
-            <element signature="e#29612#29662#0" expanded="false" />
-            <element signature="e#29834#30056#0" expanded="false" />
-            <element signature="e#33322#33638#0" expanded="false" />
-            <element signature="e#43811#44556#0" expanded="false" />
-            <element signature="e#45083#46245#0" expanded="false" />
-            <element signature="e#46689#46802#0" expanded="false" />
-            <element signature="e#49370#49944#0" expanded="false" />
-            <element signature="e#52204#52443#0" expanded="false" />
-            <element signature="e#56126#56569#0" expanded="false" />
-            <element signature="e#59179#59622#0" expanded="false" />
-            <element signature="e#59941#60044#0" expanded="false" />
-            <element signature="e#62228#62806#0" expanded="false" />
-            <element signature="e#65179#65504#0" expanded="false" />
-            <element signature="e#68116#68442#0" expanded="false" />
-            <marker date="1507920482000" expanded="true" signature="1887:2187" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="2229:2387" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="2423:2459" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="2491:2583" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="2622:2718" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="2776:3002" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="3070:3146" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="3219:3274" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="3353:3445" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="3527:3807" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="3915:4160" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="5277:5787" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="5896:5950" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="6023:7209" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="7270:9897" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="9956:9987" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="10169:10395" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="10551:10755" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="10836:11044" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="11118:11331" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="11388:11557" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="11646:11728" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="11815:12416" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="12503:14610" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="14695:15676" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="15759:16165" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="16203:16601" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="16680:17305" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="17382:17971" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="18045:18589" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="19828:20218" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="20361:21413" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="21523:71162" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="23065:23356" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="23864:24118" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="24593:24784" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="24833:24880" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="24940:24997" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="25050:25107" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="25194:26034" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="26122:26998" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="27101:27152" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="27255:27306" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="27470:28159" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="28331:28559" ph="{...}" />
-            <marker date="1507920482000" expanded="false" signature="28646:28891" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="29422:29429" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="29550:29606" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="29778:29817" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="30115:30592" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="30965:33316" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="33740:34158" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="40429:41805" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="41931:42190" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="42454:46829" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="47024:49364" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="50124:52197" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="52520:52725" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="52842:54001" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="54085:56120" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="56641:56714" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="56811:59172" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="59745:59926" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="60130:62221" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="62935:63019" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="63140:65173" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="65653:65744" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="68591:68682" ph="{...}" />
-            <marker date="1507920482000" expanded="true" signature="71083:71158" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/table/HashMapTableTest.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="127" column="6" lean-forward="false" selection-start-line="109" selection-start-column="8" selection-end-line="127" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1517">
-          <caret line="37" column="35" lean-forward="false" selection-start-line="37" selection-start-column="8" selection-end-line="37" selection-end-column="35" />
-          <folding>
-            <element signature="e#128#159#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="163">
-          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-124">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-          <folding>
-            <element signature="e#641#1828#0" expanded="false" />
-            <element signature="e#2064#38630#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="418">
+          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1298,51 +1189,250 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2460">
+        <state relative-caret-position="225">
           <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/include/boost/thread/detail/thread.hpp">
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state relative-caret-position="220">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1549">
+        <state relative-caret-position="15">
           <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding>
-            <element signature="e#1338#1362#0" expanded="true" />
-            <element signature="e#1526#1550#0" expanded="true" />
-            <element signature="e#1745#1769#0" expanded="true" />
-            <element signature="e#2740#2789#0" expanded="true" />
-            <element signature="e#3374#3423#0" expanded="true" />
-            <element signature="e#3851#3900#0" expanded="true" />
-            <element signature="e#4442#4491#0" expanded="true" />
+            <element signature="e#1338#1362#0" expanded="false" />
+            <element signature="e#1526#1550#0" expanded="false" />
+            <element signature="e#1745#1769#0" expanded="false" />
+            <element signature="e#2740#2789#0" expanded="false" />
+            <element signature="e#3374#3423#0" expanded="false" />
+            <element signature="e#3851#3900#0" expanded="false" />
+            <element signature="e#4442#4491#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///usr/local/include/boost/smart_ptr/shared_ptr.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="1019" column="23" lean-forward="false" selection-start-line="1019" selection-start-column="23" selection-end-line="1019" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc/snapshot.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="87" column="58" lean-forward="false" selection-start-line="87" selection-start-column="58" selection-end-line="87" selection-end-column="58" />
+          <folding>
+            <element signature="e#1282#1299#0" expanded="true" />
+            <element signature="e#1920#1937#0" expanded="true" />
+            <element signature="e#2076#2093#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="40" column="48" lean-forward="true" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/table/HashMapTableTest.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="373">
+          <caret line="289" column="38" lean-forward="true" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
+          <folding>
+            <element signature="e#6281#6452#0" expanded="false" />
+            <element signature="e#6458#7364#0" expanded="false" />
+            <element signature="e#7370#7560#0" expanded="false" />
+            <element signature="e#7768#9452#0" expanded="false" />
+            <element signature="e#9618#10850#0" expanded="false" />
+            <element signature="e#10857#11287#0" expanded="false" />
+            <element signature="e#11293#11504#0" expanded="false" />
+            <element signature="e#11510#11880#0" expanded="false" />
+            <element signature="e#11886#12338#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="280">
+          <caret line="152" column="0" lean-forward="true" selection-start-line="152" selection-start-column="0" selection-end-line="152" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+            <element signature="e#728#1915#0" expanded="false" />
+            <element signature="e#2193#3309#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="116" column="66" lean-forward="false" selection-start-line="116" selection-start-column="66" selection-end-line="116" selection-end-column="66" />
+          <folding>
+            <element signature="e#128#159#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="54" column="7" lean-forward="true" selection-start-line="54" selection-start-column="7" selection-end-line="54" selection-end-column="7" />
+        <state relative-caret-position="-275">
+          <caret line="8" column="9" lean-forward="false" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
           <folding>
             <element signature="e#114#133#0" expanded="true" />
+            <element signature="e#1099#1129#0" expanded="false" />
+            <element signature="e#1137#1234#0" expanded="false" />
+            <element signature="e#1242#1341#0" expanded="false" />
+            <element signature="e#1349#1419#0" expanded="false" />
+            <element signature="e#1468#2662#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="326">
-          <caret line="36" column="41" lean-forward="true" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
-          <folding />
+        <state relative-caret-position="345">
+          <caret line="1907" column="33" lean-forward="false" selection-start-line="1907" selection-start-column="33" selection-end-line="1907" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#2#0" expanded="false" />
+            <element signature="e#104#123#0" expanded="true" />
+            <element signature="e#1397#1831#0" expanded="false" />
+            <element signature="e#1844#2187#0" expanded="false" />
+            <element signature="e#2189#2387#0" expanded="false" />
+            <element signature="e#2389#2459#0" expanded="false" />
+            <element signature="e#2462#2583#0" expanded="false" />
+            <element signature="e#2585#2718#0" expanded="false" />
+            <element signature="e#2720#3002#0" expanded="false" />
+            <element signature="e#3004#3146#0" expanded="false" />
+            <element signature="e#3148#3274#0" expanded="false" />
+            <element signature="e#3276#3445#0" expanded="false" />
+            <element signature="e#3447#3807#0" expanded="false" />
+            <element signature="e#3809#4160#0" expanded="false" />
+            <element signature="e#4163#4205#0" expanded="false" />
+            <element signature="e#4214#4294#0" expanded="false" />
+            <element signature="e#4307#4339#0" expanded="false" />
+            <element signature="e#4348#4430#0" expanded="false" />
+            <element signature="e#4444#4507#0" expanded="false" />
+            <element signature="e#4516#4599#0" expanded="false" />
+            <element signature="e#4613#4651#0" expanded="false" />
+            <element signature="e#4660#4715#0" expanded="false" />
+            <element signature="e#4730#4816#0" expanded="false" />
+            <element signature="e#4825#4933#0" expanded="false" />
+            <element signature="e#4944#4983#0" expanded="false" />
+            <element signature="e#4992#5041#0" expanded="false" />
+            <element signature="e#5145#5234#0" expanded="false" />
+            <element signature="e#5145#5787#0" expanded="false" />
+            <element signature="e#5789#5848#0" expanded="false" />
+            <element signature="e#5789#5950#0" expanded="false" />
+            <element signature="e#6209#6318#1" expanded="false" />
+            <element signature="e#7211#9897#0" expanded="false" />
+            <element signature="e#7303#7412#1" expanded="false" />
+            <element signature="e#7560#7713#0" expanded="false" />
+            <element signature="e#9193#9370#0" expanded="false" />
+            <element signature="e#9989#10075#0" expanded="false" />
+            <element signature="e#9989#10395#0" expanded="false" />
+            <element signature="e#10397#10457#0" expanded="false" />
+            <element signature="e#11046#11331#0" expanded="false" />
+            <element signature="e#11333#11557#0" expanded="false" />
+            <element signature="e#11559#11728#0" expanded="false" />
+            <element signature="e#11730#12416#0" expanded="false" />
+            <element signature="e#12418#14610#0" expanded="false" />
+            <element signature="e#14612#15676#0" expanded="false" />
+            <element signature="e#15678#16165#0" expanded="false" />
+            <element signature="e#16167#16601#0" expanded="false" />
+            <element signature="e#16603#17305#0" expanded="false" />
+            <element signature="e#17307#17971#0" expanded="false" />
+            <element signature="e#17973#18589#0" expanded="false" />
+            <element signature="e#18591#19741#0" expanded="false" />
+            <element signature="e#19743#20218#0" expanded="false" />
+            <element signature="e#20220#21413#0" expanded="false" />
+            <element signature="e#21425#21481#0" expanded="true" />
+            <element signature="e#21818#21957#0" expanded="false" />
+            <element signature="e#21970#22084#0" expanded="false" />
+            <element signature="e#22100#22147#0" expanded="false" />
+            <element signature="e#22931#23185#0" expanded="false" />
+            <element signature="e#23198#23630#0" expanded="false" />
+            <element signature="e#23649#23942#0" expanded="false" />
+            <element signature="e#23649#24392#0" expanded="false" />
+            <element signature="e#24400#24476#0" expanded="false" />
+            <element signature="e#24400#24766#0" expanded="false" />
+            <element signature="e#24781#24862#0" expanded="false" />
+            <element signature="e#24876#24979#0" expanded="false" />
+            <element signature="e#24993#25089#0" expanded="false" />
+            <element signature="e#25095#26016#0" expanded="false" />
+            <element signature="e#26022#26980#0" expanded="false" />
+            <element signature="e#26986#27036#0" expanded="false" />
+            <element signature="e#26986#27134#0" expanded="false" />
+            <element signature="e#27140#27190#0" expanded="false" />
+            <element signature="e#27140#27288#0" expanded="false" />
+            <element signature="e#27294#27364#0" expanded="false" />
+            <element signature="e#27294#28141#0" expanded="false" />
+            <element signature="e#28147#28216#0" expanded="false" />
+            <element signature="e#28147#28541#0" expanded="false" />
+            <element signature="e#28547#28873#0" expanded="false" />
+            <element signature="e#28888#29337#0" expanded="false" />
+            <element signature="e#29345#29385#0" expanded="false" />
+            <element signature="e#29418#29483#0" expanded="false" />
+            <element signature="e#29496#29588#0" expanded="false" />
+            <element signature="e#29594#29644#0" expanded="false" />
+            <element signature="e#29729#29799#0" expanded="false" />
+            <element signature="e#29816#30038#0" expanded="false" />
+            <element signature="e#30051#30481#0" expanded="false" />
+            <element signature="e#30555#33179#0" expanded="false" />
+            <element signature="e#33185#33501#0" expanded="false" />
+            <element signature="e#33514#33927#0" expanded="false" />
+            <element signature="e#34007#40031#0" expanded="false" />
+            <element signature="e#40086#41646#0" expanded="false" />
+            <element signature="e#41687#42031#0" expanded="false" />
+            <element signature="e#42086#46536#0" expanded="false" />
+            <element signature="e#43518#44263#0" expanded="false" />
+            <element signature="e#44790#45952#0" expanded="false" />
+            <element signature="e#46396#46509#0" expanded="false" />
+            <element signature="e#46542#49014#0" expanded="false" />
+            <element signature="e#49020#49594#0" expanded="false" />
+            <element signature="e#49606#51792#0" expanded="false" />
+            <element signature="e#51799#52038#0" expanded="false" />
+            <element signature="e#52051#52277#0" expanded="false" />
+            <element signature="e#52292#53553#0" expanded="false" />
+            <element signature="e#53559#55672#0" expanded="false" />
+            <element signature="e#55678#56121#0" expanded="false" />
+            <element signature="e#56134#56266#0" expanded="false" />
+            <element signature="e#56280#58669#0" expanded="false" />
+            <element signature="e#58676#59119#0" expanded="false" />
+            <element signature="e#60911#61203#0" expanded="false" />
+            <element signature="e#61209#62536#0" expanded="false" />
+            <element signature="e#62542#63120#0" expanded="false" />
+            <element signature="e#63133#63333#0" expanded="false" />
+            <element signature="e#63349#65487#0" expanded="false" />
+            <element signature="e#65493#65818#0" expanded="false" />
+            <element signature="e#65831#66058#0" expanded="false" />
+            <element signature="e#66072#68423#0" expanded="false" />
+            <element signature="e#68430#68756#0" expanded="false" />
+            <element signature="e#68769#68996#0" expanded="false" />
+            <element signature="e#69010#71369#0" expanded="false" />
+            <element signature="e#71384#71472#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

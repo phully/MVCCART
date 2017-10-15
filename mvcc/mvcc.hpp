@@ -113,19 +113,12 @@ namespace mvcc11 {
 
     private:
 
-        bool isActiveTxn(size_t txn_id)
-        {
-
-        }
-
-
         template <class U>
         const_snapshot_ptr overwrite_impl(U &&value);
 
         template <class U>
         const_snapshot_ptr overwrite_implMV(size_t txn_id,U &&value);
 
-        template <class U>
         const_snapshot_ptr delete_implMV(size_t txn_id);
 
         template <class Updater>
@@ -300,7 +293,6 @@ namespace mvcc11 {
     }
 
     template <class ValueType>
-    template <class U>
     auto mvcc<ValueType>::delete_implMV(size_t txn_id) -> const_snapshot_ptr
     {
 
@@ -318,10 +310,11 @@ namespace mvcc11 {
 
 
             ///3- if record was created and its active currently and not by the current transaction
-            if (isActiveTransaction(const_expected_version)  && const_expected_end_version != INF)
+            if ( const_expected_end_version != INF && const_expected_version != txn_id)
             {
-                if (const_expected_version != txn_id)
+                if (TransactionsStatus[const_expected_version] == "Active" )
                 {
+
                     std::cout << "Aborted" << std::endl;
                     continue;
                 }
@@ -413,7 +406,7 @@ namespace mvcc11 {
         {
             // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
             ///set status commited
-            smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+            //smart_ptr::atomic_store(&desired->_older_snapshot,expected);
             return desired;
         }
 

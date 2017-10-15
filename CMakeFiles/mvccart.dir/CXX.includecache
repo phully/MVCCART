@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensive.cpp
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensiveGC.cpp
 iostream
 -
 boost/test/unit_test.hpp
@@ -15,8 +15,8 @@ boost/lexical_cast.hpp
 -
 mvcc/mvcc.hpp
 /Users/fuadshah/Desktop/MVCCART/WorkloadTests/mvcc/mvcc.hpp
-Transactions/UpdateIntensiveTemplates.hpp
-/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/UpdateIntensiveTemplates.hpp
+Transactions/UpdateIntensiveTemplatesGC.hpp
+/Users/fuadshah/Desktop/MVCCART/WorkloadTests/Transactions/UpdateIntensiveTemplatesGC.hpp
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
@@ -30528,7 +30528,7 @@ atomic
 Epochs.hpp
 Transactions/Epochs.hpp
 
-Transactions/UpdateIntensiveTemplates.hpp
+Transactions/UpdateIntensiveTemplatesGC.hpp
 transactionManager.h
 Transactions/transactionManager.h
 iostream
@@ -30569,6 +30569,8 @@ boost/random/variate_generator.hpp
 -
 fmt-master/fmt/format.h
 Transactions/fmt-master/fmt/format.h
+Transactions/GlobalEpoch.hpp
+Transactions/Transactions/GlobalEpoch.hpp
 
 Transactions/transactionManager.h
 iostream

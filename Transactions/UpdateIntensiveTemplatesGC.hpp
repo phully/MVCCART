@@ -27,6 +27,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 #include "fmt-master/fmt/format.h"
+#include "Transactions/GlobalEpoch.hpp"
 
 using namespace std;
 
@@ -101,9 +102,61 @@ std::function<void(RecordType&)> Evaluater = [](RecordType& tp)
     BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 200.0);*/
 };
 
+auto deleteRandomKeys = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)
+{
+    std::vector<RecordType> WriteSet;
+    std::vector<RecordType> ReadSet;
+
+    random::mt19937 rng(current_time_nanoseconds());
+    random::uniform_int_distribution<> randomKeys1(range.first,range.second);
+    int totalCachedMissed=0;
+    for (int i = 0; i < 80; i++)
+    {
+        int index = randomKeys1(rng);
+        std::cout<<"deleting "<<KeysToStore[index];
+        auto result = ARTWithTuples.deleteByKey(KeysToStore[index], id);
+
+        if (result == nullptr)
+        {
+            totalCachedMissed++;
+        }
+        else
+        {
+            auto tp = result->value;
+            if(tp.getAttribute<0>() != "")
+                WriteSet.push_back(tp);
+        }
+    }
 
 
+    ///Evaluating randomly 20 keys from WriteSet & store in -> ReadSet:
 
+    random::uniform_int_distribution<> randomKeys2(0,80);
+    int totalCachedMissed2=0;
+
+    for(int i=0; i < 20; i++)
+    {
+        //int index = randomKeys2(rng);
+        auto tuple = WriteSet[i];
+        string str =  tuple.getAttribute<0>();
+        char *cstr = new char[str.length() + 1];
+        strcpy(cstr, str.c_str());
+        auto result= ARTWithTuples.findValueByKey(cstr,id);
+        if(result != NULL )
+        {
+            auto tp = result->value;
+            Evaluater(tp);
+            ReadSet.push_back(tp);
+        }
+        else
+        {
+            totalCachedMissed2++;
+        }
+    }
+    cout<<"Total updates cached missed out of 80 Updates::"<<totalCachedMissed<<" by transaction#"<<id<<endl;
+    cout<<"Total Reads cached missed out of 20  Reads::"<<totalCachedMissed2<<" by transaction#"<<id<<endl;
+
+};
 
 
 auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,int> range)

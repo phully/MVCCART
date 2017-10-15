@@ -813,14 +813,27 @@ class ArtCPP : public pfabric::BaseTable
     using snapshot_type = mvcc11::snapshot<RecordType>;
     typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-    typedef std::pair<std::vector<const_snapshot_ptr>,std::vector<const_snapshot_ptr>> vectorPair;
-    public: std::map<size_t,vectorPair> ActiveTxnRWSet;
+    /**
+* Represents a leaf. These are
+* of arbitrary size, as they include the key with multiversioned object to get lock free Read access.
+*/
+    typedef struct mv_art_leaf {
+        mvcc11::mvcc<RecordType>* _mvcc;
+        uint32_t key_len;
+        KeyType key;
+    };
 
-    private: struct keyStruct
+
+    typedef struct keyStruct
     {
         KeyType k;
     };
     std::vector<keyStruct> deletionList;
+
+
+    public:  std::map<size_t,std::vector<mv_art_leaf>> ActiveTxnWriteSet;
+             std::map<size_t,std::vector<const_snapshot_ptr>> ActiveTxnReadSet;
+
 
     typedef std::function<RecordType ( RecordType&)> Updater;
     typedef std::function<RecordType ( const_snapshot_ptr)> SnapshotUpdater;
@@ -881,15 +894,6 @@ class ArtCPP : public pfabric::BaseTable
         }
     }
 
-    /**
-    * Represents a leaf. These are
-    * of arbitrary size, as they include the key with multiversioned object to get lock free Read access.
-    */
-    typedef struct mv_art_leaf {
-        mvcc11::mvcc<RecordType>* _mvcc;
-        uint32_t key_len;
-        unsigned char key[];
-    };
 
 
     /**
@@ -1091,8 +1095,6 @@ class ArtCPP : public pfabric::BaseTable
         int key_len =  std::strlen(key);
         //auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, std::strlen(key),0, &old_val,txn_id);
         auto old = mv_recursive_delete(t->root, &t->root,(const unsigned char *) key, key_len, 0, &old_val,txn_id,0,t->root,false);
-        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-        vecPair.second.push_back(old);
         if (!old_val) t->size++;
         return old;
     }
@@ -1102,7 +1104,6 @@ class ArtCPP : public pfabric::BaseTable
                                                 int depth, int *old,size_t txn_id,
                                                 uint64_t parentVersion, art_node* parent,bool needRestart)
     {
-
         // If we are at a NULL node, inject a leaf
         if (!n)
         {
@@ -1132,11 +1133,10 @@ class ArtCPP : public pfabric::BaseTable
                 *old = 1;
                 ///MVCC delete head version.
                 auto mutable_snapshot_ptr=  l->_mvcc->deleteMV(txn_id);
-                void* voidptr = reinterpret_cast<void*>(mutable_snapshot_ptr);
+                ActiveTxnWriteSet[txn_id].push_back(*l);
                 notifyObservers(l->_mvcc->current(), pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                 return mutable_snapshot_ptr;
             }
-
             return NULL;
         }
 
@@ -1152,8 +1152,6 @@ class ArtCPP : public pfabric::BaseTable
                 depth += n->partial_len;
                 goto RECURSE_SEARCH;
             }
-
-
             return NULL;
         }
 
@@ -1192,9 +1190,6 @@ class ArtCPP : public pfabric::BaseTable
         int key_len =  std::strlen(key);
         //art_node *root =static_cast<art_node*>(t->root);
         auto old = mv_recursive_insert(t->root, &t->root,(const unsigned char *) key, key_len, value, 0, &old_val,txn_id,0,t->root,false);
-        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-        vecPair.second.push_back(old);
-
         if (!old_val) t->size++;
         return old;
     }
@@ -1235,7 +1230,8 @@ class ArtCPP : public pfabric::BaseTable
             {
                 *old = 1;
                 ///MVCC update current version
-                l->_mvcc->overwriteMV(txn_id,value);
+                auto snapshot= l->_mvcc->overwriteMV(txn_id,value);
+                ActiveTxnWriteSet[txn_id].push_back(*l);
                 notifyObservers(l->_mvcc->current(), pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                 return l->_mvcc->current();
             }
@@ -1429,14 +1425,10 @@ class ArtCPP : public pfabric::BaseTable
             if (!mv_leaf_matches(l, key, key_len, depth))
             {
                 *old = 1;
-
                 ///MVCC update current version
-                //std::cout<<"overwritting="<<txn_id<<key<<std::endl;
-                //mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                //_mvcc->try_update(txn_id,updater);
-
-                return l->_mvcc->update(txn_id,updater);
-
+                auto snapshot = l->_mvcc->update(txn_id,updater);
+                ActiveTxnWriteSet[txn_id].push_back(*l);
+                return snapshot;
 
             }
 
@@ -1577,8 +1569,7 @@ class ArtCPP : public pfabric::BaseTable
                     if(snapshot != nullptr)
                     {
                         auto updated= snapshot->_mvcc->update(txn_id,updater);
-                        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-                        vecPair.second.push_back(updated);
+                        ActiveTxnWriteSet[txn_id].push_back(*snapshot);
                         notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                         return updated;
                     }
@@ -1626,8 +1617,7 @@ class ArtCPP : public pfabric::BaseTable
                 if (!mv_leaf_prefix_matches((mv_art_leaf*)n, key, key_len)) {
                     mv_art_leaf *l = (mv_art_leaf*)(n);
                     auto current = l->_mvcc->current();
-                    vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-                    vecPair.first.push_back(current);
+                    ActiveTxnReadSet[txn_id].push_back(current);
                     return cb(data, (const unsigned char*)l->key, l->key_len, current);
                 }
                 return 0;
@@ -1683,8 +1673,7 @@ class ArtCPP : public pfabric::BaseTable
     public: const_snapshot_ptr findValueByKey( char* key,size_t txn_id)
     {
         auto current = art_search_OCC((unsigned char *)key,std::strlen(key));
-        vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-        vecPair.first.push_back(current);
+        ActiveTxnReadSet[txn_id].push_back(current);
         return current;
     }
 
@@ -1827,8 +1816,7 @@ class ArtCPP : public pfabric::BaseTable
                 {
                     //return snapshot->_mvcc->current();
                     auto current = snapshot->_mvcc->current();
-                    vectorPair vecPair =  ActiveTxnRWSet[txn_id];
-                    vecPair.first.push_back(current);
+                    ActiveTxnReadSet[txn_id].push_back(current);
                     return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, current->value);
                 }
                 return 0;
@@ -1892,85 +1880,115 @@ class ArtCPP : public pfabric::BaseTable
     * @return 0 on success, or the return of the callback.
     */
 
-    private: static  int gc_callback(void *data, const unsigned char* key, uint32_t key_len, const_snapshot_ptr val)
+    public:  void GC()
     {
-        if(val != NULL)
+        for (auto iter=ActiveTxnWriteSet.begin(); iter!=ActiveTxnWriteSet.end(); iter++)
         {
-            std::cout<<"keystr::"<<key<<std::endl;
-            std::cout<<"found key::"<<val->value<<std::endl;
-        }
-        return 0;
-    }
-
-    public:  void GC(void)
-    {
-        void* data;
-        mv_recursive_iter_GC(t->root, gc_callback, data);
-    }
-    private:  int mv_recursive_iter_GC(art_node *n, art_callback cb, void *data)
-    {
-        if (!n) return 0;
-        if (IS_MV_LEAF(n))
-        {
-            //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
-            mv_art_leaf *snapshot = MV_LEAF_RAW(n);
-            //mv_art_leaf* snapshot = ((mv_art_leaf*)n);
-
-            if(snapshot != nullptr)
+            int i =0;
+            for(int i=0; i< iter->second.size(); i++)
             {
-                //return snapshot->_mvcc->current();
-                std::cout<<snapshot->_mvcc->current()->value;
-                return gc_callback(data, (const unsigned char *) snapshot->key, snapshot->key_len, snapshot->_mvcc->current());
+                mv_art_leaf leaf = iter->second[i];
+                auto currentVersion = leaf._mvcc->current()->end_version;
+                if(currentVersion != INF)
+                {
+                    keyStruct keyStruct1 = keyStruct();
+                    std::strcpy(keyStruct1.k,leaf.key);
+                    deletionList.push_back(keyStruct1);
+                }
             }
-            return 0;
         }
 
-        int idx, res;
-        switch (n->type)
+
+        for(int j=0; j< deletionList.size(); j++)
         {
-            case NODE4:
-                for (int i=0; i < n->num_children; i++)
-                {
-                    //_sharedLock.unlock();
-                    res = mv_recursive_iter_GC(((art_node4*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE16:
-                for (int i=0; i < n->num_children; i++)
-                {
-                    //_sharedLock.unlock();
-                    res = mv_recursive_iter_GC(((art_node16*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE48:
-                for (int i=0; i < 256; i++) {
-                    idx = ((art_node48*)n)->keys[i];
-                    if (!idx) continue;
-                    //_sharedLock.unlock();
-                    res = mv_recursive_iter_GC(((art_node48*)n)->children[idx-1], cb, data);
-                    if (res) return res;
-                }
-                break;
-
-            case NODE256:
-                for (int i=0; i < 256; i++)
-                {
-                    if (!((art_node256*)n)->children[i]) continue;
-                    //_sharedLock.unlock();
-                    res = mv_recursive_iter_GC(((art_node256*)n)->children[i], cb, data);
-                    if (res) return res;
-                }
-                break;
-            default:
-                abort();
+            std::cout<<deletionList[j].k;
+            art_deleteGC(deletionList[j].k);
         }
-        return 0;
+
+        ActiveTxnReadSet.clear();
+        ActiveTxnWriteSet.clear();
+        deletionList.clear();
+
+        /*for (auto iter=ActiveTxnWriteSet.begin(); iter!=ActiveTxnWriteSet.end(); iter++)
+        {
+            int i =0;
+            for(int i=0; i< iter->second.size(); i++)
+            {
+               const_snapshot_ptr snapshot = iter->second[i];
+               if(snapshot->end_version != INF)
+               {
+                   deletionList.push_back(snapshot);
+               }
+            }
+        }
+
+        for(int j=0; j< deletionList.size(); j++)
+        {
+                ///pick key and delete it from ART
+            const_snapshot_ptr tuple = deletionList[j];
+            RecordType tp = (RecordType)tuple->value;
+            //std::cout<<tp;
+            /*std::string str = (tp)
+            char *cstr = new char[str.length() + 1];
+            strcpy(cstr, str.c_str());
+
+            //std::cout<<deletedTuple->value.getAttribute<0>();
+            art_deleteGC(cstr);
+            }*/
     }
 
+    auto art_deleteGC(char *key) {
+        int key_len = std::strlen(key);
+        mv_art_leaf *l = recursive_deleteGC(t->root, &t->root, (const unsigned char *)key, key_len, 0);
+        if (l) {
+            t->size--;
+            free(l);
+            return l;
+        }
+
+        return l;
+    }
+     mv_art_leaf* recursive_deleteGC(art_node *n, art_node **ref, const unsigned char *key, int key_len, int depth) {
+        // Search terminated
+        if (!n) return NULL;
+
+        // Handle hitting a leaf node
+        if (IS_MV_LEAF(n)) {
+            mv_art_leaf *l = MV_LEAF_RAW(n);
+            if (!mv_leaf_matches(l, key, key_len, depth)) {
+                *ref = NULL;
+                return l;
+            }
+            return NULL;
+        }
+
+        // Bail if the prefix does not match
+        if (n->partial_len) {
+            int prefix_len = check_prefix(n, key, key_len, depth);
+            if (prefix_len != min(MAX_PREFIX_LEN, n->partial_len)) {
+                return NULL;
+            }
+            depth = depth + n->partial_len;
+        }
+
+        // Find child node
+        art_node **child = find_child(n, key[depth]);
+        if (!child) return NULL;
+
+        // If the child is leaf, delete from this node
+        if (IS_MV_LEAF(*child)) {
+            mv_art_leaf *l = MV_LEAF_RAW(*child);
+            if (!mv_leaf_matches(l, key, key_len, depth)) {
+                remove_child(n, ref, key[depth], child);
+                return l;
+            }
+            return NULL;
+
+            // Recurse
+        } else {
+            return recursive_deleteGC(*child, child, key, key_len, depth+1);
+        }
+    }
 
     /**
      * Iterates through the entries pairs in the map satisfying predicate,

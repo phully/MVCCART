@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensive.cpp.o"
+  "CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensiveGC.cpp.o"
   "mvccart.pdb"
   "mvccart"
 )

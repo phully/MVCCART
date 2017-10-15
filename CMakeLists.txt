@@ -36,7 +36,7 @@ set(SOURCE_FILES
         Transactions/GlobalEpoch.hpp
         Transactions/transactionManager.h
         Transactions/TransactionTemplates.h
-        WorkloadTests/UpdateIntensive.cpp )
+        WorkloadTests/UpdateIntensiveGC.cpp )
 add_subdirectory(fmt-master/fmt)
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES} fmt::fmt-header-only)

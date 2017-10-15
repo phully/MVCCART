@@ -34,44 +34,35 @@ void EpochThread();
 ///< typedef for a callback function which is invoked when the table was updated
 typedef boost::signals2::signal<void ()> ObserverCallback;
 typedef ObserverCallback::slot_type const& CallBackObserver;
-
 ObserverCallback mImmediateGC;
 
 
 class GlobalEpoch
 {
-
-public:
+      public:
       std::vector<Epoch> EpochsPast;
       Epoch ActiveEpoch;
-     boost::thread* mEpochThread;
+      boost::thread* mEpochThread;
 
-    GlobalEpoch()
-    {}
+      GlobalEpoch()
+      {
 
+      }
 
-    /**
-      * @brief Register an observer
-      *
-      * Registers an observer (a slot) which is notified in case of updates on the table.
-      *
-      * @param cb the observer (slot)
-      * @param mode the nofication mode (immediate or defered)
-     */
-    public: void registerGCTrigger(CallBackObserver cb)
-    {
-        mImmediateGC.connect(cb);
-    }
+      void registerGCTrigger(CallBackObserver cb)
+      {
+            mImmediateGC.connect(cb);
+      }
 
-    void StartEpochThread()
-    {
-        mEpochThread = new boost::thread(&EpochThread);
-    }
+      void StartEpochThread()
+      {
+            mEpochThread = new boost::thread(&EpochThread);
+      }
 
-    Epoch getActiveEpoch()
-    {
-        return ActiveEpoch;
-    }
+      Epoch getActiveEpoch()
+      {
+            return ActiveEpoch;
+      }
 };
 
 GlobalEpoch myEpochGlobal = GlobalEpoch();
@@ -102,6 +93,7 @@ void EpochThread()
                 if (isAllEpochsFlushed)
                 {
                     mImmediateGC();
+                    isAllEpochsFlushed = false;
                 }
                 continue;
             }

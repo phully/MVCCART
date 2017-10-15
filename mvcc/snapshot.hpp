@@ -70,12 +70,23 @@ namespace mvcc11 {
         snapshot(size_t ver, size_t end_ver, U&& arg)
         MVCC11_NOEXCEPT( MVCC11_NOEXCEPT(value_type{std::forward<U>(arg)}) );
 
+
+        void setOlderSnapshotNull();
+
+
         smart_ptr::shared_ptr<snapshot> _older_snapshot;
         size_t version;
         size_t end_version;
         value_type value;
     };
 
+
+
+    template <class ValueType>
+    void snapshot<ValueType>::setOlderSnapshotNull()
+    {
+        smart_ptr::atomic_store(&_older_snapshot,nullptr);
+    }
 
     template <class ValueType>
     snapshot<ValueType>::snapshot(size_t ver) MVCC11_NOEXCEPT(true)
