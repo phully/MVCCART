@@ -46,7 +46,7 @@ class GlobalEpoch
 
       GlobalEpoch()
       {
-
+            ActiveEpoch = Epoch();
       }
 
       void registerGCTrigger(CallBackObserver cb)
@@ -72,15 +72,11 @@ void EpochThread()
 
     while(true)
     {
-        if(myEpochGlobal.EpochsPast.size() ==0)
-        {
-            myEpochGlobal.EpochsPast.push_back(myEpochGlobal.ActiveEpoch);
-            myEpochGlobal.ActiveEpoch = Epoch();
-        }
-        else
-        {
+            ///If no new transaction has been registered
+            /// in the recent active_epoch, chance for GC
             if(myEpochGlobal.ActiveEpoch.counter==0)
             {
+
                 ///Trigger GC but check if all Epochs counters are 0
                 bool isAllEpochsFlushed = true;
                 for(int i=0; i < myEpochGlobal.EpochsPast.size(); i++)
@@ -90,19 +86,18 @@ void EpochThread()
                         isAllEpochsFlushed = false;
                     }
                 }
+                /// if all previous epoch's counter is 0
                 if (isAllEpochsFlushed)
                 {
                     mImmediateGC();
                     isAllEpochsFlushed = false;
+                    myEpochGlobal.EpochsPast.clear();
                 }
-                continue;
             }
-            else
-            {
-                myEpochGlobal.EpochsPast.push_back(myEpochGlobal.ActiveEpoch);
-                myEpochGlobal.ActiveEpoch = Epoch();
-            }
-        }
+                    myEpochGlobal.EpochsPast.push_back(myEpochGlobal.ActiveEpoch);
+                    myEpochGlobal.ActiveEpoch = Epoch();
+
+
         std::this_thread::sleep_for(std::chrono::milliseconds(EPOCH_TIME_ELPSE_SLEEP_MS));
     }
 }

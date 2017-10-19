@@ -1882,59 +1882,32 @@ class ArtCPP : public pfabric::BaseTable
 
     public:  void GC()
     {
-        for (auto iter=ActiveTxnWriteSet.begin(); iter!=ActiveTxnWriteSet.end(); iter++)
-        {
-            int i =0;
-            for(int i=0; i< iter->second.size(); i++)
-            {
-                mv_art_leaf leaf = iter->second[i];
-                auto currentVersion = leaf._mvcc->current()->end_version;
-                if(currentVersion != INF)
-                {
-                    keyStruct keyStruct1 = keyStruct();
-                    std::strcpy(keyStruct1.k,leaf.key);
-                    deletionList.push_back(keyStruct1);
+
+        if(ActiveTxnWriteSet.size()>0) {
+            for (auto iter = ActiveTxnWriteSet.begin(); iter != ActiveTxnWriteSet.end(); iter++) {
+                int i = 0;
+                for (int i = 0; i < iter->second.size(); i++) {
+                    mv_art_leaf leaf = iter->second[i];
+                    auto currentVersion = leaf._mvcc->current()->end_version;
+                    if (currentVersion != INF) {
+                        keyStruct keyStruct1 = keyStruct();
+                        std::strcpy(keyStruct1.k, leaf.key);
+                        deletionList.push_back(keyStruct1);
+                    }
                 }
             }
-        }
 
-
-        for(int j=0; j< deletionList.size(); j++)
-        {
-            std::cout<<deletionList[j].k;
-            art_deleteGC(deletionList[j].k);
-        }
-
-        ActiveTxnReadSet.clear();
-        ActiveTxnWriteSet.clear();
-        deletionList.clear();
-
-        /*for (auto iter=ActiveTxnWriteSet.begin(); iter!=ActiveTxnWriteSet.end(); iter++)
-        {
-            int i =0;
-            for(int i=0; i< iter->second.size(); i++)
+            if(deletionList.size()>0)
             {
-               const_snapshot_ptr snapshot = iter->second[i];
-               if(snapshot->end_version != INF)
-               {
-                   deletionList.push_back(snapshot);
-               }
+                std::cout<<"Deleting keys from ART"<<std::endl;
             }
+            for (int j = 0; j < deletionList.size(); j++) {
+                art_deleteGC(deletionList[j].k);
+            }
+
+            ActiveTxnWriteSet.clear();
+            deletionList.clear();
         }
-
-        for(int j=0; j< deletionList.size(); j++)
-        {
-                ///pick key and delete it from ART
-            const_snapshot_ptr tuple = deletionList[j];
-            RecordType tp = (RecordType)tuple->value;
-            //std::cout<<tp;
-            /*std::string str = (tp)
-            char *cstr = new char[str.length() + 1];
-            strcpy(cstr, str.c_str());
-
-            //std::cout<<deletedTuple->value.getAttribute<0>();
-            art_deleteGC(cstr);
-            }*/
     }
 
     auto art_deleteGC(char *key) {
