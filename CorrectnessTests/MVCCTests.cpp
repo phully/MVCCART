@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.hpp"
 #include "Transactions/transactionManager.h"
 
 #include <atomic>
@@ -39,7 +39,7 @@ namespace
 
 typedef pfabric::Tuple<unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
 typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
 
 
@@ -62,7 +62,6 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, void *val
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
-
     BOOST_AUTO_TEST_CASE(test_null_snapshot_on_1st_reference)
     {
         std::cout<<"Runing test_null_snapshot_on_1st_reference"<<endl;
@@ -79,7 +78,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         string x = "excuse--me!!!";
         int i = 10;
         RecordType tuple =   RecordType((unsigned long) i, i + 100, x, i/100.0);
-        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(i,tuple,INIT);
+        mvcc11::mvcc<RecordType>* _mvcc = new mvcc11::mvcc<RecordType>(i,tuple);
         auto snapshot = _mvcc->current();
 
         BOOST_REQUIRE(snapshot->value.getAttribute<0>() == i);
@@ -94,14 +93,14 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << "test_snapshot_isolation_with_tuple" << endl;
         int i = 1;
         RecordType tuple = RecordType((unsigned long) i, i + 100, INIT, i / 100.0);
-        mvcc11::mvcc<RecordType> *_mvcc = new mvcc11::mvcc<RecordType>(i, tuple, INIT);
+        mvcc11::mvcc<RecordType> *_mvcc = new mvcc11::mvcc<RecordType>(i, tuple);
         auto snapshot = _mvcc->current();
         BOOST_REQUIRE(snapshot->version == 1);
         BOOST_REQUIRE(snapshot->value.getAttribute<2>() == INIT);
 
         i++;
         RecordType tuple2 = RecordType((unsigned long) i, i + 100, OVERWRITTEN, i / 100.0);
-        _mvcc->overwriteMV(2, tuple2, OVERWRITTEN);
+        _mvcc->overwriteMV(2, tuple2);
         auto snapshot1 = _mvcc->current();
 
         BOOST_REQUIRE(snapshot1->version == 2);
@@ -110,12 +109,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         BOOST_REQUIRE(snapshot1->_older_snapshot->value.getAttribute<2>() == INIT);
     }
 
-
     BOOST_AUTO_TEST_CASE(test_current_and_op_deref_yields_equivalent_results)
     {
 
         cout << "test_current_and_op_deref_yields_equivalent_results" << endl;
-        mvcc11::mvcc<string> x{0,INIT,INIT};
+        mvcc11::mvcc<string> x{0,INIT};
         auto snapshot = x.current();
 
         BOOST_REQUIRE(snapshot == x.current());
@@ -129,8 +127,8 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     BOOST_AUTO_TEST_CASE(test_snapshot_mv_overwrite)
     {
         cout << "test_snapshot_overwrite" << endl;
-        mvcc11::mvcc<string> x{0,INIT,INIT};
-        auto snapshot = x.overwriteMV(1,OVERWRITTEN,OVERWRITTEN);
+        mvcc11::mvcc<string> x{0,INIT};
+        auto snapshot = x.overwriteMV(1,OVERWRITTEN);
         BOOST_REQUIRE(snapshot != nullptr);
         BOOST_REQUIRE(snapshot->version == 1);
         BOOST_REQUIRE(snapshot->value == OVERWRITTEN);
@@ -139,26 +137,19 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     BOOST_AUTO_TEST_CASE(test_snapshot_update)
     {
         cout << "test_snapshot_update" << endl;
-
-        mvcc<string> x{0,INIT,INIT};
+        mvcc<string> x{0,INIT};
         auto init = *x;
         BOOST_REQUIRE(init->version == 0);
-        auto updated = x.update([](size_t version, string const &value) {
-            BOOST_REQUIRE(version == 0);
+
+        auto updated = x.update(10,[](string const &value){
             BOOST_REQUIRE(value == INIT);
             return UPDATED;
         });
-        BOOST_REQUIRE(updated->version == 1);
+
+        BOOST_REQUIRE(updated->version == 10);
         BOOST_REQUIRE(updated->value == UPDATED);
         BOOST_REQUIRE(init->value == INIT);
-
-        x.update([](size_t version, string const &value) {
-            BOOST_REQUIRE(version == 1);
-            BOOST_REQUIRE(value == UPDATED);
-            return UPDATED;
-        });
     }
-
 
 BOOST_AUTO_TEST_SUITE_END()
 

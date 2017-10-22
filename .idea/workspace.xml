@@ -15,11 +15,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
       <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensiveGC.cpp.o" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ART/ArtCPP.hpp" afterPath="$PROJECT_DIR$/ART/ArtCPP.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" afterPath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" afterPath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvcc/mvcc.hpp" afterPath="$PROJECT_DIR$/mvcc/mvcc.hpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart.cbp" afterPath="$PROJECT_DIR$/mvccart.cbp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -176,41 +179,94 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="UpdateIntensiveTemplatesGC.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
-              <folding>
-                <element signature="e#128#159#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="transactionManager.h" pinned="false" current-in-tab="true">
+      <file leaf-file-name="transactionManager.h" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.h">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1875">
-              <caret line="148" column="0" lean-forward="true" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
+            <state relative-caret-position="311">
+              <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
               <folding>
                 <element signature="e#124#143#0" expanded="true" />
+                <element signature="e#885#1204#0" expanded="false" />
+                <element signature="e#1206#1326#0" expanded="false" />
+                <element signature="e#1329#1515#0" expanded="false" />
+                <element signature="e#1517#1734#0" expanded="false" />
+                <element signature="e#1736#1992#0" expanded="false" />
+                <element signature="e#1995#2480#0" expanded="false" />
+                <element signature="e#2482#2729#0" expanded="false" />
+                <element signature="e#2790#3362#1" expanded="false" />
+                <element signature="e#3365#3840#0" expanded="false" />
+                <element signature="e#3842#4431#0" expanded="false" />
+                <element signature="e#4433#4976#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UpdateIntensiveGC.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
+      <file leaf-file-name="MVCCARTTest.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="135" column="4" lean-forward="false" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
+            <state relative-caret-position="-748">
+              <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+              <folding>
+                <marker date="1508594439000" expanded="true" signature="484:765" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="1332:1840" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="1925:2430" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="2522:2825" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="2923:3839" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="3936:6848" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="6904:7812" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="7908:9046" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="9102:10026" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="10077:11000" ph="{...}" />
+                <marker date="1508594439000" expanded="false" signature="11096:12779" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateIntensive.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="270">
+              <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateIntensiveTemplates.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1054">
+              <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="535">
+              <caret line="38" column="38" lean-forward="false" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MVCCTests.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="385">
+              <caret line="137" column="4" lean-forward="false" selection-start-line="137" selection-start-column="4" selection-end-line="137" selection-end-column="4" />
               <folding>
                 <element signature="e#65#84#0" expanded="true" />
-                <element signature="e#728#1915#0" expanded="false" />
-                <element signature="e#2193#3309#0" expanded="false" />
-                <element signature="e#3371#4205#0" expanded="false" />
-                <element signature="e#4246#5065#0" expanded="false" />
+                <element signature="e#1721#1963#0" expanded="false" />
+                <element signature="e#2020#2629#0" expanded="false" />
+                <element signature="e#2691#3565#0" expanded="false" />
+                <element signature="e#3644#4041#0" expanded="false" />
+                <element signature="e#4095#4398#0" expanded="false" />
+                <element signature="e#4446#4890#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -347,45 +403,17 @@
       <file leaf-file-name="mvcc.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="373">
-              <caret line="289" column="38" lean-forward="true" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
+            <state relative-caret-position="-212">
+              <caret line="246" column="4" lean-forward="true" selection-start-line="246" selection-start-column="4" selection-end-line="246" selection-end-column="4" />
               <folding>
                 <element signature="e#6281#6452#0" expanded="false" />
                 <element signature="e#6458#7364#0" expanded="false" />
                 <element signature="e#7370#7560#0" expanded="false" />
-                <element signature="e#7768#9452#0" expanded="false" />
                 <element signature="e#9618#10850#0" expanded="false" />
-                <element signature="e#10857#11287#0" expanded="false" />
                 <element signature="e#11293#11504#0" expanded="false" />
                 <element signature="e#11510#11880#0" expanded="false" />
                 <element signature="e#11886#12338#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GlobalEpoch.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="160">
-              <caret line="89" column="39" lean-forward="false" selection-start-line="89" selection-start-column="39" selection-end-line="89" selection-end-column="39" />
-              <folding>
-                <element signature="e#114#133#0" expanded="true" />
-                <element signature="e#1171#1268#0" expanded="false" />
-                <element signature="e#1276#1375#0" expanded="false" />
-                <element signature="e#1383#1453#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Epochs.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/Epochs.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
-              <folding>
-                <element signature="e#674#800#0" expanded="false" />
+                <element signature="e#12345#13893#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -442,7 +470,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/MVCCTests.cpp" />
         <option value="$PROJECT_DIR$/mvcc.hpp" />
         <option value="$PROJECT_DIR$/transactionManager.h" />
         <option value="$PROJECT_DIR$/test_data/words.txt" />
@@ -462,7 +489,6 @@
         <option value="$PROJECT_DIR$/Readme.Md" />
         <option value="$PROJECT_DIR$/table/HashMapTableTest.cpp" />
         <option value="$PROJECT_DIR$/table/HashMapTable.hpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" />
         <option value="$PROJECT_DIR$/ART/ARTFULCpp.h" />
         <option value="$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp" />
         <option value="$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h" />
@@ -486,13 +512,15 @@
         <option value="$PROJECT_DIR$/Transactions/Epochs.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.cpp" />
         <option value="$PROJECT_DIR$/Transactions/transactionManager.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.hpp" />
-        <option value="$PROJECT_DIR$/mvcc/mvcc.hpp" />
         <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
         <option value="$PROJECT_DIR$/ART/ArtCPP.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" />
+        <option value="$PROJECT_DIR$/mvcc/mvcc.hpp" />
       </list>
     </option>
   </component>
@@ -538,7 +566,35 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="WorkloadTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mvccart" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MVCCART" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Transactions" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mvccart" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MVCCART" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CorrectnessTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -890,12 +946,12 @@
       <workItem from="1507668497291" duration="747000" />
       <workItem from="1507745623359" duration="1023000" />
       <workItem from="1507747291131" duration="14752000" />
-      <workItem from="1420070775225" duration="38803000" />
+      <workItem from="1420070775225" duration="48359000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1376121000" />
+    <option name="totallyTimeSpent" value="1385677000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -917,7 +973,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.5026139" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31948423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.98567337" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -967,12 +1023,11 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="408" />
+      <option name="time" value="410" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Tests/ARTCorrectnessTests.cpp" />
     <entry file="file://$PROJECT_DIR$/Tests/MVCCARTTest.cpp" />
     <entry file="file://$PROJECT_DIR$/Tests/MVCCTests.cpp" />
     <entry file="file://$PROJECT_DIR$/Tests/ScaleTestsReadOnly.cpp" />
@@ -1089,13 +1144,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="111" column="0" lean-forward="false" selection-start-line="111" selection-start-column="0" selection-end-line="111" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
@@ -1124,14 +1172,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="930">
           <caret line="62" column="39" lean-forward="false" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1187,22 +1227,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/include/boost/smart_ptr/shared_ptr.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1216,9 +1240,9 @@
         <state relative-caret-position="386">
           <caret line="87" column="58" lean-forward="false" selection-start-line="87" selection-start-column="58" selection-end-line="87" selection-end-column="58" />
           <folding>
-            <element signature="e#1282#1299#0" expanded="true" />
-            <element signature="e#1920#1937#0" expanded="true" />
-            <element signature="e#2076#2093#0" expanded="true" />
+            <element signature="e#1282#1299#0" expanded="false" />
+            <element signature="e#1920#1937#0" expanded="false" />
+            <element signature="e#2076#2093#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1239,54 +1263,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="373">
-          <caret line="289" column="38" lean-forward="true" selection-start-line="289" selection-start-column="38" selection-end-line="289" selection-end-column="38" />
-          <folding>
-            <element signature="e#6281#6452#0" expanded="false" />
-            <element signature="e#6458#7364#0" expanded="false" />
-            <element signature="e#7370#7560#0" expanded="false" />
-            <element signature="e#7768#9452#0" expanded="false" />
-            <element signature="e#9618#10850#0" expanded="false" />
-            <element signature="e#10857#11287#0" expanded="false" />
-            <element signature="e#11293#11504#0" expanded="false" />
-            <element signature="e#11510#11880#0" expanded="false" />
-            <element signature="e#11886#12338#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/Epochs.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="55" column="0" lean-forward="false" selection-start-line="55" selection-start-column="0" selection-end-line="55" selection-end-column="0" />
+        <state relative-caret-position="300">
+          <caret line="41" column="20" lean-forward="false" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
           <folding>
             <element signature="e#674#800#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
+    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="115" column="0" lean-forward="false" selection-start-line="115" selection-start-column="0" selection-end-line="115" selection-end-column="0" />
+        <state relative-caret-position="160">
+          <caret line="43" column="14" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
           <folding>
-            <element signature="e#128#159#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="135" column="4" lean-forward="false" selection-start-line="135" selection-start-column="4" selection-end-line="135" selection-end-column="4" />
-          <folding>
-            <element signature="e#65#84#0" expanded="true" />
-            <element signature="e#728#1915#0" expanded="false" />
-            <element signature="e#2193#3309#0" expanded="false" />
-            <element signature="e#3371#4205#0" expanded="false" />
-            <element signature="e#4246#5065#0" expanded="false" />
+            <element signature="e#114#133#0" expanded="false" />
+            <element signature="e#1099#1163#0" expanded="false" />
+            <element signature="e#1504#2613#0" expanded="false" />
+            <marker date="1508435753000" expanded="false" signature="1221:1268" ph="{...}" />
+            <marker date="1508435753000" expanded="false" signature="1306:1373" ph="{...}" />
+            <marker date="1508435753000" expanded="false" signature="1409:1450" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -1417,25 +1414,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="89" column="39" lean-forward="false" selection-start-line="89" selection-start-column="39" selection-end-line="89" selection-end-column="39" />
+        <state relative-caret-position="345">
+          <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
           <folding>
-            <element signature="e#114#133#0" expanded="true" />
-            <element signature="e#1171#1268#0" expanded="false" />
-            <element signature="e#1276#1375#0" expanded="false" />
-            <element signature="e#1383#1453#0" expanded="false" />
+            <element signature="e#65#84#0" expanded="false" />
+            <element signature="e#2193#3309#0" expanded="false" />
+            <element signature="e#3371#4205#0" expanded="false" />
+            <element signature="e#4246#5065#0" expanded="false" />
+            <marker date="1508070443000" expanded="true" signature="306:379" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="38" column="38" lean-forward="false" selection-start-line="38" selection-start-column="38" selection-end-line="38" selection-end-column="38" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="76" column="1" lean-forward="true" selection-start-line="76" selection-start-column="1" selection-end-line="76" selection-end-column="1" />
+          <folding>
+            <element signature="e#128#159#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1875">
-          <caret line="148" column="0" lean-forward="true" selection-start-line="148" selection-start-column="0" selection-end-line="148" selection-end-column="0" />
+        <state relative-caret-position="311">
+          <caret line="138" column="0" lean-forward="false" selection-start-line="138" selection-start-column="0" selection-end-line="138" selection-end-column="0" />
           <folding>
             <element signature="e#124#143#0" expanded="true" />
+            <element signature="e#885#1204#0" expanded="false" />
+            <element signature="e#1206#1326#0" expanded="false" />
+            <element signature="e#1329#1515#0" expanded="false" />
+            <element signature="e#1517#1734#0" expanded="false" />
+            <element signature="e#1736#1992#0" expanded="false" />
+            <element signature="e#1995#2480#0" expanded="false" />
+            <element signature="e#2482#2729#0" expanded="false" />
+            <element signature="e#2790#3362#1" expanded="false" />
+            <element signature="e#3365#3840#0" expanded="false" />
+            <element signature="e#3842#4431#0" expanded="false" />
+            <element signature="e#4433#4976#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1054">
+          <caret line="127" column="0" lean-forward="false" selection-start-line="127" selection-start-column="0" selection-end-line="127" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-748">
+          <caret line="7" column="24" lean-forward="false" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+          <folding>
+            <marker date="1508594439000" expanded="true" signature="484:765" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="1332:1840" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="1925:2430" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="2522:2825" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="2923:3839" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="3936:6848" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="6904:7812" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="7908:9046" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="9102:10026" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="10077:11000" ph="{...}" />
+            <marker date="1508594439000" expanded="false" signature="11096:12779" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-212">
+          <caret line="246" column="4" lean-forward="true" selection-start-line="246" selection-start-column="4" selection-end-line="246" selection-end-column="4" />
+          <folding>
+            <element signature="e#6281#6452#0" expanded="false" />
+            <element signature="e#6458#7364#0" expanded="false" />
+            <element signature="e#7370#7560#0" expanded="false" />
+            <element signature="e#9618#10850#0" expanded="false" />
+            <element signature="e#11293#11504#0" expanded="false" />
+            <element signature="e#11510#11880#0" expanded="false" />
+            <element signature="e#11886#12338#0" expanded="false" />
+            <element signature="e#12345#13893#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="137" column="4" lean-forward="false" selection-start-line="137" selection-start-column="4" selection-end-line="137" selection-end-column="4" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+            <element signature="e#1721#1963#0" expanded="false" />
+            <element signature="e#2020#2629#0" expanded="false" />
+            <element signature="e#2691#3565#0" expanded="false" />
+            <element signature="e#3644#4041#0" expanded="false" />
+            <element signature="e#4095#4398#0" expanded="false" />
+            <element signature="e#4446#4890#0" expanded="false" />
           </folding>
         </state>
       </provider>

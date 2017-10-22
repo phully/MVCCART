@@ -406,7 +406,7 @@ namespace mvcc11 {
         {
             // std::cout << "overwritten =" << txn_id << desired->value<<std::endl;
             ///set status commited
-            //smart_ptr::atomic_store(&desired->_older_snapshot,expected);
+            smart_ptr::atomic_store(&desired->_older_snapshot,expected);
             return desired;
         }
 

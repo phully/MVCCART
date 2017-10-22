@@ -56,14 +56,14 @@ class GlobalEpoch
 
       void StartEpochThread()
       {
-            mEpochThread = new boost::thread(&EpochThread);
+          mEpochThread = new boost::thread(&EpochThread);
       }
-
       Epoch getActiveEpoch()
       {
             return ActiveEpoch;
       }
-};
+
+    };
 
 GlobalEpoch myEpochGlobal = GlobalEpoch();
 
@@ -94,10 +94,8 @@ void EpochThread()
                     myEpochGlobal.EpochsPast.clear();
                 }
             }
-                    myEpochGlobal.EpochsPast.push_back(myEpochGlobal.ActiveEpoch);
-                    myEpochGlobal.ActiveEpoch = Epoch();
-
-
+        myEpochGlobal.EpochsPast.push_back(myEpochGlobal.ActiveEpoch);
+        myEpochGlobal.ActiveEpoch = Epoch();
         std::this_thread::sleep_for(std::chrono::milliseconds(EPOCH_TIME_ELPSE_SLEEP_MS));
     }
 }

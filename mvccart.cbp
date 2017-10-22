@@ -139,6 +139,9 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/MVCCTests.cpp">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/Epochs.hpp">
 			<Option target="mvccart"/>
 		</Unit>
@@ -149,9 +152,6 @@
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/transactionManager.h">
-			<Option target="mvccart"/>
-		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/WorkloadTests/UpdateIntensiveGC.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/ChangeLog.rst">

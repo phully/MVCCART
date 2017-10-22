@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-WorkloadTests/UpdateIntensiveGC.o: WorkloadTests/UpdateIntensiveGC.cpp.o
+CorrectnessTests/MVCCTests.o: CorrectnessTests/MVCCTests.cpp.o
 
-.PHONY : WorkloadTests/UpdateIntensiveGC.o
+.PHONY : CorrectnessTests/MVCCTests.o
 
 # target to build an object file
-WorkloadTests/UpdateIntensiveGC.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensiveGC.cpp.o
-.PHONY : WorkloadTests/UpdateIntensiveGC.cpp.o
+CorrectnessTests/MVCCTests.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MVCCTests.cpp.o
+.PHONY : CorrectnessTests/MVCCTests.cpp.o
 
-WorkloadTests/UpdateIntensiveGC.i: WorkloadTests/UpdateIntensiveGC.cpp.i
+CorrectnessTests/MVCCTests.i: CorrectnessTests/MVCCTests.cpp.i
 
-.PHONY : WorkloadTests/UpdateIntensiveGC.i
+.PHONY : CorrectnessTests/MVCCTests.i
 
 # target to preprocess a source file
-WorkloadTests/UpdateIntensiveGC.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensiveGC.cpp.i
-.PHONY : WorkloadTests/UpdateIntensiveGC.cpp.i
+CorrectnessTests/MVCCTests.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MVCCTests.cpp.i
+.PHONY : CorrectnessTests/MVCCTests.cpp.i
 
-WorkloadTests/UpdateIntensiveGC.s: WorkloadTests/UpdateIntensiveGC.cpp.s
+CorrectnessTests/MVCCTests.s: CorrectnessTests/MVCCTests.cpp.s
 
-.PHONY : WorkloadTests/UpdateIntensiveGC.s
+.PHONY : CorrectnessTests/MVCCTests.s
 
 # target to generate assembly for a file
-WorkloadTests/UpdateIntensiveGC.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/UpdateIntensiveGC.cpp.s
-.PHONY : WorkloadTests/UpdateIntensiveGC.cpp.s
+CorrectnessTests/MVCCTests.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/MVCCTests.cpp.s
+.PHONY : CorrectnessTests/MVCCTests.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... WorkloadTests/UpdateIntensiveGC.o"
-	@echo "... WorkloadTests/UpdateIntensiveGC.i"
-	@echo "... WorkloadTests/UpdateIntensiveGC.s"
+	@echo "... CorrectnessTests/MVCCTests.o"
+	@echo "... CorrectnessTests/MVCCTests.i"
+	@echo "... CorrectnessTests/MVCCTests.s"
 .PHONY : help
 
 
