@@ -141,9 +141,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         ///Get transaction readers
         auto iterate= [] (ARTTupleContainer& ARTable,size_t id)
         {
-            std::vector<RecordType> ReadSet;
-            std::vector<RecordType> ScanSet;
-            std::vector<RecordType> WriteSet;
+
             int index=0;
             uint64_t out[] = {0, 0};
             ARTable.iterate(cb,&out,id);

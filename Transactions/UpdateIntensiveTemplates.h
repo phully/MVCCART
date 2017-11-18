@@ -45,7 +45,7 @@ using snapshot_type = mvcc11::snapshot<RecordType>;
 /// snapshot pointer type as boost::shared pointer to snapshot type
 typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-/// std::function as Transaction , type definitions, for serveral uses
+/// std::function as Transaction, type definitions, for serveral uses
 typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::pair<int,int>)> TransactionLambda;
 typedef std::function <void(ARTTupleContainer&,size_t id,int , int, int)> TransactionLambda2;

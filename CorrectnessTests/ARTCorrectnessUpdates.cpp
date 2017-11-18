@@ -5,7 +5,7 @@
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
-#include "ART/ARTFULCpp.h"
+#include "ART/ArtCPP.hpp"
 #include "Transactions/transactionManager.h"
 
 #include <atomic>
@@ -43,7 +43,7 @@ namespace
 
 typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
-typedef ARTFULCpp<RecordType,KeyType> ARTTupleContainer;
+typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
 typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
 
 char KeysToStore[235890][20];
@@ -184,8 +184,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
     BOOST_AUTO_TEST_CASE(testing_update_intensive_Two_transactions)
     {
-
-
         ///Writer#1 Insert/Update from Bucket
         auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
         {

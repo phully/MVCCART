@@ -836,8 +836,7 @@ class ArtCPP : public pfabric::BaseTable
 
 
     typedef std::function<RecordType ( RecordType&)> Updater;
-    typedef std::function<RecordType ( const_snapshot_ptr)> SnapshotUpdater;
-
+    typedef std::function<bool ( const_snapshot_ptr)> Predicate;
 
     ///Callbacks for Predicates, UpdateFun and etc.
     typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
@@ -2043,36 +2042,33 @@ class ArtCPP : public pfabric::BaseTable
     }
 
     /**
-     * Update a  value into the ART tree by Predicate
-     * @arg t The tree
-     * @arg key The key
-     * @arg key_len The length of the key
-     * @arg value Opaque value.
+     * Update all tuples into the ART tree by Predicate
+     * @arg Updater is to update the tuple values
      * @arg txn_id transaction id.
-     * @return NULL if the item was newly inserted, otherwise
-     * the old value pointer is returned.
+     * @arg Pred is a "Where" clause.
+     * @return 0 if the scanning or iterating items ends
      */
-    public: int mv_art_update_by_predicate(std::shared_ptr<art_tree> t,art_callback cb,RecordType& value,size_t txn_id,void *data, Pred filter)
+    public: int updateAllByPredicate(Updater updater,size_t txn_id,Predicate filter)
     {
-        return recursive_update_by_predicate(t->root,cb,value,txn_id, data,filter);
+        uint64_t out[] = {0, 0};
+        return recursive_UpdateByPredicate(t->root,updater,txn_id, out,filter);
     }
-    private: int recursive_update_by_predicate(art_node *n,art_callback cb,RecordType& value,size_t txn_id,void *data,Pred predicate)
-    {
-        // Handle base cases
-        UpgradeLock _sharedLock(_access);
 
+    private: int recursive_UpdateByPredicate(art_node *n, Updater updater,  size_t txn_id,void *data, Predicate filter)
+    {
         if (!n) return 0;
         if (IS_MV_LEAF(n))
         {
-            mv_art_leaf *l = MV_LEAF_RAW(n);
-            if (l->value !=NULL)
+            mv_art_leaf *snapshot = MV_LEAF_RAW(n);
+
+            if(snapshot != nullptr)
             {
-                if (predicate(l->value))
+                //void * voidSnapshotptr = reinterpret_cast<void *> (snapshot->_mvcc->current());
+                if(filter(snapshot->_mvcc->current()))
                 {
-                    mvcc11::mvcc<RecordType>* _mvcc = reinterpret_cast<mvcc11::mvcc<RecordType>*>(l->value);
-                    _mvcc->overwriteMV(txn_id,value);
-                    l->value = static_cast<void*>(_mvcc);
-                    return cb(data, (const unsigned char *) l->key, l->key_len, l->value);
+                    auto updated = snapshot->_mvcc->update(txn_id, updater);
+                    ActiveTxnWriteSet[txn_id].push_back(*snapshot);
+                    notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                 }
             }
         }
@@ -2081,17 +2077,19 @@ class ArtCPP : public pfabric::BaseTable
         switch (n->type)
         {
             case NODE4:
-                for (int i=0; i < n->num_children; i++) {
-                    _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node4*)n)->children[i],cb,value,txn_id,data,predicate);
+                for (int i=0; i < n->num_children; i++)
+                {
+                    //_sharedLock.unlock();
+                    res = recursive_UpdateByPredicate(((art_node4*)n)->children[i],updater,txn_id,data,filter);
                     if (res) return res;
                 }
                 break;
 
             case NODE16:
-                for (int i=0; i < n->num_children; i++) {
-                    _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node16*)n)->children[i],cb,value,txn_id,data,predicate);
+                for (int i=0; i < n->num_children; i++)
+                {
+                    //_sharedLock.unlock();
+                    res = recursive_UpdateByPredicate(((art_node16*)n)->children[i],updater,txn_id,data,filter);
                     if (res) return res;
                 }
                 break;
@@ -2100,17 +2098,18 @@ class ArtCPP : public pfabric::BaseTable
                 for (int i=0; i < 256; i++) {
                     idx = ((art_node48*)n)->keys[i];
                     if (!idx) continue;
-                    _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node48*)n)->children[idx-1],cb,value,txn_id,data,predicate);
+                    //_sharedLock.unlock();
+                    res = recursive_UpdateByPredicate(((art_node48*)n)->children[idx-1],updater,txn_id,data,filter);
                     if (res) return res;
                 }
                 break;
 
             case NODE256:
-                for (int i=0; i < 256; i++) {
+                for (int i=0; i < 256; i++)
+                {
                     if (!((art_node256*)n)->children[i]) continue;
-                    _sharedLock.unlock();
-                    res = recursive_update_by_predicate(((art_node256*)n)->children[i],cb,value,txn_id,data,predicate);
+                    //_sharedLock.unlock();
+                    res = recursive_UpdateByPredicate(((art_node256*)n)->children[i],updater,txn_id,data,filter);
                     if (res) return res;
                 }
                 break;
@@ -2119,7 +2118,6 @@ class ArtCPP : public pfabric::BaseTable
         }
         return 0;
     }
-
 
     /**
      * Delete a  value into the ART tree: by Predicate
@@ -2199,14 +2197,11 @@ class ArtCPP : public pfabric::BaseTable
         return 0;
     }
 
-
     public: ArtCPP()
     {
         t = std::make_shared<art_tree>();
         art_tree_init(t);
     }
-
-
 };
 
 
