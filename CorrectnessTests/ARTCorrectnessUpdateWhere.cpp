@@ -152,7 +152,13 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                                          recordtype->value.getAttribute<2>(),
                                          recordtype->value.getAttribute<3>(),
                                          recordtype->value.getAttribute<4>());
-            return true;
+
+            if(((int)(tuple.getAttribute<1>()) < 5000))
+            {
+               return true;
+
+            }
+            return false;
        };
 
 
@@ -163,6 +169,8 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             int index=0;
             uint64_t out[] = {0, 0};
             ARTable.updateAllByPredicate(updater,id,filter);
+            //ARTable.iterate(cb,&out,id);
+
             index++;
         };
 

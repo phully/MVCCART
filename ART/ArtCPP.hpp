@@ -1816,7 +1816,7 @@ class ArtCPP : public pfabric::BaseTable
                     //return snapshot->_mvcc->current();
                     auto current = snapshot->_mvcc->current();
                     ActiveTxnReadSet[txn_id].push_back(current);
-                    return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, current->value);
+                    return cb(data, (const unsigned char *) snapshot->key, snapshot->key_len, current);
                 }
                 return 0;
         }
@@ -2064,12 +2064,15 @@ class ArtCPP : public pfabric::BaseTable
             if(snapshot != nullptr)
             {
                 //void * voidSnapshotptr = reinterpret_cast<void *> (snapshot->_mvcc->current());
+
                 if(filter(snapshot->_mvcc->current()))
                 {
+                    std::cout<<snapshot->_mvcc->current()->value;
                     auto updated = snapshot->_mvcc->update(txn_id, updater);
                     ActiveTxnWriteSet[txn_id].push_back(*snapshot);
                     notifyObservers(updated, pfabric::TableParams::Update, pfabric::TableParams::Immediate);
                 }
+                return 0;
             }
         }
 
