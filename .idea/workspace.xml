@@ -14,31 +14,23 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/settings.h.in" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp.o" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdates.cpp.o" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdates.cpp.o" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ART/ArtCPP.hpp" afterPath="$PROJECT_DIR$/ART/ArtCPP.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/flags.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/flags.make" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/Epochs.hpp" afterPath="$PROJECT_DIR$/Transactions/Epochs.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" afterPath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" afterPath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/transactionManager.h" afterPath="$PROJECT_DIR$/Transactions/transactionManager.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h" afterPath="$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h" afterPath="$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" afterPath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" afterPath="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart.cbp" afterPath="$PROJECT_DIR$/mvccart.cbp" />
     </list>
@@ -200,8 +192,8 @@
       <file leaf-file-name="ARTCorrectnessIterators.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="64" column="31" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+            <state relative-caret-position="330">
+              <caret line="64" column="26" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
               <folding>
                 <element signature="e#65#84#0" expanded="true" />
               </folding>
@@ -209,27 +201,100 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ARTCorrectnessUpdates.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
+      <file leaf-file-name="ReadIntensive.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="1173" column="100" lean-forward="false" selection-start-line="1173" selection-start-column="100" selection-end-line="1173" selection-end-column="100" />
+            <state relative-caret-position="420">
+              <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
               <folding>
-                <element signature="e#1779#3142#0" expanded="false" />
-                <element signature="e#3144#3732#0" expanded="false" />
-                <element signature="e#3734#4126#0" expanded="false" />
-                <element signature="e#4128#4248#0" expanded="false" />
-                <element signature="e#4393#5579#0" expanded="false" />
+                <element signature="e#65#84#0" expanded="true" />
+                <element signature="e#635#1822#0" expanded="false" />
+                <element signature="e#2206#3322#0" expanded="false" />
+                <element signature="e#4181#5151#0" expanded="false" />
+                <element signature="e#5211#6643#0" expanded="false" />
+                <element signature="e#6703#9061#0" expanded="false" />
+                <element signature="e#9122#13342#0" expanded="false" />
+                <element signature="e#13403#21422#0" expanded="false" />
+                <element signature="e#21484#22226#0" expanded="false" />
+                <element signature="e#22291#23267#0" expanded="false" />
+                <element signature="e#23328#24768#0" expanded="false" />
+                <element signature="e#24829#27199#0" expanded="false" />
+                <element signature="e#27261#31499#0" expanded="false" />
+                <element signature="e#31561#39619#0" expanded="false" />
+                <marker date="1511710462000" expanded="true" signature="377:450" ph="{...}" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UpdateIntensive.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+              <folding>
+                <element signature="e#65#84#0" expanded="true" />
+                <marker date="1511710530000" expanded="true" signature="382:455" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateIntensiveTemplates.h" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1335">
+              <caret line="109" column="20" lean-forward="false" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateIntensiveTemplates.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="206">
+              <caret line="291" column="88" lean-forward="false" selection-start-line="291" selection-start-column="88" selection-end-line="291" selection-end-column="88" />
+              <folding>
+                <element signature="e#128#159#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UpdateIntensiveGC.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="20" column="29" lean-forward="false" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+              <folding>
+                <element signature="e#65#84#0" expanded="true" />
+                <element signature="e#2149#3265#0" expanded="false" />
+                <element signature="e#3327#4161#0" expanded="false" />
+                <element signature="e#4202#5021#0" expanded="false" />
+                <marker date="1511710530000" expanded="true" signature="337:410" ph="{...}" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WriteOnly.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="825">
+              <caret line="452" column="0" lean-forward="false" selection-start-line="452" selection-start-column="0" selection-end-line="452" selection-end-column="0" />
+              <folding>
+                <element signature="e#65#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="40" column="50" lean-forward="false" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
+            <state relative-caret-position="370">
+              <caret line="40" column="41" lean-forward="false" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
               <folding />
             </state>
           </provider>
@@ -357,8 +422,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>current(</find>
-      <find>TableMap</find>
       <find>mDataTablemDataTable</find>
       <find>Updater</find>
       <find>stomachically</find>
@@ -387,6 +450,8 @@
       <find>theGlobalEpochControl</find>
       <find>GC</find>
       <find>,status</find>
+      <find>, std::string &amp;status</find>
+      <find>keysToFind);</find>
     </findStrings>
     <replaceStrings>
       <replace>BOOST_TEST</replace>
@@ -396,6 +461,7 @@
       <replace>UpdateSmall</replace>
       <replace>ReadIntensiveSmall</replace>
       <replace>WriteOnly</replace>
+      <replace>keysToFind,id);</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -418,24 +484,15 @@
         <option value="$PROJECT_DIR$/table/HashMapTableTest.cpp" />
         <option value="$PROJECT_DIR$/table/HashMapTable.hpp" />
         <option value="$PROJECT_DIR$/ART/ARTFULCpp.h" />
-        <option value="$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp" />
-        <option value="$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h" />
-        <option value="$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h" />
-        <option value="$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/ScaleTestsReadOnly.cpp" />
-        <option value="$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp" />
         <option value="$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h" />
-        <option value="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/main.cpp" />
         <option value="$PROJECT_DIR$/Transactions/transactionManager.cpp" />
         <option value="$PROJECT_DIR$/GarbageCollectorIterators.h" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.hpp.h" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.h" />
-        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
-        <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.cpp" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.hpp" />
-        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" />
@@ -452,9 +509,18 @@
         <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/ART/ArtCPP.hpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
+        <option value="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" />
+        <option value="$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h" />
+        <option value="$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h" />
+        <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
       </list>
     </option>
   </component>
@@ -500,7 +566,21 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="ART" />
+              <option name="myItemId" value="WorkloadTests" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="mvccart" />
+              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="MVCCART" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Transactions" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -839,12 +919,12 @@
       <workItem from="1507745623359" duration="1023000" />
       <workItem from="1507747291131" duration="14752000" />
       <workItem from="1420070775225" duration="48709000" />
-      <workItem from="1510504807958" duration="42885000" />
+      <workItem from="1510504807958" duration="46551000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1428912000" />
+    <option name="totallyTimeSpent" value="1432578000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -861,7 +941,7 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20463032" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37535816" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.5026139" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31948423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -895,7 +975,7 @@
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="423" />
+      <option name="time" value="424" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -936,13 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-660">
-          <caret line="42" column="9" lean-forward="true" selection-start-line="42" selection-start-column="9" selection-end-line="42" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -951,43 +1024,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/GarbageCollectorIterators.h" />
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3390">
-          <caret line="230" column="54" lean-forward="false" selection-start-line="230" selection-start-column="54" selection-end-line="230" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mvcc/snapshot.hpp.h" />
     <entry file="file://$PROJECT_DIR$/mvcc/snapshot.h" />
-    <entry file="file://$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="930">
-          <caret line="62" column="39" lean-forward="false" selection-start-line="62" selection-start-column="39" selection-end-line="62" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="0" lean-forward="false" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1380">
-          <caret line="92" column="0" lean-forward="false" selection-start-line="51" selection-start-column="1" selection-end-line="92" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-281">
-          <caret line="109" column="0" lean-forward="true" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/table/HashMapTable.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1635">
@@ -1033,20 +1071,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="38" column="21" lean-forward="false" selection-start-line="38" selection-start-column="21" selection-end-line="38" selection-end-column="21" />
-          <folding>
-            <element signature="e#65#84#0" expanded="false" />
-            <element signature="e#2193#3309#0" expanded="false" />
-            <element signature="e#3371#4205#0" expanded="false" />
-            <element signature="e#4246#5065#0" expanded="false" />
-            <marker date="1508070443000" expanded="true" signature="306:379" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -1054,14 +1078,6 @@
           <folding>
             <element signature="e#128#159#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2520">
-          <caret line="168" column="33" lean-forward="false" selection-start-line="168" selection-start-column="33" selection-end-line="170" selection-end-column="67" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1130,26 +1146,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="120" column="23" lean-forward="false" selection-start-line="120" selection-start-column="23" selection-end-line="120" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
           <caret line="38" column="84" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="84" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="109" column="20" lean-forward="false" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -1319,24 +1319,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="64" column="31" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
-          <folding>
-            <element signature="e#65#84#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="40" column="50" lean-forward="false" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="298">
@@ -1455,8 +1437,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="1173" column="100" lean-forward="false" selection-start-line="1173" selection-start-column="100" selection-end-line="1173" selection-end-column="100" />
+        <state relative-caret-position="3070">
+          <caret line="1360" column="0" lean-forward="true" selection-start-line="1360" selection-start-column="0" selection-end-line="1360" selection-end-column="0" />
           <folding>
             <element signature="e#1779#3142#0" expanded="false" />
             <element signature="e#3144#3732#0" expanded="false" />
@@ -1464,6 +1446,145 @@
             <element signature="e#4128#4248#0" expanded="false" />
             <element signature="e#4393#5579#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="64" column="26" lean-forward="false" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadIntensive.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="0" lean-forward="false" selection-start-line="28" selection-start-column="0" selection-end-line="28" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+            <element signature="e#635#1822#0" expanded="false" />
+            <element signature="e#2206#3322#0" expanded="false" />
+            <element signature="e#4181#5151#0" expanded="false" />
+            <element signature="e#5211#6643#0" expanded="false" />
+            <element signature="e#6703#9061#0" expanded="false" />
+            <element signature="e#9122#13342#0" expanded="false" />
+            <element signature="e#13403#21422#0" expanded="false" />
+            <element signature="e#21484#22226#0" expanded="false" />
+            <element signature="e#22291#23267#0" expanded="false" />
+            <element signature="e#23328#24768#0" expanded="false" />
+            <element signature="e#24829#27199#0" expanded="false" />
+            <element signature="e#27261#31499#0" expanded="false" />
+            <element signature="e#31561#39619#0" expanded="false" />
+            <marker date="1511710462000" expanded="true" signature="377:450" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/ReadIntensiveTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="224" column="0" lean-forward="false" selection-start-line="224" selection-start-column="0" selection-end-line="224" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/ReadOnlyTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="131">
+          <caret line="166" column="61" lean-forward="false" selection-start-line="166" selection-start-column="61" selection-end-line="166" selection-end-column="61" />
+          <folding>
+            <element signature="e#128#159#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="9" lean-forward="true" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
+          <folding>
+            <element signature="e#65#84#0" expanded="false" />
+            <element signature="e#586#1773#0" expanded="false" />
+            <element signature="e#2155#3271#0" expanded="false" />
+            <element signature="e#6565#8873#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" column="30" lean-forward="false" selection-start-line="9" selection-start-column="30" selection-end-line="9" selection-end-column="30" />
+          <folding>
+            <marker date="1511710530000" expanded="true" signature="406:479" ph="{...}" />
+            <marker date="1511710530000" expanded="true" signature="627:1809" ph="{...}" />
+            <marker date="1511710530000" expanded="true" signature="2113:3224" ph="{...}" />
+            <marker date="1511710530000" expanded="true" signature="3276:4188" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="452" column="0" lean-forward="false" selection-start-line="452" selection-start-column="0" selection-end-line="452" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="20" column="29" lean-forward="false" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+            <element signature="e#2149#3265#0" expanded="false" />
+            <element signature="e#3327#4161#0" expanded="false" />
+            <element signature="e#4202#5021#0" expanded="false" />
+            <marker date="1511710530000" expanded="true" signature="337:410" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1335">
+          <caret line="109" column="20" lean-forward="false" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="30" lean-forward="false" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+          <folding>
+            <element signature="e#65#84#0" expanded="true" />
+            <marker date="1511710530000" expanded="true" signature="382:455" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="291" column="88" lean-forward="false" selection-start-line="291" selection-start-column="88" selection-end-line="291" selection-end-column="88" />
+          <folding>
+            <element signature="e#128#159#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="370">
+          <caret line="40" column="41" lean-forward="false" selection-start-line="40" selection-start-column="41" selection-end-line="40" selection-end-column="41" />
+          <folding />
         </state>
       </provider>
     </entry>

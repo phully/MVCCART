@@ -6,12 +6,10 @@
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
 #include "Transactions/WriteOnlyTemplates.h"
+#include "generated/settings.h"
 
 
 using namespace std;
-
-
-
 
 auto ARTable1 =  new ARTTupleContainer();
 auto ARTable2 =  new ARTTupleContainer();
@@ -43,8 +41,7 @@ static  int cb(void *data, const unsigned char* key, uint32_t key_len, const_sna
 }
 
 
-///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
@@ -453,9 +450,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
     }
-
-
-
 
 BOOST_AUTO_TEST_SUITE_END()
 

@@ -136,32 +136,32 @@ fmt/fast:
 	$(MAKE) -f fmt-master/fmt/CMakeFiles/fmt.dir/build.make fmt-master/fmt/CMakeFiles/fmt.dir/build
 .PHONY : fmt/fast
 
-CorrectnessTests/ARTCorrectnessUpdates.o: CorrectnessTests/ARTCorrectnessUpdates.cpp.o
+WorkloadTests/ReadIntensive.o: WorkloadTests/ReadIntensive.cpp.o
 
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.o
+.PHONY : WorkloadTests/ReadIntensive.o
 
 # target to build an object file
-CorrectnessTests/ARTCorrectnessUpdates.cpp.o:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdates.cpp.o
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.cpp.o
+WorkloadTests/ReadIntensive.cpp.o:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.o
+.PHONY : WorkloadTests/ReadIntensive.cpp.o
 
-CorrectnessTests/ARTCorrectnessUpdates.i: CorrectnessTests/ARTCorrectnessUpdates.cpp.i
+WorkloadTests/ReadIntensive.i: WorkloadTests/ReadIntensive.cpp.i
 
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.i
+.PHONY : WorkloadTests/ReadIntensive.i
 
 # target to preprocess a source file
-CorrectnessTests/ARTCorrectnessUpdates.cpp.i:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdates.cpp.i
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.cpp.i
+WorkloadTests/ReadIntensive.cpp.i:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.i
+.PHONY : WorkloadTests/ReadIntensive.cpp.i
 
-CorrectnessTests/ARTCorrectnessUpdates.s: CorrectnessTests/ARTCorrectnessUpdates.cpp.s
+WorkloadTests/ReadIntensive.s: WorkloadTests/ReadIntensive.cpp.s
 
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.s
+.PHONY : WorkloadTests/ReadIntensive.s
 
 # target to generate assembly for a file
-CorrectnessTests/ARTCorrectnessUpdates.cpp.s:
-	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdates.cpp.s
-.PHONY : CorrectnessTests/ARTCorrectnessUpdates.cpp.s
+WorkloadTests/ReadIntensive.cpp.s:
+	$(MAKE) -f CMakeFiles/mvccart.dir/build.make CMakeFiles/mvccart.dir/WorkloadTests/ReadIntensive.cpp.s
+.PHONY : WorkloadTests/ReadIntensive.cpp.s
 
 # Help Target
 help:
@@ -173,9 +173,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... mvccart"
 	@echo "... fmt"
-	@echo "... CorrectnessTests/ARTCorrectnessUpdates.o"
-	@echo "... CorrectnessTests/ARTCorrectnessUpdates.i"
-	@echo "... CorrectnessTests/ARTCorrectnessUpdates.s"
+	@echo "... WorkloadTests/ReadIntensive.o"
+	@echo "... WorkloadTests/ReadIntensive.i"
+	@echo "... WorkloadTests/ReadIntensive.s"
 .PHONY : help
 
 

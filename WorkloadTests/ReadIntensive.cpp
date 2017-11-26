@@ -6,7 +6,7 @@
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
 #include "Transactions/ReadIntensiveTemplates.h"
-
+#include "generated/settings.h"
 
 using namespace std;
 
@@ -25,7 +25,7 @@ void RESET_AND_DELETE(ARTTupleContainer& ART )
 
 
 ///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 

@@ -103,7 +103,7 @@ auto ReadOnlySmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<in
     for (int i = 0; i < 100; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
         if(val == nullptr)
@@ -134,7 +134,7 @@ auto ReadOnlyMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<i
     for (int i = 0; i < 1000; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
         if(val == nullptr)
@@ -164,7 +164,7 @@ auto ReadOnlyLong = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string 
     for (int i = 0; i < 100000; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
         if(val == nullptr)

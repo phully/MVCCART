@@ -103,7 +103,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pa
     for (int i = 0; i < 60; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
         if(val == nullptr)
         {
             totalCachedMissed++;
@@ -122,7 +122,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pa
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,id,updater);
+        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,updater,id);
         if(result != NULL)
         {
             WriteSet.push_back(result->value);
@@ -140,7 +140,7 @@ auto ReadIntensiveSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pa
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto val = ARTWithTuples.findValueByKey(cstr);
+        auto val = ARTWithTuples.findValueByKey(cstr,id);
 
 
         if(val == nullptr)
@@ -173,7 +173,7 @@ auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::p
     for (int i = 0; i < 600; i++)
     {
         char* keysToFind = KeysToStore[randomKeys1(rng)];
-        auto val = ARTWithTuples.findValueByKey(keysToFind);
+        auto val = ARTWithTuples.findValueByKey(keysToFind,id);
         if(val == nullptr)
         {
             totalCachedMissed++;
@@ -193,7 +193,7 @@ auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::p
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,id,updater);
+        auto result= ARTWithTuples.insertOrUpdateByKey(cstr,updater,id);
         if(result != NULL)
         {
             WriteSet.push_back(result->value);
@@ -209,7 +209,7 @@ auto ReadIntensiveMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::p
         string str =  tuple.getAttribute<0>();
         char *cstr = new char[str.length() + 1];
         strcpy(cstr, str.c_str());
-        auto val = ARTWithTuples.findValueByKey(cstr);
+        auto val = ARTWithTuples.findValueByKey(cstr,id);
 
 
         if(val == nullptr)

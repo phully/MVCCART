@@ -6,29 +6,24 @@
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
 #include "Transactions/ReadOnlyTemplates.h"
+#include "generated/settings.h"
 
 
 using namespace std;
 
 
-
-
 auto ARTable1 =  new ARTTupleContainer();
-
 void RESET_AND_DELETE(ARTTupleContainer& ART )
 {
     ART.DestroyAdaptiveRadixTreeTable();
     reset_transaction_ID();
-
 }
 
 
 
-///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
-
 
     BOOST_AUTO_TEST_CASE(test_loading_Buckets_from_TextFIle)
     {
@@ -82,8 +77,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
      * randomly from the the ReadSet vector obtained
      * from Reading values.
     */
-
-
 
 
 

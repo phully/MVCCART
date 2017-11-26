@@ -116,7 +116,7 @@ auto UpdateSmall = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,
     int totalCachedMissed=0;
     for (int i = 0; i < 80; i++)
     {
-        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)], id,updater);
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)],updater,id);
 
         if (result == nullptr)
         {
@@ -171,7 +171,7 @@ auto UpdateMedium = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int
     for (int i = 0; i < 800; i++)
     {
         char * keyToInsert = KeysToStore[randomKeys1(rng)];
-        auto result = ARTWithTuples.insertOrUpdateByKey(keyToInsert, id, updater);
+        auto result = ARTWithTuples.insertOrUpdateByKey(keyToInsert, updater,id);
 
         if (result == nullptr)
         {
@@ -224,7 +224,7 @@ auto UpdateLong = [](ARTTupleContainer &ARTWithTuples, size_t id,std::pair<int,i
     int totalCachedMissed=0;
     for (int i = 0; i < 80000; i++)
     {
-        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)], id,updater);
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[randomKeys1(rng)],updater,id);
 
         if (result == nullptr || result == NULL)
         {
@@ -289,7 +289,7 @@ auto UpdateContinuously = [](ARTTupleContainer &ARTWithTuples, size_t id,int num
     for (int i = 0; i < numVersions; i++)
     {
         char *keysToFind = KeysToStore[keyIndex];
-        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[keyIndex], id,updater);
+        auto result = ARTWithTuples.insertOrUpdateByKey(KeysToStore[keyIndex],updater,id);
         std::this_thread::sleep_for(std::chrono::milliseconds(delayms));
         if (result == nullptr || result == NULL)
         {

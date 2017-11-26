@@ -6,6 +6,7 @@
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
 #include "Transactions/UpdateIntensiveTemplates.hpp"
+#include "generated/settings.h"
 
 
 using namespace std;
