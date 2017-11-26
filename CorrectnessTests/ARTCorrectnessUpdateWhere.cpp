@@ -1,7 +1,9 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE MVCC_TEST
 
+
 #include <iostream>
+#include "generated/settings.h"
 #include <boost/test/unit_test.hpp>
 #include <boost/lexical_cast.hpp>
 #include "mvcc/mvcc.hpp"
@@ -14,6 +16,7 @@
 #include <boost/random/variate_generator.hpp>
 #include "fmt-master/fmt/format.h"
 #include "Transactions/WriteOnlyTemplates.h"
+
 
 using namespace std;
 
@@ -61,18 +64,14 @@ static  int cb_prefix(void *data, const unsigned char* key, uint32_t key_len, vo
 }
 
 
-
-
-
-
-///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
     BOOST_AUTO_TEST_CASE(test_loading_Buckets_from_TextFIle)
     {
+
         cout << "loading_Buckets_from_TextFIle" << endl;
         int keyLen;
         char buf[20];
@@ -124,7 +123,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         Transaction<TransactionLambda, ARTTupleContainer> *t1 = new Transaction<TransactionLambda, ARTTupleContainer>(
                 WriteOnly, *ARTableWithTuples,std::make_pair(0, 200000));
-
         t1->CollectTransaction();
 
         auto end_time2 = std::chrono::high_resolution_clock::now();
@@ -132,7 +130,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout<<"Total time by WriteOnly100Ops1Transactions::"<<endl;
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":"<<endl;
-
     }
 
     BOOST_AUTO_TEST_CASE(test_updateWhere_ARTIndex_MVCC)
@@ -145,7 +142,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         using snapshot_type = mvcc11::snapshot<RecordType>;
         typedef smart_ptr::shared_ptr<snapshot_type const> const_snapshot_ptr;
 
-        auto filter = [](const_snapshot_ptr recordtype)->bool
+       auto filter = [](const_snapshot_ptr recordtype)->bool
        {
            RecordType tuple = RecordType(recordtype->value.getAttribute<0>(),
                                          recordtype->value.getAttribute<1>(),
@@ -160,8 +157,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             }
             return false;
        };
-
-
 
 
         auto UpdateWhere= [filter](ARTTupleContainer& ARTable,size_t id)
@@ -184,7 +179,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time).count() << ":";
     }
-
 
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -46,6 +46,7 @@ class Epoch
             TxnSet.push_back(Tid);
             counter++;
         }
+
         Epoch()
         {
             TxnSet.clear();

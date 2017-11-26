@@ -22,7 +22,7 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/random/variate_generator.hpp>
 #include "fmt-master/fmt/format.h"
-
+#include "generated/settings.h"
 
 using namespace std;
 
@@ -44,7 +44,7 @@ namespace
 typedef pfabric::Tuple<string,unsigned long, int,string, double> RecordType;
 typedef char KeyType[20];
 typedef ArtCPP<RecordType,KeyType> ARTTupleContainer;
-typedef std::function <void(ARTTupleContainer&,size_t id,std::string& status)> TableOperationOnTupleFunc;
+typedef std::function <void(ARTTupleContainer&,size_t id)> TableOperationOnTupleFunc;
 
 char KeysToStore[235890][20];
 std::vector<RecordType> vectorValues;
@@ -127,8 +127,7 @@ int current_time_nanoseconds(){
 }
 
 
-///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
@@ -185,12 +184,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     BOOST_AUTO_TEST_CASE(testing_update_intensive_Two_transactions)
     {
         ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id)
         {
             int index=0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
                 index++;
 
                 if(index > 200000)
@@ -215,7 +214,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         cout << "testing_update_intensive_4_transactions" << endl;
 
-        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<RecordType> UpdateSet;
 
@@ -239,11 +238,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=0; i < 100000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
             }
         };
 
-        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -268,7 +267,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=100000; i < 200000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
@@ -292,7 +291,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     {
         cout << "Verifying_updates_intensive_by_Two_Transactions" << endl;
         ///Iterator Operation on TupleContainer
-        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -304,7 +303,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -328,7 +327,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -340,7 +339,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -387,12 +386,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
         ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id)
         {
             int index=0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
                 index++;
 
                 if(index > 200000)
@@ -416,7 +415,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         cout << "testing_update_intensive_4_transactions" << endl;
 
-        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<RecordType> UpdateSet;
 
@@ -440,11 +439,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
             }
         };
 
-        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -469,12 +468,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=50000; i < 100000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
-        auto update3 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update3 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -499,13 +498,13 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=100000; i < 150000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
 
-        auto update4 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update4 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -530,7 +529,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=150000; i < 200000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
@@ -561,7 +560,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         cout << "Verifying_updates_intensive_by_Four_Transactions" << endl;
         ///Iterator Operation on TupleContainer
 
-        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -573,7 +572,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -597,7 +596,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -609,7 +608,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -633,7 +632,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -645,7 +644,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -671,7 +670,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
 
-        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -683,7 +682,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -740,12 +739,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
 
         ///Writer#1 Insert/Update from Bucket
-        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id,std::string& status)
+        auto WriteKeys1= [] (ARTTupleContainer& ARTable,size_t id)
         {
             int index=0;
             while (true)
             {
-                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id,status);
+                ARTable.insertOrUpdateByKey(KeysToStore[index],vectorValues[index],id);
                 index++;
 
                 if(index > 200000)
@@ -769,7 +768,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         cout << "testing_update_intensive_single_transaction" << endl;
 
-        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update1 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<RecordType> UpdateSet;
 
@@ -793,11 +792,11 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
             }
         };
 
-        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update2 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -822,12 +821,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=25000; i < 50000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
-        auto update3 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update3 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -852,13 +851,13 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=50000; i < 75000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
 
-        auto update4 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update4 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -883,12 +882,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=75000; i < 100000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
-        auto update5 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update5 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -913,12 +912,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=100000; i < 125000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
-        auto update6 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update6 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -943,12 +942,12 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=125000; i < 150000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
 
-        auto update7 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update7 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -973,13 +972,13 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=150000; i < 175000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
 
             }
         };
 
-        auto update8 = [] (ARTTupleContainer& ARTWithTuples,size_t id,std::string& status)
+        auto update8 = [] (ARTTupleContainer& ARTWithTuples,size_t id)
         {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
@@ -1004,7 +1003,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for(int i=175000; i < 200000; i++)
             {
                 char* keysToFind = KeysToStore[i];
-                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id,status);
+                auto result= ARTWithTuples.insertOrUpdateByKey(keysToFind,updater,id);
                 //BOOST_CHECK(result != NULL);
             }
         };
@@ -1039,7 +1038,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
     {
         cout << "Verifying updates" << endl;
         ///Iterator Operation on TupleContainer
-        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys1 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1051,7 +1050,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1075,7 +1074,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys2 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1087,7 +1086,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1104,7 +1103,6 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
                     //BOOST_TEST(tp.getAttribute<3>() == fmt::format("String/{}", keysToFind));
                     BOOST_TEST(tp.getAttribute<4>() == (vectorValues[index].getAttribute<1>()) / 200.0);
                 }
-
             }
 
             cout<<"Total Cached missed out of 50,000 random keys ="<<totalCachedMissed<<" by transaction#"<<id<<endl;
@@ -1112,7 +1110,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         };
 
 
-        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys3 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1124,7 +1122,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1148,7 +1146,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys4 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1160,7 +1158,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1184,7 +1182,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys5 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys5 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1196,7 +1194,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1220,7 +1218,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys6 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys6 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1232,7 +1230,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1256,7 +1254,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 
         };
 
-        auto findKeys7 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys7 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1268,7 +1266,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1293,7 +1291,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         };
 
 
-        auto findKeys8 = [](ARTTupleContainer &ARTWithTuples, size_t id, std::string &status) {
+        auto findKeys8 = [](ARTTupleContainer &ARTWithTuples, size_t id) {
             std::vector<void *> writeSet;
             std::vector<void *> ReadSet;
 
@@ -1305,7 +1303,7 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
             for (int i = 0; i < 25000; i++)
             {
                 char* keysToFind = KeysToStore[randomKeys1(rng)];
-                auto val = ARTWithTuples.findValueByKey(keysToFind);
+                auto val = ARTWithTuples.findValueByKey(keysToFind,id);
 
 
                 if(val == nullptr)
@@ -1330,16 +1328,38 @@ BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
         };
 
         auto start_time2 = std::chrono::high_resolution_clock::now();
-        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t1 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
                 findKeys1, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t2 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys2, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t3 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys3, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t4 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys4, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t5 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys5, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t6 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys6, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t7 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys7, *ARTable_for_updates8);
+        Transaction<TableOperationOnTupleFunc, ARTTupleContainer> *t8 = new Transaction<TableOperationOnTupleFunc, ARTTupleContainer>(
+                findKeys8, *ARTable_for_updates8);
+
+
+        t1->CollectTransaction();
         t2->CollectTransaction();
+        t3->CollectTransaction();
+        t4->CollectTransaction();
+        t5->CollectTransaction();
+        t6->CollectTransaction();
+        t7->CollectTransaction();
+        t8->CollectTransaction();
+
         auto end_time2 = std::chrono::high_resolution_clock::now();
         cout << std::chrono::duration_cast<std::chrono::seconds>(end_time2 - start_time2).count() << ":";
         cout << std::chrono::duration_cast<std::chrono::microseconds>(end_time2 - start_time2).count() << ":";
 
         RESET_AND_DELETE(*ARTable_for_updates8);
-
-
     }
 
 BOOST_AUTO_TEST_SUITE_END()

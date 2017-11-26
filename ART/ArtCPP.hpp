@@ -801,13 +801,10 @@ static art_leaf* recursive_delete(std::shared_ptr<art_tree> t,art_node *n, art_n
 template <typename RecordType, typename KeyType = DefaultKeyType>
 class ArtCPP : public pfabric::BaseTable
 {
-
     public: std::shared_ptr<art_tree> t;
     public: char buf[512];
     public: int res;
     public: uint64_t ARTSize;
-
-
 
     using valueType = RecordType;
     using snapshot_type = mvcc11::snapshot<RecordType>;
@@ -840,7 +837,6 @@ class ArtCPP : public pfabric::BaseTable
 
     ///Callbacks for Predicates, UpdateFun and etc.
     typedef int(*art_callback)(void *data, const unsigned char *key, uint32_t key_len, const_snapshot_ptr value);
-
 
     ///< typedef for a callback function which is invoked when the table was updated
     typedef boost::signals2::signal<void (const_snapshot_ptr, pfabric::TableParams::ModificationMode)> ObserverCallback;
@@ -1392,7 +1388,7 @@ class ArtCPP : public pfabric::BaseTable
 
 
     /// Recursive Updater
-    public: const_snapshot_ptr insertOrUpdateByKey(char *key, size_t txn_id,Updater updater)
+    public: const_snapshot_ptr insertOrUpdateByKey(char *key, Updater updater,size_t txn_id)
     {
         int old_val = 0;
         int key_len =  std::strlen(key);

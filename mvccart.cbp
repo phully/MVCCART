@@ -47,6 +47,7 @@
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add option="-DFMT_HEADER_ONLY=1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART/generated"/>
 					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -72,6 +73,7 @@
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add option="-DFMT_HEADER_ONLY=1"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART/generated"/>
 					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -96,6 +98,7 @@
 				<Compiler>
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART/generated"/>
 					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -120,6 +123,7 @@
 				<Compiler>
 					<Add option="-DBOOST_LOG_DYN_LINK"/>
 					<Add directory="/usr/local/include"/>
+					<Add directory="/Users/fuadshah/Desktop/MVCCART/generated"/>
 					<Add directory="/Users/fuadshah/Desktop/MVCCART"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/bin/../lib/clang/8.0.0/include"/>
 					<Add directory="/Library/Developer/CommandLineTools/usr/include"/>
@@ -139,7 +143,7 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/ART/ArtCPP.hpp">
 			<Option target="mvccart"/>
 		</Unit>
-		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp">
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessUpdates.cpp">
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/Transactions/Epochs.hpp">
@@ -193,6 +197,9 @@
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/time.h">
 			<Option target="fmt"/>
 		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/generated/settings.h">
+			<Option target="mvccart"/>
+		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/mvcc/mvcc.hpp">
 			<Option target="mvccart"/>
 		</Unit>
@@ -200,6 +207,9 @@
 			<Option target="mvccart"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/Users/fuadshah/Desktop/MVCCART/settings.h.in">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 		<Unit filename="/Users/fuadshah/Desktop/MVCCART/fmt-master/fmt/CMakeLists.txt">

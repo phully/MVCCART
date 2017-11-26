@@ -62,7 +62,6 @@ class GlobalEpoch
       {
             return ActiveEpoch;
       }
-
     };
 
 GlobalEpoch myEpochGlobal = GlobalEpoch();

@@ -106,8 +106,6 @@ public:
     boost::thread* TransactionThread;
     std::string status;
     Epoch myEpoch;
-
-
     std::vector<void*> ReadSet;
     std::vector<void*> WriteSet;
     Transaction(TransactionFunc func, ARTContainer& ART);

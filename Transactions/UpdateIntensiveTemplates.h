@@ -74,7 +74,6 @@ int current_time_nanoseconds()
 
 std::function<RecordType(RecordType&)> updater = [](RecordType& record)
 {
-
     string attr0 = record.getAttribute<0>();
     unsigned long attr1 = record.getAttribute<1>();
     int attr2 = record.getAttribute<2>()+100;

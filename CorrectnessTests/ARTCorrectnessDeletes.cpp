@@ -14,6 +14,7 @@
 #include <boost/random/variate_generator.hpp>
 #include "fmt-master/fmt/format.h"
 #include "Transactions/WriteOnlyTemplates.h"
+#include "generated/settings.h"
 
 using namespace std;
 
@@ -58,8 +59,7 @@ static  int cb_prefix(void *data, const unsigned char* key, uint32_t key_len, vo
 
 
 
-///home/muum8236/code/MVCCART/test_data
-char * rootpath_words = "/Users/fuadshah/Desktop/MVCCART/test_data/words.txt";
+char * rootpath_words = GetWordsTestFile();
 
 BOOST_AUTO_TEST_SUITE(MVCC_TESTS)
 

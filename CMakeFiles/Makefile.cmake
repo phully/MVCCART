@@ -43,6 +43,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "CMakeFiles/3.6.3/CMakeSystem.cmake"
   "CMakeLists.txt"
   "fmt-master/fmt/CMakeLists.txt"
+  "settings.h.in"
   )
 
 # The corresponding makefile is:
@@ -53,6 +54,7 @@ set(CMAKE_MAKEFILE_OUTPUTS
 
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
+  "generated/settings.h"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
   "fmt-master/fmt/CMakeFiles/CMakeDirectoryInformation.cmake"
   )

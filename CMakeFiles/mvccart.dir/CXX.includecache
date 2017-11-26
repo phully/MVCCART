@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ARTCorrectnessUpdates.cpp
 iostream
 -
 boost/test/unit_test.hpp
@@ -17,9 +17,25 @@ mvcc/mvcc.hpp
 /Users/fuadshah/Desktop/MVCCART/CorrectnessTests/mvcc/mvcc.hpp
 ART/ArtCPP.hpp
 /Users/fuadshah/Desktop/MVCCART/CorrectnessTests/ART/ArtCPP.hpp
+Transactions/transactionManager.h
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/Transactions/transactionManager.h
+atomic
+-
+string
+-
+thread
+-
+mutex
+-
 condition_variable
 -
 future
+-
+cassert
+-
+core/Tuple.hpp
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/core/Tuple.hpp
+boost/tuple/tuple.hpp
 -
 random
 -
@@ -31,8 +47,8 @@ boost/random/variate_generator.hpp
 -
 fmt-master/fmt/format.h
 /Users/fuadshah/Desktop/MVCCART/CorrectnessTests/fmt-master/fmt/format.h
-Transactions/WriteOnlyTemplates.h
-/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/Transactions/WriteOnlyTemplates.h
+generated/settings.h
+/Users/fuadshah/Desktop/MVCCART/CorrectnessTests/generated/settings.h
 
 /usr/local/include/boost/algorithm/string/case_conv.hpp
 boost/algorithm/string/config.hpp
@@ -30544,48 +30560,6 @@ atomic
 Epochs.hpp
 Transactions/Epochs.hpp
 
-Transactions/WriteOnlyTemplates.h
-transactionManager.h
-Transactions/transactionManager.h
-iostream
--
-boost/test/unit_test.hpp
--
-boost/lexical_cast.hpp
--
-mvcc/mvcc.hpp
-Transactions/mvcc/mvcc.hpp
-ART/ArtCPP.hpp
-Transactions/ART/ArtCPP.hpp
-atomic
--
-string
--
-thread
--
-mutex
--
-condition_variable
--
-future
--
-cassert
--
-core/Tuple.hpp
-Transactions/core/Tuple.hpp
-boost/tuple/tuple.hpp
--
-random
--
-boost/random/mersenne_twister.hpp
--
-boost/random/uniform_int_distribution.hpp
--
-boost/random/variate_generator.hpp
--
-fmt-master/fmt/format.h
-Transactions/fmt-master/fmt/format.h
-
 Transactions/transactionManager.h
 iostream
 -
@@ -30823,6 +30797,10 @@ intrin.h
 -
 format.cc
 fmt-master/fmt/format.cc
+
+generated/settings.h
+iostream
+-
 
 libcpp/types/detail/Function.hpp
 boost/function.hpp

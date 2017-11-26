@@ -14,12 +14,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9c30c15c-28a0-4b64-8323-baf2d5fdf2e1" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessIterators.cpp.o" afterPath="" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/settings.h.in" />
       <change type="DELETED" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp.o" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ART/ArtCPP.hpp" afterPath="$PROJECT_DIR$/ART/ArtCPP.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/Makefile.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/CXX.includecache" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/DependInfo.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/build.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/cmake_clean.cmake" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.internal" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/depend.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/flags.make" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/flags.make" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" afterPath="$PROJECT_DIR$/CMakeFiles/mvccart.dir/link.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CMakeLists.txt" afterPath="$PROJECT_DIR$/CMakeLists.txt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" afterPath="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/Epochs.hpp" afterPath="$PROJECT_DIR$/Transactions/Epochs.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" afterPath="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" afterPath="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Transactions/transactionManager.h" afterPath="$PROJECT_DIR$/Transactions/transactionManager.h" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart" afterPath="$PROJECT_DIR$/mvccart" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mvccart.cbp" afterPath="$PROJECT_DIR$/mvccart.cbp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <ignored path="$PROJECT_DIR$/CMakeFiles/" />
@@ -176,14 +197,51 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ARTCorrectnessIterators.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="64" column="31" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
+              <folding>
+                <element signature="e#65#84#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ARTCorrectnessUpdates.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="1173" column="100" lean-forward="false" selection-start-line="1173" selection-start-column="100" selection-end-line="1173" selection-end-column="100" />
+              <folding>
+                <element signature="e#1779#3142#0" expanded="false" />
+                <element signature="e#3144#3732#0" expanded="false" />
+                <element signature="e#3734#4126#0" expanded="false" />
+                <element signature="e#4128#4248#0" expanded="false" />
+                <element signature="e#4393#5579#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="341">
+              <caret line="40" column="50" lean-forward="false" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ArtCPP.hpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="115">
-              <caret line="2069" column="65" lean-forward="false" selection-start-line="2069" selection-start-column="65" selection-end-line="2069" selection-end-column="65" />
+            <state relative-caret-position="298">
+              <caret line="1390" column="91" lean-forward="false" selection-start-line="1390" selection-start-column="91" selection-end-line="1390" selection-end-column="91" />
               <folding>
                 <element signature="e#0#2#0" expanded="false" />
-                <element signature="e#104#123#0" expanded="true" />
                 <element signature="e#1397#1831#0" expanded="false" />
                 <element signature="e#1844#2187#0" expanded="false" />
                 <element signature="e#2189#2387#0" expanded="false" />
@@ -203,11 +261,14 @@
                 <element signature="e#5145#5234#0" expanded="false" />
                 <element signature="e#5789#5848#0" expanded="false" />
                 <element signature="e#5789#5950#0" expanded="false" />
+                <element signature="e#5952#7209#0" expanded="false" />
                 <element signature="e#6209#6318#1" expanded="false" />
+                <element signature="e#7211#9897#0" expanded="false" />
                 <element signature="e#7303#7412#1" expanded="false" />
                 <element signature="e#7560#7713#0" expanded="false" />
                 <element signature="e#9193#9370#0" expanded="false" />
                 <element signature="e#9989#10075#0" expanded="false" />
+                <element signature="e#9989#10395#0" expanded="false" />
                 <element signature="e#10397#10457#0" expanded="false" />
                 <element signature="e#10397#10755#0" expanded="false" />
                 <element signature="e#10757#11044#0" expanded="false" />
@@ -216,125 +277,77 @@
                 <element signature="e#11730#12416#0" expanded="false" />
                 <element signature="e#12418#14610#0" expanded="false" />
                 <element signature="e#14612#15676#0" expanded="false" />
+                <element signature="e#15678#16165#0" expanded="false" />
+                <element signature="e#16167#16601#0" expanded="false" />
                 <element signature="e#16603#17305#0" expanded="false" />
                 <element signature="e#17307#17971#0" expanded="false" />
                 <element signature="e#17973#18589#0" expanded="false" />
                 <element signature="e#18591#19741#0" expanded="false" />
-                <element signature="e#21425#21481#0" expanded="true" />
-                <element signature="e#21818#21957#0" expanded="false" />
-                <element signature="e#21970#22084#0" expanded="false" />
-                <element signature="e#22100#22147#0" expanded="false" />
-                <element signature="e#22918#23172#0" expanded="false" />
-                <element signature="e#23636#23929#0" expanded="false" />
-                <element signature="e#24387#24463#0" expanded="false" />
-                <element signature="e#24387#24753#0" expanded="false" />
-                <element signature="e#26973#27023#0" expanded="false" />
-                <element signature="e#26973#27121#0" expanded="false" />
-                <element signature="e#27127#27177#0" expanded="false" />
-                <element signature="e#27127#27275#0" expanded="false" />
-                <element signature="e#27281#27351#0" expanded="false" />
-                <element signature="e#28134#28203#0" expanded="false" />
-                <element signature="e#28134#28528#0" expanded="false" />
-                <element signature="e#28875#29324#0" expanded="false" />
-                <element signature="e#29332#29372#0" expanded="false" />
-                <element signature="e#29405#29470#0" expanded="false" />
-                <element signature="e#29581#29631#0" expanded="false" />
-                <element signature="e#29669#29701#0" expanded="true" />
-                <element signature="e#29803#30025#0" expanded="false" />
-                <element signature="e#30038#30468#0" expanded="false" />
-                <element signature="e#30542#33166#0" expanded="false" />
-                <element signature="e#33172#33488#0" expanded="false" />
-                <element signature="e#33501#33914#0" expanded="false" />
-                <element signature="e#33994#40018#0" expanded="false" />
-                <element signature="e#40073#41633#0" expanded="false" />
-                <element signature="e#41674#42018#0" expanded="false" />
-                <element signature="e#43505#44250#0" expanded="false" />
-                <element signature="e#44777#45939#0" expanded="false" />
-                <element signature="e#46383#46496#0" expanded="false" />
-                <element signature="e#49007#49581#0" expanded="false" />
-                <element signature="e#49593#51779#0" expanded="false" />
-                <element signature="e#51786#52025#0" expanded="false" />
-                <element signature="e#52038#52264#0" expanded="false" />
-                <element signature="e#52279#53540#0" expanded="false" />
-                <element signature="e#55665#56108#0" expanded="false" />
-                <element signature="e#58656#59099#0" expanded="false" />
-                <element signature="e#59114#60123#0" expanded="false" />
-                <element signature="e#60129#60421#0" expanded="false" />
-                <element signature="e#61760#62338#0" expanded="false" />
-                <element signature="e#62351#62551#0" expanded="false" />
-                <element signature="e#62567#64705#0" expanded="false" />
-                <element signature="e#64711#64958#0" expanded="false" />
-                <element signature="e#67644#67970#0" expanded="false" />
-                <element signature="e#67983#68210#0" expanded="false" />
-                <element signature="e#68224#70583#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ARTCorrectnessUpdateWhere.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="155" column="54" lean-forward="true" selection-start-line="155" selection-start-column="54" selection-end-line="155" selection-end-column="54" />
-              <folding>
-                <element signature="e#65#84#0" expanded="true" />
-                <element signature="e#818#1670#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="UpdateIntensiveTemplates.h" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="285">
-              <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ARTCorrectnessUpdates.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-318">
-              <caret line="241" column="62" lean-forward="false" selection-start-line="241" selection-start-column="43" selection-end-line="241" selection-end-column="62" />
-              <folding>
-                <element signature="e#65#84#0" expanded="true" />
-                <element signature="e#1768#3131#0" expanded="false" />
-                <element signature="e#3133#3721#0" expanded="false" />
-                <element signature="e#3723#4115#0" expanded="false" />
-                <element signature="e#4117#4237#0" expanded="false" />
-                <element signature="e#4457#5643#0" expanded="false" />
-                <element signature="e#10235#14235#0" expanded="false" />
-                <element signature="e#14306#21382#0" expanded="false" />
-                <element signature="e#21458#28990#0" expanded="false" />
-                <element signature="e#29062#41615#0" expanded="false" />
-                <element signature="e#41692#54504#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="38" column="54" lean-forward="false" selection-start-line="38" selection-start-column="54" selection-end-line="38" selection-end-column="54" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ARTCorrectnessIterators.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="146" column="11" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
-              <folding>
-                <element signature="e#2285#3472#0" expanded="false" />
-                <element signature="e#3648#4377#0" expanded="false" />
+                <element signature="e#19743#20218#0" expanded="false" />
+                <element signature="e#20220#21413#0" expanded="false" />
+                <element signature="e#21815#21954#0" expanded="false" />
+                <element signature="e#22914#23168#0" expanded="false" />
+                <element signature="e#23181#23613#0" expanded="false" />
+                <element signature="e#23632#23925#0" expanded="false" />
+                <element signature="e#23632#24375#0" expanded="false" />
+                <element signature="e#24383#24459#0" expanded="false" />
+                <element signature="e#24383#24749#0" expanded="false" />
+                <element signature="e#24764#24845#0" expanded="false" />
+                <element signature="e#24859#24962#0" expanded="false" />
+                <element signature="e#24976#25072#0" expanded="false" />
+                <element signature="e#25078#25999#0" expanded="false" />
+                <element signature="e#26005#26963#0" expanded="false" />
+                <element signature="e#26969#27019#0" expanded="false" />
+                <element signature="e#26969#27117#0" expanded="false" />
+                <element signature="e#27123#27173#0" expanded="false" />
+                <element signature="e#27123#27271#0" expanded="false" />
+                <element signature="e#27277#27347#0" expanded="false" />
+                <element signature="e#27277#28124#0" expanded="false" />
+                <element signature="e#28130#28199#0" expanded="false" />
+                <element signature="e#28130#28524#0" expanded="false" />
+                <element signature="e#28530#28856#0" expanded="false" />
+                <element signature="e#28871#29320#0" expanded="false" />
+                <element signature="e#29328#29368#0" expanded="false" />
+                <element signature="e#29328#29394#0" expanded="false" />
+                <element signature="e#29401#29466#0" expanded="false" />
+                <element signature="e#29479#29571#0" expanded="false" />
+                <element signature="e#29577#29627#0" expanded="false" />
+                <element signature="e#29799#30021#0" expanded="false" />
+                <element signature="e#30034#30464#0" expanded="false" />
+                <element signature="e#30538#33162#0" expanded="false" />
+                <element signature="e#33168#33484#0" expanded="false" />
+                <element signature="e#33497#33910#0" expanded="false" />
+                <element signature="e#33990#40014#0" expanded="false" />
+                <element signature="e#40069#41629#0" expanded="false" />
+                <element signature="e#41670#42014#0" expanded="false" />
+                <element signature="e#42069#46519#0" expanded="false" />
+                <element signature="e#43501#44246#0" expanded="false" />
+                <element signature="e#44773#45935#0" expanded="false" />
+                <element signature="e#46379#46492#0" expanded="false" />
+                <element signature="e#46525#48997#0" expanded="false" />
+                <element signature="e#49003#49577#0" expanded="false" />
+                <element signature="e#49589#51775#0" expanded="false" />
+                <element signature="e#51782#52021#0" expanded="false" />
+                <element signature="e#52034#52260#0" expanded="false" />
+                <element signature="e#52275#53536#0" expanded="false" />
+                <element signature="e#53542#55655#0" expanded="false" />
+                <element signature="e#55661#56104#0" expanded="false" />
+                <element signature="e#56117#56249#0" expanded="false" />
+                <element signature="e#56263#58645#0" expanded="false" />
+                <element signature="e#58652#59095#0" expanded="false" />
+                <element signature="e#59110#60119#0" expanded="false" />
+                <element signature="e#60125#60417#0" expanded="false" />
+                <element signature="e#60423#61750#0" expanded="false" />
+                <element signature="e#61756#62334#0" expanded="false" />
+                <element signature="e#62347#62547#0" expanded="false" />
+                <element signature="e#62563#64701#0" expanded="false" />
+                <element signature="e#64707#64954#0" expanded="false" />
+                <element signature="e#64967#65164#0" expanded="false" />
+                <element signature="e#65179#67634#0" expanded="false" />
+                <element signature="e#67640#67966#0" expanded="false" />
+                <element signature="e#67979#68206#0" expanded="false" />
+                <element signature="e#68220#70579#0" expanded="false" />
+                <element signature="e#70593#70681#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -344,7 +357,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>CHECKING</find>
       <find>current(</find>
       <find>TableMap</find>
       <find>mDataTablemDataTable</find>
@@ -374,6 +386,7 @@
       <find>INF</find>
       <find>theGlobalEpochControl</find>
       <find>GC</find>
+      <find>,status</find>
     </findStrings>
     <replaceStrings>
       <replace>BOOST_TEST</replace>
@@ -391,9 +404,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/transactionManager.h" />
-        <option value="$PROJECT_DIR$/test_data/words.txt" />
-        <option value="$PROJECT_DIR$/core/parser/TupleParser.hpp" />
         <option value="$PROJECT_DIR$/ARTFULCpp.h" />
         <option value="$PROJECT_DIR$/ArtCPP.hpp" />
         <option value="$PROJECT_DIR$/ARTCorrectnessTests.cpp" />
@@ -401,7 +411,6 @@
         <option value="$PROJECT_DIR$/Tests/ScaleTestsReadOnly.cpp" />
         <option value="$PROJECT_DIR$/Tests/MVCCTests.cpp" />
         <option value="$PROJECT_DIR$/Tests/MVCCARTTest.cpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp" />
         <option value="$PROJECT_DIR$/Transactions/TransactionTemplates.h" />
         <option value="$PROJECT_DIR$/CorrectnessTests/MainTest.cpp" />
         <option value="$PROJECT_DIR$/CMakeLists_Production.txt" />
@@ -417,8 +426,6 @@
         <option value="$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp" />
         <option value="$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h" />
         <option value="$PROJECT_DIR$/WorkloadTests/WriteOnly.cpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/main.cpp" />
         <option value="$PROJECT_DIR$/Transactions/transactionManager.cpp" />
         <option value="$PROJECT_DIR$/GarbageCollectorIterators.h" />
@@ -426,22 +433,28 @@
         <option value="$PROJECT_DIR$/mvcc/snapshot.h" />
         <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensive.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.hpp" />
-        <option value="$PROJECT_DIR$/Transactions/Epochs.hpp" />
         <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.cpp" />
-        <option value="$PROJECT_DIR$/Transactions/transactionManager.h" />
         <option value="$PROJECT_DIR$/mvcc/snapshot.hpp" />
         <option value="$PROJECT_DIR$/WorkloadTests/UpdateIntensiveGC.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplatesGC.hpp" />
-        <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/MVCCARTTest.cpp" />
         <option value="$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp" />
         <option value="$PROJECT_DIR$/mvcc/mvcc.hpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" />
-        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" />
         <option value="$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h" />
-        <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/Transactions/transactionManager.h" />
+        <option value="$PROJECT_DIR$/Transactions/Epochs.hpp" />
+        <option value="$PROJECT_DIR$/Transactions/GlobalEpoch.hpp" />
+        <option value="$PROJECT_DIR$/Settings.h" />
+        <option value="$PROJECT_DIR$/generated/settings.h" />
+        <option value="$PROJECT_DIR$/settings.h.in" />
         <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp" />
+        <option value="$PROJECT_DIR$/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/ART/ArtCPP.hpp" />
+        <option value="$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp" />
       </list>
     </option>
   </component>
@@ -474,34 +487,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="MVCCART" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvccart" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MVCCART" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Transactions" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mvccart" />
-              <option name="myItemType" value="com.jetbrains.cidr.projectView.CidrFilesViewHelper$MyProjectTreeStructure$1" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="MVCCART" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CorrectnessTests" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -854,12 +839,12 @@
       <workItem from="1507745623359" duration="1023000" />
       <workItem from="1507747291131" duration="14752000" />
       <workItem from="1420070775225" duration="48709000" />
-      <workItem from="1510504807958" duration="21517000" />
+      <workItem from="1510504807958" duration="42885000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1407544000" />
+    <option name="totallyTimeSpent" value="1428912000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -876,11 +861,12 @@
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20463032" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.256447" sideWeight="0.4973861" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.37535816" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.256447" sideWeight="0.5026139" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31948423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.98567337" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -891,30 +877,8 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31948423" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-    <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2965616" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="CMake" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35959885" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.38681948" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.98844886" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19342794" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32891566" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32343236" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39255014" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -927,34 +891,15 @@
           <line>67</line>
           <option name="timeStamp" value="379" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ART/ArtCPP.hpp</url>
-          <line>2056</line>
-          <option name="timeStamp" value="419" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
-          <url>file://$PROJECT_DIR$/ART/ArtCPP.hpp</url>
-          <line>1802</line>
-          <option name="timeStamp" value="420" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="421" />
+      <option name="time" value="423" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Tests/MVCCTests.cpp" />
-    <entry file="file://$PROJECT_DIR$/Tests/ScaleTestsReadOnly.cpp" />
-    <entry file="file:///usr/local/include/boost/test/unit_test_suite.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="71" column="0" lean-forward="false" selection-start-line="71" selection-start-column="0" selection-end-line="71" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Readme.Md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -970,13 +915,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ART/ARTFULCpp.h" />
-    <entry file="file://$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="135" column="0" lean-forward="true" selection-start-line="113" selection-start-column="3" selection-end-line="135" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test_data/words.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-146255">
@@ -988,20 +926,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="975">
           <caret line="65" column="6" lean-forward="false" selection-start-line="65" selection-start-column="6" selection-end-line="65" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="781" column="4" lean-forward="false" selection-start-line="781" selection-start-column="4" selection-end-line="781" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="342" column="10" lean-forward="true" selection-start-line="308" selection-start-column="8" selection-end-line="342" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -1026,32 +950,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="21" column="40" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="38" column="84" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/GarbageCollectorIterators.h" />
     <entry file="file://$PROJECT_DIR$/WorkloadTests/ReadOnly.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3390">
           <caret line="230" column="54" lean-forward="false" selection-start-line="230" selection-start-column="54" selection-end-line="230" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/TransactionTemplates.h">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="80" column="39" lean-forward="false" selection-start-line="80" selection-start-column="39" selection-end-line="80" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -1122,40 +1025,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc/snapshot.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="87" column="58" lean-forward="false" selection-start-line="87" selection-start-column="58" selection-end-line="87" selection-end-column="58" />
-          <folding>
-            <element signature="e#1282#1299#0" expanded="false" />
-            <element signature="e#1920#1937#0" expanded="false" />
-            <element signature="e#2076#2093#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/table/HashMapTableTest.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
           <caret line="30" column="14" lean-forward="false" selection-start-line="30" selection-start-column="14" selection-end-line="30" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/Epochs.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="41" column="20" lean-forward="false" selection-start-line="41" selection-start-column="20" selection-end-line="41" selection-end-column="20" />
-          <folding>
-            <element signature="e#674#800#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="160">
-          <caret line="43" column="14" lean-forward="false" selection-start-line="43" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1211,23 +1085,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3690">
-          <caret line="246" column="4" lean-forward="false" selection-start-line="246" selection-start-column="4" selection-end-line="246" selection-end-column="4" />
-          <folding>
-            <element signature="e#6281#6452#0" expanded="false" />
-            <element signature="e#6458#7364#0" expanded="false" />
-            <element signature="e#7370#7560#0" expanded="false" />
-            <element signature="e#9618#10850#0" expanded="false" />
-            <element signature="e#11293#11504#0" expanded="false" />
-            <element signature="e#11510#11880#0" expanded="false" />
-            <element signature="e#11886#12338#0" expanded="false" />
-            <element signature="e#12345#13893#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CorrectnessTests/MVCCTests.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
@@ -1273,12 +1130,61 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/WorkloadTests/SnapshotIsolation.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="120" column="23" lean-forward="false" selection-start-line="120" selection-start-column="23" selection-end-line="120" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/WriteOnlyTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="38" column="84" lean-forward="false" selection-start-line="38" selection-start-column="59" selection-end-line="38" selection-end-column="84" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="109" column="20" lean-forward="false" selection-start-line="109" selection-start-column="20" selection-end-line="109" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/TransactionTemplates.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="80" column="63" lean-forward="true" selection-start-line="80" selection-start-column="63" selection-end-line="80" selection-end-column="63" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc/mvcc.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="122" column="0" lean-forward="true" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
+          <folding>
+            <element signature="e#1480#1497#0" expanded="false" />
+            <element signature="e#6281#6452#0" expanded="false" />
+            <element signature="e#6458#7364#0" expanded="false" />
+            <element signature="e#7370#7560#0" expanded="false" />
+            <element signature="e#9618#10850#0" expanded="false" />
+            <element signature="e#11293#11504#0" expanded="false" />
+            <element signature="e#11510#11880#0" expanded="false" />
+            <element signature="e#11886#12338#0" expanded="false" />
+            <element signature="e#12345#13893#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Transactions/transactionManager.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="47" column="1" lean-forward="false" selection-start-line="47" selection-start-column="1" selection-end-line="47" selection-end-column="1" />
+        <state relative-caret-position="900">
+          <caret line="149" column="0" lean-forward="false" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
           <folding>
-            <element signature="e#124#143#0" expanded="false" />
             <element signature="e#885#1204#0" expanded="false" />
             <element signature="e#1206#1326#0" expanded="false" />
             <element signature="e#1329#1515#0" expanded="false" />
@@ -1286,79 +1192,157 @@
             <element signature="e#1736#1992#0" expanded="false" />
             <element signature="e#1995#2480#0" expanded="false" />
             <element signature="e#2482#2729#0" expanded="false" />
-            <element signature="e#2790#3362#1" expanded="false" />
-            <element signature="e#3365#3840#0" expanded="false" />
-            <element signature="e#3842#4431#0" expanded="false" />
-            <element signature="e#4433#4976#0" expanded="false" />
+            <element signature="e#2740#2789#0" expanded="false" />
+            <element signature="e#2790#3360#1" expanded="false" />
+            <element signature="e#3372#3421#0" expanded="false" />
+            <element signature="e#3363#3838#0" expanded="false" />
+            <element signature="e#3840#4429#0" expanded="false" />
+            <element signature="e#4431#4974#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Transactions/UpdateIntensiveTemplates.h">
+    <entry file="file://$PROJECT_DIR$/Transactions/Epochs.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="39" column="20" lean-forward="false" selection-start-line="39" selection-start-column="19" selection-end-line="39" selection-end-column="20" />
+          <folding>
+            <element signature="e#674#800#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Transactions/GlobalEpoch.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="47" column="6" lean-forward="true" selection-start-line="47" selection-start-column="6" selection-end-line="47" selection-end-column="6" />
+          <folding>
+            <element signature="e#1171#1268#0" expanded="false" />
+            <element signature="e#1276#1373#0" expanded="false" />
+            <element signature="e#1380#1450#0" expanded="false" />
+            <element signature="e#1503#2612#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mvcc/snapshot.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
-          <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="146" column="11" lean-forward="false" selection-start-line="146" selection-start-column="0" selection-end-line="147" selection-end-column="0" />
+          <caret line="72" column="0" lean-forward="true" selection-start-line="72" selection-start-column="0" selection-end-line="72" selection-end-column="0" />
           <folding>
-            <element signature="e#2285#3472#0" expanded="false" />
-            <element signature="e#3648#4377#0" expanded="false" />
+            <element signature="e#1282#1299#0" expanded="false" />
+            <element signature="e#1435#1444#0" expanded="false" />
+            <element signature="e#1579#1588#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+    <entry file="file://$PROJECT_DIR$/Settings.h">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="38" column="54" lean-forward="false" selection-start-line="38" selection-start-column="54" selection-end-line="38" selection-end-column="54" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
+    <entry file="file://$PROJECT_DIR$/settings.h.in">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-318">
-          <caret line="241" column="62" lean-forward="false" selection-start-line="241" selection-start-column="43" selection-end-line="241" selection-end-column="62" />
+        <state relative-caret-position="180">
+          <caret line="12" column="25" lean-forward="false" selection-start-line="12" selection-start-column="7" selection-end-line="12" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/generated/settings.h">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="7" column="18" lean-forward="false" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessDeletes.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="258">
+          <caret line="61" column="0" lean-forward="false" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
           <folding>
-            <element signature="e#65#84#0" expanded="true" />
-            <element signature="e#1768#3131#0" expanded="false" />
-            <element signature="e#3133#3721#0" expanded="false" />
-            <element signature="e#3723#4115#0" expanded="false" />
-            <element signature="e#4117#4237#0" expanded="false" />
-            <element signature="e#4457#5643#0" expanded="false" />
-            <element signature="e#10235#14235#0" expanded="false" />
-            <element signature="e#14306#21382#0" expanded="false" />
-            <element signature="e#21458#28990#0" expanded="false" />
-            <element signature="e#29062#41615#0" expanded="false" />
-            <element signature="e#41692#54504#0" expanded="false" />
+            <element signature="e#65#84#0" expanded="false" />
+            <element signature="e#730#1582#0" expanded="false" />
+            <element signature="e#1584#1976#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessInsertions.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4678">
+          <caret line="1079" column="0" lean-forward="false" selection-start-line="1079" selection-start-column="0" selection-end-line="1079" selection-end-column="0" />
+          <folding>
+            <element signature="e#65#84#0" expanded="false" />
+            <element signature="e#703#994#0" expanded="false" />
+            <element signature="e#1573#1693#0" expanded="false" />
+            <element signature="e#1819#3182#0" expanded="false" />
+            <element signature="e#3184#3772#0" expanded="false" />
+            <element signature="e#3774#4166#0" expanded="false" />
+            <element signature="e#4168#4288#0" expanded="false" />
+            <element signature="e#4433#5619#0" expanded="false" />
+            <element signature="e#5841#6973#0" expanded="false" />
+            <element signature="e#7055#9373#0" expanded="false" />
+            <element signature="e#9467#11126#0" expanded="false" />
+            <element signature="e#11206#15314#0" expanded="false" />
+            <element signature="e#15409#18199#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdateWhere.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="155" column="54" lean-forward="true" selection-start-line="155" selection-start-column="54" selection-end-line="155" selection-end-column="54" />
+        <state relative-caret-position="180">
+          <caret line="66" column="36" lean-forward="false" selection-start-line="66" selection-start-column="0" selection-end-line="67" selection-end-column="0" />
+          <folding>
+            <element signature="e#66#85#0" expanded="false" />
+            <element signature="e#607#727#0" expanded="false" />
+            <element signature="e#852#1704#0" expanded="false" />
+            <element signature="e#1706#2098#0" expanded="false" />
+            <element signature="e#2242#3430#0" expanded="false" />
+            <element signature="e#3606#4333#0" expanded="false" />
+            <element signature="e#4391#6245#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessTests.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="406" column="66" lean-forward="false" selection-start-line="406" selection-start-column="66" selection-end-line="406" selection-end-column="66" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessIterators.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="64" column="31" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="65" selection-end-column="0" />
           <folding>
             <element signature="e#65#84#0" expanded="true" />
-            <element signature="e#818#1670#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="341">
+          <caret line="40" column="50" lean-forward="false" selection-start-line="40" selection-start-column="50" selection-end-line="40" selection-end-column="50" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/ART/ArtCPP.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="2069" column="65" lean-forward="false" selection-start-line="2069" selection-start-column="65" selection-end-line="2069" selection-end-column="65" />
+        <state relative-caret-position="298">
+          <caret line="1390" column="91" lean-forward="false" selection-start-line="1390" selection-start-column="91" selection-end-line="1390" selection-end-column="91" />
           <folding>
             <element signature="e#0#2#0" expanded="false" />
-            <element signature="e#104#123#0" expanded="true" />
             <element signature="e#1397#1831#0" expanded="false" />
             <element signature="e#1844#2187#0" expanded="false" />
             <element signature="e#2189#2387#0" expanded="false" />
@@ -1378,11 +1362,14 @@
             <element signature="e#5145#5234#0" expanded="false" />
             <element signature="e#5789#5848#0" expanded="false" />
             <element signature="e#5789#5950#0" expanded="false" />
+            <element signature="e#5952#7209#0" expanded="false" />
             <element signature="e#6209#6318#1" expanded="false" />
+            <element signature="e#7211#9897#0" expanded="false" />
             <element signature="e#7303#7412#1" expanded="false" />
             <element signature="e#7560#7713#0" expanded="false" />
             <element signature="e#9193#9370#0" expanded="false" />
             <element signature="e#9989#10075#0" expanded="false" />
+            <element signature="e#9989#10395#0" expanded="false" />
             <element signature="e#10397#10457#0" expanded="false" />
             <element signature="e#10397#10755#0" expanded="false" />
             <element signature="e#10757#11044#0" expanded="false" />
@@ -1391,57 +1378,91 @@
             <element signature="e#11730#12416#0" expanded="false" />
             <element signature="e#12418#14610#0" expanded="false" />
             <element signature="e#14612#15676#0" expanded="false" />
+            <element signature="e#15678#16165#0" expanded="false" />
+            <element signature="e#16167#16601#0" expanded="false" />
             <element signature="e#16603#17305#0" expanded="false" />
             <element signature="e#17307#17971#0" expanded="false" />
             <element signature="e#17973#18589#0" expanded="false" />
             <element signature="e#18591#19741#0" expanded="false" />
-            <element signature="e#21425#21481#0" expanded="true" />
-            <element signature="e#21818#21957#0" expanded="false" />
-            <element signature="e#21970#22084#0" expanded="false" />
-            <element signature="e#22100#22147#0" expanded="false" />
-            <element signature="e#22918#23172#0" expanded="false" />
-            <element signature="e#23636#23929#0" expanded="false" />
-            <element signature="e#24387#24463#0" expanded="false" />
-            <element signature="e#24387#24753#0" expanded="false" />
-            <element signature="e#26973#27023#0" expanded="false" />
-            <element signature="e#26973#27121#0" expanded="false" />
-            <element signature="e#27127#27177#0" expanded="false" />
-            <element signature="e#27127#27275#0" expanded="false" />
-            <element signature="e#27281#27351#0" expanded="false" />
-            <element signature="e#28134#28203#0" expanded="false" />
-            <element signature="e#28134#28528#0" expanded="false" />
-            <element signature="e#28875#29324#0" expanded="false" />
-            <element signature="e#29332#29372#0" expanded="false" />
-            <element signature="e#29405#29470#0" expanded="false" />
-            <element signature="e#29581#29631#0" expanded="false" />
-            <element signature="e#29669#29701#0" expanded="true" />
-            <element signature="e#29803#30025#0" expanded="false" />
-            <element signature="e#30038#30468#0" expanded="false" />
-            <element signature="e#30542#33166#0" expanded="false" />
-            <element signature="e#33172#33488#0" expanded="false" />
-            <element signature="e#33501#33914#0" expanded="false" />
-            <element signature="e#33994#40018#0" expanded="false" />
-            <element signature="e#40073#41633#0" expanded="false" />
-            <element signature="e#41674#42018#0" expanded="false" />
-            <element signature="e#43505#44250#0" expanded="false" />
-            <element signature="e#44777#45939#0" expanded="false" />
-            <element signature="e#46383#46496#0" expanded="false" />
-            <element signature="e#49007#49581#0" expanded="false" />
-            <element signature="e#49593#51779#0" expanded="false" />
-            <element signature="e#51786#52025#0" expanded="false" />
-            <element signature="e#52038#52264#0" expanded="false" />
-            <element signature="e#52279#53540#0" expanded="false" />
-            <element signature="e#55665#56108#0" expanded="false" />
-            <element signature="e#58656#59099#0" expanded="false" />
-            <element signature="e#59114#60123#0" expanded="false" />
-            <element signature="e#60129#60421#0" expanded="false" />
-            <element signature="e#61760#62338#0" expanded="false" />
-            <element signature="e#62351#62551#0" expanded="false" />
-            <element signature="e#62567#64705#0" expanded="false" />
-            <element signature="e#64711#64958#0" expanded="false" />
-            <element signature="e#67644#67970#0" expanded="false" />
-            <element signature="e#67983#68210#0" expanded="false" />
-            <element signature="e#68224#70583#0" expanded="false" />
+            <element signature="e#19743#20218#0" expanded="false" />
+            <element signature="e#20220#21413#0" expanded="false" />
+            <element signature="e#21815#21954#0" expanded="false" />
+            <element signature="e#22914#23168#0" expanded="false" />
+            <element signature="e#23181#23613#0" expanded="false" />
+            <element signature="e#23632#23925#0" expanded="false" />
+            <element signature="e#23632#24375#0" expanded="false" />
+            <element signature="e#24383#24459#0" expanded="false" />
+            <element signature="e#24383#24749#0" expanded="false" />
+            <element signature="e#24764#24845#0" expanded="false" />
+            <element signature="e#24859#24962#0" expanded="false" />
+            <element signature="e#24976#25072#0" expanded="false" />
+            <element signature="e#25078#25999#0" expanded="false" />
+            <element signature="e#26005#26963#0" expanded="false" />
+            <element signature="e#26969#27019#0" expanded="false" />
+            <element signature="e#26969#27117#0" expanded="false" />
+            <element signature="e#27123#27173#0" expanded="false" />
+            <element signature="e#27123#27271#0" expanded="false" />
+            <element signature="e#27277#27347#0" expanded="false" />
+            <element signature="e#27277#28124#0" expanded="false" />
+            <element signature="e#28130#28199#0" expanded="false" />
+            <element signature="e#28130#28524#0" expanded="false" />
+            <element signature="e#28530#28856#0" expanded="false" />
+            <element signature="e#28871#29320#0" expanded="false" />
+            <element signature="e#29328#29368#0" expanded="false" />
+            <element signature="e#29328#29394#0" expanded="false" />
+            <element signature="e#29401#29466#0" expanded="false" />
+            <element signature="e#29479#29571#0" expanded="false" />
+            <element signature="e#29577#29627#0" expanded="false" />
+            <element signature="e#29799#30021#0" expanded="false" />
+            <element signature="e#30034#30464#0" expanded="false" />
+            <element signature="e#30538#33162#0" expanded="false" />
+            <element signature="e#33168#33484#0" expanded="false" />
+            <element signature="e#33497#33910#0" expanded="false" />
+            <element signature="e#33990#40014#0" expanded="false" />
+            <element signature="e#40069#41629#0" expanded="false" />
+            <element signature="e#41670#42014#0" expanded="false" />
+            <element signature="e#42069#46519#0" expanded="false" />
+            <element signature="e#43501#44246#0" expanded="false" />
+            <element signature="e#44773#45935#0" expanded="false" />
+            <element signature="e#46379#46492#0" expanded="false" />
+            <element signature="e#46525#48997#0" expanded="false" />
+            <element signature="e#49003#49577#0" expanded="false" />
+            <element signature="e#49589#51775#0" expanded="false" />
+            <element signature="e#51782#52021#0" expanded="false" />
+            <element signature="e#52034#52260#0" expanded="false" />
+            <element signature="e#52275#53536#0" expanded="false" />
+            <element signature="e#53542#55655#0" expanded="false" />
+            <element signature="e#55661#56104#0" expanded="false" />
+            <element signature="e#56117#56249#0" expanded="false" />
+            <element signature="e#56263#58645#0" expanded="false" />
+            <element signature="e#58652#59095#0" expanded="false" />
+            <element signature="e#59110#60119#0" expanded="false" />
+            <element signature="e#60125#60417#0" expanded="false" />
+            <element signature="e#60423#61750#0" expanded="false" />
+            <element signature="e#61756#62334#0" expanded="false" />
+            <element signature="e#62347#62547#0" expanded="false" />
+            <element signature="e#62563#64701#0" expanded="false" />
+            <element signature="e#64707#64954#0" expanded="false" />
+            <element signature="e#64967#65164#0" expanded="false" />
+            <element signature="e#65179#67634#0" expanded="false" />
+            <element signature="e#67640#67966#0" expanded="false" />
+            <element signature="e#67979#68206#0" expanded="false" />
+            <element signature="e#68220#70579#0" expanded="false" />
+            <element signature="e#70593#70681#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CorrectnessTests/ARTCorrectnessUpdates.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="1173" column="100" lean-forward="false" selection-start-line="1173" selection-start-column="100" selection-end-line="1173" selection-end-column="100" />
+          <folding>
+            <element signature="e#1779#3142#0" expanded="false" />
+            <element signature="e#3144#3732#0" expanded="false" />
+            <element signature="e#3734#4126#0" expanded="false" />
+            <element signature="e#4128#4248#0" expanded="false" />
+            <element signature="e#4393#5579#0" expanded="false" />
           </folding>
         </state>
       </provider>

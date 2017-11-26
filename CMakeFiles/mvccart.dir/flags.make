@@ -6,5 +6,5 @@ CXX_FLAGS =  -g -Wall -std=c++1y -g
 
 CXX_DEFINES = -DBOOST_LOG_DYN_LINK -DFMT_HEADER_ONLY=1
 
-CXX_INCLUDES = -isystem /usr/local/include -I/Users/fuadshah/Desktop/MVCCART 
+CXX_INCLUDES = -isystem /usr/local/include -I/Users/fuadshah/Desktop/MVCCART/generated -I/Users/fuadshah/Desktop/MVCCART 
 

@@ -8,7 +8,6 @@ add_definitions(-DBOOST_LOG_DYN_LINK)
 
 
 if(Boost_FOUND)
-
     message(STATUS "Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
     message(STATUS "Boost_LIBRARIES: ${Boost_LIBRARIES}")
     message(STATUS "Boost_VERSION: ${Boost_VERSION}")
@@ -20,15 +19,18 @@ if(Boost_FOUND)
     set(Boost_USE_MULTITHREADED      ON)
     set(Boost_USE_STATIC_RUNTIME    OFF)
     set(BOOST_ALL_DYN_LINK           ON)   # force dynamic linking for all libraries
-
 endif()
 
 
 OPTION(MVCC11_USES_STD_SHARED_PTR "Use std::shared_ptr instead of boost::shared_ptr" OFF)
 OPTION(BUILD_MVCC11_TEST_WITH_STDLIB_LIBCPP "Build mvcc_test with -stdlib=libc++" OFF)
 
+configure_file( settings.h.in ${CMAKE_BINARY_DIR}/generated/settings.h )
+include_directories( ${CMAKE_BINARY_DIR}/generated/ ) # Make sure it can be included...
+
 set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g -Wall -std=c++1y")
 set(SOURCE_FILES
+        generated/settings.h
         ART/ArtCPP.hpp
         mvcc/snapshot.hpp
         mvcc/mvcc.hpp
@@ -36,7 +38,7 @@ set(SOURCE_FILES
         Transactions/GlobalEpoch.hpp
         Transactions/transactionManager.h
         Transactions/TransactionTemplates.h
-        CorrectnessTests/ARTCorrectnessUpdateWhere.cpp )
+        CorrectnessTests/ARTCorrectnessUpdates.cpp )
 add_subdirectory(fmt-master/fmt)
 add_executable(mvccart ${SOURCE_FILES})
 target_link_libraries(mvccart ${Boost_LIBRARIES} fmt::fmt-header-only)
